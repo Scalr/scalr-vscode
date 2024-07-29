@@ -1,47 +1,95 @@
 {
-  "name": "scalr",
-  "displayName": "scalr",
-  "description": "Scalr vscode extension.",
-  "version": "0.0.1",
-  "engines": {
-    "vscode": "^1.91.0"
-  },
-  "categories": [
-    "Other"
-  ],
-  "activationEvents": [],
-  "main": "./dist/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "scalr.helloWorld",
-        "title": "Hello World"
-      }
-    ]
-  },
-  "scripts": {
-    "vscode:prepublish": "npm run package",
-    "compile": "webpack",
-    "watch": "webpack --watch",
-    "package": "webpack --mode production --devtool hidden-source-map",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "lint": "eslint src --ext ts",
-    "test": "vscode-test"
-  },
-  "devDependencies": {
-    "@types/vscode": "^1.91.0",
-    "@types/mocha": "^10.0.7",
-    "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^7.14.1",
-    "@typescript-eslint/parser": "^7.11.0",
-    "eslint": "^8.57.0",
-    "typescript": "^5.4.5",
-    "ts-loader": "^9.5.1",
-    "webpack": "^5.92.1",
-    "webpack-cli": "^5.1.4",
-    "@vscode/test-cli": "^0.0.9",
-    "@vscode/test-electron": "^2.4.0"
-  }
+    "name": "scalr",
+    "displayName": "scalr",
+    "description": "Scalr vscode extension.",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.91.0"
+    },
+    "categories": [
+        "Other"
+    ],
+    "activationEvents": [],
+    "main": "./dist/extension.js",
+    "contributes": {
+        "viewsContainers": {
+            "activitybar": [
+                {
+                    "id": "scalr",
+                    "title": "Scalr",
+                    "icon": "assets/Scalr Monochrome Icon Light@2x.png"
+                }
+            ]
+        },
+        "views": {
+            "scalr": [
+                {
+                    "id": "workspaces",
+                    "name": "Workspaces",
+                    "contextualTitle": "Scalr workspaces"
+                },
+                {
+                    "id": "runs",
+                    "name": "Runs",
+                    "contextualTitle": "Scalr runs"
+                }
+            ]
+        },
+        "viewsWelcome": [
+            {
+                "view": "workspaces",
+                "contents": "[Login to Scalr](command:scalr.login)",
+                "when": "scalr.signed-in === false"
+            },
+            {
+                "view": "runs",
+                "contents": "Select a Workspace to view a list of runs"
+            }
+        ],
+        "commands": [
+            {
+                "command": "scalr.hello",
+                "title": "Scalr: Hello World"
+            },
+            {
+                "command": "scalr.login",
+                "title": "Scalr: Login",
+                "enablement": "scalr.signed-in === false"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "npm run package",
+        "compile": "webpack",
+        "watch": "webpack --watch",
+        "package": "webpack --mode production --devtool hidden-source-map",
+        "compile-tests": "tsc -p . --outDir out",
+        "watch-tests": "tsc -p . -w --outDir out",
+        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "lint": "eslint src --ext ts --fix",
+        "test": "vscode-test",
+        "openapi-ts": "openapi-ts",
+        "format": "prettier --write ."
+    },
+    "devDependencies": {
+        "@hey-api/openapi-ts": "^0.51.0",
+        "@types/mocha": "^10.0.7",
+        "@types/node": "20.x",
+        "@types/vscode": "^1.91.0",
+        "@typescript-eslint/eslint-plugin": "^7.14.1",
+        "@typescript-eslint/parser": "^7.11.0",
+        "@vscode/test-cli": "^0.0.9",
+        "@vscode/test-electron": "^2.4.0",
+        "eslint": "^8.57.0",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-prettier": "^5.2.1",
+        "prettier": "^3.3.3",
+        "ts-loader": "^9.5.1",
+        "typescript": "^5.5.4",
+        "webpack": "^5.92.1",
+        "webpack-cli": "^5.1.4"
+    },
+    "dependencies": {
+        "@hey-api/client-fetch": "^0.1.12"
+    }
 }
