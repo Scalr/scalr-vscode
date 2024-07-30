@@ -68,8 +68,7 @@
         "pretest": "npm run compile-tests && npm run compile && npm run lint",
         "lint": "eslint src --ext ts --fix",
         "test": "vscode-test",
-        "openapi-ts": "openapi-ts",
-        "format": "prettier --write ."
+        "openapi-ts": "openapi-ts"
     },
     "devDependencies": {
         "@hey-api/openapi-ts": "^0.51.0",

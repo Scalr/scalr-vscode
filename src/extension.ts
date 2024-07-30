@@ -11,7 +11,9 @@ export function activate(context: vscode.ExtensionContext) {
     // This line of code will only be executed once when your extension is activated
     console.log('Congratulations, your extension "scalr" is now active!');
 
-    context.subscriptions.push(new ScalrFeature(context, vscode.window.createOutputChannel('Scalr')));
+    context.subscriptions.push(
+        new ScalrFeature(context, vscode.window.createOutputChannel('Scalr')),
+    );
 }
 
 // This method is called when your extension is deactivated

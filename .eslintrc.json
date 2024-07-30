@@ -1,5 +1,8 @@
 {
     "root": true,
+    "globals": {
+    "console": "readonly"
+  },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 6,
@@ -7,10 +10,10 @@
     },
     "plugins": ["@typescript-eslint", "prettier"],
     "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended",
-        "prettier"
+        // "eslint:recommended"`
+        // "plugin:@typescript-eslint/recommended",
+        // "plugin:prettier/recommended",
+        // "prettier"
     ],
     "rules": {
         "@typescript-eslint/naming-convention": [
@@ -20,7 +23,6 @@
                 "format": ["camelCase", "PascalCase"]
             }
         ],
-        "prettier/prettier": 2,
         "@typescript-eslint/semi": "warn",
         "curly": "warn",
         "no-throw-literal": "warn",

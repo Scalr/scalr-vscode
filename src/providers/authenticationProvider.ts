@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { initClient } from '../api/init';
 import { getAccounts } from '../api/services.gen';
 import { AccountListingDocument, Account, User } from '../api/types.gen';
+import { getRemoteRepoIdentifiers } from '../git';
 
 class ScalrSession implements vscode.AuthenticationSession {
     readonly id: string = ScalrAuthenticationProvider.id;
@@ -9,14 +10,16 @@ class ScalrSession implements vscode.AuthenticationSession {
     readonly scopes: string[] = [];
 
     constructor(
-        public readonly accessToken: string,
-        public readonly username: string,
-        public readonly email: string,
-        public account: vscode.AuthenticationSessionAccountInformation
+    public readonly accessToken: string,
+    public readonly username: string,
+    public readonly email: string,
+    public account: vscode.AuthenticationSessionAccountInformation,
     ) {}
 }
 
-export class ScalrAuthenticationProvider implements vscode.AuthenticationProvider {
+export class ScalrAuthenticationProvider
+implements vscode.AuthenticationProvider
+{
     public static readonly id: string = 'scalr';
     public static readonly providerLabel: string = 'scalr';
 
@@ -27,17 +30,24 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
         new vscode.EventEmitter<vscode.AuthenticationProviderAuthenticationSessionsChangeEvent>();
 
     constructor(private readonly ctx: vscode.ExtensionContext) {
-        this.logger = vscode.window.createOutputChannel('HashiCorp Authentication', { log: true });
+        this.logger = vscode.window.createOutputChannel(
+            'HashiCorp Authentication',
+            { log: true },
+        );
 
         this.ctx.subscriptions.push(
             vscode.commands.registerCommand('scalr.login', async () => {
-                const session = (await vscode.authentication.getSession(ScalrAuthenticationProvider.id, [], {
-                    createIfNone: true
-                })) as ScalrSession;
+                const session = (await vscode.authentication.getSession(
+                    ScalrAuthenticationProvider.id,
+                    [],
+                    {
+                        createIfNone: true,
+                    },
+                )) as ScalrSession;
                 vscode.window.showInformationMessage(
-                    `Logged in as ${session.username} with email ${session.email} in account ${session.account.label}`
+                    `Logged in as ${session.username} with email ${session.email} in account ${session.account.label}`,
                 );
-            })
+            }),
         );
     }
 
@@ -49,7 +59,14 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
     async getSessions(scopes: string[]): Promise<vscode.AuthenticationSession[]> {
         const session = await this.getSession();
 
-        return session ? [session] : [];
+        if (!session) {
+            return [];
+        }
+
+        initClient(session.account.label, session.accessToken);
+        await vscode.commands.executeCommand('setContext', 'scalr.signed-in', true);
+
+        return [session];
     }
 
     private async getSession(): Promise<ScalrSession | undefined> {
@@ -58,7 +75,8 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
             return undefined;
         }
 
-        await vscode.commands.executeCommand('setContext', 'scalr.signed-in', true);
+        
+
 
         try {
             return JSON.parse(session) as ScalrSession;
@@ -68,18 +86,24 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
         }
     }
 
-    // eslint-disable-next-line no-unused-vars
-    async createSession(_scopes: string[]): Promise<vscode.AuthenticationSession> {
+    async createSession(
+        // eslint-disable-next-line no-unused-vars
+        _scopes: string[],
+    ): Promise<vscode.AuthenticationSession> {
         try {
             const session = await this.storeSession(await this.initSession());
 
             this._onDidChangeSessions.fire({
                 added: [session],
                 removed: [],
-                changed: []
+                changed: [],
             });
 
-            await vscode.commands.executeCommand('setContext', 'scalr.signed-in', true);
+            await vscode.commands.executeCommand(
+                'setContext',
+                'scalr.signed-in',
+                true,
+            );
 
             return session;
         } catch (error) {
@@ -92,7 +116,8 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
         const accountName = await vscode.window.showInputBox({
             ignoreFocusOut: true,
             prompt: 'Enter the account name',
-            placeHolder: 'Your account name in scalr for example: example.scalr.io the account name is example.'
+            placeHolder:
+        'Your account name in scalr for example: example.scalr.io the account name is example.',
         });
 
         if (!accountName) {
@@ -111,14 +136,15 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
         initClient(accountName, token);
 
         console.log('initClient');
+        console.log('getRemoteRepoIdentifiers', await getRemoteRepoIdentifiers());
 
         const { data, error } = await getAccounts({
             query: {
                 filter: {
-                    name: accountName
+                    name: accountName,
                 },
-                include: ['owner']
-            }
+                include: ['owner'],
+            },
         });
 
         if (error || !data) {
@@ -137,10 +163,15 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
             throw new Error('No owner found');
         }
         const owner = accounts.included[0] as User;
-        return new ScalrSession(token, owner.attributes['full-name'] as string, owner.attributes.email, {
-            id: account.id as string,
-            label: account.attributes.name
-        });
+        return new ScalrSession(
+            token,
+      owner.attributes['full-name'] as string,
+      owner.attributes.email,
+      {
+          id: account.id as string,
+          label: account.attributes.name,
+      },
+        );
     }
 
     // eslint-disable-next-line no-unused-vars
@@ -151,13 +182,17 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
         }
 
         await this.ctx.secrets.delete(this.sessionKey);
-        await vscode.commands.executeCommand('setContext', 'scalr.signed-in', false);
+        await vscode.commands.executeCommand(
+            'setContext',
+            'scalr.signed-in',
+            false,
+        );
 
         // Notify VSCode's UI
         this._onDidChangeSessions.fire({
             added: [],
             removed: [session],
-            changed: []
+            changed: [],
         });
     }
 
@@ -167,24 +202,26 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
         return session;
     }
 
-    private async promptForToken(accountName: string): Promise<string | undefined> {
+    private async promptForToken(
+        accountName: string,
+    ): Promise<string | undefined> {
         const choice = await vscode.window.showQuickPick(
             [
                 {
                     label: 'Existing token',
-                    detail: 'Peast an existing token from the clipboard'
+                    detail: 'Peast an existing token from the clipboard',
                 },
                 {
                     label: 'Generate a token',
-                    detail: 'Open a browser to generate a new user token'
-                }
+                    detail: 'Open a browser to generate a new user token',
+                },
             ],
             {
                 canPickMany: false,
                 ignoreFocusOut: true,
                 placeHolder: 'Choose a method to authenticate with Scalr',
-                title: 'Scalr Authentication'
-            }
+                title: 'Scalr Authentication',
+            },
         );
         if (choice === undefined) {
             return undefined;
@@ -193,27 +230,27 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
         const scalrURL = `https://${accountName}.scalr.io/app/settings/tokens?source=vscode-scalr`;
         let token: string | undefined;
         switch (choice.label) {
-            case 'Generate a token':
-                await vscode.env.openExternal(vscode.Uri.parse(scalrURL));
-                // Prompt for the UAT.
-                token = await vscode.window.showInputBox({
-                    ignoreFocusOut: true,
-                    placeHolder: 'User access token',
-                    prompt: 'Enter user access token',
-                    password: true
-                });
-                break;
-            case 'Existing token':
-                // Prompt for the UAT.
-                token = await vscode.window.showInputBox({
-                    ignoreFocusOut: true,
-                    placeHolder: 'User access token',
-                    prompt: 'Enter user access token',
-                    password: true
-                });
-                break;
-            default:
-                break;
+        case 'Generate a token':
+            await vscode.env.openExternal(vscode.Uri.parse(scalrURL));
+            // Prompt for the UAT.
+            token = await vscode.window.showInputBox({
+                ignoreFocusOut: true,
+                placeHolder: 'User access token',
+                prompt: 'Enter user access token',
+                password: true,
+            });
+            break;
+        case 'Existing token':
+        // Prompt for the UAT.
+            token = await vscode.window.showInputBox({
+                ignoreFocusOut: true,
+                placeHolder: 'User access token',
+                prompt: 'Enter user access token',
+                password: true,
+            });
+            break;
+        default:
+            break;
         }
 
         return token;

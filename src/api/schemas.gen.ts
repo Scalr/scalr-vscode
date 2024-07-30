@@ -8,66 +8,69 @@ An access policy is applied to an environment or a specific workspace.`,
         attributes: {
             properties: {
                 'is-system': {
-                    description: 'The access policy is a built-in read-only policy that cannot be updated or deleted.',
+                    description:
+            'The access policy is a built-in read-only policy that cannot be updated or deleted.',
                     readOnly: true,
-                    type: 'boolean'
-                }
+                    type: 'boolean',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
                 account: {
-                    description: 'Grant access to the account and to all environments and workspaces in the account.',
+                    description:
+            'Grant access to the account and to all environments and workspaces in the account.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environment: {
-                    description: 'Grant access to the environment and all workspaces within it.',
+                    description:
+            'Grant access to the environment and all workspaces within it.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 roles: {
                     description: 'The roles with permissions.',
@@ -76,21 +79,21 @@ An access policy is applied to an environment or a specific workspace.`,
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['roles'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'service-account': {
                     description: 'Role binding to a service account.',
@@ -99,19 +102,19 @@ An access policy is applied to an environment or a specific workspace.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['service-accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 team: {
                     description: 'Role binding to a team.',
@@ -120,19 +123,19 @@ An access policy is applied to an environment or a specific workspace.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['teams'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 user: {
                     description: 'Role binding to a user.',
@@ -141,19 +144,19 @@ An access policy is applied to an environment or a specific workspace.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'Grant access to the workspace.',
@@ -162,31 +165,31 @@ An access policy is applied to an environment or a specific workspace.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['roles'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['access-policies'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccessPolicyDocument = {
@@ -195,21 +198,21 @@ export const $AccessPolicyDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/AccessPolicy'
+            $ref: '#/components/schemas/AccessPolicy',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccessPolicyListingDocument = {
@@ -219,30 +222,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/AccessPolicy'
+                $ref: '#/components/schemas/AccessPolicy',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccessToken = {
@@ -254,44 +257,44 @@ export const $AccessToken = {
                     description: 'Date/Time the token was created.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 description: {
                     description: 'The description of the token.',
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'last-used-at': {
                     description: 'Date/Time when the token was last used.',
                     format: 'date-time',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 token: {
                     description: `The JWT token which an API client should pass in the \`Authorization: Bearer <token>\`
 header. Available only in the [Create an Access Token](#create-an-access-token) response.`,
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -302,31 +305,31 @@ header. Available only in the [Create an Access Token](#create-an-access-token) 
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['access-tokens'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccessTokenDocument = {
@@ -335,21 +338,21 @@ export const $AccessTokenDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/AccessToken'
+            $ref: '#/components/schemas/AccessToken',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccessTokenListingDocument = {
@@ -359,30 +362,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/AccessToken'
+                $ref: '#/components/schemas/AccessToken',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Account = {
@@ -394,122 +397,126 @@ export const $Account = {
                     description: 'The list of allowed IP networks for IP fencing',
                     items: {
                         format: 'ipv4network',
-                        type: 'string'
+                        type: 'string',
                     },
-                    type: 'array'
+                    type: 'array',
                 },
                 'created-at': {
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'last-login-attempt-at': {
                     deprecated: true,
                     format: 'date-time',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'login-attempts': {
                     deprecated: true,
                     nullable: true,
                     readOnly: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 name: {
                     description: 'The name of the account',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 quotas: {
-                    description: "The list of account's quotas",
+                    description: 'The list of account\'s quotas',
                     properties: {
                         agents: {
                             description: 'The maximal number of agents',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         'before-after-hooks-available': {
-                            description: 'Indicates if the before-after hooks are available for an account',
-                            type: 'boolean'
+                            description:
+                'Indicates if the before-after hooks are available for an account',
+                            type: 'boolean',
                         },
                         'cost-estimate-available': {
-                            description: 'Indicates if the cost estimation is available for an account',
-                            type: 'boolean'
+                            description:
+                'Indicates if the cost estimation is available for an account',
+                            type: 'boolean',
                         },
                         environments: {
                             description: 'The maximal number of environments',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         'max-concurrent-runs': {
                             description: 'The maximal number of concurrent runs',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         'policy-group-checks-available': {
-                            description: 'Indicates if the policy group checks are available for an account',
-                            type: 'boolean'
+                            description:
+                'Indicates if the policy group checks are available for an account',
+                            type: 'boolean',
                         },
                         'policy-groups': {
                             description: 'The maximal number of policy groups',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         'registry-modules': {
                             description: 'The maximal number of registry modules',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         'registry-templates': {
                             description: 'The maximal number of registry templates',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         'run-triggers': {
                             description: 'The maximal number of run triggers',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         'service-accounts-available': {
-                            description: 'Indicates if the service accounts are available for an account',
-                            type: 'boolean'
+                            description:
+                'Indicates if the service accounts are available for an account',
+                            type: 'boolean',
                         },
                         'sso-available': {
                             description: 'Indicates if the SSO is available for an account',
-                            type: 'boolean'
+                            type: 'boolean',
                         },
                         users: {
                             description: 'The maximal number of users',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         'vcs-providers': {
                             description: 'The maximal number of VCS providers',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         workspaces: {
                             description: 'The maximal number of workspaces',
-                            type: 'integer'
-                        }
+                            type: 'integer',
+                        },
                     },
-                    type: 'object'
+                    type: 'object',
                 },
                 'support-access-enabled': {
                     default: true,
                     description:
-                        'If enabled, Scalr support staff will be able to access the account for troubleshooting purposes.',
-                    type: 'boolean'
-                }
+            'If enabled, Scalr support staff will be able to access the account for troubleshooting purposes.',
+                    type: 'boolean',
+                },
             },
             required: ['name'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -520,20 +527,20 @@ export const $Account = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['billing-plans'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'identity-provider': {
                     description: 'The identity provider of this account',
@@ -542,19 +549,19 @@ export const $Account = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['identity-providers'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 owner: {
                     description: 'The user that owns this account',
@@ -562,31 +569,31 @@ export const $Account = {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['owner'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['accounts'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccountBlobSettings = {
@@ -600,47 +607,47 @@ Scalr will store this account blobs: e.g. source code, terraform state, and logs
                     maxLength: 255,
                     minLength: 1,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'aws-s3-bucket-name': {
                     description: 'AWS S3 Storage bucket name. Bucket must already exist.',
                     maxLength: 63,
                     minLength: 3,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'aws-s3-region': {
                     default: 'us-east-1',
                     description: 'AWS S3 bucket region.',
                     maxLength: 63,
                     minLength: 3,
-                    type: 'string'
+                    type: 'string',
                 },
                 'aws-s3-role-arn': {
                     description: 'Amazon Resource Name (ARN) of the IAM Role to assume.',
                     maxLength: 2048,
                     minLength: 20,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'backend-type': {
                     default: 'google',
                     description: 'Type of backend',
                     enum: ['google', 'aws-s3'],
-                    type: 'string'
+                    type: 'string',
                 },
                 'created-at': {
                     description: 'The resource creation timestamp.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'error-message': {
                     description:
-                        "This field contains the last error description, when these settings doesn't work properly.",
+            'This field contains the last error description, when these settings doesn\'t work properly.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'google-credentials': {
                     description: `Service Account JSON key.
@@ -648,7 +655,7 @@ Required IAM roles: \`Storage Admin\` assigned on a \`google-storage-bucket\` bu
 See: [use IAM with bucket](https://cloud.google.com/storage/docs/access-control/using-iam-permissions#bucket-iam).`,
                     format: 'password',
                     nullable: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 'google-encryption-key': {
                     description: `Optional [customer supplied encryption key](https://cloud.google.com/storage/docs/encryption/customer-supplied-keys).
@@ -659,46 +666,46 @@ NfsPPHBVNlU8ZLBU9BeBIoL29rqtduyQAEw3vxf6kaY=
 \`\`\``,
                     format: 'password',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'google-project': {
                     description: 'Google Cloud project ID.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'google-storage-bucket': {
                     description: 'Google Storage bucket name. Bucket must already exist.',
                     maxLength: 222,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'updated-at': {
                     description: 'The resource last update timestamp.',
                     format: 'date-time',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['account-blob-settings'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccountBlobSettingsDocument = {
@@ -707,21 +714,21 @@ export const $AccountBlobSettingsDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/AccountBlobSettings'
+            $ref: '#/components/schemas/AccountBlobSettings',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccountDocument = {
@@ -730,21 +737,21 @@ export const $AccountDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Account'
+            $ref: '#/components/schemas/Account',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccountListingDocument = {
@@ -754,74 +761,74 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Account'
+                $ref: '#/components/schemas/Account',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccountMetrics = {
     description: 'Represents account metrics.',
     properties: {
         'billings-flex-runs-count': {
-            type: 'integer'
+            type: 'integer',
         },
         'billings-flex-runs-minutes-count': {
-            type: 'integer'
+            type: 'integer',
         },
         'billings-run-minutes-count': {
-            type: 'integer'
+            type: 'integer',
         },
         'billings-runs-count': {
-            type: 'integer'
+            type: 'integer',
         },
         'environments-count': {
-            type: 'integer'
+            type: 'integer',
         },
         'quota-max-concurrency': {
-            type: 'integer'
+            type: 'integer',
         },
         'runs-awaiting-confirmation': {
-            type: 'integer'
+            type: 'integer',
         },
         'runs-concurrency': {
-            type: 'integer'
+            type: 'integer',
         },
         'runs-count': {
-            type: 'integer'
+            type: 'integer',
         },
         'runs-failed': {
-            type: 'integer'
+            type: 'integer',
         },
         'runs-queue-size': {
-            type: 'integer'
+            type: 'integer',
         },
         'runs-successful': {
-            type: 'integer'
+            type: 'integer',
         },
         'workspaces-count': {
-            type: 'integer'
-        }
+            type: 'integer',
+        },
     },
     required: [
         'workspaces-count',
@@ -830,9 +837,9 @@ export const $AccountMetrics = {
         'runs-awaiting-confirmation',
         'runs-failed',
         'runs-successful',
-        'runs-concurrency'
+        'runs-concurrency',
     ],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccountUser = {
@@ -841,22 +848,23 @@ export const $AccountUser = {
         attributes: {
             properties: {
                 status: {
-                    description: 'The relation status. Can be: `Active`, `Inactive`, `Pending`.',
+                    description:
+            'The relation status. Can be: `Active`, `Inactive`, `Pending`.',
                     enum: ['Active', 'Inactive', 'Pending'],
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -866,19 +874,19 @@ export const $AccountUser = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 teams: {
                     properties: {
@@ -886,22 +894,22 @@ export const $AccountUser = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['teams'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 user: {
                     properties: {
@@ -909,30 +917,30 @@ export const $AccountUser = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['account-users'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccountUserDocument = {
@@ -941,21 +949,21 @@ export const $AccountUserDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/AccountUser'
+            $ref: '#/components/schemas/AccountUser',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AccountUserListingDocument = {
@@ -965,30 +973,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/AccountUser'
+                $ref: '#/components/schemas/AccountUser',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Agent = {
@@ -1005,29 +1013,32 @@ pool, the runner requires an [agent pool token](access-tokens.html#create-an-age
                     description: 'The resource creation timestamp.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'error-message': {
-                    description: 'Contains the error message if the agent is in an `errored` status.',
+                    description:
+            'Contains the error message if the agent is in an `errored` status.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'last-seen-at': {
                     description: 'The timestamp when the agent was last seen online.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
-                    description: 'The name of the agent. This must be unique within the agent pool.',
+                    description:
+            'The name of the agent. This must be unique within the agent pool.',
                     maxLength: 64,
-                    type: 'string'
+                    type: 'string',
                 },
                 os: {
-                    description: "The agent's OS distribution name and version (ex: `centos_8`, `ubuntu_20`)",
+                    description:
+            'The agent\'s OS distribution name and version (ex: `centos_8`, `ubuntu_20`)',
                     maxLength: 64,
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
                     description: `The agent's current status
@@ -1039,30 +1050,30 @@ The attribute \`error-message\` has the details.
 * \`offline\` - API server hasn't seen the agent's heartbeat for 30 seconds.`,
                     enum: ['idle', 'busy', 'offline', 'errored'],
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 version: {
-                    description: "The agent's version.",
+                    description: 'The agent\'s version.',
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name', 'os'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -1073,31 +1084,31 @@ The attribute \`error-message\` has the details.
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['agent-pools'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['agents'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AgentDocument = {
@@ -1106,21 +1117,21 @@ export const $AgentDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Agent'
+            $ref: '#/components/schemas/Agent',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AgentListingDocument = {
@@ -1130,30 +1141,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Agent'
+                $ref: '#/components/schemas/Agent',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AgentPool = {
@@ -1168,30 +1179,31 @@ Agents could be hosted on a physical or virtual machines within the customer's n
                     description: `The name of the agent pool. This must be unique within a Scalr scope
 (e.g. account or environment).`,
                     maxLength: 64,
-                    type: 'string'
+                    type: 'string',
                 },
                 'vcs-enabled': {
                     default: false,
-                    description: 'Indicates whether the VCS support is enabled for agents in the pool.',
-                    type: 'boolean'
-                }
+                    description:
+            'Indicates whether the VCS support is enabled for agents in the pool.',
+                    type: 'boolean',
+                },
             },
             required: ['name'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -1202,19 +1214,19 @@ Agents could be hosted on a physical or virtual machines within the customer's n
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 agents: {
                     description: 'The list of agents connected to the pool.',
@@ -1223,81 +1235,82 @@ Agents could be hosted on a physical or virtual machines within the customer's n
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['agents'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environment: {
                     deprecated: true,
-                    description: 'The environment the agent pool belongs to. This relationship is deprecated.',
+                    description:
+            'The environment the agent pool belongs to. This relationship is deprecated.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspaces: {
                     description:
-                        'The list of workspaces attached to the pool. Can be used to bulk link/unlink workspaces.',
+            'The list of workspaces attached to the pool. Can be used to bulk link/unlink workspaces.',
                     properties: {
                         data: {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['workspaces'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['agent-pools'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AgentPoolDocument = {
@@ -1306,21 +1319,21 @@ export const $AgentPoolDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/AgentPool'
+            $ref: '#/components/schemas/AgentPool',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $AgentPoolListingDocument = {
@@ -1330,30 +1343,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/AgentPool'
+                $ref: '#/components/schemas/AgentPool',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Apply = {
@@ -1365,25 +1378,25 @@ An apply may or may not be successful as indicated by the \`status\` attribute.`
             properties: {
                 'execution-details': {
                     additionalProperties: {
-                        type: 'string'
+                        type: 'string',
                     },
                     description: 'Apply execution details.',
-                    type: 'object'
+                    type: 'object',
                 },
                 'resource-additions': {
                     description: 'The number of resources added.',
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'resource-changes': {
                     description: 'The number of resources updated.',
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'resource-destructions': {
                     description: 'The number of resources destroyed.',
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 status: {
                     description: `The Apply's current status.
@@ -1398,45 +1411,54 @@ Final states:
 * \`errored\` - An error occurred during the apply. See \`output\` for details.
 * \`finished\` - Apply completed successfully.
 * \`unreachable\` - Apply will not be run.`,
-                    enum: ['pending', 'queued', 'running', 'finished', 'canceled', 'errored', 'unreachable'],
-                    type: 'string'
+                    enum: [
+                        'pending',
+                        'queued',
+                        'running',
+                        'finished',
+                        'canceled',
+                        'errored',
+                        'unreachable',
+                    ],
+                    type: 'string',
                 },
                 'status-timestamps': {
                     additionalProperties: {
                         format: 'date-time',
-                        type: 'string'
+                        type: 'string',
                     },
-                    description: 'Date/Time of transition to each status that has occurred.',
-                    type: 'object'
-                }
+                    description:
+            'Date/Time of transition to each status that has occurred.',
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 output: {
                     description: 'URL to download the apply output.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 self: {
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['applies'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ApplyDocument = {
@@ -1445,21 +1467,21 @@ export const $ApplyDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Apply'
+            $ref: '#/components/schemas/Apply',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $BillingPlan = {
@@ -1467,59 +1489,64 @@ export const $BillingPlan = {
         attributes: {
             properties: {
                 amount: {
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'included-runs': {
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'included-runs-minutes': {
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'plan-type': {
                     enum: ['monthly', 'yearly', 'deprecated-yearly'],
-                    type: 'string'
+                    type: 'string',
                 },
                 prices: {
                     items: {
                         properties: {
                             amount: {
                                 nullable: true,
-                                type: 'integer'
+                                type: 'integer',
                             },
                             currency: {
-                                type: 'string'
+                                type: 'string',
                             },
                             interval: {
-                                type: 'string'
+                                type: 'string',
                             },
                             type: {
-                                enum: ['membership', 'pre-paid-runs', 'flex-runs', 'flex-runs-minutes'],
-                                type: 'string'
+                                enum: [
+                                    'membership',
+                                    'pre-paid-runs',
+                                    'flex-runs',
+                                    'flex-runs-minutes',
+                                ],
+                                type: 'string',
                             },
                             'unit-label': {
                                 nullable: true,
-                                type: 'string'
-                            }
+                                type: 'string',
+                            },
                         },
                         required: ['currency', 'type', 'interval'],
-                        type: 'object'
+                        type: 'object',
                     },
-                    type: 'array'
-                }
+                    type: 'array',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -1529,30 +1556,30 @@ export const $BillingPlan = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['billing-tiers'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['billing-plans'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $BillingPlanDocument = {
@@ -1561,26 +1588,26 @@ export const $BillingPlanDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/BillingPlan'
+            $ref: '#/components/schemas/BillingPlan',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $BuiltInProviderTypes = {
     enum: ['aws', 'azurerm', 'google', 'scalr'],
-    type: 'string'
+    type: 'string',
 } as const;
 
 export const $Comment = {
@@ -1589,10 +1616,10 @@ export const $Comment = {
         comment: {
             default: '',
             description: 'The reason.',
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ConfigurationVersion = {
@@ -1605,21 +1632,21 @@ the upload status, and the relationships to VCS and the workspace.`,
             properties: {
                 'auto-queue-runs': {
                     description:
-                        'Indicates if a run should automatically be queued when the configuration has been uploaded.',
-                    type: 'boolean'
+            'Indicates if a run should automatically be queued when the configuration has been uploaded.',
+                    type: 'boolean',
                 },
                 'created-at': {
                     description: 'Date/Time the configuration version was created.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'error-message': {
                     description: `This field contains the error description, when this configuration version's
 status is \`errored\`.`,
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 inputs: {
                     default: [],
@@ -1639,33 +1666,33 @@ Example:
                     items: {
                         anyOf: [
                             {
-                                $ref: '#/components/schemas/RegistryInputOptional'
+                                $ref: '#/components/schemas/RegistryInputOptional',
                             },
                             {
-                                $ref: '#/components/schemas/RegistryInputRequired'
-                            }
-                        ]
+                                $ref: '#/components/schemas/RegistryInputRequired',
+                            },
+                        ],
                     },
                     readOnly: true,
-                    type: 'array'
+                    type: 'array',
                 },
                 'is-dry': {
                     description: `Indicates the configuration version can only be used to perform dry runs that comprise the plan,
 cost estimation (if enabled) and policy checks.
 
 With this set to \`true\` the configuration cannot be used for an apply and never requires confirmation.`,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 size: {
                     description: 'A blob size in bytes.',
                     nullable: true,
                     readOnly: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 source: {
                     description: 'The origin for the configuration version.',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
                     description: `The Configuration version's current status.
@@ -1675,65 +1702,66 @@ With this set to \`true\` the configuration cannot be used for an apply and neve
 * \`errored\` - uploaded files post processing failed. Attribute \`error-message\` contains the details.`,
                     enum: ['errored', 'pending', 'uploaded'],
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'status-timestamps': {
                     additionalProperties: {
                         format: 'date-time',
-                        type: 'string'
+                        type: 'string',
                     },
-                    description: 'Date/Time of transition to each status that has occurred.',
+                    description:
+            'Date/Time of transition to each status that has occurred.',
                     readOnly: true,
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 upload: {
                     description:
-                        'URL for terraform configuration templates upload, that could be used to `PUT` a tar.gz archive of a local workspace directory. Available only in the create `configuration-versions` response.',
+            'URL for terraform configuration templates upload, that could be used to `PUT` a tar.gz archive of a local workspace directory. Available only in the create `configuration-versions` response.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
                 'vcs-revision': {
                     description:
-                        'When configuration version was uploaded from a VCS, this relation points to the Git commit information',
+            'When configuration version was uploaded from a VCS, this relation points to the Git commit information',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['vcs-revisions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'The workspace the configuration version belongs to.',
@@ -1742,30 +1770,30 @@ With this set to \`true\` the configuration cannot be used for an apply and neve
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['configuration-versions'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ConfigurationVersionDocument = {
@@ -1774,21 +1802,21 @@ export const $ConfigurationVersionDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/ConfigurationVersion'
+            $ref: '#/components/schemas/ConfigurationVersion',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ConfigurationVersionListingDocument = {
@@ -1798,48 +1826,49 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/ConfigurationVersion'
+                $ref: '#/components/schemas/ConfigurationVersion',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ConfirmRequest = {
-    description: 'A request to confirm a run. Includes optional time when apply should be queued.',
+    description:
+    'A request to confirm a run. Includes optional time when apply should be queued.',
     properties: {
         'apply-at': {
             description: 'The UTC datetime at which the Apply should be queued.',
             format: 'date-time',
             nullable: true,
-            type: 'string'
+            type: 'string',
         },
         comment: {
             default: '',
             description: 'The reason.',
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $CostEstimate = {
@@ -1853,14 +1882,15 @@ including dry runs.`,
             properties: {
                 'delta-monthly-cost': {
                     default: '0.000',
-                    description: 'The change in the estimated cost ($) from the previous run (if any).',
-                    type: 'string'
+                    description:
+            'The change in the estimated cost ($) from the previous run (if any).',
+                    type: 'string',
                 },
                 'error-message': {
                     description:
-                        'When the cost estimate status is `errored`, this field contains the error description.',
+            'When the cost estimate status is `errored`, this field contains the error description.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'matched-resources-count': {
                     description: `The number of resources in the terraform plan, that were included into the estimation.
@@ -1868,22 +1898,22 @@ including dry runs.`,
 Cost estimation in Scalr supports a number of terraform resources from major
 [cloud providers](https://docs.scalr.io/docs/cost-estimation)`,
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'prior-monthly-cost': {
                     default: '0.000',
                     description: 'The estimated current monthly cost ($).',
-                    type: 'string'
+                    type: 'string',
                 },
                 'proposed-monthly-cost': {
                     default: '0.000',
                     description: 'The estimated monthly cost ($) if the plan is applied.',
-                    type: 'string'
+                    type: 'string',
                 },
                 'resources-count': {
                     description: 'The total number of resources in the terraform plan.',
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 status: {
                     description: `The Cost estimate's current status.
@@ -1897,57 +1927,66 @@ Final states:
 * \`errored\` - The cost estimate has finished with an error. Attribute \`error-message\` contains the details.
 * \`finished\` - The cost estimate has completed successfully.
 * \`unreachable\` - The cost estimate will not run.`,
-                    enum: ['pending', 'queued', 'finished', 'canceled', 'errored', 'unreachable'],
-                    type: 'string'
+                    enum: [
+                        'pending',
+                        'queued',
+                        'finished',
+                        'canceled',
+                        'errored',
+                        'unreachable',
+                    ],
+                    type: 'string',
                 },
                 'status-timestamps': {
                     additionalProperties: {
                         format: 'date-time',
-                        type: 'string'
+                        type: 'string',
                     },
-                    description: 'Date/Time of transition to each status that has occurred.',
-                    type: 'object'
+                    description:
+            'Date/Time of transition to each status that has occurred.',
+                    type: 'object',
                 },
                 'unmatched-resources-count': {
                     description:
-                        'The number of resources in the terraform plan that were excluded from the estimation.',
+            'The number of resources in the terraform plan that were excluded from the estimation.',
                     nullable: true,
-                    type: 'integer'
-                }
+                    type: 'integer',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 breakdown: {
                     description:
-                        'Link to download the cost breakdown [JSON formatted output](https://www.infracost.io/docs/multi_project/report/#examples).',
+            'Link to download the cost breakdown [JSON formatted output](https://www.infracost.io/docs/multi_project/report/#examples).',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 output: {
-                    description: 'Link to download the raw output of the cost estimation.',
+                    description:
+            'Link to download the raw output of the cost estimation.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 self: {
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['cost-estimates'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $CostEstimateDocument = {
@@ -1956,77 +1995,77 @@ export const $CostEstimateDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/CostEstimate'
+            $ref: '#/components/schemas/CostEstimate',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $CreateUser = {
     description:
-        'Represents a request to create an [IAM](https://docs.scalr.io/docs/identity-and-access-management) user.',
+    'Represents a request to create an [IAM](https://docs.scalr.io/docs/identity-and-access-management) user.',
     properties: {
         attributes: {
             properties: {
                 'change-password-on-sign-in': {
                     default: false,
                     description:
-                        'If set to `true`, the user will be asked to change the temporary password on the first sign in.',
-                    type: 'boolean'
+            'If set to `true`, the user will be asked to change the temporary password on the first sign in.',
+                    type: 'boolean',
                 },
                 'created-at': {
                     format: 'date-time',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 email: {
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'full-name': {
                     maxLength: 100,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 password: {
                     description:
-                        'Must be at least 8 characters long and contain at least one digit, one lowercase letter, one uppercase letter, and one special character.',
+            'Must be at least 8 characters long and contain at least one digit, one lowercase letter, one uppercase letter, and one special character.',
                     maxLength: 64,
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
                     description:
-                        'User status. Can be: `Active`, `Inactive`, `Pending`. Pending user will be activated after the first sign in.',
+            'User status. Can be: `Active`, `Inactive`, `Pending`. Pending user will be activated after the first sign in.',
                     enum: ['Active', 'Inactive', 'Pending'],
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['email'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -2036,33 +2075,33 @@ export const $CreateUser = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['identity-providers'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['users'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $CreateUserDocument = {
@@ -2071,21 +2110,21 @@ export const $CreateUserDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/CreateUser'
+            $ref: '#/components/schemas/CreateUser',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $DatadogIntegration = {
@@ -2096,46 +2135,47 @@ export const $DatadogIntegration = {
                     description: 'The API key.',
                     maxLength: 255,
                     minLength: 1,
-                    type: 'string'
+                    type: 'string',
                 },
                 'deployment-url': {
                     description: 'HTTP(s) URL.',
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'err-message': {
-                    description: 'Message from service that points to nature of a problem',
+                    description:
+            'Message from service that points to nature of a problem',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
                     description: 'Name of Datadog integration',
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
                     description: 'Status of integration.',
                     enum: ['active', 'disabled', 'failed'],
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name', 'api-key'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -2145,31 +2185,31 @@ export const $DatadogIntegration = {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['account'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['datadog-integrations'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $DatadogIntegrationDocument = {
@@ -2178,21 +2218,21 @@ export const $DatadogIntegrationDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/DatadogIntegration'
+            $ref: '#/components/schemas/DatadogIntegration',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $DatadogIntegrationListingDocument = {
@@ -2202,30 +2242,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/DatadogIntegration'
+                $ref: '#/components/schemas/DatadogIntegration',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Endpoint = {
@@ -2240,49 +2280,49 @@ then re-use in many webhook configurations on a lower scopes (e.g. environments/
                 'max-attempts': {
                     default: 3,
                     description: 'The number of retry attempts.',
-                    type: 'integer'
+                    type: 'integer',
                 },
                 name: {
                     description: 'The name of the endpoint.',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 permissions: {
                     readOnly: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 'secret-key': {
                     description: 'The secret passphrase for HMAC signature.',
                     maxLength: 1024,
-                    type: 'string'
+                    type: 'string',
                 },
                 timeout: {
                     default: 15,
                     description: 'The HTTP transaction timeout.',
-                    type: 'integer'
+                    type: 'integer',
                 },
                 url: {
                     description: 'HTTP(s) destination URL.',
                     maxLength: 2048,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name', 'url'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -2293,20 +2333,20 @@ then re-use in many webhook configurations on a lower scopes (e.g. environments/
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environment: {
                     description: 'The environment, this endpoint belongs to.',
@@ -2315,30 +2355,30 @@ then re-use in many webhook configurations on a lower scopes (e.g. environments/
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['endpoints'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $EndpointDocument = {
@@ -2347,21 +2387,21 @@ export const $EndpointDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Endpoint'
+            $ref: '#/components/schemas/Endpoint',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $EndpointListingDocument = {
@@ -2371,30 +2411,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Endpoint'
+                $ref: '#/components/schemas/Endpoint',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Environment = {
@@ -2414,50 +2454,51 @@ that are available to every workspace.`,
             properties: {
                 'cost-estimation-enabled': {
                     default: true,
-                    description: 'Indicates if the cost estimation should be performed for `runs` in the environment.',
-                    type: 'boolean'
+                    description:
+            'Indicates if the cost estimation should be performed for `runs` in the environment.',
+                    type: 'boolean',
                 },
                 'created-at': {
                     description: 'Date/Time the environment was created.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'created-by-email': {
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
                     description: 'The name of the environment.',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 permissions: {
                     readOnly: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 status: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -2468,20 +2509,20 @@ that are available to every workspace.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'created-by': {
                     description: 'The user that created the environment.',
@@ -2490,44 +2531,45 @@ that are available to every workspace.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'default-provider-configurations': {
-                    description: 'Provider configurations used in the environment workspaces by default.',
+                    description:
+            'Provider configurations used in the environment workspaces by default.',
                     properties: {
                         data: {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['provider-configurations'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'policy-groups': {
                     properties: {
@@ -2535,47 +2577,48 @@ that are available to every workspace.`,
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['policy-groups'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'provider-configurations': {
-                    description: 'Provider configurations available for this environment.',
+                    description:
+            'Provider configurations available for this environment.',
                     properties: {
                         data: {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['provider-configurations'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 tags: {
                     properties: {
@@ -2583,33 +2626,33 @@ that are available to every workspace.`,
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['tags'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['environments'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $EnvironmentDocument = {
@@ -2618,21 +2661,21 @@ export const $EnvironmentDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Environment'
+            $ref: '#/components/schemas/Environment',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $EnvironmentListingDocument = {
@@ -2642,30 +2685,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Environment'
+                $ref: '#/components/schemas/Environment',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Error = {
@@ -2675,31 +2718,31 @@ see: https://jsonapi.org/format/#errors`,
     properties: {
         code: {
             nullable: true,
-            type: 'string'
+            type: 'string',
         },
         detail: {
             nullable: true,
-            type: 'string'
+            type: 'string',
         },
         meta: {
             nullable: true,
-            type: 'object'
+            type: 'object',
         },
         source: {
             nullable: true,
             properties: {
                 pointer: {
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         status: {
             nullable: true,
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ErrorDocument = {
@@ -2709,12 +2752,12 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         errors: {
             items: {
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/Error',
             },
-            type: 'array'
-        }
+            type: 'array',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $EventDefinition = {
@@ -2730,34 +2773,34 @@ within \`webhook.event\` relationship in [Create Webook](webhooks.html#create-we
                 description: {
                     description: 'The event details.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
                     description: 'The name of the event.',
                     maxLength: 64,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['event-definitions'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $EventDefinitionDocument = {
@@ -2766,21 +2809,21 @@ export const $EventDefinitionDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/EventDefinition'
+            $ref: '#/components/schemas/EventDefinition',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $EventDefinitionListingDocument = {
@@ -2790,30 +2833,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/EventDefinition'
+                $ref: '#/components/schemas/EventDefinition',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $IdentityProvider = {
@@ -2822,35 +2865,37 @@ export const $IdentityProvider = {
         attributes: {
             properties: {
                 'idp-type': {
-                    description: 'The IdP type. Can be one of `scalr`, `ldap`, or `saml`.',
+                    description:
+            'The IdP type. Can be one of `scalr`, `ldap`, or `saml`.',
                     enum: ['scalr', 'ldap', 'saml'],
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
                     description: 'The IdP name.',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'verification-status': {
-                    description: 'Represents the verification status with the external IdP (SAML/LDAP only)',
+                    description:
+            'Represents the verification status with the external IdP (SAML/LDAP only)',
                     enum: ['pending', 'success', 'running'],
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -2861,30 +2906,30 @@ export const $IdentityProvider = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['identity-providers'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $IdentityProviderDocument = {
@@ -2893,25 +2938,26 @@ export const $IdentityProviderDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/IdentityProvider'
+            $ref: '#/components/schemas/IdentityProvider',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Module = {
-    description: 'A terraform module in the [Private Module Registry](../../module.html).',
+    description:
+    'A terraform module in the [Private Module Registry](../../module.html).',
     properties: {
         attributes: {
             properties: {
@@ -2919,7 +2965,7 @@ export const $Module = {
                     description: 'The resource creation timestamp.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 description: {
                     description: `The description of the module.
@@ -2928,18 +2974,19 @@ By default, this is taken from the VCS repository description. For mono repos yo
 want to override this behavior by passing this argument in a
 [Create Module](modules.html#create-a-module) operation.`,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'error-message': {
-                    description: "This field contains the error description, when this module's status is `errored`.",
+                    description:
+            'This field contains the error description, when this module\'s status is `errored`.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
                     description: 'The module name.',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 provider: {
                     description: `A name of a system, this module was written for.
@@ -2947,13 +2994,14 @@ want to override this behavior by passing this argument in a
 For multi-cloud modules this argument should match terraform provider name (ex: \`aws\` or
 \`google\`), in other cases the convention is to name it \`system\``,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 source: {
                     default: '',
-                    description: 'The `source` by which the module should be addressed from a HCL template.',
+                    description:
+            'The `source` by which the module should be addressed from a HCL template.',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
                     description: `The Module's current status.
@@ -2974,7 +3022,7 @@ be still in-progress. If you want to ensure a specific version was uploaded, you
 \`error-message\` contains the details.`,
                     enum: ['no_version_tags', 'pending', 'setup_complete', 'errored'],
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'vcs-repo': {
                     properties: {
@@ -2983,13 +3031,13 @@ be still in-progress. If you want to ensure a specific version was uploaded, you
 
 For GitHub, GitHub Enterprise and GitLab the format is \`<org>/<repo>\`.
 Azure DevOps Services has the format \`<org>/<project>/<repo>\`.`,
-                            type: 'string'
+                            type: 'string',
                         },
                         path: {
                             description: `The repository sub-directory where the module source is located.
 If omitted or submitted as an empty string, this defaults to the repository's root.`,
                             maxLength: 255,
-                            type: 'string'
+                            type: 'string',
                         },
                         'tag-prefix': {
                             description: `Specify this attribute when a module's releases are namespaced within a repository's
@@ -2997,29 +3045,29 @@ Git tags. This is usually the case for a mono repos with individually versioned
 components. For example if your module is tagged \`my-module/v1.0.0\` it's \`tag_prefix\`
 is  \`my-module/\`.`,
                             maxLength: 255,
-                            type: 'string'
-                        }
+                            type: 'string',
+                        },
                     },
                     required: ['identifier'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['vcs-repo'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -3030,19 +3078,19 @@ is  \`my-module/\`.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'created-by': {
                     description: 'The user who has created the module.',
@@ -3051,20 +3099,20 @@ is  \`my-module/\`.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environment: {
                     description: 'The environment this module belongs to.',
@@ -3073,63 +3121,63 @@ is  \`my-module/\`.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'latest-module-version': {
-                    description: "The module's latest version.",
+                    description: 'The module\'s latest version.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['module-versions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'module-version': {
-                    description: "The module's latest successful version.",
+                    description: 'The module\'s latest successful version.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['module-versions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'module-versions': {
                     description: 'The IDs of the module versions.',
@@ -3138,55 +3186,55 @@ is  \`my-module/\`.`,
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['module-versions'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'vcs-provider': {
-                    description: "The module's VCS provider.",
+                    description: 'The module\'s VCS provider.',
                     properties: {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['vcs-providers'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['vcs-provider'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['modules'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ModuleDocument = {
@@ -3195,21 +3243,21 @@ export const $ModuleDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Module'
+            $ref: '#/components/schemas/Module',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ModuleListingDocument = {
@@ -3219,30 +3267,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Module'
+                $ref: '#/components/schemas/Module',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ModuleResyncRequest = {
@@ -3252,10 +3300,10 @@ export const $ModuleResyncRequest = {
             default: false,
             description: `Force resync module. If not equal to "true", only versions that did not exist before
 will be synchronized.`,
-            type: 'boolean'
-        }
+            type: 'boolean',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ModuleUsageNamespace = {
@@ -3266,24 +3314,24 @@ export const $ModuleUsageNamespace = {
                 'namespace-name': {
                     description: 'Name of the namespace',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 source: {
                     maxLength: 255,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -3294,19 +3342,19 @@ export const $ModuleUsageNamespace = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'namespace-account': {
                     description: 'Filled when namespace is a scalr account',
@@ -3315,19 +3363,19 @@ export const $ModuleUsageNamespace = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'namespace-environment': {
                     description: 'Namespace of module the Scalr module.',
@@ -3336,30 +3384,30 @@ export const $ModuleUsageNamespace = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['tf-module-namespaces'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ModuleUsageNamespaceDocument = {
@@ -3368,21 +3416,21 @@ export const $ModuleUsageNamespaceDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/ModuleUsageNamespace'
+            $ref: '#/components/schemas/ModuleUsageNamespace',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ModuleUsageNamespaceListingDocument = {
@@ -3392,34 +3440,35 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/ModuleUsageNamespace'
+                $ref: '#/components/schemas/ModuleUsageNamespace',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ModuleVersion = {
-    description: "A terraform module's version in the [Private Module Registry](../../module.html).",
+    description:
+    'A terraform module\'s version in the [Private Module Registry](../../module.html).',
     properties: {
         attributes: {
             properties: {
@@ -3427,27 +3476,27 @@ export const $ModuleVersion = {
                     description: 'The resource creation timestamp.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 dependencies: {
                     additionalProperties: {
                         anyOf: [
                             {
-                                type: 'string'
+                                type: 'string',
                             },
                             {
-                                type: 'object'
+                                type: 'object',
                             },
                             {
                                 items: {},
-                                type: 'array'
-                            }
-                        ]
+                                type: 'array',
+                            },
+                        ],
                     },
                     description: 'The list of modules this version depends on.',
                     nullable: true,
                     readOnly: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 details: {
                     description: `README contents.
@@ -3456,37 +3505,37 @@ This file should be named README or README.md. The latter will be processed as
 [CommonMark](https://commonmark.org/).`,
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'error-message': {
                     description: `This field contains the error description, when this module version's status is
 \`errored\`.`,
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 inputs: {
                     description: 'Input Variables.',
                     items: {
                         anyOf: [
                             {
-                                $ref: '#/components/schemas/RegistryInputOptional'
+                                $ref: '#/components/schemas/RegistryInputOptional',
                             },
                             {
-                                $ref: '#/components/schemas/RegistryInputRequired'
-                            }
-                        ]
+                                $ref: '#/components/schemas/RegistryInputRequired',
+                            },
+                        ],
                     },
                     nullable: true,
                     readOnly: true,
-                    type: 'array'
+                    type: 'array',
                 },
                 'is-root-module': {
                     description: `Module version marked as root will allow the
 [creation of workspaces](../../module.html#deployable-modules) directly from the
 registry, as well as standard module usage.`,
                     readOnly: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 outputs: {
                     description: 'Output Values.',
@@ -3494,38 +3543,38 @@ registry, as well as standard module usage.`,
                         properties: {
                             description: {
                                 default: '',
-                                type: 'string'
+                                type: 'string',
                             },
                             name: {
                                 default: '',
-                                type: 'string'
+                                type: 'string',
                             },
                             sensitive: {
                                 default: false,
-                                type: 'boolean'
+                                type: 'boolean',
                             },
                             value: {
                                 anyOf: [
                                     {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     {
-                                        type: 'object'
+                                        type: 'object',
                                     },
                                     {
                                         items: {},
-                                        type: 'array'
-                                    }
+                                        type: 'array',
+                                    },
                                 ],
                                 default: '',
-                                nullable: true
-                            }
+                                nullable: true,
+                            },
                         },
-                        type: 'object'
+                        type: 'object',
                     },
                     nullable: true,
                     readOnly: true,
-                    type: 'array'
+                    type: 'array',
                 },
                 resources: {
                     description: 'Declared resources.',
@@ -3533,24 +3582,24 @@ registry, as well as standard module usage.`,
                         properties: {
                             address: {
                                 default: '',
-                                type: 'string'
+                                type: 'string',
                             },
                             type: {
                                 default: '',
-                                type: 'string'
-                            }
+                                type: 'string',
+                            },
                         },
-                        type: 'object'
+                        type: 'object',
                     },
                     nullable: true,
                     readOnly: true,
-                    type: 'array'
+                    type: 'array',
                 },
                 size: {
                     description: 'A blob size in bytes.',
                     nullable: true,
                     readOnly: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 status: {
                     description: `The module version's current status.
@@ -3570,36 +3619,37 @@ Ending statuses:
 Attribute \`error-message\` contains the details.`,
                     enum: ['not_uploaded', 'pending', 'ok', 'errored', 'pending_delete'],
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 version: {
                     description: 'Semantic Version.',
                     maxLength: 64,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['version'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 download: {
-                    description: 'The URL to download the tar.gz archive with module version source code.',
+                    description:
+            'The URL to download the tar.gz archive with module version source code.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -3609,53 +3659,54 @@ Attribute \`error-message\` contains the details.`,
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['modules'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'vcs-revision': {
-                    description: 'The Git commit information when the module version was uploaded from a VCS.',
+                    description:
+            'The Git commit information when the module version was uploaded from a VCS.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['vcs-revisions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['module'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['module-versions'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ModuleVersionDocument = {
@@ -3664,21 +3715,21 @@ export const $ModuleVersionDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/ModuleVersion'
+            $ref: '#/components/schemas/ModuleVersion',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ModuleVersionListingDocument = {
@@ -3688,30 +3739,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/ModuleVersion'
+                $ref: '#/components/schemas/ModuleVersion',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Permission = {
@@ -3735,38 +3786,38 @@ Use [List Permissions](permissions.html#list-permissions) to obtain all possible
             properties: {
                 'applicable-scopes': {
                     description:
-                        'Scope identities, this permission could be applied to in an [access policy](access-policies.html).',
+            'Scope identities, this permission could be applied to in an [access policy](access-policies.html).',
                     items: {
                         enum: ['account', 'environment', 'workspace'],
-                        type: 'string'
+                        type: 'string',
                     },
-                    type: 'array'
+                    type: 'array',
                 },
                 description: {
                     description: 'Permission description.',
                     nullable: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['permissions'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PermissionDocument = {
@@ -3775,21 +3826,21 @@ export const $PermissionDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Permission'
+            $ref: '#/components/schemas/Permission',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PermissionListingDocument = {
@@ -3799,30 +3850,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Permission'
+                $ref: '#/components/schemas/Permission',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Plan = {
@@ -3832,29 +3883,29 @@ export const $Plan = {
             properties: {
                 'execution-details': {
                     additionalProperties: {
-                        type: 'string'
+                        type: 'string',
                     },
                     description: 'Plan execution details.',
-                    type: 'object'
+                    type: 'object',
                 },
                 'has-changes': {
                     description: 'Indicates if plan has proposed resource changes.',
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'resource-additions': {
                     description: 'The number of new resources that will be added.',
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'resource-changes': {
                     description: 'The number of resources that will be updated in place.',
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'resource-destructions': {
                     description: 'The number of resources that will be destroyed.',
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 status: {
                     description: `The Plan's current status.
@@ -3869,50 +3920,59 @@ Final states:
 * \`errored\` - An error occurred during the plan. See \`output\` for details.
 * \`finished\` - Plan completed successfully.
 * \`unreachable\` - Plan will not be run.`,
-                    enum: ['pending', 'queued', 'running', 'finished', 'canceled', 'errored', 'unreachable'],
-                    type: 'string'
+                    enum: [
+                        'pending',
+                        'queued',
+                        'running',
+                        'finished',
+                        'canceled',
+                        'errored',
+                        'unreachable',
+                    ],
+                    type: 'string',
                 },
                 'status-timestamps': {
                     additionalProperties: {
                         format: 'date-time',
-                        type: 'string'
+                        type: 'string',
                     },
-                    description: 'Date/Time of transition to each status that has occurred.',
-                    type: 'object'
-                }
+                    description:
+            'Date/Time of transition to each status that has occurred.',
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 'json-output': {
                     description: 'URL to retrieve the JSON execution plan',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 output: {
                     description: 'Link to download the raw output of the terraform plan.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 self: {
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['plans'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PlanDocument = {
@@ -3921,21 +3981,21 @@ export const $PlanDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Plan'
+            $ref: '#/components/schemas/Plan',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Policy = {
@@ -3946,9 +4006,10 @@ as declared in [scalr-policy.hcl](../../opa.html#creating-policy-groups).`,
             properties: {
                 enabled: {
                     default: true,
-                    description: 'If set to `false`, the policy will not be evaluated during a run.',
+                    description:
+            'If set to `false`, the policy will not be evaluated during a run.',
                     readOnly: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'enforced-level': {
                     description: `The policy's enforcement level.
@@ -3959,28 +4020,28 @@ and other authorized roles.
 * \`advisory\` - provides a warning only.`,
                     enum: ['hard-mandatory', 'soft-mandatory', 'advisory'],
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
                     description: 'The name of the policy.',
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -3991,31 +4052,31 @@ and other authorized roles.
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['policy-groups'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['policies'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyCheck = {
@@ -4027,30 +4088,32 @@ in every workspace, including dry runs, where policies have been linked.`,
         attributes: {
             properties: {
                 permissions: {
-                    type: 'object'
+                    type: 'object',
                 },
                 result: {
                     description: 'OPA policy decision.',
                     properties: {
                         'advisory-failed': {
                             default: 0,
-                            description: "Number of policy checks that have failed with 'advisory' level.",
-                            type: 'integer'
+                            description:
+                'Number of policy checks that have failed with \'advisory\' level.',
+                            type: 'integer',
                         },
                         'duration-ms': {
                             default: 0,
                             description: 'Duration of the policy check operation.',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         'hard-failed': {
                             default: 0,
-                            description: 'Number of policy checks that have failed with "hard-mandatory" level.',
-                            type: 'integer'
+                            description:
+                'Number of policy checks that have failed with "hard-mandatory" level.',
+                            type: 'integer',
                         },
                         passed: {
                             default: 0,
                             description: 'Number of policy checks that have passed.',
-                            type: 'integer'
+                            type: 'integer',
                         },
                         policies: {
                             default: [],
@@ -4060,40 +4123,47 @@ in every workspace, including dry runs, where policies have been linked.`,
                                     messages: {
                                         default: [],
                                         items: {
-                                            type: 'string'
+                                            type: 'string',
                                         },
-                                        type: 'array'
+                                        type: 'array',
                                     },
                                     name: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     result: {
-                                        enum: ['passed', 'hard_failed', 'soft_failed', 'advisory_failed'],
-                                        type: 'string'
-                                    }
+                                        enum: [
+                                            'passed',
+                                            'hard_failed',
+                                            'soft_failed',
+                                            'advisory_failed',
+                                        ],
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['name', 'result'],
-                                type: 'object'
+                                type: 'object',
                             },
-                            type: 'array'
+                            type: 'array',
                         },
                         result: {
                             default: false,
-                            description: 'Indicates whether all policy checks have passed without failures.',
-                            type: 'boolean'
+                            description:
+                'Indicates whether all policy checks have passed without failures.',
+                            type: 'boolean',
                         },
                         'soft-failed': {
                             default: 0,
-                            description: 'Number of policy checks that have failed with "soft-mandatory" level.',
-                            type: 'integer'
+                            description:
+                'Number of policy checks that have failed with "soft-mandatory" level.',
+                            type: 'integer',
                         },
                         'total-failed': {
                             default: 0,
                             description: 'Total number of policy checks that have failed.',
-                            type: 'integer'
-                        }
+                            type: 'integer',
+                        },
                     },
-                    type: 'object'
+                    type: 'object',
                 },
                 status: {
                     description: `The Policy checks's current status.
@@ -4122,42 +4192,43 @@ Final states:
                         'soft_failed',
                         'overridden',
                         'unreachable',
-                        'canceled'
+                        'canceled',
                     ],
-                    type: 'string'
+                    type: 'string',
                 },
                 'status-timestamps': {
                     additionalProperties: {
                         format: 'date-time',
-                        type: 'string'
+                        type: 'string',
                     },
-                    description: 'Date/Time of transition to each status that has occurred.',
-                    type: 'object'
-                }
+                    description:
+            'Date/Time of transition to each status that has occurred.',
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 output: {
                     description: 'Link to download the policy check raw output.',
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['policy-checks'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyCheckDocument = {
@@ -4166,21 +4237,21 @@ export const $PolicyCheckDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/PolicyCheck'
+            $ref: '#/components/schemas/PolicyCheck',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyCheckListingDocument = {
@@ -4190,30 +4261,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/PolicyCheck'
+                $ref: '#/components/schemas/PolicyCheck',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyCheckResult = {
@@ -4224,66 +4295,69 @@ export const $PolicyCheckResult = {
                 messages: {
                     description: 'The messages returned by the policy check.',
                     items: {
-                        type: 'string'
+                        type: 'string',
                     },
-                    type: 'array'
+                    type: 'array',
                 },
                 name: {
                     description: 'The name of the policy.',
                     maxLength: 100,
-                    type: 'string'
+                    type: 'string',
                 },
                 'pull-request-number': {
-                    description: 'The number of the pull request that triggered the policy check.',
+                    description:
+            'The number of the pull request that triggered the policy check.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'pull-request-title': {
-                    description: 'The title of the pull request that triggered the policy check.',
+                    description:
+            'The title of the pull request that triggered the policy check.',
                     maxLength: 512,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 result: {
                     description: 'The result of the policy check.',
                     enum: ['passed', 'hard_failed', 'soft_failed', 'advisory_failed'],
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
                 environment: {
-                    description: 'The environment associated with this policy check result.',
+                    description:
+            'The environment associated with this policy check result.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'policy-check': {
                     description: 'The policy check this result belongs to.',
@@ -4292,19 +4366,19 @@ export const $PolicyCheckResult = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['policy-checks'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 run: {
                     description: 'The run associated with this policy check result.',
@@ -4313,51 +4387,52 @@ export const $PolicyCheckResult = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['runs'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
-                    description: 'The workspace associated with this policy check result.',
+                    description:
+            'The workspace associated with this policy check result.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['policy-check-results'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyCheckResultListingDocument = {
@@ -4367,30 +4442,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/PolicyCheckResult'
+                $ref: '#/components/schemas/PolicyCheckResult',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyDocument = {
@@ -4399,21 +4474,21 @@ export const $PolicyDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Policy'
+            $ref: '#/components/schemas/Policy',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyGroup = {
@@ -4429,30 +4504,32 @@ the policy group will participate in the policy check phase of every run in that
                     description: 'Date/Time the policy group was created.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'error-message': {
-                    description: "This field contains the error description when the group's status is `errored`.",
+                    description:
+            'This field contains the error description when the group\'s status is `errored`.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'is-enforced': {
                     default: false,
-                    description: 'Indicates whether the policy group is enforced in all environments.',
-                    type: 'boolean'
+                    description:
+            'Indicates whether the policy group is enforced in all environments.',
+                    type: 'boolean',
                 },
                 name: {
                     description:
-                        'The policy group name must be unique within the account and contain only letters, numbers, dashes',
+            'The policy group name must be unique within the account and contain only letters, numbers, dashes',
                     maxLength: 100,
-                    type: 'string'
+                    type: 'string',
                 },
                 'opa-version': {
                     description: `The version of Open Policy Agent to use for the policy evaluation.
 
 If omitted, the system default version is assigned.`,
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
                     description: `Policy group current status.
@@ -4462,7 +4539,7 @@ If omitted, the system default version is assigned.`,
 * \`errored\` - synchronization has failed. Attribute \`error-message\` contains the details.`,
                     enum: ['fetching', 'active', 'errored'],
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'vcs-repo': {
                     properties: {
@@ -4470,14 +4547,14 @@ If omitted, the system default version is assigned.`,
                             description: `Branch of a repository the policy group is associated with.
 If omitted, the repository default branch will be used.`,
                             nullable: true,
-                            type: 'string'
+                            type: 'string',
                         },
                         identifier: {
                             description: `A reference to your VCS repository.
 
 For GitHub, GitHub Enterprise and GitLab the format is \`<org>/<repo>\`.
 For Azure DevOps Services the format is \`<org>/<project>/<repo>\`.`,
-                            type: 'string'
+                            type: 'string',
                         },
                         path: {
                             default: '',
@@ -4488,29 +4565,29 @@ and changing them won't trigger a policy group update.
 
 If omitted or submitted as an empty string, this defaults to the repository's root.`,
                             nullable: true,
-                            type: 'string'
-                        }
+                            type: 'string',
+                        },
                     },
                     required: ['identifier'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['name', 'vcs-repo'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -4520,19 +4597,19 @@ If omitted or submitted as an empty string, this defaults to the repository's ro
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environments: {
                     description: 'List of environments this policy group is linked to.',
@@ -4541,23 +4618,23 @@ If omitted or submitted as an empty string, this defaults to the repository's ro
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['environments'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 policies: {
                     description: 'List of OPA policies this group contains.',
@@ -4566,77 +4643,78 @@ If omitted or submitted as an empty string, this defaults to the repository's ro
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['policies'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'vcs-provider': {
-                    description: "The policy group's VCS provider.",
+                    description: 'The policy group\'s VCS provider.',
                     properties: {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['vcs-providers'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'vcs-revision': {
-                    description: 'The Git commit information when the policy group was fetched from VCS.',
+                    description:
+            'The Git commit information when the policy group was fetched from VCS.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['vcs-revisions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['vcs-provider', 'account'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['policy-groups'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyGroupDocument = {
@@ -4645,35 +4723,35 @@ export const $PolicyGroupDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/PolicyGroup'
+            $ref: '#/components/schemas/PolicyGroup',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyGroupEnvironmentRelationship = {
     properties: {
         id: {
-            type: 'string'
+            type: 'string',
         },
         type: {
             enum: ['environments'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['id', 'type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyGroupEnvironmentRelationshipFieldsetsListingDocument = {
@@ -4681,30 +4759,30 @@ export const $PolicyGroupEnvironmentRelationshipFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/PolicyGroupEnvironmentRelationship'
+                $ref: '#/components/schemas/PolicyGroupEnvironmentRelationship',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $PolicyGroupListingDocument = {
@@ -4714,235 +4792,243 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/PolicyGroup'
+                $ref: '#/components/schemas/PolicyGroup',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ProviderConfiguration = {
     description:
-        'The configuration of provider. Provider configuration is managed on the account scope and can be linked to environments or workspaces.',
+    'The configuration of provider. Provider configuration is managed on the account scope and can be linked to environments or workspaces.',
     properties: {
         attributes: {
             properties: {
                 'aws-access-key': {
-                    description: 'AWS access key. This option is required with the `access_keys` credential type.',
+                    description:
+            'AWS access key. This option is required with the `access_keys` credential type.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'aws-account-type': {
-                    description: 'The type of AWS account, available options: `regular`, `gov-cloud`, `cn-cloud`.',
+                    description:
+            'The type of AWS account, available options: `regular`, `gov-cloud`, `cn-cloud`.',
                     enum: ['regular', 'gov-cloud', 'cn-cloud'],
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'aws-audience': {
                     description: 'The value of the aud claim for the identity token.',
                     minLength: 1,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'aws-credentials-type': {
                     description:
-                        'The type of AWS credential, available options: `access_keys`, `role_delegation`, `oidc`.',
+            'The type of AWS credential, available options: `access_keys`, `role_delegation`, `oidc`.',
                     enum: ['role_delegation', 'access_keys', 'oidc'],
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'aws-external-id': {
                     description:
-                        'External identifier to use when assuming the role. This option is required with the `role_delegation` credential type.',
+            'External identifier to use when assuming the role. This option is required with the `role_delegation` credential type.',
                     minLength: 2,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'aws-role-arn': {
                     description:
-                        'Amazon Resource Name (ARN) of the IAM Role to assume. This option is required with the `role_delegation` and `oidc` credential type.',
+            'Amazon Resource Name (ARN) of the IAM Role to assume. This option is required with the `role_delegation` and `oidc` credential type.',
                     minLength: 20,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'aws-secret-key': {
-                    description: 'AWS secret key. This option is required with the `access_keys` credential type.',
+                    description:
+            'AWS secret key. This option is required with the `access_keys` credential type.',
                     format: 'password',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'aws-trusted-entity-type': {
                     description:
-                        'Trusted entity type, available options: `aws_account`, `aws_service`. This option is required with the `role_delegation` credential type.',
+            'Trusted entity type, available options: `aws_account`, `aws_service`. This option is required with the `role_delegation` credential type.',
                     enum: ['aws_account', 'aws_service'],
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'azurerm-audience': {
                     description: 'The value of the aud claim for the identity token.',
                     maxLength: 600,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'azurerm-auth-type': {
-                    description: 'The type of azurerm credentials, available options: `client-secrets`, `oidc`.',
+                    description:
+            'The type of azurerm credentials, available options: `client-secrets`, `oidc`.',
                     enum: ['client-secrets', 'oidc'],
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'azurerm-client-id': {
                     description: 'The Client ID which should be used.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'azurerm-client-secret': {
                     description: 'The Client Secret which should be used.',
                     format: 'password',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'azurerm-subscription-id': {
                     description: 'The Subscription ID which should be used.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'azurerm-tenant-id': {
                     description: 'The Tenant ID should be used.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'error-message': {
-                    description: 'Contains the error message if the provider configuration is in an `errored` status.',
+                    description:
+            'Contains the error message if the provider configuration is in an `errored` status.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'export-shell-variables': {
                     default: false,
                     description:
-                        'Export provider variables into the run environment. This option is available only for built in providers.',
-                    type: 'boolean'
+            'Export provider variables into the run environment. This option is available only for built in providers.',
+                    type: 'boolean',
                 },
                 'google-auth-type': {
                     description: 'Authentication type to access GCP.',
                     enum: ['service-account-key', 'oidc'],
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'google-credentials': {
                     description: 'Service account key file in JSON format.',
                     format: 'password',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'google-project': {
                     description:
-                        'The default project to manage resources in. If another project is specified on a resource, it will take precedence.',
+            'The default project to manage resources in. If another project is specified on a resource, it will take precedence.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'google-service-account-email': {
-                    description: 'The service account email Scalr will use when authenticating to GCP.',
+                    description:
+            'The service account email Scalr will use when authenticating to GCP.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'google-service-account-name': {
                     description: 'Service account name.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'google-use-default-project': {
                     default: true,
                     description: 'If the project will be enforced.',
                     nullable: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'google-workload-provider-name': {
                     description: 'The canonical name of the workload identity provider.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'is-custom': {
                     description:
-                        'Determines if a provider configuration is custom. Note: custom provider configurations do not support built-in features like exporting as shell variables or on-save validation. Provider configuration will be validated during the run only.',
+            'Determines if a provider configuration is custom. Note: custom provider configurations do not support built-in features like exporting as shell variables or on-save validation. Provider configuration will be validated during the run only.',
                     nullable: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'is-shared': {
                     description:
-                        'Indicates whether the provider configuration can be used in any workspace of the account without directly linking it to the environment.',
-                    type: 'boolean'
+            'Indicates whether the provider configuration can be used in any workspace of the account without directly linking it to the environment.',
+                    type: 'boolean',
                 },
                 name: {
-                    description: 'The name of a Scalr provider configuration. This field is unique for the account.',
+                    description:
+            'The name of a Scalr provider configuration. This field is unique for the account.',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'provider-name': {
                     anyOf: [
                         {
-                            $ref: '#/components/schemas/BuiltInProviderTypes'
+                            $ref: '#/components/schemas/BuiltInProviderTypes',
                         },
                         {
-                            type: 'string'
-                        }
+                            type: 'string',
+                        },
                     ],
-                    description: 'The name of a Terraform provider.'
+                    description: 'The name of a Terraform provider.',
                 },
                 'scalr-hostname': {
                     description: 'The Scalr hostname which should be used.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'scalr-token': {
                     description: 'The Scalr token which should be used.',
                     format: 'password',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
-                    description: 'Provider configuration status. Can be: `active`, `errored`.',
+                    description:
+            'Provider configuration status. Can be: `active`, `errored`.',
                     enum: ['active', 'errored'],
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name', 'provider-name'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -4952,44 +5038,44 @@ export const $ProviderConfiguration = {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environments: {
                     description:
-                        'The list of environments attached to the provider configuration. Can be used to bulk link/unlink environments.',
+            'The list of environments attached to the provider configuration. Can be used to bulk link/unlink environments.',
                     properties: {
                         data: {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['environments'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 owners: {
                     description: 'The teams, the provider configuration belongs to.',
@@ -4998,22 +5084,22 @@ export const $ProviderConfiguration = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['teams'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 parameters: {
                     description: 'The list of arguments for provider configurations.',
@@ -5022,35 +5108,35 @@ export const $ProviderConfiguration = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['provider-configuration-parameters'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['account'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['provider-configurations'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ProviderConfigurationDocument = {
@@ -5059,58 +5145,59 @@ export const $ProviderConfigurationDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/ProviderConfiguration'
+            $ref: '#/components/schemas/ProviderConfiguration',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ProviderConfigurationLink = {
-    description: 'The provider configuration link attaches the provider configuration to an environment or workspace.',
+    description:
+    'The provider configuration link attaches the provider configuration to an environment or workspace.',
     properties: {
         attributes: {
             properties: {
                 alias: {
                     description:
-                        'Is used only for the workspace links. Meta-argument for using the same provider with different configurations for different resources.',
+            'Is used only for the workspace links. Meta-argument for using the same provider with different configurations for different resources.',
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 default: {
                     default: false,
                     description:
-                        'Is used only for the environment links. Indicates whether the provider configuration must be used in every environment workspace during runs without direct linking. This behaviour can be changed in specific workspace by creating direct workspace link without alias.',
+            'Is used only for the environment links. Indicates whether the provider configuration must be used in every environment workspace during runs without direct linking. This behaviour can be changed in specific workspace by creating direct workspace link without alias.',
                     readOnly: true,
-                    type: 'boolean'
-                }
+                    type: 'boolean',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -5120,39 +5207,39 @@ export const $ProviderConfigurationLink = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'provider-configuration': {
                     properties: {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['provider-configurations'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     properties: {
@@ -5160,32 +5247,32 @@ export const $ProviderConfigurationLink = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['provider-configuration'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['provider-configuration-links'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ProviderConfigurationLinkDocument = {
@@ -5194,21 +5281,21 @@ export const $ProviderConfigurationLinkDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/ProviderConfigurationLink'
+            $ref: '#/components/schemas/ProviderConfigurationLink',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ProviderConfigurationLinkListingDocument = {
@@ -5218,30 +5305,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/ProviderConfigurationLink'
+                $ref: '#/components/schemas/ProviderConfigurationLink',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ProviderConfigurationListingDocument = {
@@ -5251,30 +5338,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/ProviderConfiguration'
+                $ref: '#/components/schemas/ProviderConfiguration',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ProviderConfigurationParameter = {
@@ -5286,38 +5373,39 @@ export const $ProviderConfigurationParameter = {
                     description: 'Variable description.',
                     maxLength: 512,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 key: {
                     description: 'Parameter name.',
                     maxLength: 128,
-                    type: 'string'
+                    type: 'string',
                 },
                 sensitive: {
                     default: false,
                     description:
-                        'Indicates whether the value is sensitive. When set to `true` then the parameter is not visible after being written.',
-                    type: 'boolean'
+            'Indicates whether the value is sensitive. When set to `true` then the parameter is not visible after being written.',
+                    type: 'boolean',
                 },
                 value: {
                     default: '',
-                    description: 'Parameter value. Not visible if sensitive: true is enabled',
+                    description:
+            'Parameter value. Not visible if sensitive: true is enabled',
                     nullable: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['key'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -5327,31 +5415,31 @@ export const $ProviderConfigurationParameter = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['provider-configurations'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['provider-configuration-parameters'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ProviderConfigurationParameterDocument = {
@@ -5360,21 +5448,21 @@ export const $ProviderConfigurationParameterDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/ProviderConfigurationParameter'
+            $ref: '#/components/schemas/ProviderConfigurationParameter',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ProviderConfigurationParameterListingDocument = {
@@ -5384,30 +5472,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/ProviderConfigurationParameter'
+                $ref: '#/components/schemas/ProviderConfigurationParameter',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Reason = {
@@ -5415,10 +5503,10 @@ export const $Reason = {
         reason: {
             default: '',
             description: 'The reason for locking the workspace.',
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RegistryInputOptional = {
@@ -5426,82 +5514,82 @@ export const $RegistryInputOptional = {
         default: {
             anyOf: [
                 {
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 {
-                    type: 'integer'
+                    type: 'integer',
                 },
                 {
-                    type: 'number'
+                    type: 'number',
                 },
                 {
-                    type: 'string'
+                    type: 'string',
                 },
                 {
                     items: {},
-                    type: 'array'
+                    type: 'array',
                 },
                 {
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             ],
-            nullable: true
+            nullable: true,
         },
         description: {
             nullable: true,
-            type: 'string'
+            type: 'string',
         },
         name: {
-            type: 'string'
+            type: 'string',
         },
         sensitive: {
             default: false,
-            type: 'boolean'
+            type: 'boolean',
         },
         type: {
             nullable: true,
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['default', 'name'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RegistryInputRequired = {
     properties: {
         description: {
             nullable: true,
-            type: 'string'
+            type: 'string',
         },
         name: {
-            type: 'string'
+            type: 'string',
         },
         sensitive: {
             default: false,
-            type: 'boolean'
+            type: 'boolean',
         },
         type: {
             nullable: true,
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['name'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RemoteStateConsumerRelationship = {
-    description: "Represents remote state consumers' relationship.",
+    description: 'Represents remote state consumers\' relationship.',
     properties: {
         id: {
-            type: 'string'
+            type: 'string',
         },
         type: {
             enum: ['workspaces'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'id'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RemoteStateConsumerRelationshipFieldsetsListingDocument = {
@@ -5509,35 +5597,35 @@ export const $RemoteStateConsumerRelationshipFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/RemoteStateConsumerRelationship'
+                $ref: '#/components/schemas/RemoteStateConsumerRelationship',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Role = {
     description:
-        'A collection of permissions that can be assigned to a user, team, or service account via an [access policy](access-policies.html).',
+    'A collection of permissions that can be assigned to a user, team, or service account via an [access policy](access-policies.html).',
     properties: {
         attributes: {
             properties: {
@@ -5545,35 +5633,36 @@ export const $Role = {
                     description: 'The description of the role.',
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'is-system': {
-                    description: 'When `true` the role is built-in, and cannot be modified or deleted.',
+                    description:
+            'When `true` the role is built-in, and cannot be modified or deleted.',
                     readOnly: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 name: {
                     description: 'The name of the role.',
                     maxLength: 128,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -5584,19 +5673,19 @@ export const $Role = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 permissions: {
                     description: 'The collection of [permissions](permissions.html)',
@@ -5605,33 +5694,33 @@ export const $Role = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['permissions'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['roles'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RoleDocument = {
@@ -5640,21 +5729,21 @@ export const $RoleDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Role'
+            $ref: '#/components/schemas/Role',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RoleListingDocument = {
@@ -5664,30 +5753,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Role'
+                $ref: '#/components/schemas/Role',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Run = {
@@ -5701,140 +5790,146 @@ export const $Run = {
                     format: 'date-time',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'auto-apply': {
                     description: `Indicates whether \`terraform apply\` should automatically run
 when terraform plan ends without error.
 Defaults to the current Auto Apply setting in the workspace.`,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'created-at': {
                     description: 'The resource creation timestamp.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'error-message': {
-                    description: 'Contains error message, when the run has finished in `errored` status.',
+                    description:
+            'Contains error message, when the run has finished in `errored` status.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'has-changes': {
-                    description: 'Specifies whether the plan has proposed resource changes.',
+                    description:
+            'Specifies whether the plan has proposed resource changes.',
                     readOnly: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'iac-platform': {
                     default: 'terraform',
                     description: 'The IaC platform for the run.',
                     enum: ['terraform', 'opentofu'],
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 inputs: {
-                    description: 'Terraform input variables that were passed into the workspace.',
+                    description:
+            'Terraform input variables that were passed into the workspace.',
                     items: {
                         properties: {
                             description: {
-                                type: 'string'
+                                type: 'string',
                             },
                             name: {
-                                type: 'string'
+                                type: 'string',
                             },
                             sensitive: {
-                                type: 'boolean'
+                                type: 'boolean',
                             },
                             value: {
                                 anyOf: [
                                     {
-                                        type: 'boolean'
+                                        type: 'boolean',
                                     },
                                     {
-                                        type: 'integer'
+                                        type: 'integer',
                                     },
                                     {
-                                        type: 'number'
+                                        type: 'number',
                                     },
                                     {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     {
                                         items: {},
-                                        type: 'array'
+                                        type: 'array',
                                     },
                                     {
-                                        type: 'object'
-                                    }
+                                        type: 'object',
+                                    },
                                 ],
-                                nullable: true
-                            }
+                                nullable: true,
+                            },
                         },
-                        type: 'object'
+                        type: 'object',
                     },
                     nullable: true,
-                    type: 'array'
+                    type: 'array',
                 },
                 'is-destroy': {
                     description: `Indicates if this run is a destroy that will destroy all provisioned infrastructure
 in the current state.`,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'is-dry': {
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 message: {
-                    description: 'Specifies the explanation message to associate with the run.',
+                    description:
+            'Specifies the explanation message to associate with the run.',
                     maxLength: 512,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 permissions: {
                     readOnly: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 'plan-at': {
                     description: 'The UTC datetime at which the Plan should be queued.',
                     format: 'date-time',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'position-in-queue': {
                     nullable: true,
                     readOnly: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 refresh: {
-                    description: 'Specifies whether or not to refresh the state before a plan.',
+                    description:
+            'Specifies whether or not to refresh the state before a plan.',
                     nullable: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'refresh-only': {
-                    description: 'Specifies whether this run should use the refresh-only plan mode.',
+                    description:
+            'Specifies whether this run should use the refresh-only plan mode.',
                     nullable: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'replace-addrs': {
                     description:
-                        "Specifies an optional list of resource addresses to force replacement of a particular resource. If the plan would've normally produced an update or no-op action for this instance, Terraform will plan to replace it instead.",
+            'Specifies an optional list of resource addresses to force replacement of a particular resource. If the plan would\'ve normally produced an update or no-op action for this instance, Terraform will plan to replace it instead.',
                     items: {
                         maxLength: 262143,
-                        type: 'string'
+                        type: 'string',
                     },
                     nullable: true,
-                    type: 'array'
+                    type: 'array',
                 },
                 source: {
                     anyOf: [
                         {
-                            $ref: '#/components/schemas/Sources'
+                            $ref: '#/components/schemas/Sources',
                         },
                         {
-                            type: 'string'
-                        }
+                            type: 'string',
+                        },
                     ],
-                    description: 'The origin of the run.'
+                    description: 'The origin of the run.',
                 },
                 status: {
                     description: `The Run's current status.
@@ -5892,46 +5987,47 @@ This is the final state for dry run.
                         'applied',
                         'errored',
                         'discarded',
-                        'canceled'
+                        'canceled',
                     ],
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'status-timestamps': {
                     additionalProperties: {
                         format: 'date-time',
-                        type: 'string'
+                        type: 'string',
                     },
-                    description: 'Timestamps of transition to prior and current statuses.',
+                    description:
+            'Timestamps of transition to prior and current statuses.',
                     readOnly: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 'target-addrs': {
                     description:
-                        'If non-empty, requests that Terraform should create a plan including actions only for the given objects (specified using resource address syntax) and the objects they depend on.',
+            'If non-empty, requests that Terraform should create a plan including actions only for the given objects (specified using resource address syntax) and the objects they depend on.',
                     items: {
                         maxLength: 262143,
-                        type: 'string'
+                        type: 'string',
                     },
                     nullable: true,
-                    type: 'array'
-                }
+                    type: 'array',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -5942,41 +6038,41 @@ This is the final state for dry run.
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['applies'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'configuration-version': {
-                    description: "The Run's configuration version.",
+                    description: 'The Run\'s configuration version.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['configuration-versions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'cost-estimate': {
                     description: 'Cost estimation phase.',
@@ -5985,20 +6081,20 @@ This is the final state for dry run.
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['cost-estimates'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'created-by': {
                     description: 'User that has triggered the run.',
@@ -6007,20 +6103,20 @@ This is the final state for dry run.
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'created-by-run': {
                     description: 'Upstream Run that has triggered this run.',
@@ -6029,19 +6125,19 @@ This is the final state for dry run.
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['runs'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environment: {
                     description: 'The environment this run Run belongs to.',
@@ -6050,20 +6146,20 @@ This is the final state for dry run.
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 plan: {
                     description: 'Terraform plan phase.',
@@ -6072,20 +6168,20 @@ This is the final state for dry run.
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['plans'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'policy-checks': {
                     description: 'Policy check phase.',
@@ -6094,73 +6190,74 @@ This is the final state for dry run.
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['policy-checks'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'state-versions': {
-                    description: "The run's state versions.",
+                    description: 'The run\'s state versions.',
                     properties: {
                         data: {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['state-versions'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'status-transitions': {
-                    description: 'Date/Time of transition to each status that has occurred.',
+                    description:
+            'Date/Time of transition to each status that has occurred.',
                     properties: {
                         data: {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['status-transitions'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 tags: {
                     properties: {
@@ -6168,46 +6265,46 @@ This is the final state for dry run.
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['tags'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'vcs-revision': {
                     description:
-                        "Relation to the Git commit information, when the run's `configuration-version` source is `vcs`",
+            'Relation to the Git commit information, when the run\'s `configuration-version` source is `vcs`',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['vcs-revisions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'The workspace this Run belongs to.',
@@ -6216,30 +6313,30 @@ This is the final state for dry run.
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['runs'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RunDocument = {
@@ -6248,21 +6345,21 @@ export const $RunDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Run'
+            $ref: '#/components/schemas/Run',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RunListingDocument = {
@@ -6272,30 +6369,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Run'
+                $ref: '#/components/schemas/Run',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RunScheduleRule = {
@@ -6308,31 +6405,32 @@ The schedule mode determines whether the triggered run is an 'apply' 'destroy' o
         attributes: {
             properties: {
                 schedule: {
-                    description: 'Cron expression for scheduled runs. Time should be in UTC.',
+                    description:
+            'Cron expression for scheduled runs. Time should be in UTC.',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'schedule-mode': {
                     description: 'Mode of the scheduled run.',
                     enum: ['apply', 'destroy', 'refresh'],
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -6343,30 +6441,30 @@ The schedule mode determines whether the triggered run is an 'apply' 'destroy' o
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['run-schedule-rules'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RunScheduleRuleDocument = {
@@ -6375,21 +6473,21 @@ export const $RunScheduleRuleDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/RunScheduleRule'
+            $ref: '#/components/schemas/RunScheduleRule',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RunScheduleRuleListingDocument = {
@@ -6399,30 +6497,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/RunScheduleRule'
+                $ref: '#/components/schemas/RunScheduleRule',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RunTrigger = {
@@ -6435,46 +6533,47 @@ successful apply of runs in any of the upstream workspaces.`,
                     description: 'The resource creation timestamp.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
                 downstream: {
-                    description: 'Downstream workspace in which new runs will be created.',
+                    description:
+            'Downstream workspace in which new runs will be created.',
                     properties: {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 upstream: {
                     description: 'Upstream workspace to track new runs.',
@@ -6482,31 +6581,31 @@ successful apply of runs in any of the upstream workspaces.`,
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['upstream', 'downstream'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['run-triggers'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $RunTriggerDocument = {
@@ -6515,21 +6614,21 @@ export const $RunTriggerDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/RunTrigger'
+            $ref: '#/components/schemas/RunTrigger',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SamlIntegration = {
@@ -6537,193 +6636,204 @@ export const $SamlIntegration = {
         attributes: {
             properties: {
                 'auto-redirect': {
-                    description: "If enabled, user will be redirected to IdP's login page.",
+                    description:
+            'If enabled, user will be redirected to IdP\'s login page.',
                     nullable: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'base-url': {
                     description:
-                        'Base URL to construct SAML endpoints from. It needs to be a URL with the protocol, server, port and context path.',
+            'Base URL to construct SAML endpoints from. It needs to be a URL with the protocol, server, port and context path.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 debug: {
                     default: false,
                     description: 'Enables debug mode.',
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'error-message': {
-                    description: 'A message from an IdP that indicates a nature of the problem',
+                    description:
+            'A message from an IdP that indicates a nature of the problem',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'idp-cert-fingerprint': {
                     description:
-                        "Instead of using the whole x509cert you can use a fingerprint in order to validate the SAMLResponse, but we don't recommend to use this method on production since is exploitable by collision attack.",
+            'Instead of using the whole x509cert you can use a fingerprint in order to validate the SAMLResponse, but we don\'t recommend to use this method on production since is exploitable by collision attack.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'idp-cert-fingerprint-algorithm': {
                     default: 'sha256',
                     description: 'IDP cert fingerprint algorithm',
-                    type: 'string'
+                    type: 'string',
                 },
                 'idp-entity-id': {
                     description: 'Identifier of the IdP entity (must be a URI).',
-                    type: 'string'
+                    type: 'string',
                 },
                 'idp-single-logout-service-binding': {
                     description:
-                        'SAML protocol binding to be used when returning the response message (urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect).',
+            'SAML protocol binding to be used when returning the response message (urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect).',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'idp-single-logout-service-response-url': {
                     description: 'URL location of IdP where SLO Response will be sent.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'idp-single-logout-service-url': {
-                    description: 'URL target of IdP where Scalr will send the SLO Request.',
+                    description:
+            'URL target of IdP where Scalr will send the SLO Request.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'idp-single-sign-on-service-binding': {
                     description:
-                        'SAML protocol binding to be used when returning the response message (urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect).',
+            'SAML protocol binding to be used when returning the response message (urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect).',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'idp-single-sign-on-service-url': {
-                    description: 'URL target of IdP where Scalr will send the Authentication Request Message.',
-                    type: 'string'
+                    description:
+            'URL target of IdP where Scalr will send the Authentication Request Message.',
+                    type: 'string',
                 },
                 'idp-x509cert': {
                     description: 'Public x509 certificate of the IdP.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'idp-x509cert-multi-encryption': {
                     description: 'IDP x509cert multi encryption',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'idp-x509cert-multi-signing': {
                     description:
-                        "In some scenarios IdP uses different certificates for signing/encryption, or is under key rollover phase and more than one certificate is published on IdP metadata. (when used, 'IdP x509cert' and 'IdP Cert Fingerprint' values are ignored)",
+            'In some scenarios IdP uses different certificates for signing/encryption, or is under key rollover phase and more than one certificate is published on IdP metadata. (when used, \'IdP x509cert\' and \'IdP Cert Fingerprint\' values are ignored)',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'is-used': {
                     default: false,
                     description: 'Whether this SAML IdP is in use.',
                     readOnly: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'mapping-azure-aad-account-type': {
                     description: 'Account type.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'mapping-azure-aad-client-id': {
                     description: 'Client ID.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'mapping-azure-aad-enabled': {
                     default: false,
                     description: 'Use Azure Active Directory.',
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'mapping-azure-aad-secret-key': {
                     description: 'Secret key.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'mapping-azure-aad-tenant-id': {
                     description: 'Tenant ID.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'mapping-email': {
-                    description: 'Email attribute, in case usernames and emails are different.',
+                    description:
+            'Email attribute, in case usernames and emails are different.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'mapping-fullname': {
                     description: 'Display name attribute.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'mapping-groups': {
-                    description: 'The name of the Groups attribute to use in SAML Assertion.',
+                    description:
+            'The name of the Groups attribute to use in SAML Assertion.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'mapping-separator': {
                     description: 'Groups separator',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
                     description: 'Name of SAML integration',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'security-allow-repeat-attribute-name': {
                     default: false,
                     description:
-                        'If true, it will not raise an error when the Statement Element contains attribute elements with name duplicated.',
-                    type: 'boolean'
+            'If true, it will not raise an error when the Statement Element contains attribute elements with name duplicated.',
+                    type: 'boolean',
                 },
                 'security-authn-requests-signed': {
                     default: false,
-                    description: 'Indicates whether the <samlp:AuthnRequest> messages sent by Scalr will be signed.',
-                    type: 'boolean'
+                    description:
+            'Indicates whether the <samlp:AuthnRequest> messages sent by Scalr will be signed.',
+                    type: 'boolean',
                 },
                 'security-digest-algorithm': {
                     description: 'Algorithm that Scalr will use on digest process.',
                     enum: [
                         'http://www.w3.org/2001/04/xmlenc#sha256',
                         'http://www.w3.org/2001/04/xmldsig-more#sha384',
-                        'http://www.w3.org/2001/04/xmlenc#sha512'
+                        'http://www.w3.org/2001/04/xmlenc#sha512',
                     ],
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'security-logout-request-signed': {
                     default: false,
-                    description: 'Indicates whether the <samlp:logoutRequest> messages sent by Scalr will be signed.',
-                    type: 'boolean'
+                    description:
+            'Indicates whether the <samlp:logoutRequest> messages sent by Scalr will be signed.',
+                    type: 'boolean',
                 },
                 'security-logout-response-signed': {
                     default: false,
-                    description: 'Indicates whether the <samlp:logoutResponse> messages sent by Scalr will be signed.',
-                    type: 'boolean'
+                    description:
+            'Indicates whether the <samlp:logoutResponse> messages sent by Scalr will be signed.',
+                    type: 'boolean',
                 },
                 'security-name-id-encrypted': {
                     default: false,
                     description:
-                        'Indicates that the nameID of the <samlp:logoutRequest> sent by Scalr will be encrypted.',
-                    type: 'boolean'
+            'Indicates that the nameID of the <samlp:logoutRequest> sent by Scalr will be encrypted.',
+                    type: 'boolean',
                 },
                 'security-requested-authn-context': {
-                    default: '["urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"]',
+                    default:
+            '["urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"]',
                     description:
-                        'Leave empty and no AuthContext will be sent in the AuthNRequest,Set an array with the possible auth context values: ["urn:oasis:names:tc:SAML:2.0:ac:classes:Password", "urn:oasis:names:tc:SAML:2.0:ac:classes:X509"]',
-                    type: 'string'
+            'Leave empty and no AuthContext will be sent in the AuthNRequest,Set an array with the possible auth context values: ["urn:oasis:names:tc:SAML:2.0:ac:classes:Password", "urn:oasis:names:tc:SAML:2.0:ac:classes:X509"]',
+                    type: 'string',
                 },
                 'security-requested-authn-context-comparison': {
                     default: 'exact',
                     description: 'Allows the authn comparison parameter to be set.',
                     enum: ['exact', 'minimum', 'better', 'maximum'],
-                    type: 'string'
+                    type: 'string',
                 },
                 'security-sign-metadata': {
-                    description: 'Sign the Metadata. If enabled SP certificate must be provided.',
+                    description:
+            'Sign the Metadata. If enabled SP certificate must be provided.',
                     nullable: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'security-signature-algorithm': {
                     default: 'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
@@ -6731,118 +6841,120 @@ export const $SamlIntegration = {
                     enum: [
                         'http://www.w3.org/2001/04/xmldsig-more#rsa-sha256',
                         'http://www.w3.org/2001/04/xmldsig-more#rsa-sha384',
-                        'http://www.w3.org/2001/04/xmldsig-more#rsa-sha512'
+                        'http://www.w3.org/2001/04/xmldsig-more#rsa-sha512',
                     ],
-                    type: 'string'
+                    type: 'string',
                 },
                 'security-want-assertions-encrypted': {
                     default: false,
                     description:
-                        'Indicates a requirement for the <saml:Assertion> elements received by Scalr to be encrypted.',
-                    type: 'boolean'
+            'Indicates a requirement for the <saml:Assertion> elements received by Scalr to be encrypted.',
+                    type: 'boolean',
                 },
                 'security-want-assertions-signed': {
                     default: false,
                     description:
-                        'Indicates a requirement for the <saml:Assertion> elements received by Scalr to be signed.',
-                    type: 'boolean'
+            'Indicates a requirement for the <saml:Assertion> elements received by Scalr to be signed.',
+                    type: 'boolean',
                 },
                 'security-want-messages-signed': {
                     default: false,
                     description:
-                        'Indicates a requirement for the <samlp:Response>, <samlp:LogoutRequest> and <samlp:LogoutResponse> elements received by Scalr to be signed.',
-                    type: 'boolean'
+            'Indicates a requirement for the <samlp:Response>, <samlp:LogoutRequest> and <samlp:LogoutResponse> elements received by Scalr to be signed.',
+                    type: 'boolean',
                 },
                 'security-want-name-id': {
                     default: true,
                     description:
-                        'Indicates a requirement for the NameID element on the SAMLResponse received by this SP to be present.',
-                    type: 'boolean'
+            'Indicates a requirement for the NameID element on the SAMLResponse received by this SP to be present.',
+                    type: 'boolean',
                 },
                 'security-want-name-id-encrypted': {
                     default: false,
-                    description: 'Indicates a requirement for the NameID received by Scalr to be encrypted.',
-                    type: 'boolean'
+                    description:
+            'Indicates a requirement for the NameID received by Scalr to be encrypted.',
+                    type: 'boolean',
                 },
                 'sp-assertion-consumer-service-binding': {
                     default: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
                     description:
-                        'SAML protocol binding to be used when returning the response message. It supports HTTP-POST binding only.',
-                    type: 'string'
+            'SAML protocol binding to be used when returning the response message. It supports HTTP-POST binding only.',
+                    type: 'string',
                 },
                 'sp-default-entity-id': {
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'sp-entity-id': {
                     description: 'Service provider entity identifier',
                     maxLength: 24,
-                    type: 'string'
+                    type: 'string',
                 },
                 'sp-name-id-format': {
                     default: 'urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified',
                     description: 'SP name id format',
-                    type: 'string'
+                    type: 'string',
                 },
                 'sp-private-key': {
                     description: 'SP private key',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'sp-single-logout-service-binding': {
                     default: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
                     description: 'SP single logout service binding',
-                    type: 'string'
+                    type: 'string',
                 },
                 'sp-x509cert': {
                     description: 'SP x509cert',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'sp-x509cert-new': {
                     description: 'SP x509cert new',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
                     description: 'Status of SAML integration.',
                     enum: ['active', 'disabled', 'failed'],
-                    type: 'string'
+                    type: 'string',
                 },
                 strict: {
                     default: true,
                     description:
-                        'If enabled, Scalr will reject unsigned or unencrypted messages when expects them to be signed or encrypted.',
-                    type: 'boolean'
+            'If enabled, Scalr will reject unsigned or unencrypted messages when expects them to be signed or encrypted.',
+                    type: 'boolean',
                 },
                 'use-identifier-in-urls': {
                     default: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'verification-status': {
                     default: 'pending',
-                    description: 'Represents the verification status with the IdP SAML provider)',
+                    description:
+            'Represents the verification status with the IdP SAML provider)',
                     enum: ['pending', 'success', 'running'],
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name', 'idp-entity-id', 'idp-single-sign-on-service-url'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -6853,31 +6965,31 @@ export const $SamlIntegration = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['saml-integration'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SamlIntegrationDocument = {
@@ -6886,21 +6998,21 @@ export const $SamlIntegrationDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/SamlIntegration'
+            $ref: '#/components/schemas/SamlIntegration',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SamlIntegrationListingDocument = {
@@ -6910,30 +7022,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/SamlIntegration'
+                $ref: '#/components/schemas/SamlIntegration',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ServiceAccount = {
@@ -6947,45 +7059,47 @@ that needs to authenticate and be authorized to access data in Scalr APIs.`,
                 'created-at': {
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 description: {
                     description: 'The service account description.',
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 email: {
                     description:
-                        'A read-only field which is generated when a service account is created. Consists of `<name>@<account-domain>.scalr.io`',
+            'A read-only field which is generated when a service account is created. Consists of `<name>@<account-domain>.scalr.io`',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
-                    description: 'The service account name. The service account email will be created using this name.',
-                    type: 'string'
+                    description:
+            'The service account name. The service account email will be created using this name.',
+                    type: 'string',
                 },
                 status: {
-                    description: 'The service account status. Can be: `Active`, `Inactive`.',
+                    description:
+            'The service account status. Can be: `Active`, `Inactive`.',
                     enum: ['Active', 'Inactive'],
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -6995,19 +7109,19 @@ that needs to authenticate and be authorized to access data in Scalr APIs.`,
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'created-by': {
                     description: 'The user who created the service account.',
@@ -7016,20 +7130,20 @@ that needs to authenticate and be authorized to access data in Scalr APIs.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 owners: {
                     description: 'The teams, the service account belongs to.',
@@ -7038,34 +7152,34 @@ that needs to authenticate and be authorized to access data in Scalr APIs.`,
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['teams'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['account'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['service-accounts'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ServiceAccountDocument = {
@@ -7074,21 +7188,21 @@ export const $ServiceAccountDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/ServiceAccount'
+            $ref: '#/components/schemas/ServiceAccount',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $ServiceAccountListingDocument = {
@@ -7098,46 +7212,46 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/ServiceAccount'
+                $ref: '#/components/schemas/ServiceAccount',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SlackChannel = {
     properties: {
         id: {
-            type: 'string'
+            type: 'string',
         },
         'is-private': {
-            type: 'boolean'
+            type: 'boolean',
         },
         name: {
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['id', 'is-private', 'name'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SlackChannelFieldsetsListingDocument = {
@@ -7145,30 +7259,30 @@ export const $SlackChannelFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/SlackChannel'
+                $ref: '#/components/schemas/SlackChannel',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SlackConnection = {
@@ -7178,20 +7292,20 @@ export const $SlackConnection = {
                 'slack-workspace-name': {
                     description: 'The name of connected Slack workspace.',
                     maxLength: 255,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -7202,30 +7316,30 @@ export const $SlackConnection = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['slack-connections'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SlackConnectionDocument = {
@@ -7234,21 +7348,21 @@ export const $SlackConnectionDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/SlackConnection'
+            $ref: '#/components/schemas/SlackConnection',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SlackIntegration = {
@@ -7258,60 +7372,62 @@ export const $SlackIntegration = {
                 'channel-id': {
                     description: 'A Slack channel ID to which to send messages.',
                     maxLength: 24,
-                    type: 'string'
+                    type: 'string',
                 },
                 'err-message': {
-                    description: 'Message from service that points to nature of a problem',
+                    description:
+            'Message from service that points to nature of a problem',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 events: {
                     description: 'Events for which to get notifications.',
                     items: {
                         enum: ['run_approval_required', 'run_success', 'run_errored'],
-                        type: 'string'
+                        type: 'string',
                     },
-                    type: 'array'
+                    type: 'array',
                 },
                 'is-apply-only': {
                     default: false,
-                    description: 'Whether to notify about success or failure from the apply step only',
-                    type: 'boolean'
+                    description:
+            'Whether to notify about success or failure from the apply step only',
+                    type: 'boolean',
                 },
                 name: {
                     description: 'Name of Slack integration',
                     maxLength: 128,
-                    type: 'string'
+                    type: 'string',
                 },
                 'run-mode': {
                     default: 'all',
                     description: 'What type of runs should be reported.',
                     enum: ['all', 'apply', 'dry'],
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
                     description: 'Status of integration.',
                     enum: ['active', 'disabled', 'failed'],
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name', 'channel-id'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -7321,19 +7437,19 @@ export const $SlackIntegration = {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 connection: {
                     description: 'Associated Slack App connection.',
@@ -7341,19 +7457,19 @@ export const $SlackIntegration = {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['slack-connections'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environments: {
                     description: 'Environments source of events.',
@@ -7362,21 +7478,21 @@ export const $SlackIntegration = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['environments'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspaces: {
                     description: 'Workspaces source of events.',
@@ -7385,34 +7501,34 @@ export const $SlackIntegration = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['workspaces'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['account', 'connection', 'environments'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['slack-integrations'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SlackIntegrationDocument = {
@@ -7421,21 +7537,21 @@ export const $SlackIntegrationDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/SlackIntegration'
+            $ref: '#/components/schemas/SlackIntegration',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SlackIntegrationListingDocument = {
@@ -7445,30 +7561,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/SlackIntegration'
+                $ref: '#/components/schemas/SlackIntegration',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SoftwareVersion = {
@@ -7480,51 +7596,51 @@ export const $SoftwareVersion = {
                     description: 'The resource creation timestamp.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 default: {
                     default: false,
                     description: `Default version to use when workspace or policy-group creation request
 doesn't specify a version.`,
                     readOnly: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 deprecated: {
                     default: false,
                     description: `Indicates that this software-version is deprecated,
 and thus not available for new workspaces or policy-groups.`,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 error: {
                     description: `This field contains the error description,
 when this software-version's status is \`failed\`.`,
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 hash: {
                     description: 'Container image SHA256 hash.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 image: {
                     description: `Reference to a container image in OCI registry.
 Only public registries supported ATM.`,
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 latest: {
                     default: false,
                     description: `Indicates that this software-version is the latest one
 for the given software-type.`,
                     readOnly: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'software-type': {
                     description: 'The type of the software.',
                     enum: ['opa', 'terraform', 'infracost', 'opentofu'],
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
                     description: `The software version status.
@@ -7534,34 +7650,34 @@ for the given software-type.`,
 * \`active\` - Available to use.`,
                     enum: ['pending', 'failed', 'active'],
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 version: {
                     description: 'Semantic Version.',
                     maxLength: 255,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['version', 'software-type', 'image'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['software-versions'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SoftwareVersionDocument = {
@@ -7570,21 +7686,21 @@ export const $SoftwareVersionDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/SoftwareVersion'
+            $ref: '#/components/schemas/SoftwareVersion',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $SoftwareVersionListingDocument = {
@@ -7594,30 +7710,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/SoftwareVersion'
+                $ref: '#/components/schemas/SoftwareVersion',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Sources = {
@@ -7642,13 +7758,14 @@ export const $Sources = {
         'workspaces-account',
         'workspaces-account-bulk',
         'reports-iac-versions',
-        'reports-stale-workspaces'
+        'reports-stale-workspaces',
     ],
-    type: 'string'
+    type: 'string',
 } as const;
 
 export const $StateVersion = {
-    description: 'A State version is the version of a state file associated with a workspace.',
+    description:
+    'A State version is the version of a state file associated with a workspace.',
     properties: {
         attributes: {
             properties: {
@@ -7656,33 +7773,33 @@ export const $StateVersion = {
                     description: 'The resource creation timestamp.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 force: {
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 lineage: {
                     description:
-                        'Lineage of the state version. Should match the lineage extracted from the `terraform.tfstate`.',
+            'Lineage of the state version. Should match the lineage extracted from the `terraform.tfstate`.',
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 md5: {
                     description: 'The MD5 hash of the terraform.tfstate.',
                     maxLength: 32,
-                    type: 'string'
+                    type: 'string',
                 },
                 modules: {
                     additionalProperties: {
                         additionalProperties: {
-                            type: 'integer'
+                            type: 'integer',
                         },
-                        type: 'object'
+                        type: 'object',
                     },
                     description: 'The list of modules.',
                     readOnly: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 outputs: {
                     description: 'The list of output values.',
@@ -7690,45 +7807,45 @@ export const $StateVersion = {
                         properties: {
                             name: {
                                 default: '',
-                                type: 'string'
+                                type: 'string',
                             },
                             sensitive: {
                                 default: false,
-                                type: 'boolean'
+                                type: 'boolean',
                             },
                             value: {
                                 anyOf: [
                                     {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     {
-                                        type: 'object'
+                                        type: 'object',
                                     },
                                     {
                                         items: {},
-                                        type: 'array'
-                                    }
+                                        type: 'array',
+                                    },
                                 ],
                                 default: '',
-                                nullable: true
-                            }
+                                nullable: true,
+                            },
                         },
-                        type: 'object'
+                        type: 'object',
                     },
                     nullable: true,
                     readOnly: true,
-                    type: 'array'
+                    type: 'array',
                 },
                 providers: {
                     additionalProperties: {
                         additionalProperties: {
-                            type: 'integer'
+                            type: 'integer',
                         },
-                        type: 'object'
+                        type: 'object',
                     },
                     description: 'The list of providers.',
                     readOnly: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 resources: {
                     description: 'The list of resources.',
@@ -7736,55 +7853,55 @@ export const $StateVersion = {
                         properties: {
                             address: {
                                 default: '',
-                                type: 'string'
+                                type: 'string',
                             },
                             index: {
                                 anyOf: [
                                     {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     {
-                                        type: 'integer'
-                                    }
+                                        type: 'integer',
+                                    },
                                 ],
-                                nullable: true
+                                nullable: true,
                             },
                             module: {
                                 default: '',
                                 nullable: true,
-                                type: 'string'
+                                type: 'string',
                             },
                             type: {
                                 default: '',
-                                type: 'string'
-                            }
+                                type: 'string',
+                            },
                         },
-                        type: 'object'
+                        type: 'object',
                     },
                     readOnly: true,
-                    type: 'array'
+                    type: 'array',
                 },
                 serial: {
                     description:
-                        'The serial of the state version which must match the `serial` value from the `terraform.tfstate`.',
-                    type: 'integer'
+            'The serial of the state version which must match the `serial` value from the `terraform.tfstate`.',
+                    type: 'integer',
                 },
                 size: {
                     description: 'Size of the `terraform.tfstate` in bytes.',
                     readOnly: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 state: {
                     description: 'Base64 encoded `terraform.tfstate`',
                     nullable: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
@@ -7792,61 +7909,63 @@ export const $StateVersion = {
                     description: 'The URL to download the `terraform.tfstate`.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
                 'next-state-version': {
-                    description: 'Next state version for the workspace to which state version is associated.',
+                    description:
+            'Next state version for the workspace to which state version is associated.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['state-versions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'previous-state-version': {
-                    description: 'Previous state version for the workspace to which state version is associated.',
+                    description:
+            'Previous state version for the workspace to which state version is associated.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['state-versions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 run: {
                     description: 'The optional run associated with the state version.',
@@ -7855,19 +7974,19 @@ export const $StateVersion = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['runs'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'The workspace, this state version belongs to.',
@@ -7876,30 +7995,30 @@ export const $StateVersion = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['state-versions'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $StateVersionDocument = {
@@ -7908,21 +8027,21 @@ export const $StateVersionDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/StateVersion'
+            $ref: '#/components/schemas/StateVersion',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $StateVersionListingDocument = {
@@ -7932,30 +8051,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/StateVersion'
+                $ref: '#/components/schemas/StateVersion',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $StatusTransition = {
@@ -7965,28 +8084,28 @@ export const $StatusTransition = {
             properties: {
                 'occurred-at': {
                     format: 'date-time',
-                    type: 'string'
+                    type: 'string',
                 },
                 reason: {
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['status', 'occurred-at'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -7996,30 +8115,30 @@ export const $StatusTransition = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['status-transitions'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $StatusTransitionDocument = {
@@ -8028,21 +8147,21 @@ export const $StatusTransitionDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/StatusTransition'
+            $ref: '#/components/schemas/StatusTransition',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Tag = {
@@ -8055,27 +8174,28 @@ Tags are unique within the account. Deleted tags will be removed from associated
         attributes: {
             properties: {
                 name: {
-                    description: 'The name of the tag. It must be unique within the account.',
+                    description:
+            'The name of the tag. It must be unique within the account.',
                     maxLength: 255,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -8085,31 +8205,31 @@ Tags are unique within the account. Deleted tags will be removed from associated
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['account'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['tags'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TagDocument = {
@@ -8118,21 +8238,21 @@ export const $TagDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Tag'
+            $ref: '#/components/schemas/Tag',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TagListingDocument = {
@@ -8142,45 +8262,45 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Tag'
+                $ref: '#/components/schemas/Tag',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TagRelationship = {
-    description: "Represents tags' relationship.",
+    description: 'Represents tags\' relationship.',
     properties: {
         id: {
-            type: 'string'
+            type: 'string',
         },
         type: {
             enum: ['tags'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'id'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TagRelationshipFieldsetsListingDocument = {
@@ -8188,30 +8308,30 @@ export const $TagRelationshipFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TagRelationship'
+                $ref: '#/components/schemas/TagRelationship',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Team = {
@@ -8225,30 +8345,30 @@ A team can not be used to group service accounts, only standard users.`,
                     description: 'The verbose description of the team.',
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
                     description: 'The name of the team.',
                     maxLength: 255,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -8259,42 +8379,43 @@ A team can not be used to group service accounts, only standard users.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'identity-provider': {
-                    description: 'Identity provider of the team. Can be internal (Scalr) or external (LDAP/SAML)',
+                    description:
+            'Identity provider of the team. Can be internal (Scalr) or external (LDAP/SAML)',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['identity-providers'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 users: {
                     description: 'The list of users in the team.',
@@ -8303,33 +8424,33 @@ A team can not be used to group service accounts, only standard users.`,
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['users'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['teams'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TeamDocument = {
@@ -8338,21 +8459,21 @@ export const $TeamDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Team'
+            $ref: '#/components/schemas/Team',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TeamListingDocument = {
@@ -8362,30 +8483,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Team'
+                $ref: '#/components/schemas/Team',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformModuleUsage = {
@@ -8394,38 +8515,38 @@ export const $TerraformModuleUsage = {
         attributes: {
             properties: {
                 module: {
-                    type: 'string'
+                    type: 'string',
                 },
                 'parent-module': {
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 source: {
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'versions-used-count': {
                     description: 'Number of module versions.',
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'workspaces-count': {
                     description: 'Number of module workspaces.',
-                    type: 'integer'
-                }
+                    type: 'integer',
+                },
             },
             required: ['module', 'versions-used-count', 'workspaces-count'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -8436,30 +8557,30 @@ export const $TerraformModuleUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['tf-module-namespaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['tf-module-usages'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformModuleUsageDocument = {
@@ -8468,21 +8589,21 @@ export const $TerraformModuleUsageDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/TerraformModuleUsage'
+            $ref: '#/components/schemas/TerraformModuleUsage',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformModuleUsageListingDocument = {
@@ -8492,41 +8613,41 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformModuleUsage'
+                $ref: '#/components/schemas/TerraformModuleUsage',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformModuleUsageSource = {
     description: 'Represents terraform module source',
     properties: {
         source: {
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['source'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformModuleUsageSourceFieldsetsListingDocument = {
@@ -8534,40 +8655,40 @@ export const $TerraformModuleUsageSourceFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformModuleUsageSource'
+                $ref: '#/components/schemas/TerraformModuleUsageSource',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformModuleUsageVersion = {
     description: 'Represents terraform module version',
     properties: {
         version: {
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformModuleUsageVersionFieldsetsListingDocument = {
@@ -8575,30 +8696,30 @@ export const $TerraformModuleUsageVersionFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformModuleUsageVersion'
+                $ref: '#/components/schemas/TerraformModuleUsageVersion',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformModuleVersionUsage = {
@@ -8608,26 +8729,26 @@ export const $TerraformModuleVersionUsage = {
             properties: {
                 'created-at': {
                     format: 'date-time',
-                    type: 'string'
+                    type: 'string',
                 },
                 version: {
                     maxLength: 64,
                     nullable: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['created-at'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -8638,19 +8759,19 @@ export const $TerraformModuleVersionUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'The workspace this usage instance belongs to.',
@@ -8659,30 +8780,30 @@ export const $TerraformModuleVersionUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['tf-module-version-usages'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformModuleVersionUsageListingDocument = {
@@ -8692,30 +8813,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformModuleVersionUsage'
+                $ref: '#/components/schemas/TerraformModuleVersionUsage',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformProviderUsage = {
@@ -8724,39 +8845,44 @@ export const $TerraformProviderUsage = {
         attributes: {
             properties: {
                 provider: {
-                    type: 'string'
+                    type: 'string',
                 },
                 source: {
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'versions-used-count': {
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'workspaces-count': {
-                    type: 'integer'
-                }
+                    type: 'integer',
+                },
             },
-            required: ['provider', 'source', 'versions-used-count', 'workspaces-count'],
-            type: 'object'
+            required: [
+                'provider',
+                'source',
+                'versions-used-count',
+                'workspaces-count',
+            ],
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['tf-provider-usages'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformProviderUsageDocument = {
@@ -8765,21 +8891,21 @@ export const $TerraformProviderUsageDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/TerraformProviderUsage'
+            $ref: '#/components/schemas/TerraformProviderUsage',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformProviderUsageListingDocument = {
@@ -8789,41 +8915,41 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformProviderUsage'
+                $ref: '#/components/schemas/TerraformProviderUsage',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformProviderUsageSource = {
     description: 'Represents terraform provider source',
     properties: {
         source: {
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['source'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformProviderUsageSourceFieldsetsListingDocument = {
@@ -8831,41 +8957,41 @@ export const $TerraformProviderUsageSourceFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformProviderUsageSource'
+                $ref: '#/components/schemas/TerraformProviderUsageSource',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformProviderUsageVersion = {
     description: 'Represents terraform provider version',
     properties: {
         version: {
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['version'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformProviderUsageVersionFieldsetsListingDocument = {
@@ -8873,30 +8999,30 @@ export const $TerraformProviderUsageVersionFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformProviderUsageVersion'
+                $ref: '#/components/schemas/TerraformProviderUsageVersion',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformProviderVersionUsage = {
@@ -8906,26 +9032,26 @@ export const $TerraformProviderVersionUsage = {
             properties: {
                 'created-at': {
                     format: 'date-time',
-                    type: 'string'
+                    type: 'string',
                 },
                 version: {
                     maxLength: 64,
                     nullable: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['version', 'created-at'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -8936,19 +9062,19 @@ export const $TerraformProviderVersionUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'The workspace this usage belongs to.',
@@ -8957,30 +9083,30 @@ export const $TerraformProviderVersionUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['tf-provider-version-usages'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformProviderVersionUsageListingDocument = {
@@ -8990,30 +9116,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformProviderVersionUsage'
+                $ref: '#/components/schemas/TerraformProviderVersionUsage',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformResourceInstanceUsage = {
@@ -9022,58 +9148,69 @@ export const $TerraformResourceInstanceUsage = {
         attributes: {
             properties: {
                 address: {
-                    description: 'Resource instance address. Combines module, name and index of the resource.',
+                    description:
+            'Resource instance address. Combines module, name and index of the resource.',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'external-id': {
                     description: 'External ID of the resource instance.',
                     maxLength: 1024,
-                    type: 'string'
+                    type: 'string',
                 },
                 'is-active': {
                     default: true,
                     description: 'Indicates if the resource instance is active.',
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'is-duplicate': {
                     default: false,
                     description: 'Indicates if the resource is a duplicate',
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 name: {
                     description: 'Resource instance name.',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'updated-at': {
-                    description: 'Time when the resource instance was created or updated.',
+                    description:
+            'Time when the resource instance was created or updated.',
                     format: 'date-time',
-                    type: 'string'
+                    type: 'string',
                 },
                 'updated-by-email': {
-                    description: 'The email of the user who create or update this resource instance.',
+                    description:
+            'The email of the user who create or update this resource instance.',
                     maxLength: 100,
-                    type: 'string'
+                    type: 'string',
                 },
                 'workspace-name': {
-                    description: 'Name of the workspace this resource instance belongs to.',
+                    description:
+            'Name of the workspace this resource instance belongs to.',
                     maxLength: 255,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            required: ['name', 'external-id', 'address', 'workspace-name', 'updated-at', 'updated-by-email'],
-            type: 'object'
+            required: [
+                'name',
+                'external-id',
+                'address',
+                'workspace-name',
+                'updated-at',
+                'updated-by-email',
+            ],
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -9084,19 +9221,19 @@ export const $TerraformResourceInstanceUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 resource: {
                     description: 'The resource this instance belongs to.',
@@ -9105,40 +9242,41 @@ export const $TerraformResourceInstanceUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['tf-resource-usages'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 run: {
-                    description: 'The run which created or updated this resource instance.',
+                    description:
+            'The run which created or updated this resource instance.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['runs'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'state-version': {
                     description: 'The state version this resource instance belongs to.',
@@ -9147,19 +9285,19 @@ export const $TerraformResourceInstanceUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['state-versions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'The workspace this resource instance belongs to.',
@@ -9168,30 +9306,30 @@ export const $TerraformResourceInstanceUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['tf-resource-instance-usages'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformResourceInstanceUsageListingDocument = {
@@ -9201,30 +9339,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformResourceInstanceUsage'
+                $ref: '#/components/schemas/TerraformResourceInstanceUsage',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformResourceUsage = {
@@ -9233,46 +9371,49 @@ export const $TerraformResourceUsage = {
         attributes: {
             properties: {
                 'active-instances-count': {
-                    description: 'The total number of resource instances which are present in the infrastructure.',
-                    type: 'integer'
+                    description:
+            'The total number of resource instances which are present in the infrastructure.',
+                    type: 'integer',
                 },
                 'deleted-instances-count': {
-                    description: 'The total number of resource instances which are deleted from the infrastructure.',
-                    type: 'integer'
+                    description:
+            'The total number of resource instances which are deleted from the infrastructure.',
+                    type: 'integer',
                 },
                 name: {
                     description: 'Resource name.',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'provider-type': {
                     description: 'Terraform provider by which resource is managed.',
                     maxLength: 64,
-                    type: 'string'
+                    type: 'string',
                 },
                 'workspaces-count': {
-                    description: 'The total number of workspaces where this resource is used.',
-                    type: 'integer'
-                }
+                    description:
+            'The total number of workspaces where this resource is used.',
+                    type: 'integer',
+                },
             },
             required: [
                 'name',
                 'provider-type',
                 'active-instances-count',
                 'deleted-instances-count',
-                'workspaces-count'
+                'workspaces-count',
             ],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -9283,30 +9424,30 @@ export const $TerraformResourceUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['tf-resource-usages'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformResourceUsageDocument = {
@@ -9315,21 +9456,21 @@ export const $TerraformResourceUsageDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/TerraformResourceUsage'
+            $ref: '#/components/schemas/TerraformResourceUsage',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformResourceUsageListingDocument = {
@@ -9339,30 +9480,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformResourceUsage'
+                $ref: '#/components/schemas/TerraformResourceUsage',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformResourceUsageProviderType = {
@@ -9370,11 +9511,11 @@ export const $TerraformResourceUsageProviderType = {
     properties: {
         'provider-type': {
             description: 'Terraform provider type.',
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['provider-type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformResourceUsageProviderTypeFieldsetsListingDocument = {
@@ -9382,30 +9523,30 @@ export const $TerraformResourceUsageProviderTypeFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformResourceUsageProviderType'
+                $ref: '#/components/schemas/TerraformResourceUsageProviderType',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformVersionUsage = {
@@ -9415,30 +9556,30 @@ export const $TerraformVersionUsage = {
             properties: {
                 'created-at': {
                     format: 'date-time',
-                    type: 'string'
+                    type: 'string',
                 },
                 'iac-platform': {
                     description: 'The IaC platform of the usage instance.',
                     enum: ['terraform', 'opentofu'],
-                    type: 'string'
+                    type: 'string',
                 },
                 version: {
                     maxLength: 64,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['version', 'created-at'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -9449,19 +9590,19 @@ export const $TerraformVersionUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environment: {
                     description: 'The environment this usage instance belongs to.',
@@ -9470,19 +9611,19 @@ export const $TerraformVersionUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'The workspace this usage instance belongs to.',
@@ -9491,30 +9632,30 @@ export const $TerraformVersionUsage = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['tf-version-usages'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformVersionUsageListingDocument = {
@@ -9524,41 +9665,41 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformVersionUsage'
+                $ref: '#/components/schemas/TerraformVersionUsage',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformVersionUsageVersion = {
     description: 'Represents terraform version',
     properties: {
         version: {
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['version'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $TerraformVersionUsageVersionFieldsetsListingDocument = {
@@ -9566,30 +9707,30 @@ export const $TerraformVersionUsageVersionFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/TerraformVersionUsageVersion'
+                $ref: '#/components/schemas/TerraformVersionUsageVersion',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $UsageStatistic = {
@@ -9597,42 +9738,44 @@ export const $UsageStatistic = {
         attributes: {
             properties: {
                 'breakdown-id': {
-                    description: 'The identifier of a resource by which the usage is broken down',
+                    description:
+            'The identifier of a resource by which the usage is broken down',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'breakdown-name': {
-                    description: 'The name of a resource by which the usage is broken down',
+                    description:
+            'The name of a resource by which the usage is broken down',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 date: {
                     description: 'The date when usage has been recorded',
                     format: 'date',
-                    type: 'string'
+                    type: 'string',
                 },
                 'runs-count': {
                     default: 0,
                     description: 'The count of runs finished within the date',
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'runs-seconds': {
                     default: 0,
                     description: 'The duration of runs in seconds within the date',
-                    type: 'integer'
-                }
+                    type: 'integer',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -9643,30 +9786,30 @@ export const $UsageStatistic = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['usage-statistics'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $UsageStatisticListingDocument = {
@@ -9676,80 +9819,81 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/UsageStatistic'
+                $ref: '#/components/schemas/UsageStatistic',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $User = {
-    description: 'Represents a Scalr [IAM](https://docs.scalr.io/docs/identity-and-access-management) user.',
+    description:
+    'Represents a Scalr [IAM](https://docs.scalr.io/docs/identity-and-access-management) user.',
     properties: {
         attributes: {
             properties: {
                 'created-at': {
                     format: 'date-time',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 email: {
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'full-name': {
                     maxLength: 100,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'last-login-at': {
                     format: 'date-time',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 status: {
                     enum: ['Active', 'Inactive', 'Pending'],
-                    type: 'string'
+                    type: 'string',
                 },
                 username: {
                     maxLength: 255,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['email'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -9759,22 +9903,22 @@ export const $User = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['identity-providers'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 teams: {
                     properties: {
@@ -9782,33 +9926,33 @@ export const $User = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['teams'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['users'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $UserDocument = {
@@ -9817,51 +9961,52 @@ export const $UserDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/User'
+            $ref: '#/components/schemas/User',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $UserInvite = {
     description:
-        'Represents an create [IAM](https://docs.scalr.io/docs/identity-and-access-management) account user request.',
+    'Represents an create [IAM](https://docs.scalr.io/docs/identity-and-access-management) account user request.',
     properties: {
         attributes: {
             properties: {
                 email: {
                     format: 'email',
-                    type: 'string'
+                    type: 'string',
                 },
                 'send-invite': {
                     default: true,
-                    description: 'If set to `true`, email with invite to the account will be sent to the user email.',
-                    type: 'boolean'
-                }
+                    description:
+            'If set to `true`, email with invite to the account will be sent to the user email.',
+                    type: 'boolean',
+                },
             },
             required: ['email'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -9872,22 +10017,22 @@ export const $UserInvite = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['roles'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 teams: {
                     description: 'Add user to the teams.',
@@ -9896,33 +10041,33 @@ export const $UserInvite = {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['teams'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['users'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $UserInviteDocument = {
@@ -9931,21 +10076,21 @@ export const $UserInviteDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/UserInvite'
+            $ref: '#/components/schemas/UserInvite',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $UserListingDocument = {
@@ -9955,30 +10100,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/User',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Variable = {
@@ -10000,61 +10145,62 @@ In Scalr there are "terraform" and "environment" variables.
                     description: `* \`terraform\` - Values to be passed to terraform input variables of the same name.
 * \`env\` - shell environment variables. They will be injected via \`export\` during a terraform run.`,
                     enum: ['terraform', 'env', 'shell'],
-                    type: 'string'
+                    type: 'string',
                 },
                 description: {
                     description: 'Variable description.',
                     maxLength: 512,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 final: {
                     default: false,
                     description:
-                        'Indicates whether the variable can be overridden on a lower down the Scalr organizational model.',
-                    type: 'boolean'
+            'Indicates whether the variable can be overridden on a lower down the Scalr organizational model.',
+                    type: 'boolean',
                 },
                 hcl: {
                     default: false,
                     description: `Indicates whether the value of the variable is a string of HCL code.
 Not applicable to \`env\` category variables.`,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 key: {
                     description: `Variable name. Must correspond to the name of a Terraform input variable in the configuration
 if category is terraform.`,
                     maxLength: 128,
-                    type: 'string'
+                    type: 'string',
                 },
                 sensitive: {
                     default: false,
                     description: `Indicates whether the value is sensitive. When set to \`true\` then the variable is not visible
 after being written.`,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 value: {
                     default: '',
-                    description: 'Variable value. Not visible if sensitive: true is enabled',
+                    description:
+            'Variable value. Not visible if sensitive: true is enabled',
                     nullable: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['category', 'key'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -10065,20 +10211,20 @@ after being written.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environment: {
                     description: 'The environment this variable belongs to',
@@ -10087,19 +10233,19 @@ after being written.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'The workspace this variable belongs to.',
@@ -10108,30 +10254,30 @@ after being written.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['vars'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $VariableDocument = {
@@ -10140,21 +10286,21 @@ export const $VariableDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Variable'
+            $ref: '#/components/schemas/Variable',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $VariableListingDocument = {
@@ -10164,30 +10310,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Variable'
+                $ref: '#/components/schemas/Variable',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $VcsProvider = {
@@ -10213,40 +10359,45 @@ where the user should authorize Scalr to connect to their OAuth App.
   * [Azure DevOps](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops-2019&tabs=preview-page)
   * [Bitbucket Data Center](https://confluence.atlassian.com/bitbucketserver/personal-access-tokens-939515499.html)`,
                     enum: ['oauth2', 'personal_token'],
-                    type: 'string'
+                    type: 'string',
                 },
                 'comments-enabled': {
                     default: false,
-                    description: 'Indicates whether commenting on PRs is enabled for this VCS provider.',
-                    type: 'boolean'
+                    description:
+            'Indicates whether commenting on PRs is enabled for this VCS provider.',
+                    type: 'boolean',
                 },
                 'draft-pr-runs-enabled': {
                     default: false,
-                    description: 'Indicates whether the draft pull-request runs are enabled for this VCS provider.',
-                    type: 'boolean'
+                    description:
+            'Indicates whether the draft pull-request runs are enabled for this VCS provider.',
+                    type: 'boolean',
                 },
                 'error-message': {
-                    description: 'Contains error message, if the connection to VCS provider is broken.',
+                    description:
+            'Contains error message, if the connection to VCS provider is broken.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'is-shared': {
                     description:
-                        'Indicates whether the VCS provider can be used in any account environments or only linked one.',
-                    type: 'boolean'
+            'Indicates whether the VCS provider can be used in any account environments or only linked one.',
+                    type: 'boolean',
                 },
                 name: {
-                    description: 'VCS provider name, which must be unique within the account.',
+                    description:
+            'VCS provider name, which must be unique within the account.',
                     maxLength: 255,
                     minLength: 1,
                     pattern: '^[ A-Za-z0-9_-]+$',
-                    type: 'string'
+                    type: 'string',
                 },
                 token: {
-                    description: 'Access token for an API client for using to connect to the VCS Provider.',
+                    description:
+            'Access token for an API client for using to connect to the VCS Provider.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 url: {
                     description: `The URL to the VCS provider installation.
@@ -10255,14 +10406,14 @@ Required for GitHub Enterprise, GitLab Enterprise and Bitbucket Data Center.`,
                     maxLength: 255,
                     minLength: 1,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 username: {
                     description:
-                        'Username for personal_token auth type. This field is required for bitbucket_enterprise provider.',
+            'Username for personal_token auth type. This field is required for bitbucket_enterprise provider.',
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'vcs-type': {
                     description: 'VCS provider type.',
@@ -10273,27 +10424,27 @@ Required for GitHub Enterprise, GitLab Enterprise and Bitbucket Data Center.`,
                         'bitbucket_enterprise',
                         'gitlab_enterprise',
                         'github_enterprise',
-                        'azure_dev_ops_services'
+                        'azure_dev_ops_services',
                     ],
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name', 'vcs-type', 'auth-type'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -10304,76 +10455,77 @@ Required for GitHub Enterprise, GitLab Enterprise and Bitbucket Data Center.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'agent-pool': {
                     description:
-                        'The ID of the agent pool to communicate with on-prem VCS provider that not accessible directly.',
+            'The ID of the agent pool to communicate with on-prem VCS provider that not accessible directly.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['agent-pools'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environments: {
-                    description: 'The list of environments this VCS integration is linked to.',
+                    description:
+            'The list of environments this VCS integration is linked to.',
                     properties: {
                         data: {
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['environments'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['vcs-providers'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $VcsProviderDocument = {
@@ -10382,21 +10534,21 @@ export const $VcsProviderDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/VcsProvider'
+            $ref: '#/components/schemas/VcsProvider',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $VcsProviderListingDocument = {
@@ -10406,30 +10558,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/VcsProvider'
+                $ref: '#/components/schemas/VcsProvider',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $VcsRevision = {
@@ -10440,56 +10592,56 @@ export const $VcsRevision = {
                 branch: {
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'clone-url': {
-                    type: 'string'
+                    type: 'string',
                 },
                 'commit-message': {
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'commit-sha': {
                     maxLength: 40,
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'commit-url': {
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'repository-id': {
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'sender-username': {
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['vcs-revisions'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $VcsRevisionDocument = {
@@ -10498,21 +10650,21 @@ export const $VcsRevisionDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/VcsRevision'
+            $ref: '#/components/schemas/VcsRevision',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $VcsTaskRequest = {
@@ -10521,21 +10673,21 @@ export const $VcsTaskRequest = {
         branch: {
             maxLength: 255,
             minLength: 1,
-            type: 'string'
+            type: 'string',
         },
         'commit-sha': {
             maxLength: 40,
             minLength: 1,
-            type: 'string'
+            type: 'string',
         },
         'repository-id': {
             maxLength: 255,
             minLength: 1,
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['repository-id', 'branch', 'commit-sha'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Webhook = {
@@ -10631,100 +10783,100 @@ The extra fields below are not available in response by default. Ask for them ex
             properties: {
                 enabled: {
                     description: 'Webhook can be turned off by setting to `false`.',
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'last-triggered-at': {
                     description: 'The Date/Time of the last notification.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 name: {
                     description:
-                        'The name of the webhook. Use your target application/component name for better discoverability.',
+            'The name of the webhook. Use your target application/component name for better discoverability.',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 permissions: {
                     readOnly: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 statistics: {
                     description:
-                        'Webhook delivery statistics (delivered, failed and total) by periods: last hour, last day and last week',
+            'Webhook delivery statistics (delivered, failed and total) by periods: last hour, last day and last week',
                     properties: {
                         'last-day': {
                             properties: {
                                 delivered: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 failed: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 total: {
                                     default: 0,
-                                    type: 'integer'
-                                }
+                                    type: 'integer',
+                                },
                             },
-                            type: 'object'
+                            type: 'object',
                         },
                         'last-hour': {
                             properties: {
                                 delivered: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 failed: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 total: {
                                     default: 0,
-                                    type: 'integer'
-                                }
+                                    type: 'integer',
+                                },
                             },
-                            type: 'object'
+                            type: 'object',
                         },
                         'last-week': {
                             properties: {
                                 delivered: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 failed: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 total: {
                                     default: 0,
-                                    type: 'integer'
-                                }
+                                    type: 'integer',
+                                },
                             },
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['name'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -10735,20 +10887,20 @@ The extra fields below are not available in response by default. Ask for them ex
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 endpoint: {
                     description: 'The Endpoint this webhook is delivered to.',
@@ -10756,19 +10908,19 @@ The extra fields below are not available in response by default. Ask for them ex
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['endpoints'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environment: {
                     description: 'The environment this webhook belongs to.',
@@ -10777,19 +10929,19 @@ The extra fields below are not available in response by default. Ask for them ex
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 events: {
                     description: `The list of events this webhook will be notified about.
@@ -10800,23 +10952,23 @@ of all available events.`,
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['event-definitions'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'The optional workspace this webhook belongs to.',
@@ -10825,31 +10977,31 @@ of all available events.`,
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['endpoint'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['webhooks'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WebhookDocument = {
@@ -10858,21 +11010,21 @@ export const $WebhookDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Webhook'
+            $ref: '#/components/schemas/Webhook',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WebhookIntegration = {
@@ -10885,152 +11037,152 @@ The extra fields below are not available in response by default. Ask for them ex
             properties: {
                 enabled: {
                     description: 'Webhook can be turned off by setting to `false`.',
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 headers: {
                     items: {
                         properties: {
                             name: {
                                 description: 'A header name.',
-                                type: 'string'
+                                type: 'string',
                             },
                             sensitive: {
                                 default: false,
                                 description: 'Whether the value is a sensitive.',
-                                type: 'boolean'
+                                type: 'boolean',
                             },
                             value: {
                                 description: 'A header value. Not visible if sensitive.',
                                 nullable: true,
-                                type: 'string'
-                            }
+                                type: 'string',
+                            },
                         },
                         required: ['name', 'value'],
-                        type: 'object'
+                        type: 'object',
                     },
                     nullable: true,
-                    type: 'array'
+                    type: 'array',
                 },
                 'http-method': {
                     default: 'POST',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'is-shared': {
                     description:
-                        'Indicates whether the webhook is available in any environment of the account without directly linking it.',
-                    type: 'boolean'
+            'Indicates whether the webhook is available in any environment of the account without directly linking it.',
+                    type: 'boolean',
                 },
                 'last-triggered-at': {
                     description: 'The Date/Time of the last notification.',
                     format: 'date-time',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'max-attempts': {
                     default: 3,
                     description: 'The number of retry attempts.',
-                    type: 'integer'
+                    type: 'integer',
                 },
                 name: {
                     description:
-                        'The name of the webhook. Use your target application/component name for better discoverability.',
+            'The name of the webhook. Use your target application/component name for better discoverability.',
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 'secret-key': {
                     description: 'The secret passphrase for HMAC signature.',
                     maxLength: 1024,
-                    type: 'string'
+                    type: 'string',
                 },
                 statistics: {
                     description:
-                        'Webhook delivery statistics (delivered, failed and total) by periods: last hour, last day and last week',
+            'Webhook delivery statistics (delivered, failed and total) by periods: last hour, last day and last week',
                     nullable: true,
                     properties: {
                         'last-day': {
                             properties: {
                                 delivered: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 failed: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 total: {
                                     default: 0,
-                                    type: 'integer'
-                                }
+                                    type: 'integer',
+                                },
                             },
-                            type: 'object'
+                            type: 'object',
                         },
                         'last-hour': {
                             properties: {
                                 delivered: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 failed: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 total: {
                                     default: 0,
-                                    type: 'integer'
-                                }
+                                    type: 'integer',
+                                },
                             },
-                            type: 'object'
+                            type: 'object',
                         },
                         'last-week': {
                             properties: {
                                 delivered: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 failed: {
                                     default: 0,
-                                    type: 'integer'
+                                    type: 'integer',
                                 },
                                 total: {
                                     default: 0,
-                                    type: 'integer'
-                                }
+                                    type: 'integer',
+                                },
                             },
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 timeout: {
                     default: 15,
                     description: 'The HTTP transaction timeout.',
-                    type: 'integer'
+                    type: 'integer',
                 },
                 url: {
                     description: 'HTTP(s) destination URL.',
                     maxLength: 2048,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name', 'url'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -11040,19 +11192,19 @@ The extra fields below are not available in response by default. Ask for them ex
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['accounts'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environments: {
                     description: 'The list of environments this webhook is linked to.',
@@ -11061,22 +11213,22 @@ The extra fields below are not available in response by default. Ask for them ex
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['environments'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 events: {
                     description: `The list of events this webhook will be notified about.
@@ -11087,34 +11239,34 @@ of all available events.`,
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['event-definitions'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['account'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['webhook-integrations'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WebhookIntegrationDelivery = {
@@ -11124,71 +11276,76 @@ export const $WebhookIntegrationDelivery = {
             properties: {
                 attempts: {
                     description: 'The number of attempts made to deliver the webhook.',
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'error-message': {
-                    description: 'The error message, if any, encountered during delivery.',
+                    description:
+            'The error message, if any, encountered during delivery.',
                     nullable: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'last-handle-attempt-at': {
-                    description: 'The Date/Time of the last attempt to deliver the webhook.',
+                    description:
+            'The Date/Time of the last attempt to deliver the webhook.',
                     format: 'date-time',
-                    type: 'string'
+                    type: 'string',
                 },
                 'request-body': {
-                    description: 'The data payload (JSON format) sent in the webhook request body.',
-                    type: 'object'
+                    description:
+            'The data payload (JSON format) sent in the webhook request body.',
+                    type: 'object',
                 },
                 'request-headers': {
                     description: 'The HTTP request headers sent with the webhook.',
-                    type: 'object'
+                    type: 'object',
                 },
                 'response-body': {
                     anyOf: [
                         {
-                            type: 'object'
+                            type: 'object',
                         },
                         {
-                            type: 'string'
-                        }
+                            type: 'string',
+                        },
                     ],
                     description:
-                        'The data (JSON or plain text) received in the response body from the external system.',
-                    nullable: true
+            'The data (JSON or plain text) received in the response body from the external system.',
+                    nullable: true,
                 },
                 'response-code': {
                     description: 'The HTTP status code returned by the external system.',
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'response-headers': {
-                    description: 'The HTTP response headers received from the external system.',
+                    description:
+            'The HTTP response headers received from the external system.',
                     nullable: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 status: {
-                    description: 'The delivery status. Can be: `pending`, `completed`, or `failed`.',
-                    type: 'string'
+                    description:
+            'The delivery status. Can be: `pending`, `completed`, or `failed`.',
+                    type: 'string',
                 },
                 'triggered-at': {
                     description: 'The Date/Time when the webhook was triggered.',
                     format: 'date-time',
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['status'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -11199,39 +11356,40 @@ export const $WebhookIntegrationDelivery = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 event: {
-                    description: 'The specific event that triggered this webhook delivery.',
+                    description:
+            'The specific event that triggered this webhook delivery.',
                     properties: {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['event-definitions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 run: {
                     description: 'The optional run associated with the webhook delivery.',
@@ -11240,19 +11398,19 @@ export const $WebhookIntegrationDelivery = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['runs'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'triggered-by': {
                     description: 'The user who triggered the webhook.',
@@ -11261,19 +11419,19 @@ export const $WebhookIntegrationDelivery = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 webhook: {
                     description: 'The webhook this delivery belongs to.',
@@ -11281,19 +11439,19 @@ export const $WebhookIntegrationDelivery = {
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['webhook-integrations'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 workspace: {
                     description: 'The workspace related to the webhook delivery.',
@@ -11302,31 +11460,31 @@ export const $WebhookIntegrationDelivery = {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspaces'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['webhook', 'event'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['webhook-integration-deliveries'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WebhookIntegrationDeliveryDocument = {
@@ -11335,21 +11493,21 @@ export const $WebhookIntegrationDeliveryDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/WebhookIntegrationDelivery'
+            $ref: '#/components/schemas/WebhookIntegrationDelivery',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WebhookIntegrationDeliveryListingDocument = {
@@ -11359,30 +11517,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/WebhookIntegrationDelivery'
+                $ref: '#/components/schemas/WebhookIntegrationDelivery',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WebhookIntegrationDocument = {
@@ -11391,21 +11549,21 @@ export const $WebhookIntegrationDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/WebhookIntegration'
+            $ref: '#/components/schemas/WebhookIntegration',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WebhookIntegrationListingDocument = {
@@ -11415,30 +11573,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/WebhookIntegration'
+                $ref: '#/components/schemas/WebhookIntegration',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WebhookListingDocument = {
@@ -11448,30 +11606,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Webhook'
+                $ref: '#/components/schemas/Webhook',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $Workspace = {
@@ -11487,15 +11645,16 @@ The extra fields below are not available in response by default. Ask for them ex
         attributes: {
             properties: {
                 'apply-schedule': {
-                    description: 'Cron expression for scheduled runs. Time should be in UTC.',
+                    description:
+            'Cron expression for scheduled runs. Time should be in UTC.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'auto-apply': {
                     description: `Indicates whether \`terraform apply\` should automatically run
 when terraform plan ends without error. Default \`false\`.`,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'auto-queue-runs': {
                     default: 'skip_first',
@@ -11505,99 +11664,107 @@ when terraform plan ends without error. Default \`false\`.`,
 \`always\` - runs will be triggered automatically on every upload of the configuration version.
 \`never\` - configuration versions are uploaded into the workspace, but runs will not be triggered.`,
                     enum: ['always', 'never', 'skip_first'],
-                    type: 'string'
+                    type: 'string',
                 },
                 'created-at': {
                     description: 'The resource creation timestamp.',
                     format: 'date-time',
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'deletion-protection-changed-by-email': {
                     description: 'The email of a user who toggled deletion protection.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'deletion-protection-enabled': {
                     description: 'Designates whether deletion protection is enabled.',
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'destroy-schedule': {
-                    description: 'Cron expression for scheduled destroy runs. Time should be in UTC.',
+                    description:
+            'Cron expression for scheduled destroy runs. Time should be in UTC.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'environment-type': {
                     description: 'The type of the Scalr Workspace environment.',
                     enum: ['production', 'staging', 'testing', 'development', 'unmapped'],
-                    type: 'string'
+                    type: 'string',
                 },
                 'execution-mode': {
                     default: 'remote',
                     description: `Which execution mode to use. Valid values are \`remote\` and \`local\`.
 When set to \`local\`, the workspace will be used for state storage only.`,
                     enum: ['remote', 'local'],
-                    type: 'string'
+                    type: 'string',
                 },
                 'force-latest-run': {
                     description: `Indicates whether \`force run\` should automatically apply to latest run.
 Default \`false\`.`,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 'global-remote-state': {
-                    description: 'Specifies if the state is globally shared within the environment.',
-                    type: 'boolean'
+                    description:
+            'Specifies if the state is globally shared within the environment.',
+                    type: 'boolean',
                 },
                 'has-resources': {
                     description:
-                        "Indicates whether the workspace's current state version contains terraform resources.",
+            'Indicates whether the workspace\'s current state version contains terraform resources.',
                     readOnly: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 hooks: {
                     nullable: true,
                     properties: {
                         'post-apply': {
-                            description: 'Command that should be run after terraform apply operation executed.',
+                            description:
+                'Command that should be run after terraform apply operation executed.',
                             nullable: true,
-                            type: 'string'
+                            type: 'string',
                         },
                         'post-plan': {
-                            description: 'Command that should be run after terraform plan operation executed.',
+                            description:
+                'Command that should be run after terraform plan operation executed.',
                             nullable: true,
-                            type: 'string'
+                            type: 'string',
                         },
                         'pre-apply': {
-                            description: 'Command that should be run before terraform apply operation executed.',
+                            description:
+                'Command that should be run before terraform apply operation executed.',
                             nullable: true,
-                            type: 'string'
+                            type: 'string',
                         },
                         'pre-init': {
-                            description: 'Command that should be run before terraform init operation executed.',
+                            description:
+                'Command that should be run before terraform init operation executed.',
                             nullable: true,
-                            type: 'string'
+                            type: 'string',
                         },
                         'pre-plan': {
-                            description: 'Command that should be run before terraform plan operation executed.',
+                            description:
+                'Command that should be run before terraform plan operation executed.',
                             nullable: true,
-                            type: 'string'
-                        }
+                            type: 'string',
+                        },
                     },
-                    type: 'object'
+                    type: 'object',
                 },
                 'iac-platform': {
                     default: 'terraform',
                     description: 'The IaC platform of this workspace.',
                     enum: ['terraform', 'opentofu'],
-                    type: 'string'
+                    type: 'string',
                 },
                 'lock-reason': {
-                    description: 'The reason (if any) that the workspace has been locked.',
+                    description:
+            'The reason (if any) that the workspace has been locked.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 locked: {
                     description: `Indicates whether the workspace is locked for operations. The \`lock-reason\` attribute
@@ -11608,54 +11775,57 @@ Lock/Unlock Workspace.
 
 Default: \`false\``,
                     readOnly: true,
-                    type: 'boolean'
+                    type: 'boolean',
                 },
                 name: {
                     description: `Workspace name which must be unique within the environment.
 
 Comprises letters, numbers, \`-\`, and \`_\` only.`,
                     maxLength: 255,
-                    type: 'string'
+                    type: 'string',
                 },
                 operations: {
                     deprecated: true,
-                    description: 'The attribute `operations` is deprecated. Use `execution-mode` instead.',
-                    type: 'boolean'
+                    description:
+            'The attribute `operations` is deprecated. Use `execution-mode` instead.',
+                    type: 'boolean',
                 },
                 permissions: {
                     readOnly: true,
-                    type: 'object'
+                    type: 'object',
                 },
                 'run-operation-timeout': {
-                    description: 'The timeout for the Terraform Run operations (in minutes).',
+                    description:
+            'The timeout for the Terraform Run operations (in minutes).',
                     nullable: true,
-                    type: 'integer'
+                    type: 'integer',
                 },
                 'terraform-version': {
                     description:
-                        'The version of Terraform the workspace performs runs on. If omitted, the system default version is assigned.',
-                    type: 'string'
+            'The version of Terraform the workspace performs runs on. If omitted, the system default version is assigned.',
+                    type: 'string',
                 },
                 'updated-at': {
                     description: 'The resource last update timestamp.',
                     format: 'date-time',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'updated-by-email': {
-                    description: 'The email of the last user, that updated this workspace.',
+                    description:
+            'The email of the last user, that updated this workspace.',
                     nullable: true,
                     readOnly: true,
-                    type: 'string'
+                    type: 'string',
                 },
                 'var-files': {
                     description: 'The list of Terraform variables files.',
                     items: {
-                        type: 'string'
+                        type: 'string',
                     },
                     nullable: true,
-                    type: 'array'
+                    type: 'array',
                 },
                 'vcs-repo': {
                     nullable: true,
@@ -11664,34 +11834,34 @@ Comprises letters, numbers, \`-\`, and \`_\` only.`,
                             description: `Branch of a repository the workspace is associated with.
 If omitted, the repository default branch will be used.`,
                             nullable: true,
-                            type: 'string'
+                            type: 'string',
                         },
                         'dry-runs-enabled': {
                             default: true,
                             description: `When true once a pull request into the vcs-repo.branch is opened, every push
 to a pull request's branch will trigger a dry run in the workspace. Default \`true\``,
-                            type: 'boolean'
+                            type: 'boolean',
                         },
                         identifier: {
                             description: `A reference to your VCS repository.
 
 For GitHub, GitHub Enterprise and GitLab the format is \`<org>/<repo>\`.
 Azure DevOps Services has the format \`<org>/<project>/<repo>\`.`,
-                            type: 'string'
+                            type: 'string',
                         },
                         'ingress-submodules': {
                             default: false,
                             description:
-                                'Specifies whether git submodules should be fetched when cloning the VCS repository.',
-                            type: 'boolean'
+                'Specifies whether git submodules should be fetched when cloning the VCS repository.',
+                            type: 'boolean',
                         },
                         path: {
                             default: '',
                             deprecated: true,
                             description:
-                                'The attribute `vcs-repo.path` is deprecated. Use working-directory and trigger-prefixes instead.',
+                'The attribute `vcs-repo.path` is deprecated. Use working-directory and trigger-prefixes instead.',
                             nullable: true,
-                            type: 'string'
+                            type: 'string',
                         },
                         'trigger-patterns': {
                             description: `List of path patterns in gitignore format, whose changes will trigger a run for the
@@ -11699,7 +11869,7 @@ workspace using this binding when the CV is created.
 Conflicts with 'trigger-prefixes'.
 If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the configuration version root will trigger a new run.`,
                             nullable: true,
-                            type: 'string'
+                            type: 'string',
                         },
                         'trigger-prefixes': {
                             default: [],
@@ -11708,38 +11878,39 @@ workspace using this binding when the CV is created.
 Conflicts with 'trigger-patterns'.
 If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the configuration version root will trigger a new run.`,
                             items: {
-                                type: 'string'
+                                type: 'string',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['identifier'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'working-directory': {
-                    description: 'A relative path where Terraform commands will execute in.',
+                    description:
+            'A relative path where Terraform commands will execute in.',
                     maxLength: 255,
                     nullable: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             required: ['name'],
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             properties: {
                 self: {
                     readOnly: true,
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         relationships: {
             properties: {
@@ -11750,19 +11921,19 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['agent-pools'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'configuration-version': {
                     description: 'The latest uploaded configuration version.',
@@ -11771,20 +11942,20 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['configuration-versions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'created-by': {
                     description: 'The user, who has triggered the run.',
@@ -11793,20 +11964,20 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'current-run': {
                     description: 'Currently executing Run.',
@@ -11815,20 +11986,20 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['runs'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 environment: {
                     description: 'The environment this workspace belongs to.',
@@ -11836,41 +12007,42 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                         data: {
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['environments'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'latest-configuration-version': {
-                    description: 'The configuration version of the latest non-dry Run in this workspace.',
+                    description:
+            'The configuration version of the latest non-dry Run in this workspace.',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['configuration-versions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'latest-run': {
                     description: 'Latest finished Run.',
@@ -11879,20 +12051,20 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['runs'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'locked-by': {
                     properties: {
@@ -11900,20 +12072,20 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'locked-by-run': {
                     properties: {
@@ -11921,20 +12093,20 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['runs'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 module: {
                     description: 'The ID of the module.',
@@ -11943,20 +12115,20 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['modules'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'module-version': {
                     description: 'The ID of the module version.',
@@ -11965,19 +12137,19 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['module-versions'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'readme-id': {
                     description: 'The readme for the workspace.',
@@ -11986,20 +12158,20 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['workspace-readme'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 tags: {
                     properties: {
@@ -12007,22 +12179,22 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             items: {
                                 properties: {
                                     id: {
-                                        type: 'string'
+                                        type: 'string',
                                     },
                                     type: {
                                         enum: ['tags'],
-                                        type: 'string'
-                                    }
+                                        type: 'string',
+                                    },
                                 },
                                 required: ['type', 'id'],
-                                type: 'object'
+                                type: 'object',
                             },
                             nullable: true,
-                            type: 'array'
-                        }
+                            type: 'array',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'updated-by': {
                     description: 'The last user, that updated this workspace.',
@@ -12031,53 +12203,53 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['users'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     readOnly: true,
                     required: ['data'],
-                    type: 'object'
+                    type: 'object',
                 },
                 'vcs-provider': {
-                    description: "VCS provider of the Run's workspace",
+                    description: 'VCS provider of the Run\'s workspace',
                     properties: {
                         data: {
                             nullable: true,
                             properties: {
                                 id: {
-                                    type: 'string'
+                                    type: 'string',
                                 },
                                 type: {
                                     enum: ['vcs-providers'],
-                                    type: 'string'
-                                }
+                                    type: 'string',
+                                },
                             },
                             required: ['type', 'id'],
-                            type: 'object'
-                        }
+                            type: 'object',
+                        },
                     },
                     required: ['data'],
-                    type: 'object'
-                }
+                    type: 'object',
+                },
             },
             required: ['environment'],
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['workspaces'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type', 'attributes', 'relationships'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WorkspaceDocument = {
@@ -12086,21 +12258,21 @@ export const $WorkspaceDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/Workspace'
+            $ref: '#/components/schemas/Workspace',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WorkspaceListingDocument = {
@@ -12110,30 +12282,30 @@ see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/Workspace'
+                $ref: '#/components/schemas/Workspace',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WorkspaceOutput = {
@@ -12141,18 +12313,18 @@ export const $WorkspaceOutput = {
     properties: {
         name: {
             description: 'The name of the output.',
-            type: 'string'
+            type: 'string',
         },
         sensitive: {
             description: 'Whether the value of the output is sensitive.',
-            type: 'boolean'
+            type: 'boolean',
         },
         value: {
             description: 'The value of the output.',
-            nullable: true
-        }
+            nullable: true,
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WorkspaceOutputFieldsetsListingDocument = {
@@ -12160,66 +12332,67 @@ export const $WorkspaceOutputFieldsetsListingDocument = {
     properties: {
         data: {
             items: {
-                $ref: '#/components/schemas/WorkspaceOutput'
+                $ref: '#/components/schemas/WorkspaceOutput',
             },
-            type: 'array'
+            type: 'array',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
             readOnly: true,
-            type: 'object'
+            type: 'object',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WorkspaceReadme = {
-    description: 'A WorkspaceReadme resource represents the readme file for a workspace.',
+    description:
+    'A WorkspaceReadme resource represents the readme file for a workspace.',
     properties: {
         attributes: {
             properties: {
                 content: {
                     description: 'The content of the readme file.',
-                    type: 'string'
+                    type: 'string',
                 },
                 'created-at': {
                     description: 'The time when the readme record was created.',
                     format: 'date-time',
-                    type: 'string'
-                }
+                    type: 'string',
+                },
             },
-            type: 'object'
+            type: 'object',
         },
         id: {
             readOnly: true,
-            type: 'string'
+            type: 'string',
         },
         links: {
             additionalProperties: {
-                type: 'string'
+                type: 'string',
             },
-            type: 'object'
+            type: 'object',
         },
         type: {
             enum: ['workspace-readme'],
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
     required: ['type'],
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WorkspaceReadmeDocument = {
@@ -12228,33 +12401,33 @@ export const $WorkspaceReadmeDocument = {
 see: https://jsonapi.org/format/#document-structure`,
     properties: {
         data: {
-            $ref: '#/components/schemas/WorkspaceReadme'
+            $ref: '#/components/schemas/WorkspaceReadme',
         },
         included: {
             items: {
-                type: 'object'
+                type: 'object',
             },
             readOnly: true,
-            type: 'array'
+            type: 'array',
         },
         meta: {
             readOnly: true,
-            type: 'object'
-        }
+            type: 'object',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
 
 export const $WorkspaceSchedule = {
     properties: {
         'apply-schedule': {
             nullable: true,
-            type: 'string'
+            type: 'string',
         },
         'destroy-schedule': {
             nullable: true,
-            type: 'string'
-        }
+            type: 'string',
+        },
     },
-    type: 'object'
+    type: 'object',
 } as const;
