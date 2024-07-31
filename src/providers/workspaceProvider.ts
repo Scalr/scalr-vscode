@@ -36,7 +36,12 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
 
 
-        const { data, error } = await getWorkspaces({ query: { include: ['environment', 'latest-run'] } });
+        const { data, error } = await getWorkspaces({
+            query: {
+                include: ['latest-run', 'environment'], 'page[size]':'100'
+            }
+        });
+        console.log(data);
         
         if (error || !data) {
             vscode.window.showErrorMessage('Failed to fetch workspaces' + error);
@@ -47,8 +52,10 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
         const environmentMap = new Map<string, Environment>();
         const runsMap = new Map<string, Run>();
+        console.log(wsDocument);
 
         for (const inc of wsDocument.included || []) {
+            console.log(inc);
             if ((inc as Environment).type === 'environments') {
                 environmentMap.set(inc.id as string , inc as Environment);
             } else if ((inc as Run).type === 'runs') {
@@ -74,15 +81,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     }
 }
 
-
-
-
 class WorkspaceItem extends vscode.TreeItem {
     constructor(
         public readonly environment: Environment,
         public readonly workspace: Workspace,
         public readonly run?: Run
-        
          
     ) {
         super(workspace.attributes.name, vscode.TreeItemCollapsibleState.None);
@@ -90,18 +93,59 @@ class WorkspaceItem extends vscode.TreeItem {
         this.description = `(${environment.attributes.name})`;
         
         //TODO: change icon based on run status
-        this.iconPath = new vscode.ThemeIcon('pass', new vscode.ThemeColor('charts.green'));
+        console.log(run);
+
+        this.iconPath = getRunStatusIcon(run?.attributes?.status);
 
         const text = `
+
     ## Workspace: ${workspace.attributes.name}
 
     ### Environment: ${environment.attributes.name}
+
+    ### Run status ${run?.attributes?.status}
 
 
     `;
 
         this.tooltip = new vscode.MarkdownString(text);
+    }   
+}
+
+
+
+/**
+ * 
+ * 
+ * @param status 
+ * @returns 
+ */
+function getRunStatusIcon(status?: string): vscode.ThemeIcon {
+    console.log(status);
+
+    switch (status) {
+    // in progress
+    case 'pending':
+    case 'plan_queued':
+    case 'apply_queued':
+        return new vscode.ThemeIcon('testing-queued-icon', new vscode.ThemeColor('charts.gray'));
+    case 'pending':
+    case 'policy_checking':
+    case 'const_estimating':
+    case 'applying':
+        return new vscode.ThemeIcon('sync~spin', new vscode.ThemeColor('charts.gray'));
+    case 'discarded':
+    case 'canceled':
+        return new vscode.ThemeIcon('testing-cancel-icon', new vscode.ThemeColor('charts.gray'));
+    case 'planned':
+    case 'policy_override':
+        return new vscode.ThemeIcon('warning', new vscode.ThemeColor('charts.yellow'));
+    case 'applied':
+    case 'planned_and_finished':
+    case 'policy_checked':
+        return new vscode.ThemeIcon('testing-passed-icon', new vscode.ThemeColor('charts.green'));
     }
-    
+
+    return new vscode.ThemeIcon('dash');
 }
 

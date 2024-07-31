@@ -38,6 +38,6 @@ export async function getRemoteRepoIdentifiers(): Promise<string[]> {
             return '';
         }
 
-        return rootUri.split(':')[1].split('.git')[0];
+        return rootUri;
     });
 }
