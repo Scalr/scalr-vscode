@@ -24,7 +24,7 @@ export class ScalrFeature implements vscode.Disposable {
             ),
         );
 
-        const workspaceDataProvider = new WorkspaceTreeDataProvider();
+        const workspaceDataProvider = new WorkspaceTreeDataProvider(ctx);
         const workspaceView = vscode.window.createTreeView('workspaces', {
             canSelectMany: false,
             showCollapseAll: true,

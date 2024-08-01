@@ -7211,7 +7211,7 @@ export type WebhookListingDocument = {
  * * module
  */
 export type Workspace = {
-  attributes: {
+attributes: {
     /**
      * Cron expression for scheduled runs. Time should be in UTC.
      */

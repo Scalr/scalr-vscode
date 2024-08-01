@@ -4,17 +4,20 @@ import { getAccounts } from '../api/services.gen';
 import { AccountListingDocument, Account, User } from '../api/types.gen';
 import { getRemoteRepoIdentifiers } from '../git';
 
-class ScalrSession implements vscode.AuthenticationSession {
+export class ScalrSession implements vscode.AuthenticationSession {
     readonly id: string = ScalrAuthenticationProvider.id;
 
     readonly scopes: string[] = [];
+    public readonly baseUrl: string;
 
     constructor(
     public readonly accessToken: string,
     public readonly username: string,
     public readonly email: string,
     public account: vscode.AuthenticationSessionAccountInformation,
-    ) {}
+    ) {
+        this.baseUrl = `https://${this.account.label}.scalr.io/v2`;
+    }
 }
 
 export class ScalrAuthenticationProvider
