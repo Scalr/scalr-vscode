@@ -5,6 +5,7 @@ import { ScalrSession, ScalrAuthenticationProvider } from './authenticationProvi
 import { format, parseISO } from 'date-fns';
 import { getApplyStatusIcon } from './applyProvider';
 import { getPlanStatusIcon } from './planProvider';
+import { WorkspaceItem } from './workspaceProvider';
 
 
 export type RunTreeItem = RunItem  | ApplyItem | PlanItem;
@@ -12,8 +13,9 @@ export type RunTreeItem = RunItem  | ApplyItem | PlanItem;
 
 
 export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem> {
-    private _onDidChangeTreeData: vscode.EventEmitter<RunTreeItem | undefined> = new vscode.EventEmitter<RunTreeItem | undefined>();
-    readonly onDidChangeTreeData: vscode.Event<RunTreeItem | undefined> = this._onDidChangeTreeData.event;
+    private readonly didChangeTreeData = new vscode.EventEmitter<void | RunTreeItem>();
+    public readonly onDidChangeTreeData = this.didChangeTreeData.event;
+    private workspace: WorkspaceItem | undefined;
 
     constructor(private ctx: vscode.ExtensionContext) {
         this.ctx.subscriptions.push(
@@ -26,8 +28,10 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         );
     }
 
-    refresh(): void {
-        this._onDidChangeTreeData.fire(undefined);
+    refresh(workspace?: WorkspaceItem): void {
+        this.workspace = workspace;
+
+        this.didChangeTreeData.fire();
     }
 
     getTreeItem(element: RunItem): RunTreeItem {
@@ -58,7 +62,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         const { data, error } = await getRuns({
             query: {
                 include: ['plan', 'apply'],
-                'page[size]': '100',
+                'filter[workspace]': this.workspace?.workspace.id,
             }
         });
 

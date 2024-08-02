@@ -4,11 +4,17 @@ import { getWorkspaces } from '../api/services.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 
-
+interface Pagination {
+    'next-page': number | null;
+}
 
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
+    
+    private nextPage: null | number = null;
+    private workspaces: vscode.TreeItem[] = [];
+
 
     constructor(
         private ctx: vscode.ExtensionContext,
@@ -21,20 +27,35 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                     vscode.env.openExternal(ws.webLink);
                 },
             ),
+            vscode.commands.registerCommand(
+                'workspaces.loadMore',
+                () => {
+                    this.refresh();
+                },
+            ),
         );
-
-
     }
     getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
         return element;
     }
 
     getChildren(element?: vscode.TreeItem): Thenable<vscode.TreeItem[]> {
-        if (!element) {
-            return this.getWorkspaces();
+        if (element) {
+            return Promise.resolve([element]);
         }
-        
-        return Promise.resolve([]);
+
+        return this.buildChildren();
+    }
+
+    private async buildChildren(): Promise<vscode.TreeItem[]> {
+        this.workspaces = [...this.workspaces, ...(await this.getWorkspaces())];
+
+        const workspaces = this.workspaces.slice(0);
+        if (this.nextPage !== null) {
+            workspaces.push(new LoadMoreTree());
+        }
+
+        return workspaces;
     }
 
     refresh(): void {
@@ -50,12 +71,12 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             return [];
         }
 
-
-
         const { data, error } = await getWorkspaces({
             query: {
                 include: ['latest-run', 'environment'],
-                'page[size]': '100',
+                page: {
+                    number: this.nextPage || 1
+                },
                 // @ts-ignore TODO:ape this is must be fixed in our product
                 sort: ['-updated-at'] 
             }
@@ -67,7 +88,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         }
 
         const wsDocument = data as WorkspaceListingDocument;
-
+        const pagination = wsDocument.meta?.pagination as Pagination;
+        this.nextPage = pagination['next-page'];
         const environmentMap = new Map<string, Environment>();
         const runsMap = new Map<string, Run>();
 
@@ -97,7 +119,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     }
 }
 
-class WorkspaceItem extends vscode.TreeItem {
+export class WorkspaceItem extends vscode.TreeItem {
     public readonly webLink: vscode.Uri;
 
     constructor(
@@ -128,5 +150,17 @@ class WorkspaceItem extends vscode.TreeItem {
         this.tooltip.appendMarkdown(`| **Terraform Version** | ${workspace.attributes['terraform-version']}|\n`);
         this.tooltip.appendMarkdown(`| **Updated**           | ${workspace.attributes['updated-at']}|\n`);
     }   
+}
+
+export class LoadMoreTree extends vscode.TreeItem {
+    constructor() {
+        super('Load more...', vscode.TreeItemCollapsibleState.None);
+  
+        this.iconPath = new vscode.ThemeIcon('more', new vscode.ThemeColor('charts.gray'));
+        this.command = {
+            command: 'workspaces.loadMore',
+            title: 'Load more',
+        };
+    }
 }
 

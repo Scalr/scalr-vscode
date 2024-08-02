@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { ScalrAuthenticationProvider } from './providers/authenticationProvider';
-import { WorkspaceTreeDataProvider } from './providers/workspaceProvider';
+import { WorkspaceTreeDataProvider, WorkspaceItem } from './providers/workspaceProvider';
 import { RunTreeDataProvider } from './providers/runProvider';
 
 export class ScalrFeature implements vscode.Disposable {
@@ -31,6 +31,20 @@ export class ScalrFeature implements vscode.Disposable {
             showCollapseAll: true,
             treeDataProvider: workspaceDataProvider,
         });
+        workspaceView.onDidChangeSelection((event) => { 
+            if (event.selection.length <= 0) {
+                return;
+            }
+
+            const selected = event.selection[0];
+            if (!(selected instanceof WorkspaceItem)) {
+                return;
+            }
+
+            runProvider.refresh(selected);
+        });
+
+
         const runView = vscode.window.createTreeView('runs', {
             canSelectMany: false,
             showCollapseAll: true,
