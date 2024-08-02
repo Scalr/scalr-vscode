@@ -7,7 +7,15 @@
         "vscode": "^1.91.0"
     },
     "categories": [
+        "Programming Languages",
         "Other"
+    ],
+    "keywords": [
+        "devops",
+        "terraform",
+        "hcl",
+        "scalr",
+        "opentofu"
     ],
     "activationEvents": [],
     "main": "./dist/extension.js",
@@ -60,16 +68,26 @@
                 "command": "workspace.open",
                 "title": "View workspace",
                 "icon": "$(globe)"
+            },
+            {
+                "command": "run.open",
+                "title": "View runs",
+                "icon": "$(globe)"
             }
         ],
         "menus": {
             "view/item/context": [
                 {
                     "command": "workspace.open",
-                    "group": "inline"
+                    "group": "inline",
+                    "when": "view == workspaces"
+                },
+                {
+                    "command": "run.open",
+                    "group": "inline",
+                    "when": "view == runs"
                 }
             ]
-            
         }
     },
     "scripts": {
@@ -103,6 +121,7 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
-        "@hey-api/client-fetch": "^0.1.12"
+        "@hey-api/client-fetch": "^0.1.12",
+        "date-fns": "^3.6.0"
     }
 }

@@ -2,6 +2,7 @@ import * as vscode from 'vscode';
 import { Workspace, Environment, Run, WorkspaceListingDocument} from '../api/types.gen';
 import { getWorkspaces } from '../api/services.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
+import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 
 
 
@@ -9,9 +10,9 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
 
-
     constructor(
         private ctx: vscode.ExtensionContext,
+        private runProvider: RunTreeDataProvider
     ) {
         ctx.subscriptions.push(
             vscode.commands.registerCommand(
@@ -24,9 +25,6 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
 
     }
-
-
-
     getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
         return element;
     }
@@ -117,61 +115,18 @@ class WorkspaceItem extends vscode.TreeItem {
 
         this.webLink = vscode.Uri.parse(`${this.host}/e/${environment.id}/workspaces/${workspace.id}/`, true);
 
-        const text = `
-## $(${this.iconPath.id}) [${this.workspace.attributes.name}](${this.webLink})
-
-#### ID: *${this.workspace.id}*
-
-Run Status: $(${this.iconPath.id}) ${run?.attributes?.status}
-
-___
-| | |
---|--
-| **Iac Platform**         | ${this.workspace.attributes['iac-platform']}
-| **Terraform Version** | ${this.workspace.attributes['terraform-version']}|
-| **Updated**           | ${this.workspace.attributes['updated-at']}|
-
-`;
-
-        this.tooltip = new vscode.MarkdownString(text, true);
+        this.tooltip = new vscode.MarkdownString(undefined, true);
+        this.tooltip.appendMarkdown(`## $(${this.iconPath.id}) [${this.workspace.attributes.name}](${this.webLink})\n\n`);
+        this.tooltip.appendMarkdown(`#### Environment: *${this.environment.attributes.name}* \n`);
+        this.tooltip.appendMarkdown('___\n\n');
+        this.tooltip.appendMarkdown(`#### ID: *${this.workspace.id}* \n`);
+        this.tooltip.appendMarkdown(`Run Status: $(${this.iconPath.id}) ${run?.attributes?.status} \n`);
+        this.tooltip.appendMarkdown('___\n\n');
+        this.tooltip.appendMarkdown('| | |\n');
+        this.tooltip.appendMarkdown('--|--\n');
+        this.tooltip.appendMarkdown(`| **Iac Platform**         | ${workspace.attributes['iac-platform']}\n`);
+        this.tooltip.appendMarkdown(`| **Terraform Version** | ${workspace.attributes['terraform-version']}|\n`);
+        this.tooltip.appendMarkdown(`| **Updated**           | ${workspace.attributes['updated-at']}|\n`);
     }   
-}
-
-
-
-/**
- * 
- * 
- * @param status 
- * @returns 
- */
-function getRunStatusIcon(status?: string): vscode.ThemeIcon {
-
-    switch (status) {
-    // in progress
-    case 'pending':
-    case 'plan_queued':
-    case 'apply_queued':
-        return new vscode.ThemeIcon('watch', new vscode.ThemeColor('charts.gray'));
-    case 'pending':
-    case 'policy_checking':
-    case 'const_estimating':
-    case 'applying':
-        return new vscode.ThemeIcon('sync~spin', new vscode.ThemeColor('charts.gray'));
-    case 'discarded':
-    case 'canceled':
-        return new vscode.ThemeIcon('close', new vscode.ThemeColor('charts.gray'));
-    case 'planned':
-    case 'policy_override':
-        return new vscode.ThemeIcon('warning', new vscode.ThemeColor('charts.yellow'));
-    case 'applied':
-    case 'planned_and_finished':
-    case 'policy_checked':
-        return new vscode.ThemeIcon('pass', new vscode.ThemeColor('charts.green'));
-    case 'errored':
-        return new vscode.ThemeIcon('close', new vscode.ThemeColor('charts.red'));
-    }
-
-    return new vscode.ThemeIcon('dash');
 }
 

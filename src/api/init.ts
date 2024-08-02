@@ -7,7 +7,7 @@ export const initClient = (accountName: string, token: string) => {
             Authorization: `Bearer ${token}`,
         },
         querySerializer: {
-            array: {explode: false, style: 'form'}
-        }
+            array: { explode: false, style: 'form' },
+        },
     });
 };

@@ -13,6 +13,6 @@ export default defineConfig({
         enums: 'javascript'
     },
     services: {
-        filter: '^\\w+ (/accounts|/workspaces)$'
+        filter: '^\\w+ (/accounts|/workspaces|/runs)$'
     }
 });

@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { ScalrAuthenticationProvider } from './providers/authenticationProvider';
 import { WorkspaceTreeDataProvider } from './providers/workspaceProvider';
+import { RunTreeDataProvider } from './providers/runProvider';
 
 export class ScalrFeature implements vscode.Disposable {
     constructor(
@@ -12,8 +13,6 @@ export class ScalrFeature implements vscode.Disposable {
                 output.appendLine('Hello World from Scalr!');
             }),
         );
-        console.log('Congratulations, your extension "scalr2" is now active!');
-
         const authProvider = new ScalrAuthenticationProvider(ctx);
         ctx.subscriptions.push(
             vscode.authentication.registerAuthenticationProvider(
@@ -24,13 +23,24 @@ export class ScalrFeature implements vscode.Disposable {
             ),
         );
 
-        const workspaceDataProvider = new WorkspaceTreeDataProvider(ctx);
+        const runProvider = new RunTreeDataProvider(ctx);
+
+        const workspaceDataProvider = new WorkspaceTreeDataProvider(ctx, runProvider);
         const workspaceView = vscode.window.createTreeView('workspaces', {
             canSelectMany: false,
             showCollapseAll: true,
             treeDataProvider: workspaceDataProvider,
         });
-        ctx.subscriptions.push(workspaceView);
+        const runView = vscode.window.createTreeView('runs', {
+            canSelectMany: false,
+            showCollapseAll: true,
+            treeDataProvider: runProvider,
+        });
+        ctx.subscriptions.push(
+            workspaceView, runView,
+        );
+
+        
     }
 
     dispose() {

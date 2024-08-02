@@ -5,6 +5,12 @@ import type {
     GetAccountsData,
     GetAccountsError,
     GetAccountsResponse,
+    GetRunsData,
+    GetRunsError,
+    GetRunsResponse,
+    CreateRunData,
+    CreateRunError,
+    CreateRunResponse,
     GetWorkspacesData,
     GetWorkspacesError,
     GetWorkspacesResponse,
@@ -23,6 +29,33 @@ export const getAccounts = (options?: Options<GetAccountsData>) => {
             url: '/accounts',
         },
     );
+};
+
+/**
+ * List Runs
+ * This endpoint lists runs for a specific workspace.
+ */
+export const getRuns = (options?: Options<GetRunsData>) => {
+    return (options?.client ?? client).get<GetRunsResponse, GetRunsError>({
+        ...options,
+        url: '/runs',
+    });
+};
+
+/**
+ * Create a Run
+ * A run performs terraform plan and apply using a configuration version and
+ * the workspace's current variables. If the configuration version is omitted, the run will
+ * be created using the workspace's latest configuration version. If you want to create a
+ * dry run, specify `is-dry: true` or reference configuration version with `is-dry: true`
+ * in the relationships.
+ *
+ */
+export const createRun = (options?: Options<CreateRunData>) => {
+    return (options?.client ?? client).post<CreateRunResponse, CreateRunError>({
+        ...options,
+        url: '/runs',
+    });
 };
 
 /**
