@@ -122,10 +122,10 @@ class RunItem extends vscode.TreeItem {
         
         const dryLabel = run.attributes?.['is-dry'] ? '(dry)' : '';
         const destroyLabel = run.attributes?.['is-destroy'] ? '(destroy)' : '';
-        const message = run.attributes?.['error-message'] || run.attributes?.['message'] || '';
+        const message = run.attributes?.['error-message'] || run.attributes?.['message'] || `Queued from ${getSource(run.attributes?.source)} by #TODO user email`;
         const createdAt = format(parseISO(this.run.attributes?.['created-at'] as string), 'MMMM d, yyyy h:mm:ss a');
         
-        this.description = `${destroyLabel}${dryLabel} ${message} Reason: ${run.attributes?.source}`;
+        this.description = `${destroyLabel}${dryLabel} ${message}`;
         this.iconPath = getRunStatusIcon(run.attributes?.status);
         
         
@@ -235,4 +235,35 @@ export function getRunStatusIcon(status?: string): vscode.ThemeIcon {
     }
 
     return new vscode.ThemeIcon('dash');
+}
+
+export function getSource(source?: string): string {
+
+    switch (source) {
+    // in progress
+    case 'ui':
+    case 'restart':
+    case 'assistant':
+    case 'service-catalog':
+    case 'dashboard-run':
+    case 'dashboard-workspace':
+    case 'workspaces-environment':
+    case 'workspaces-environment-bulk':
+    case 'workspaces-account-bulk':
+    case 'workspaces-account':
+    case 'eports-iac-versions':
+    case 'reports-stale-workspaces':
+        return 'UI';
+    case 'cli':
+        return 'CLI';
+    case 'scalr-cli':
+        return 'Scalr-CLI';
+    case 'vcs':
+        return 'VCS';
+    case 'api':
+    case 'configuration-version':
+        return 'API';
+    default:
+        return source ?? 'unknown';
+    }
 }
