@@ -73,6 +73,16 @@
                 "command": "run.open",
                 "title": "View runs",
                 "icon": "$(globe)"
+            },
+            {
+                "command": "apply.open",
+                "title": "Apply open",
+                "icon": "$(output)"
+            },
+            {
+                "command": "plan.open",
+                "title": "Plan open",
+                "icon": "$(output)"
             }
         ],
         "menus": {
@@ -85,7 +95,17 @@
                 {
                     "command": "run.open",
                     "group": "inline",
-                    "when": "view == runs"
+                    "when": "view == runs && viewItem =~ /runItem/"
+                },
+                {
+                    "command": "apply.open",
+                    "group": "inline",
+                    "when": "view == runs && viewItem =~ /applyItem/"
+                },
+                {
+                    "command": "plan.open",
+                    "group": "inline",
+                    "when": "view == runs && viewItem =~ /planItem/"
                 }
             ]
         }

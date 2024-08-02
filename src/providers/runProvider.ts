@@ -153,6 +153,7 @@ class RunItem extends vscode.TreeItem {
         const wsId = this.run.relationships?.workspace?.data?.id;
 
         this.webLink = vscode.Uri.parse(`${this.host}/e/${envId}/workspaces/${wsId}/runs/${run.id}/`, true);
+        this.contextValue = 'runItem';
 
         if (plan || apply) {
             this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
@@ -186,6 +187,7 @@ class PlanItem extends vscode.TreeItem {
         }
         super(label, vscode.TreeItemCollapsibleState.None);
         this.iconPath = getPlanStatusIcon(plan.attributes?.status);
+        this.contextValue = 'planItem';
     }
 }
 
@@ -194,8 +196,8 @@ class ApplyItem extends vscode.TreeItem {
         public readonly apply: Apply
     ) {
         super(`Apply ${apply.attributes?.status}`, vscode.TreeItemCollapsibleState.None);
-        //TODO: change apply icons
         this.iconPath = getApplyStatusIcon(apply.attributes?.status);
+        this.contextValue = 'applyItem';
     }
 }
 
@@ -213,7 +215,7 @@ export function getRunStatusIcon(status?: string): vscode.ThemeIcon {
     case 'plan_queued':
     case 'apply_queued':
         return new vscode.ThemeIcon('watch', new vscode.ThemeColor('charts.gray'));
-    case 'pending':
+    case 'planning':
     case 'policy_checking':
     case 'const_estimating':
     case 'applying':
