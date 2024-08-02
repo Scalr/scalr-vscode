@@ -3,6 +3,8 @@ import { Run, Plan, Apply } from '../api/types.gen';
 import { getRuns } from '../api/services.gen';
 import { ScalrSession, ScalrAuthenticationProvider } from './authenticationProvider';
 import { format, parseISO } from 'date-fns';
+import { getApplyStatusIcon } from './applyProvider';
+import { getPlanStatusIcon } from './planProvider';
 
 
 export type RunTreeItem = RunItem  | ApplyItem | PlanItem;
@@ -183,8 +185,7 @@ class PlanItem extends vscode.TreeItem {
 
         }
         super(label, vscode.TreeItemCollapsibleState.None);
-        //TODO: change apply icons
-        this.iconPath = getRunStatusIcon(plan.attributes?.status);
+        this.iconPath = getPlanStatusIcon(plan.attributes?.status);
     }
 }
 
@@ -194,14 +195,11 @@ class ApplyItem extends vscode.TreeItem {
     ) {
         super(`Apply ${apply.attributes?.status}`, vscode.TreeItemCollapsibleState.None);
         //TODO: change apply icons
-        this.iconPath = getRunStatusIcon(apply.attributes?.status);
+        this.iconPath = getApplyStatusIcon(apply.attributes?.status);
     }
 }
 
-
-
-
-/**e
+/**
  * 
  * 
  * @param status 
@@ -214,7 +212,7 @@ export function getRunStatusIcon(status?: string): vscode.ThemeIcon {
     case 'pending':
     case 'plan_queued':
     case 'apply_queued':
-        return new vscode.ThemeIcon('watch~spin', new vscode.ThemeColor('charts.gray'));
+        return new vscode.ThemeIcon('watch', new vscode.ThemeColor('charts.gray'));
     case 'pending':
     case 'policy_checking':
     case 'const_estimating':
@@ -222,7 +220,7 @@ export function getRunStatusIcon(status?: string): vscode.ThemeIcon {
         return new vscode.ThemeIcon('sync~spin', new vscode.ThemeColor('charts.gray'));
     case 'discarded':
     case 'canceled':
-        return new vscode.ThemeIcon('close', new vscode.ThemeColor('charts.gray'));
+        return new vscode.ThemeIcon('error', new vscode.ThemeColor('charts.gray'));
     case 'planned':
     case 'policy_override':
         return new vscode.ThemeIcon('warning', new vscode.ThemeColor('charts.yellow'));
@@ -231,7 +229,7 @@ export function getRunStatusIcon(status?: string): vscode.ThemeIcon {
     case 'policy_checked':
         return new vscode.ThemeIcon('pass', new vscode.ThemeColor('charts.green'));
     case 'errored':
-        return new vscode.ThemeIcon('close', new vscode.ThemeColor('charts.red'));
+        return new vscode.ThemeIcon('error', new vscode.ThemeColor('charts.red'));
     }
 
     return new vscode.ThemeIcon('dash');
