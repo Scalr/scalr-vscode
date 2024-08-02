@@ -75,14 +75,14 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             return [];
         }
 
-        const plans: Plan[] = [];
-        const applies: Apply[] = [];
+        const plans: Map<string, Plan> = new Map();
+        const applies: Map<string, Apply> = new Map();
 
         data.included?.forEach((item) => {
             if (item.type === 'plans') {
-                plans.push(item as Plan);
+                plans.set(item.id as string, item as Plan);
             } else if (item.type === 'applies') {
-                applies.push(item as Apply);
+                applies.set(item.id as string, item as Apply);
             }
         });
 
@@ -90,8 +90,8 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             return new RunItem(
                 session.baseUrl,
                 run,
-                plans[0],
-                applies[0],
+                run.relationships?.plan?.data ? plans.get(run.relationships.plan.data.id) : undefined,
+                run.relationships?.apply?.data ? applies.get(run.relationships.apply.data.id) : undefined,
             );
         });
     }
