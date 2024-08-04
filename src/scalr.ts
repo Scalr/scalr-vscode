@@ -39,6 +39,7 @@ export class ScalrFeature implements vscode.Disposable {
                 return;
             }
 
+            runProvider.reset();
             runProvider.refresh(selected);
         });
 

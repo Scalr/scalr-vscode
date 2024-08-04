@@ -46,7 +46,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             vscode.commands.registerCommand(
                 'runs.loadMore',
                 () => {
-                    this.refresh();
+                    this.refresh(this.workspace);
                 },
             ),
 
@@ -55,10 +55,6 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
 
     refresh(workspace?: WorkspaceItem): void {
         this.workspace = workspace;
-        if (workspace !== undefined) {
-            this.reset();
-        }
-
         this.didChangeTreeData.fire();
     }
 
