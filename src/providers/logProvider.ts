@@ -25,7 +25,7 @@ export class LogProvider implements vscode.TextDocumentContentProvider {
         let data;
         let error;
 
-        if (type === 'plan') {
+        if (type === 'plans') {
             ({data, error } = await getPlanLog(
                 { path: { plan: id }, query: { clean: true } }
             ));    
