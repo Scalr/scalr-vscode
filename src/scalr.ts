@@ -2,17 +2,12 @@ import * as vscode from 'vscode';
 import { ScalrAuthenticationProvider } from './providers/authenticationProvider';
 import { WorkspaceTreeDataProvider, WorkspaceItem } from './providers/workspaceProvider';
 import { RunTreeDataProvider } from './providers/runProvider';
+import { LogProvider } from './providers/logProvider';
 
 export class ScalrFeature implements vscode.Disposable {
     constructor(
     private ctx: vscode.ExtensionContext,
-    output: vscode.OutputChannel,
     ) {
-        this.ctx.subscriptions.push(
-            vscode.commands.registerCommand('scalr.hello', () => {
-                output.appendLine('Hello World from Scalr!');
-            }),
-        );
         const authProvider = new ScalrAuthenticationProvider(ctx);
         ctx.subscriptions.push(
             vscode.authentication.registerAuthenticationProvider(
@@ -23,8 +18,11 @@ export class ScalrFeature implements vscode.Disposable {
             ),
         );
 
+        ctx.subscriptions.push(
+            vscode.workspace.registerTextDocumentContentProvider('scalr-logs', new LogProvider())
+        );
+        
         const runProvider = new RunTreeDataProvider(ctx);
-
         const workspaceDataProvider = new WorkspaceTreeDataProvider(ctx, runProvider);
         const workspaceView = vscode.window.createTreeView('workspaces', {
             canSelectMany: false,

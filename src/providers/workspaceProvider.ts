@@ -3,10 +3,9 @@ import { Workspace, Environment, Run, WorkspaceListingDocument} from '../api/typ
 import { getWorkspaces } from '../api/services.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
+import { Pagination } from '../@types/api';
 
-interface Pagination {
-    'next-page': number | null;
-}
+
 
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
@@ -52,7 +51,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
         const workspaces = this.workspaces.slice(0);
         if (this.nextPage !== null) {
-            workspaces.push(new LoadMoreTree());
+            workspaces.push(new LoadMoreItem
+            ());
         }
 
         return workspaces;
@@ -139,10 +139,10 @@ export class WorkspaceItem extends vscode.TreeItem {
 
         this.tooltip = new vscode.MarkdownString(undefined, true);
         this.tooltip.appendMarkdown(`## $(${this.iconPath.id}) [${this.workspace.attributes.name}](${this.webLink})\n\n`);
-        this.tooltip.appendMarkdown(`#### Environment: *${this.environment.attributes.name}* \n`);
+        this.tooltip.appendMarkdown(`#### Environment: ${this.environment.attributes.name} \n`);
         this.tooltip.appendMarkdown('___\n\n');
-        this.tooltip.appendMarkdown(`#### ID: *${this.workspace.id}* \n`);
-        this.tooltip.appendMarkdown(`Run Status: $(${this.iconPath.id}) ${run?.attributes?.status} \n`);
+        this.tooltip.appendMarkdown(`#### ID: ${this.workspace.id} \n`);
+        this.tooltip.appendMarkdown(`**Run Status**: $(${this.iconPath.id}) ${run?.attributes?.status} \n`);
         this.tooltip.appendMarkdown('___\n\n');
         this.tooltip.appendMarkdown('| | |\n');
         this.tooltip.appendMarkdown('--|--\n');
@@ -152,7 +152,7 @@ export class WorkspaceItem extends vscode.TreeItem {
     }   
 }
 
-export class LoadMoreTree extends vscode.TreeItem {
+class LoadMoreItem extends vscode.TreeItem {
     constructor() {
         super('Load more...', vscode.TreeItemCollapsibleState.None);
   

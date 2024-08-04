@@ -32,7 +32,6 @@ export async function getRemoteRepoIdentifiers(): Promise<string[]> {
     }
 
     return repositories.map((repo) => {
-        console.log('repo', repo);
         const rootUri = repo.state.remotes[0].name;
         if (rootUri === undefined) {
             return '';

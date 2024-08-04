@@ -76,12 +76,12 @@
             },
             {
                 "command": "apply.open",
-                "title": "Apply open",
+                "title": "Show apply output",
                 "icon": "$(output)"
             },
             {
                 "command": "plan.open",
-                "title": "Plan open",
+                "title": "Show plan output",
                 "icon": "$(output)"
             }
         ],
@@ -141,7 +141,7 @@
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
-        "@hey-api/client-fetch": "^0.1.12",
+        "@hey-api/client-fetch": "^0.1.13",
         "date-fns": "^3.6.0"
     }
 }

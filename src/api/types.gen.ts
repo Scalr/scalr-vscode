@@ -7843,6 +7843,248 @@ export type GetAccountsResponse = AccountListingDocument;
 
 export type GetAccountsError = unknown;
 
+export type GetAccountData = {
+  path: {
+    /**
+     * The ID of the account.
+     */
+    account: string;
+  };
+  query?: {
+    /**
+     * The comma-separated list of relationship paths.
+     */
+    include?: Array<'billing-plan' | 'identity-provider' | 'owner'>;
+  };
+};
+
+export type GetAccountResponse = AccountDocument;
+
+export type GetAccountError = unknown;
+
+export type UpdateAccountData = {
+  body?: AccountDocument;
+  path: {
+    /**
+     * The ID of the account to update.
+     */
+    account: string;
+  };
+};
+
+export type UpdateAccountResponse = AccountDocument;
+
+export type UpdateAccountError = unknown;
+
+export type InviteUserToAccountData = {
+  body?: UserInviteDocument;
+  path: {
+    account: string;
+  };
+  query?: {
+    /**
+     * The comma-separated list of relationship paths.
+     */
+    include?: Array<'account' | 'teams' | 'user'>;
+  };
+};
+
+export type InviteUserToAccountResponse = AccountUserDocument;
+
+export type InviteUserToAccountError = unknown;
+
+export type RemoveUserFromAccountData = {
+  path: {
+    /**
+     * The ID of the account.
+     */
+    account: string;
+    /**
+     * The ID of the user.
+     *
+     */
+    user: string;
+  };
+};
+
+export type RemoveUserFromAccountResponse = void;
+
+export type RemoveUserFromAccountError = unknown;
+
+export type DeleteAccountBlobSettingsData = {
+  path: {
+    /**
+     * The ID of the account.
+     */
+    account: string;
+  };
+};
+
+export type DeleteAccountBlobSettingsResponse = void;
+
+export type DeleteAccountBlobSettingsError = unknown;
+
+export type GetAccountBlobSettingsData = {
+  path: {
+    /**
+     * The ID of the account.
+     */
+    account: string;
+  };
+};
+
+export type GetAccountBlobSettingsResponse = AccountBlobSettingsDocument;
+
+export type GetAccountBlobSettingsError = unknown;
+
+export type UpdateAccountBlobSettingsData = {
+  body?: AccountBlobSettingsDocument;
+  path: {
+    /**
+     * The ID of the account.
+     */
+    account: string;
+  };
+};
+
+export type UpdateAccountBlobSettingsResponse = AccountBlobSettingsDocument;
+
+export type UpdateAccountBlobSettingsError = unknown;
+
+export type ReplaceAccountBlobSettingsData = {
+  body?: AccountBlobSettingsDocument;
+  path: {
+    /**
+     * The ID of the account.
+     */
+    account: string;
+  };
+};
+
+export type ReplaceAccountBlobSettingsResponse = AccountBlobSettingsDocument;
+
+export type ReplaceAccountBlobSettingsError = unknown;
+
+export type GetMetricsData = {
+  path: {
+    /**
+     * The ID of the account
+     *
+     */
+    account: string;
+  };
+};
+
+export type GetMetricsResponse = AccountMetrics;
+
+export type GetMetricsError = unknown;
+
+export type GetApplyData = {
+  path: {
+    /**
+     * The ID of the apply.
+     */
+    apply: string;
+  };
+};
+
+export type GetApplyResponse = ApplyDocument;
+
+export type GetApplyError = unknown;
+
+export type GetApplyLogData = {
+  path: {
+    /**
+     * The ID of the apply. Obtain it from the
+     * [Get a Workspace](workspaces.html#get-a-workspace) endpoint.
+     */
+    apply: string;
+  };
+  query?: {
+    /**
+     * Strip ANSI escape codes.
+     */
+    clean?: boolean;
+  };
+};
+
+export type GetApplyLogResponse = unknown | void;
+
+export type GetApplyLogError = unknown;
+
+export type GetPlanData = {
+  path: {
+    /**
+     * The ID of the plan.
+     */
+    plan: string;
+  };
+};
+
+export type GetPlanResponse = PlanDocument;
+
+export type GetPlanError = unknown;
+
+export type GetJsonOutputData = {
+  path: {
+    /**
+     * The ID of the plan. Obtain it from the
+     * [Get a Workspace](workspaces.html#get-a-workspace) endpoint.
+     */
+    plan: string;
+  };
+  query?: {
+    /**
+     * Format of the response.
+     */
+    format?: 'text' | 'gzip';
+  };
+};
+
+export type GetJsonOutputResponse = unknown | void;
+
+export type GetJsonOutputError = unknown;
+
+export type GetPlanLogData = {
+  path: {
+    /**
+     * The ID of the plan. Obtain it from the
+     * [Get a Workspace](workspaces.html#get-a-workspace) endpoint.
+     */
+    plan: string;
+  };
+  query?: {
+    /**
+     * Strip ANSI escape codes.
+     */
+    clean?: boolean;
+  };
+};
+
+export type GetPlanLogResponse = unknown | void;
+
+export type GetPlanLogError = unknown;
+
+export type GetSanitizedJsonOutputData = {
+  path: {
+    /**
+     * The ID of the plan. Obtain it from the
+     * [Get a Workspace](workspaces.html#get-a-workspace) endpoint.
+     */
+    plan: string;
+  };
+  query?: {
+    /**
+     * Format of the response.
+     */
+    format?: 'text' | 'gzip';
+  };
+};
+
+export type GetSanitizedJsonOutputResponse = unknown | void;
+
+export type GetSanitizedJsonOutputError = unknown;
+
 export type GetRunsData = {
   query?: {
     /**
@@ -7997,6 +8239,320 @@ export type CreateRunData = {
 export type CreateRunResponse = RunDocument;
 
 export type CreateRunError = unknown;
+
+export type GetRunsQueueData = {
+  query?: {
+    /**
+     * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+     */
+    fields?: {
+      /**
+       * The comma-separated list of fields to return in response for Apply resource.
+       */
+      applies?: string;
+      /**
+       * The comma-separated list of fields to return in response for ConfigurationVersion resource.
+       */
+      'configuration-versions'?: string;
+      /**
+       * The comma-separated list of fields to return in response for CostEstimate resource.
+       */
+      'cost-estimates'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Environment resource.
+       */
+      environments?: string;
+      /**
+       * The comma-separated list of fields to return in response for Plan resource.
+       */
+      plans?: string;
+      /**
+       * The comma-separated list of fields to return in response for PolicyCheck resource.
+       */
+      'policy-checks'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Run resource.
+       */
+      runs?: string;
+      /**
+       * The comma-separated list of fields to return in response for StatusTransition resource.
+       */
+      'status-transitions'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Tag resource.
+       */
+      tags?: string;
+      /**
+       * The comma-separated list of fields to return in response for User resource.
+       */
+      users?: string;
+      /**
+       * The comma-separated list of fields to return in response for VcsRevision resource.
+       */
+      'vcs-revisions'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Workspace resource.
+       */
+      workspaces?: string;
+    };
+    /**
+     * The account ID to list runs for.
+     */
+    'filter[account]'?: string;
+    /**
+     * The run created at filter.
+     */
+    'filter[created-at]'?: string;
+    /**
+     * The ID of the Run which triggered this run
+     */
+    'filter[created-by-run]'?: string;
+    /**
+     * The ID of the User who triggered this run
+     */
+    'filter[created-by]'?: string;
+    /**
+     * The environment ID to list runs for.
+     */
+    'filter[environment]'?: string;
+    /**
+     * The is dry runs filter.
+     */
+    'filter[is-dry]'?: string;
+    /**
+     * Filter the runs by drifted resources count.
+     */
+    'filter[resource-drifts]'?: string;
+    /**
+     * The comma-separated list of run IDs.
+     */
+    'filter[run]'?: string;
+    /**
+     * The run source filter.
+     */
+    'filter[source]'?: string;
+    /**
+     * The run status filter.
+     */
+    'filter[status]'?: string;
+    /**
+     * Filter runs by tags.
+     */
+    'filter[tag]'?: string;
+    /**
+     * Commit sha that affected runs
+     */
+    'filter[vcs-revision]'?: string;
+    /**
+     * The workspace ID to list runs for.
+     */
+    'filter[workspace]'?: string;
+    /**
+     * The comma-separated list of relationship paths.
+     */
+    include?: Array<
+      | 'apply'
+      | 'configuration-version'
+      | 'cost-estimate'
+      | 'created-by'
+      | 'created-by-run'
+      | 'environment'
+      | 'plan'
+      | 'policy-checks'
+      | 'status-transitions'
+      | 'tags'
+      | 'vcs-revision'
+      | 'workspace'
+    >;
+    /**
+     * Page number
+     */
+    'page[number]'?: string;
+    /**
+     * Page size
+     */
+    'page[size]'?: string;
+    /**
+     * Query string
+     */
+    query?: string;
+    /**
+     * List only runs that are scheduled.
+     */
+    scheduled?: string;
+  };
+};
+
+export type GetRunsQueueResponse = RunListingDocument;
+
+export type GetRunsQueueError = unknown;
+
+export type GetRunData = {
+  path: {
+    /**
+     * The ID of the run to show.
+     */
+    run: string;
+  };
+  query?: {
+    /**
+     * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+     */
+    fields?: {
+      /**
+       * The comma-separated list of fields to return in response for Apply resource.
+       */
+      applies?: string;
+      /**
+       * The comma-separated list of fields to return in response for ConfigurationVersion resource.
+       */
+      'configuration-versions'?: string;
+      /**
+       * The comma-separated list of fields to return in response for CostEstimate resource.
+       */
+      'cost-estimates'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Environment resource.
+       */
+      environments?: string;
+      /**
+       * The comma-separated list of fields to return in response for Plan resource.
+       */
+      plans?: string;
+      /**
+       * The comma-separated list of fields to return in response for PolicyCheck resource.
+       */
+      'policy-checks'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Run resource.
+       */
+      runs?: string;
+      /**
+       * The comma-separated list of fields to return in response for StatusTransition resource.
+       */
+      'status-transitions'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Tag resource.
+       */
+      tags?: string;
+      /**
+       * The comma-separated list of fields to return in response for User resource.
+       */
+      users?: string;
+      /**
+       * The comma-separated list of fields to return in response for VcsRevision resource.
+       */
+      'vcs-revisions'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Workspace resource.
+       */
+      workspaces?: string;
+    };
+    /**
+     * The comma-separated list of relationship paths.
+     */
+    include?: Array<
+      | 'apply'
+      | 'configuration-version'
+      | 'cost-estimate'
+      | 'created-by'
+      | 'created-by-run'
+      | 'environment'
+      | 'plan'
+      | 'policy-checks'
+      | 'status-transitions'
+      | 'tags'
+      | 'vcs-revision'
+      | 'workspace'
+    >;
+  };
+};
+
+export type GetRunResponse = RunDocument;
+
+export type GetRunError = unknown;
+
+export type ConfirmRunData = {
+  body?: ConfirmRequest;
+  path: {
+    /**
+     * The ID of the run to confirm.
+     */
+    run: string;
+  };
+};
+
+export type ConfirmRunResponse = unknown;
+
+export type ConfirmRunError = unknown;
+
+export type CancelRunData = {
+  body?: Comment;
+  path: {
+    /**
+     * The ID of the run to cancel.
+     */
+    run: string;
+  };
+};
+
+export type CancelRunResponse = unknown | void;
+
+export type CancelRunError = unknown;
+
+export type DiscardRunData = {
+  body?: Comment;
+  path: {
+    /**
+     * The ID of run to discard.
+     */
+    run: string;
+  };
+};
+
+export type DiscardRunResponse = unknown;
+
+export type DiscardRunError = unknown;
+
+export type ForceRunData = {
+  body?: Comment;
+  path: {
+    /**
+     * The ID of the run to force.
+     */
+    run: string;
+  };
+};
+
+export type ForceRunResponse = unknown;
+
+export type ForceRunError = unknown;
+
+export type ListPolicyChecksData = {
+  path: {
+    /**
+     * The ID of the run.
+     */
+    run: string;
+  };
+};
+
+export type ListPolicyChecksResponse = PolicyCheckListingDocument;
+
+export type ListPolicyChecksError = unknown;
+
+export type DownloadPolicyInputData = {
+  path: {
+    /**
+     * The ID of the run.
+     */
+    run: string;
+  };
+};
+
+export type DownloadPolicyInputResponse = unknown;
+
+export type DownloadPolicyInputError = unknown;
 
 export type GetWorkspacesData = {
   query?: {
@@ -8171,6 +8727,386 @@ export type CreateWorkspaceResponse = WorkspaceDocument;
 
 export type CreateWorkspaceError = unknown;
 
+export type DeleteWorkspaceData = {
+  path: {
+    /**
+     * The ID of the workspace to be deleted.
+     */
+    workspace: string;
+  };
+};
+
+export type DeleteWorkspaceResponse = void;
+
+export type DeleteWorkspaceError = unknown;
+
+export type GetWorkspaceData = {
+  path: {
+    /**
+     * The workspace ID to show.
+     */
+    workspace: string;
+  };
+  query?: {
+    /**
+     * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+     */
+    fields?: {
+      /**
+       * The comma-separated list of fields to return in response for AgentPool resource.
+       */
+      'agent-pools'?: string;
+      /**
+       * The comma-separated list of fields to return in response for ConfigurationVersion resource.
+       */
+      'configuration-versions'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Environment resource.
+       */
+      environments?: string;
+      /**
+       * The comma-separated list of fields to return in response for ModuleVersion resource.
+       */
+      'module-versions'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Module resource.
+       */
+      modules?: string;
+      /**
+       * The comma-separated list of fields to return in response for Run resource.
+       */
+      runs?: string;
+      /**
+       * The comma-separated list of fields to return in response for Tag resource.
+       */
+      tags?: string;
+      /**
+       * The comma-separated list of fields to return in response for User resource.
+       */
+      users?: string;
+      /**
+       * The comma-separated list of fields to return in response for VcsProvider resource.
+       */
+      'vcs-providers'?: string;
+      /**
+       * The comma-separated list of fields to return in response for WorkspaceReadme resource.
+       */
+      'workspace-readme'?: string;
+      /**
+       * The comma-separated list of fields to return in response for Workspace resource.
+       */
+      workspaces?: string;
+    };
+    /**
+     * The comma-separated list of relationship paths.
+     */
+    include?: Array<
+      | 'agent-pool'
+      | 'configuration-version'
+      | 'created-by'
+      | 'environment'
+      | 'latest-configuration-version'
+      | 'latest-run'
+      | 'locked-by'
+      | 'locked-by-run'
+      | 'module'
+      | 'module-version'
+      | 'readme-id'
+      | 'tags'
+      | 'updated-by'
+      | 'vcs-provider'
+    >;
+  };
+};
+
+export type GetWorkspaceResponse = WorkspaceDocument;
+
+export type GetWorkspaceError = unknown;
+
+export type UpdateWorkspaceData = {
+  body?: WorkspaceDocument;
+  path: {
+    /**
+     * The ID of the workspace to be updated.
+     */
+    workspace: string;
+  };
+};
+
+export type UpdateWorkspaceResponse = WorkspaceDocument;
+
+export type UpdateWorkspaceError = unknown;
+
+export type LockWorkspaceData = {
+  body?: Reason;
+  path: {
+    /**
+     * The workspace ID to lock.
+     */
+    workspace: string;
+  };
+};
+
+export type LockWorkspaceResponse = WorkspaceDocument;
+
+export type LockWorkspaceError = unknown;
+
+export type ResyncWorkspaceData = {
+  path: {
+    /**
+     * The ID of the workspace to resync.
+     */
+    workspace: string;
+  };
+};
+
+export type ResyncWorkspaceResponse = ConfigurationVersionDocument;
+
+export type ResyncWorkspaceError = unknown;
+
+export type SetScheduleData = {
+  body?: WorkspaceSchedule;
+  path: {
+    /**
+     * The ID of the workspace to be updated.
+     */
+    workspace: string;
+  };
+};
+
+export type SetScheduleResponse = WorkspaceDocument;
+
+export type SetScheduleError = unknown;
+
+export type UnlockWorkspaceData = {
+  path: {
+    /**
+     * The workspace ID to unlock.
+     */
+    workspace: string;
+  };
+};
+
+export type UnlockWorkspaceResponse = WorkspaceDocument;
+
+export type UnlockWorkspaceError = unknown;
+
+export type GetCurrentStateVersionData = {
+  path: {
+    /**
+     * The ID of the workspace.
+     */
+    workspace: string;
+  };
+};
+
+export type GetCurrentStateVersionResponse = StateVersionDocument;
+
+export type GetCurrentStateVersionError = unknown;
+
+export type GetWorkspaceOutputsData = {
+  path: {
+    /**
+     * The workspace to list outputs for.
+     *
+     */
+    workspace: string;
+  };
+};
+
+export type GetWorkspaceOutputsResponse =
+  WorkspaceOutputFieldsetsListingDocument;
+
+export type GetWorkspaceOutputsError = unknown;
+
+export type ListProviderConfigurationLinksData = {
+  path: {
+    /**
+     * The ID of the Workspace.
+     *
+     */
+    workspace: string;
+  };
+  query?: {
+    /**
+     * The comma-separated list of relationship paths.
+     */
+    include?: Array<'provider-configuration'>;
+    /**
+     * Page number
+     */
+    'page[number]'?: string;
+    /**
+     * Page size
+     */
+    'page[size]'?: string;
+    /**
+     * The comma-separated list of attributes.
+     */
+    sort?: Array<'name'>;
+  };
+};
+
+export type ListProviderConfigurationLinksResponse =
+  ProviderConfigurationLinkListingDocument;
+
+export type ListProviderConfigurationLinksError = unknown;
+
+export type CreateProviderConfigurationLinkData = {
+  body?: ProviderConfigurationLinkDocument;
+  path: {
+    /**
+     * The ID of the Workspace.
+     *
+     */
+    workspace: string;
+  };
+};
+
+export type CreateProviderConfigurationLinkResponse =
+  ProviderConfigurationLinkDocument;
+
+export type CreateProviderConfigurationLinkError = unknown;
+
+export type DeleteRemoteStateConsumersData = {
+  body?: RemoteStateConsumerRelationshipFieldsetsListingDocument;
+  path: {
+    /**
+     * The ID of the workspace.
+     *
+     */
+    workspace: string;
+  };
+};
+
+export type DeleteRemoteStateConsumersResponse = void;
+
+export type DeleteRemoteStateConsumersError = unknown;
+
+export type ListRemoteStateConsumersData = {
+  path: {
+    /**
+     * The ID of the workspace.
+     *
+     */
+    workspace: string;
+  };
+  query?: {
+    /**
+     * Page number
+     */
+    'page[number]'?: string;
+    /**
+     * Page size
+     */
+    'page[size]'?: string;
+  };
+};
+
+export type ListRemoteStateConsumersResponse =
+  RemoteStateConsumerRelationshipFieldsetsListingDocument;
+
+export type ListRemoteStateConsumersError = unknown;
+
+export type ReplaceRemoteStateConsumersData = {
+  body?: RemoteStateConsumerRelationshipFieldsetsListingDocument;
+  path: {
+    /**
+     * The ID of the workspace.
+     *
+     */
+    workspace: string;
+  };
+};
+
+export type ReplaceRemoteStateConsumersResponse = void;
+
+export type ReplaceRemoteStateConsumersError = unknown;
+
+export type AddRemoteStateConsumersData = {
+  body?: RemoteStateConsumerRelationshipFieldsetsListingDocument;
+  path: {
+    /**
+     * The ID of the workspace.
+     *
+     */
+    workspace: string;
+  };
+};
+
+export type AddRemoteStateConsumersResponse = void;
+
+export type AddRemoteStateConsumersError = unknown;
+
+export type DeleteWorkspaceTagsData = {
+  body?: TagRelationshipFieldsetsListingDocument;
+  path: {
+    /**
+     * The workspace whose tags will be deleted.
+     *
+     */
+    workspace: string;
+  };
+};
+
+export type DeleteWorkspaceTagsResponse = void;
+
+export type DeleteWorkspaceTagsError = unknown;
+
+export type ListWorkspaceTagsData = {
+  path: {
+    /**
+     * The workspace to list tags for.
+     *
+     */
+    workspace: string;
+  };
+  query?: {
+    /**
+     * Page number
+     */
+    'page[number]'?: string;
+    /**
+     * Page size
+     */
+    'page[size]'?: string;
+  };
+};
+
+export type ListWorkspaceTagsResponse = TagRelationshipFieldsetsListingDocument;
+
+export type ListWorkspaceTagsError = unknown;
+
+export type ReplaceWorkspaceTagsData = {
+  body?: TagRelationshipFieldsetsListingDocument;
+  path: {
+    /**
+     * The workspace whose tags will be replaced.
+     *
+     */
+    workspace: string;
+  };
+};
+
+export type ReplaceWorkspaceTagsResponse = void;
+
+export type ReplaceWorkspaceTagsError = unknown;
+
+export type AddWorkspaceTagsData = {
+  body?: TagRelationshipFieldsetsListingDocument;
+  path: {
+    /**
+     * The workspace to add the tags to.
+     *
+     */
+    workspace: string;
+  };
+};
+
+export type AddWorkspaceTagsResponse = void;
+
+export type AddWorkspaceTagsError = unknown;
+
 export type $OpenApiTs = {
   '/accounts': {
     get: {
@@ -8180,6 +9116,405 @@ export type $OpenApiTs = {
          * Success.
          */
         '200': AccountListingDocument;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/accounts/{account}': {
+    get: {
+      req: GetAccountData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': AccountDocument;
+        /**
+         * Account not found or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    patch: {
+      req: UpdateAccountData;
+      res: {
+        /**
+         * Successfully updated the account.
+         */
+        '200': AccountDocument;
+        /**
+         * Account or relationship not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Invalid arguments.
+         */
+        '422': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/accounts/{account}/actions/invite': {
+    post: {
+      req: InviteUserToAccountData;
+      res: {
+        /**
+         * Success.
+         */
+        '201': AccountUserDocument;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
+        /**
+         * User, Account, not found.
+         */
+        '404': unknown;
+        /**
+         * Invalid team or role.
+         */
+        '422': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/accounts/{account}/actions/remove/{user}': {
+    delete: {
+      req: RemoveUserFromAccountData;
+      res: {
+        /**
+         * Successfully removed.
+         */
+        '204': void;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
+        /**
+         * The user or account not found.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/accounts/{account}/blob-settings': {
+    delete: {
+      req: DeleteAccountBlobSettingsData;
+      res: {
+        /**
+         * Success.
+         */
+        '204': void;
+        /**
+         * Cannot delete settings in a current state.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    get: {
+      req: GetAccountBlobSettingsData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': AccountBlobSettingsDocument;
+        /**
+         * Account not found or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    patch: {
+      req: UpdateAccountBlobSettingsData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': AccountBlobSettingsDocument;
+        /**
+         * Custom blob settings are not set. Do `PUT` to create them.
+         */
+        '404': unknown;
+        /**
+         * Cannot update settings in a current state.
+         */
+        '409': unknown;
+        /**
+         * Invalid arguments.
+         */
+        '422': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    put: {
+      req: ReplaceAccountBlobSettingsData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': AccountBlobSettingsDocument;
+        /**
+         * Cannot replace settings in a current state.
+         */
+        '409': unknown;
+        /**
+         * Invalid arguments.
+         */
+        '422': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/accounts/{account}/metrics': {
+    get: {
+      req: GetMetricsData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': AccountMetrics;
+        /**
+         * Account or relationship not found, or user unauthorized to perform an action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/applies/{apply}': {
+    get: {
+      req: GetApplyData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': ApplyDocument;
+        /**
+         * Apply not found or user unauthorized to perform action.
+         */
+        '403': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/applies/{apply}/output': {
+    get: {
+      req: GetApplyLogData;
+      res: {
+        /**
+         * Apply log.
+         */
+        '200': unknown;
+        /**
+         * Apply has not yet completed or can't be served.
+         */
+        '204': void;
+        /**
+         * The location of the temporary download link.
+         */
+        '302': unknown;
+        /**
+         * Apply not found or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/plans/{plan}': {
+    get: {
+      req: GetPlanData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': PlanDocument;
+        /**
+         * Plan not found or user unauthorized to perform action.
+         */
+        '403': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/plans/{plan}/json-output': {
+    get: {
+      req: GetJsonOutputData;
+      res: {
+        /**
+         * Terraform json plan.
+         */
+        '200': unknown;
+        /**
+         * Plan has not yet completed.
+         */
+        '204': void;
+        /**
+         * Plan not found or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Plan cannot be served due to size limitations.
+         */
+        '413': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/plans/{plan}/output': {
+    get: {
+      req: GetPlanLogData;
+      res: {
+        /**
+         * Plan log.
+         */
+        '200': unknown;
+        /**
+         * Plan has not yet completed or can't be served.
+         */
+        '204': void;
+        /**
+         * The location of the temporary download link.
+         */
+        '302': unknown;
+        /**
+         * Plan not found or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/plans/{plan}/sanitized-json-output': {
+    get: {
+      req: GetSanitizedJsonOutputData;
+      res: {
+        /**
+         * Sanitized terraform json plan.
+         */
+        '200': unknown;
+        /**
+         * Plan has not yet completed or can't be served.
+         */
+        '204': void;
+        /**
+         * Redirects to JSON Output if the API server is not sure
+         * that the plan can be correctly sanitized and a user permissions
+         * allow to read sensitive plan values.
+         */
+        '307': unknown;
+        /**
+         * Plan not found or user unauthorized to perform action.
+         */
+        '404': unknown;
         /**
          * Client error.
          */
@@ -8239,6 +9574,210 @@ export type $OpenApiTs = {
       };
     };
   };
+  '/runs-queue': {
+    get: {
+      req: GetRunsQueueData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': RunListingDocument;
+        /**
+         * User unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/runs/{run}': {
+    get: {
+      req: GetRunData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': RunDocument;
+        /**
+         * Run not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/runs/{run}/actions/apply': {
+    post: {
+      req: ConfirmRunData;
+      res: {
+        /**
+         * Successfully queued an apply request.
+         */
+        '202': unknown;
+        /**
+         * Run not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Run was not paused for confirmation. Apply not allowed.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/runs/{run}/actions/cancel': {
+    post: {
+      req: CancelRunData;
+      res: {
+        /**
+         * Successfully queued a cancel request.
+         */
+        '202': unknown;
+        /**
+         * Run is already cancelled, nothing should be done.
+         */
+        '204': void;
+        /**
+         * Run not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Run was not planning or applying. Cancel not allowed.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/runs/{run}/actions/discard': {
+    post: {
+      req: DiscardRunData;
+      res: {
+        /**
+         * Successfully queued a discard request.
+         */
+        '202': unknown;
+        /**
+         * Run not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Run was not paused for confirmation or priority. Discard not allowed.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/runs/{run}/actions/force': {
+    post: {
+      req: ForceRunData;
+      res: {
+        /**
+         * Successfully forced a run.
+         */
+        '202': unknown;
+        /**
+         * Run not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Workspace force_latest_run enabled or status is not pending. Force not allowed.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/runs/{run}/policy-checks': {
+    get: {
+      req: ListPolicyChecksData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': PolicyCheckListingDocument;
+        /**
+         * Plan not found or user unauthorized to perform action.
+         */
+        '403': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/runs/{run}/policy-input': {
+    get: {
+      req: DownloadPolicyInputData;
+      res: {
+        /**
+         * Successfully generated input archive.
+         */
+        '200': unknown;
+        /**
+         * Run was not found, plan wasn't completed or user unauthorized to perform the action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
   '/workspaces': {
     get: {
       req: GetWorkspacesData;
@@ -8276,6 +9815,495 @@ export type $OpenApiTs = {
          * Malformed request body (missing attributes, wrong types, etc.).
          */
         '422': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/workspaces/{workspace}': {
+    delete: {
+      req: DeleteWorkspaceData;
+      res: {
+        /**
+         * Successfully deleted the workspace.
+         */
+        '204': void;
+        /**
+         * Workspace not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Workspace can't be deleted because it has managed resources
+         * and deletion protection is enabled.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    get: {
+      req: GetWorkspaceData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': WorkspaceDocument;
+        /**
+         * Workspace not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    patch: {
+      req: UpdateWorkspaceData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': WorkspaceDocument;
+        /**
+         * Workspace not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Malformed request body (missing attributes, wrong types, etc.).
+         */
+        '422': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/workspaces/{workspace}/actions/lock': {
+    post: {
+      req: LockWorkspaceData;
+      res: {
+        /**
+         * Successfully locked the workspace.
+         */
+        '200': WorkspaceDocument;
+        /**
+         * Workspace not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Workspace already locked.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/workspaces/{workspace}/actions/resync': {
+    post: {
+      req: ResyncWorkspaceData;
+      res: {
+        /**
+         * Success.
+         */
+        '201': ConfigurationVersionDocument;
+        /**
+         * Workspace not found or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Workspace is not bound to any repository.
+         */
+        '409': unknown;
+        /**
+         * Malformed request body (missing attributes, wrong types, etc.).
+         */
+        '422': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/workspaces/{workspace}/actions/set-schedule': {
+    post: {
+      req: SetScheduleData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': WorkspaceDocument;
+        /**
+         * Workspace not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Malformed request body (missing attributes, wrong types, etc.).
+         */
+        '422': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/workspaces/{workspace}/actions/unlock': {
+    post: {
+      req: UnlockWorkspaceData;
+      res: {
+        /**
+         * Successfully unlocked the workspace.
+         */
+        '200': WorkspaceDocument;
+        /**
+         * Workspace not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Workspace already unlocked, or locked by a different user.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/workspaces/{workspace}/current-state-version': {
+    get: {
+      req: GetCurrentStateVersionData;
+      res: {
+        /**
+         * Successfully returned current state version for the given workspace.
+         */
+        '200': StateVersionDocument;
+        /**
+         * Workspace not found, workspace does not have a current state version,
+         * or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/workspaces/{workspace}/outputs': {
+    get: {
+      req: GetWorkspaceOutputsData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': WorkspaceOutputFieldsetsListingDocument;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/workspaces/{workspace}/provider-configuration-links': {
+    get: {
+      req: ListProviderConfigurationLinksData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': ProviderConfigurationLinkListingDocument;
+        /**
+         * User unauthorized to perform action.
+         */
+        '403': unknown;
+        /**
+         * Workspace not found.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    post: {
+      req: CreateProviderConfigurationLinkData;
+      res: {
+        /**
+         * Created.
+         */
+        '201': ProviderConfigurationLinkDocument;
+        /**
+         * User unauthorized to perform action.
+         */
+        '403': unknown;
+        /**
+         * Workspace or Provider configuration not found.
+         */
+        '404': unknown;
+        /**
+         * Malformed request body (missing attributes, wrong types, etc.).
+         */
+        '422': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/workspaces/{workspace}/relationships/remote-state-consumers': {
+    delete: {
+      req: DeleteRemoteStateConsumersData;
+      res: {
+        /**
+         * Success.
+         */
+        '204': void;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
+        /**
+         * Workspace not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Not allowed. `global-remote-state` is enabled for the workspace.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    get: {
+      req: ListRemoteStateConsumersData;
+      res: {
+        /**
+         * Request was successful.
+         */
+        '200': RemoteStateConsumerRelationshipFieldsetsListingDocument;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
+        /**
+         * Workspace not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    patch: {
+      req: ReplaceRemoteStateConsumersData;
+      res: {
+        /**
+         * Success.
+         */
+        '204': void;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
+        /**
+         * Workspace not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Not allowed. `global-remote-state` is enabled for the workspace.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    post: {
+      req: AddRemoteStateConsumersData;
+      res: {
+        /**
+         * Success.
+         */
+        '204': void;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
+        /**
+         * Workspace not found, or user unauthorized to perform action.
+         */
+        '404': unknown;
+        /**
+         * Not allowed. `global-remote-state` is enabled for the workspace.
+         */
+        '409': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+  };
+  '/workspaces/{workspace}/relationships/tags': {
+    delete: {
+      req: DeleteWorkspaceTagsData;
+      res: {
+        /**
+         * Success.
+         */
+        '204': void;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    get: {
+      req: ListWorkspaceTagsData;
+      res: {
+        /**
+         * Success.
+         */
+        '200': TagRelationshipFieldsetsListingDocument;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    patch: {
+      req: ReplaceWorkspaceTagsData;
+      res: {
+        /**
+         * Success.
+         */
+        '204': void;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
+        /**
+         * Client error.
+         */
+        '4XX': unknown;
+        /**
+         * Server error.
+         */
+        '5XX': unknown;
+      };
+    };
+    post: {
+      req: AddWorkspaceTagsData;
+      res: {
+        /**
+         * Success.
+         */
+        '204': void;
+        /**
+         * User unauthorized to perform this action.
+         */
+        '403': unknown;
         /**
          * Client error.
          */

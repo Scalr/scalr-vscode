@@ -12,7 +12,7 @@ export function activate(context: vscode.ExtensionContext) {
     console.log('Congratulations, your extension "scalr" is now active!');
 
     context.subscriptions.push(
-        new ScalrFeature(context, vscode.window.createOutputChannel('Scalr')),
+        new ScalrFeature(context),
     );
 }
 

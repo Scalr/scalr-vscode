@@ -5,18 +5,144 @@ import type {
     GetAccountsData,
     GetAccountsError,
     GetAccountsResponse,
+    GetAccountData,
+    GetAccountError,
+    GetAccountResponse,
+    UpdateAccountData,
+    UpdateAccountError,
+    UpdateAccountResponse,
+    InviteUserToAccountData,
+    InviteUserToAccountError,
+    InviteUserToAccountResponse,
+    RemoveUserFromAccountData,
+    RemoveUserFromAccountError,
+    RemoveUserFromAccountResponse,
+    DeleteAccountBlobSettingsData,
+    DeleteAccountBlobSettingsError,
+    DeleteAccountBlobSettingsResponse,
+    GetAccountBlobSettingsData,
+    GetAccountBlobSettingsError,
+    GetAccountBlobSettingsResponse,
+    UpdateAccountBlobSettingsData,
+    UpdateAccountBlobSettingsError,
+    UpdateAccountBlobSettingsResponse,
+    ReplaceAccountBlobSettingsData,
+    ReplaceAccountBlobSettingsError,
+    ReplaceAccountBlobSettingsResponse,
+    GetMetricsData,
+    GetMetricsError,
+    GetMetricsResponse,
+    GetApplyData,
+    GetApplyError,
+    GetApplyResponse,
+    GetApplyLogData,
+    GetApplyLogError,
+    GetApplyLogResponse,
+    GetPlanData,
+    GetPlanError,
+    GetPlanResponse,
+    GetJsonOutputData,
+    GetJsonOutputError,
+    GetJsonOutputResponse,
+    GetPlanLogData,
+    GetPlanLogError,
+    GetPlanLogResponse,
+    GetSanitizedJsonOutputData,
+    GetSanitizedJsonOutputError,
+    GetSanitizedJsonOutputResponse,
     GetRunsData,
     GetRunsError,
     GetRunsResponse,
     CreateRunData,
     CreateRunError,
     CreateRunResponse,
+    GetRunsQueueData,
+    GetRunsQueueError,
+    GetRunsQueueResponse,
+    GetRunData,
+    GetRunError,
+    GetRunResponse,
+    ConfirmRunData,
+    ConfirmRunError,
+    ConfirmRunResponse,
+    CancelRunData,
+    CancelRunError,
+    CancelRunResponse,
+    DiscardRunData,
+    DiscardRunError,
+    DiscardRunResponse,
+    ForceRunData,
+    ForceRunError,
+    ForceRunResponse,
+    ListPolicyChecksData,
+    ListPolicyChecksError,
+    ListPolicyChecksResponse,
+    DownloadPolicyInputData,
+    DownloadPolicyInputError,
+    DownloadPolicyInputResponse,
     GetWorkspacesData,
     GetWorkspacesError,
     GetWorkspacesResponse,
     CreateWorkspaceData,
     CreateWorkspaceError,
     CreateWorkspaceResponse,
+    DeleteWorkspaceData,
+    DeleteWorkspaceError,
+    DeleteWorkspaceResponse,
+    GetWorkspaceData,
+    GetWorkspaceError,
+    GetWorkspaceResponse,
+    UpdateWorkspaceData,
+    UpdateWorkspaceError,
+    UpdateWorkspaceResponse,
+    LockWorkspaceData,
+    LockWorkspaceError,
+    LockWorkspaceResponse,
+    ResyncWorkspaceData,
+    ResyncWorkspaceError,
+    ResyncWorkspaceResponse,
+    SetScheduleData,
+    SetScheduleError,
+    SetScheduleResponse,
+    UnlockWorkspaceData,
+    UnlockWorkspaceError,
+    UnlockWorkspaceResponse,
+    GetCurrentStateVersionData,
+    GetCurrentStateVersionError,
+    GetCurrentStateVersionResponse,
+    GetWorkspaceOutputsData,
+    GetWorkspaceOutputsError,
+    GetWorkspaceOutputsResponse,
+    ListProviderConfigurationLinksData,
+    ListProviderConfigurationLinksError,
+    ListProviderConfigurationLinksResponse,
+    CreateProviderConfigurationLinkData,
+    CreateProviderConfigurationLinkError,
+    CreateProviderConfigurationLinkResponse,
+    DeleteRemoteStateConsumersData,
+    DeleteRemoteStateConsumersError,
+    DeleteRemoteStateConsumersResponse,
+    ListRemoteStateConsumersData,
+    ListRemoteStateConsumersError,
+    ListRemoteStateConsumersResponse,
+    ReplaceRemoteStateConsumersData,
+    ReplaceRemoteStateConsumersError,
+    ReplaceRemoteStateConsumersResponse,
+    AddRemoteStateConsumersData,
+    AddRemoteStateConsumersError,
+    AddRemoteStateConsumersResponse,
+    DeleteWorkspaceTagsData,
+    DeleteWorkspaceTagsError,
+    DeleteWorkspaceTagsResponse,
+    ListWorkspaceTagsData,
+    ListWorkspaceTagsError,
+    ListWorkspaceTagsResponse,
+    ReplaceWorkspaceTagsData,
+    ReplaceWorkspaceTagsError,
+    ReplaceWorkspaceTagsResponse,
+    AddWorkspaceTagsData,
+    AddWorkspaceTagsError,
+    AddWorkspaceTagsResponse,
 } from './types.gen';
 
 /**
@@ -29,6 +155,239 @@ export const getAccounts = (options?: Options<GetAccountsData>) => {
             url: '/accounts',
         },
     );
+};
+
+/**
+ * Get an Account
+ * Show details of a specific account.
+ */
+export const getAccount = (options: Options<GetAccountData>) => {
+    return (options?.client ?? client).get<GetAccountResponse, GetAccountError>({
+        ...options,
+        url: '/accounts/{account}',
+    });
+};
+
+/**
+ * Update Account
+ */
+export const updateAccount = (options: Options<UpdateAccountData>) => {
+    return (options?.client ?? client).patch<
+    UpdateAccountResponse,
+    UpdateAccountError
+  >({
+      ...options,
+      url: '/accounts/{account}',
+  });
+};
+
+/**
+ * Invite a User to the Account
+ * Invite the user to the account by adding it to the account teams and/or
+ * creating access policies within the account.
+ *
+ * If the user with a specified email does not exist - a new one will be created.
+ * The new user will be in the 'pending' status until the first login to the account.
+ *
+ * This is the preferred way to create users.
+ *
+ */
+export const inviteUserToAccount = (
+    options: Options<InviteUserToAccountData>,
+) => {
+    return (options?.client ?? client).post<
+    InviteUserToAccountResponse,
+    InviteUserToAccountError
+  >({
+      ...options,
+      url: '/accounts/{account}/actions/invite',
+  });
+};
+
+/**
+ * Remove a User from the Account
+ * The endpoint removes all user access policies and team bindings
+ * associated with the account.
+ *
+ */
+export const removeUserFromAccount = (
+    options: Options<RemoveUserFromAccountData>,
+) => {
+    return (options?.client ?? client).delete<
+    RemoveUserFromAccountResponse,
+    RemoveUserFromAccountError
+  >({
+      ...options,
+      url: '/accounts/{account}/actions/remove/{user}',
+  });
+};
+
+/**
+ * Delete Blob Settings
+ * Delete account blob settings.
+ *
+ * The `DELETE` operation (same as `PUT`) is only allowed if
+ * the account has no blobs (e.g. states, configurations, logs) stored
+ * in Scalr.
+ *
+ */
+export const deleteAccountBlobSettings = (
+    options: Options<DeleteAccountBlobSettingsData>,
+) => {
+    return (options?.client ?? client).delete<
+    DeleteAccountBlobSettingsResponse,
+    DeleteAccountBlobSettingsError
+  >({
+      ...options,
+      url: '/accounts/{account}/blob-settings',
+  });
+};
+
+/**
+ * Get Blob Settings
+ * Show details of account blob storage settings.
+ */
+export const getAccountBlobSettings = (
+    options: Options<GetAccountBlobSettingsData>,
+) => {
+    return (options?.client ?? client).get<
+    GetAccountBlobSettingsResponse,
+    GetAccountBlobSettingsError
+  >({
+      ...options,
+      url: '/accounts/{account}/blob-settings',
+  });
+};
+
+/**
+ * Update Blob Settings
+ * Update account blob settings credentials.
+ *
+ * It's also possible to override the project, bucket, and encryption key if the Scalr account
+ * is empty.
+ *
+ * Once the account has at least one blob  (e.g. state, configuration, log) stored
+ * in Scalr, the project, bucket and encryption key attributes become immutable and
+ * API will return `409` on any attempt to modify them.
+ *
+ */
+export const updateAccountBlobSettings = (
+    options: Options<UpdateAccountBlobSettingsData>,
+) => {
+    return (options?.client ?? client).patch<
+    UpdateAccountBlobSettingsResponse,
+    UpdateAccountBlobSettingsError
+  >({
+      ...options,
+      url: '/accounts/{account}/blob-settings',
+  });
+};
+
+/**
+ * Replace Blob Settings
+ * Create or Replace account blob storage settings.
+ *
+ * The `PUT` operation (same as `DELETE`) is allowed only when
+ * the account has no blobs (e.g. states, configurations, logs) stored
+ * in Scalr yet.
+ *
+ */
+export const replaceAccountBlobSettings = (
+    options: Options<ReplaceAccountBlobSettingsData>,
+) => {
+    return (options?.client ?? client).put<
+    ReplaceAccountBlobSettingsResponse,
+    ReplaceAccountBlobSettingsError
+  >({
+      ...options,
+      url: '/accounts/{account}/blob-settings',
+  });
+};
+
+/**
+ * Shows Account Metrics
+ */
+export const getMetrics = (options: Options<GetMetricsData>) => {
+    return (options?.client ?? client).get<GetMetricsResponse, GetMetricsError>({
+        ...options,
+        url: '/accounts/{account}/metrics',
+    });
+};
+
+/**
+ * Get an Apply
+ * Show details of a specific Terraform Apply stage.
+ */
+export const getApply = (options: Options<GetApplyData>) => {
+    return (options?.client ?? client).get<GetApplyResponse, GetApplyError>({
+        ...options,
+        url: '/applies/{apply}',
+    });
+};
+
+/**
+ * Apply Log
+ * Download the raw output of the terraform apply stage.
+ */
+export const getApplyLog = (options: Options<GetApplyLogData>) => {
+    return (options?.client ?? client).get<GetApplyLogResponse, GetApplyLogError>(
+        {
+            ...options,
+            url: '/applies/{apply}/output',
+        },
+    );
+};
+
+/**
+ * Get a Plan
+ * Show details of a specific Terraform Plan stage.
+ */
+export const getPlan = (options: Options<GetPlanData>) => {
+    return (options?.client ?? client).get<GetPlanResponse, GetPlanError>({
+        ...options,
+        url: '/plans/{plan}',
+    });
+};
+
+/**
+ * JSON Output
+ * Download JSON formatted execution plan.
+ */
+export const getJsonOutput = (options: Options<GetJsonOutputData>) => {
+    return (options?.client ?? client).get<
+    GetJsonOutputResponse,
+    GetJsonOutputError
+  >({
+      ...options,
+      url: '/plans/{plan}/json-output',
+  });
+};
+
+/**
+ * Plan Log
+ * Download the raw output of the terraform plan stage.
+ */
+export const getPlanLog = (options: Options<GetPlanLogData>) => {
+    return (options?.client ?? client).get<GetPlanLogResponse, GetPlanLogError>({
+        ...options,
+        url: '/plans/{plan}/output',
+    });
+};
+
+/**
+ * Sanitized JSON Output
+ * Download plan file in machine-readable format with sanitized sensitive values.
+ */
+export const getSanitizedJsonOutput = (
+    options: Options<GetSanitizedJsonOutputData>,
+) => {
+    return (options?.client ?? client).get<
+    GetSanitizedJsonOutputResponse,
+    GetSanitizedJsonOutputError
+  >({
+      ...options,
+      url: '/plans/{plan}/sanitized-json-output',
+  });
 };
 
 /**
@@ -56,6 +415,118 @@ export const createRun = (options?: Options<CreateRunData>) => {
         ...options,
         url: '/runs',
     });
+};
+
+/**
+ * List Runs Queue
+ * This endpoint lists Runs Queue on allowed scopes.
+ *
+ */
+export const getRunsQueue = (options?: Options<GetRunsQueueData>) => {
+    return (options?.client ?? client).get<
+    GetRunsQueueResponse,
+    GetRunsQueueError
+  >({
+      ...options,
+      url: '/runs-queue',
+  });
+};
+
+/**
+ * Get a Run
+ * Show details of a specific run.
+ */
+export const getRun = (options: Options<GetRunData>) => {
+    return (options?.client ?? client).get<GetRunResponse, GetRunError>({
+        ...options,
+        url: '/runs/{run}',
+    });
+};
+
+/**
+ * Apply a Run
+ * Apply a run that is paused waiting for confirmation after a plan.
+ *
+ * This includes runs in the `planned` and `policy_checked` states.
+ * This action is only required for runs that can't be auto-applied.
+ */
+export const confirmRun = (options: Options<ConfirmRunData>) => {
+    return (options?.client ?? client).post<ConfirmRunResponse, ConfirmRunError>({
+        ...options,
+        url: '/runs/{run}/actions/apply',
+    });
+};
+
+/**
+ * Cancel a Run
+ * Interrupt a run that is currently planning or applying.
+ *
+ * Performing a cancel is roughly equivalent to hitting `ctrl+c` during a Terraform plan or
+ * apply on the CLI. The running Terraform process is sent an `INT` signal, which instructs
+ * Terraform to end its work and wrap up in the safest way possible.
+ */
+export const cancelRun = (options: Options<CancelRunData>) => {
+    return (options?.client ?? client).post<CancelRunResponse, CancelRunError>({
+        ...options,
+        url: '/runs/{run}/actions/cancel',
+    });
+};
+
+/**
+ * Discard a Run
+ * Skip any remaining work on runs that are paused waiting for confirmation or priority.
+ *
+ * This includes runs in the `pending`, `planned`, `policy_checked` and `policy_override` states.
+ */
+export const discardRun = (options: Options<DiscardRunData>) => {
+    return (options?.client ?? client).post<DiscardRunResponse, DiscardRunError>({
+        ...options,
+        url: '/runs/{run}/actions/discard',
+    });
+};
+
+/**
+ * Force Run
+ * Cancel all previous runs in pending or waiting for confirmation statuses.
+ *
+ */
+export const forceRun = (options: Options<ForceRunData>) => {
+    return (options?.client ?? client).post<ForceRunResponse, ForceRunError>({
+        ...options,
+        url: '/runs/{run}/actions/force',
+    });
+};
+
+/**
+ * List Policy Checks
+ * List policy checks for a specific run.
+ */
+export const listPolicyChecks = (options: Options<ListPolicyChecksData>) => {
+    return (options?.client ?? client).get<
+    ListPolicyChecksResponse,
+    ListPolicyChecksError
+  >({
+      ...options,
+      url: '/runs/{run}/policy-checks',
+  });
+};
+
+/**
+ * Download a Policy Input
+ * Get a Zip archive with policy check input data generated for a given run.
+ *
+ * See [Policy Input](https://docs.scalr.io/docs/policy-as-code) data structure.
+ */
+export const downloadPolicyInput = (
+    options: Options<DownloadPolicyInputData>,
+) => {
+    return (options?.client ?? client).get<
+    DownloadPolicyInputResponse,
+    DownloadPolicyInputError
+  >({
+      ...options,
+      url: '/runs/{run}/policy-input',
+  });
 };
 
 /**
@@ -88,5 +559,306 @@ export const createWorkspace = (options?: Options<CreateWorkspaceData>) => {
   >({
       ...options,
       url: '/workspaces',
+  });
+};
+
+/**
+ * Delete a Workspace
+ */
+export const deleteWorkspace = (options: Options<DeleteWorkspaceData>) => {
+    return (options?.client ?? client).delete<
+    DeleteWorkspaceResponse,
+    DeleteWorkspaceError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}',
+  });
+};
+
+/**
+ * Get a Workspace
+ * Show details of a specific workspace.
+ */
+export const getWorkspace = (options: Options<GetWorkspaceData>) => {
+    return (options?.client ?? client).get<
+    GetWorkspaceResponse,
+    GetWorkspaceError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}',
+  });
+};
+
+/**
+ * Update a Workspace
+ */
+export const updateWorkspace = (options: Options<UpdateWorkspaceData>) => {
+    return (options?.client ?? client).patch<
+    UpdateWorkspaceResponse,
+    UpdateWorkspaceError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}',
+  });
+};
+
+/**
+ * Lock a Workspace
+ * This endpoint locks a workspace.
+ */
+export const lockWorkspace = (options: Options<LockWorkspaceData>) => {
+    return (options?.client ?? client).post<
+    LockWorkspaceResponse,
+    LockWorkspaceError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/actions/lock',
+  });
+};
+
+/**
+ * Resync a Workspace
+ * This endpoint triggers a Configuration Version resync for a Workspace
+ * associated with a VCS repository.
+ */
+export const resyncWorkspace = (options: Options<ResyncWorkspaceData>) => {
+    return (options?.client ?? client).post<
+    ResyncWorkspaceResponse,
+    ResyncWorkspaceError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/actions/resync',
+  });
+};
+
+/**
+ * Set scheduled runs for the workspace
+ */
+export const setSchedule = (options: Options<SetScheduleData>) => {
+    return (options?.client ?? client).post<
+    SetScheduleResponse,
+    SetScheduleError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/actions/set-schedule',
+  });
+};
+
+/**
+ * Unlock a Workspace
+ * This endpoint unlocks a workspace.
+ */
+export const unlockWorkspace = (options: Options<UnlockWorkspaceData>) => {
+    return (options?.client ?? client).post<
+    UnlockWorkspaceResponse,
+    UnlockWorkspaceError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/actions/unlock',
+  });
+};
+
+/**
+ * Get Workspace's Current State Version
+ * Fetch the current state version for the given workspace.
+ *
+ * This state version will be the input state when running terraform operations.
+ */
+export const getCurrentStateVersion = (
+    options: Options<GetCurrentStateVersionData>,
+) => {
+    return (options?.client ?? client).get<
+    GetCurrentStateVersionResponse,
+    GetCurrentStateVersionError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/current-state-version',
+  });
+};
+
+/**
+ * List workspace's outputs.
+ * This endpoint returns a list of outputs from current state version run output.
+ *
+ */
+export const getWorkspaceOutputs = (
+    options: Options<GetWorkspaceOutputsData>,
+) => {
+    return (options?.client ?? client).get<
+    GetWorkspaceOutputsResponse,
+    GetWorkspaceOutputsError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/outputs',
+  });
+};
+
+/**
+ * List Provider configuration workspace links
+ * This endpoint returns a list of Provider configuration links or configurations that are used during the workspace runs.
+ *
+ */
+export const listProviderConfigurationLinks = (
+    options: Options<ListProviderConfigurationLinksData>,
+) => {
+    return (options?.client ?? client).get<
+    ListProviderConfigurationLinksResponse,
+    ListProviderConfigurationLinksError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/provider-configuration-links',
+  });
+};
+
+/**
+ * Attach a Provider configuration to the workspace
+ * Attach a Provider configuration to the workspace.
+ *
+ */
+export const createProviderConfigurationLink = (
+    options: Options<CreateProviderConfigurationLinkData>,
+) => {
+    return (options?.client ?? client).post<
+    CreateProviderConfigurationLinkResponse,
+    CreateProviderConfigurationLinkError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/provider-configuration-links',
+  });
+};
+
+/**
+ * Delete remote state consumers
+ * This endpoint removes provided workspaces
+ * from a list of allowed remote state consumers for a given workspace.
+ *
+ */
+export const deleteRemoteStateConsumers = (
+    options: Options<DeleteRemoteStateConsumersData>,
+) => {
+    return (options?.client ?? client).delete<
+    DeleteRemoteStateConsumersResponse,
+    DeleteRemoteStateConsumersError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/relationships/remote-state-consumers',
+  });
+};
+
+/**
+ * List remote state consumers
+ * This endpoint returns a list of other workspaces
+ * that are allowed to access the given workspace's state during runs.
+ *
+ */
+export const listRemoteStateConsumers = (
+    options: Options<ListRemoteStateConsumersData>,
+) => {
+    return (options?.client ?? client).get<
+    ListRemoteStateConsumersResponse,
+    ListRemoteStateConsumersError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/relationships/remote-state-consumers',
+  });
+};
+
+/**
+ * Replace remote state consumers
+ * This endpoint replaces a list of allowed remote state consumers for a given workspace.
+ *
+ */
+export const replaceRemoteStateConsumers = (
+    options: Options<ReplaceRemoteStateConsumersData>,
+) => {
+    return (options?.client ?? client).patch<
+    ReplaceRemoteStateConsumersResponse,
+    ReplaceRemoteStateConsumersError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/relationships/remote-state-consumers',
+  });
+};
+
+/**
+ * Add remote state consumers
+ * This endpoint adds provided workspaces
+ * to a list of allowed remote state consumers for a given workspace.
+ *
+ */
+export const addRemoteStateConsumers = (
+    options: Options<AddRemoteStateConsumersData>,
+) => {
+    return (options?.client ?? client).post<
+    AddRemoteStateConsumersResponse,
+    AddRemoteStateConsumersError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/relationships/remote-state-consumers',
+  });
+};
+
+/**
+ * Delete workspace's tags
+ * This endpoint removes given [tags](tags.html#the-tag-resource) from the workspace.
+ *
+ */
+export const deleteWorkspaceTags = (
+    options: Options<DeleteWorkspaceTagsData>,
+) => {
+    return (options?.client ?? client).delete<
+    DeleteWorkspaceTagsResponse,
+    DeleteWorkspaceTagsError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/relationships/tags',
+  });
+};
+
+/**
+ * List workspace's tags
+ * This endpoint returns a list of [tags](tags.html#the-tag-resource),
+ * assigned to a workspace.
+ *
+ */
+export const listWorkspaceTags = (options: Options<ListWorkspaceTagsData>) => {
+    return (options?.client ?? client).get<
+    ListWorkspaceTagsResponse,
+    ListWorkspaceTagsError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/relationships/tags',
+  });
+};
+
+/**
+ * Replace workspace's tags
+ * This endpoint completely replaces workspace's tags with provided list.
+ *
+ */
+export const replaceWorkspaceTags = (
+    options: Options<ReplaceWorkspaceTagsData>,
+) => {
+    return (options?.client ?? client).patch<
+    ReplaceWorkspaceTagsResponse,
+    ReplaceWorkspaceTagsError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/relationships/tags',
+  });
+};
+
+/**
+ * Add tags to the workspace
+ * This endpoint assigns the list of [tags](tags.html#the-tag-resource) to the workspace.
+ *
+ */
+export const addWorkspaceTags = (options: Options<AddWorkspaceTagsData>) => {
+    return (options?.client ?? client).post<
+    AddWorkspaceTagsResponse,
+    AddWorkspaceTagsError
+  >({
+      ...options,
+      url: '/workspaces/{workspace}/relationships/tags',
   });
 };

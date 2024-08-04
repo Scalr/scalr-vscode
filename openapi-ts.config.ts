@@ -2,7 +2,7 @@ import { defineConfig } from '@hey-api/openapi-ts';
 
 export default defineConfig({
     client: '@hey-api/client-fetch',
-    input: 'https://scalr.io/api/iacp/v3/openapi-public.yml',
+    input: 'https://scalr.io/api/iacp/v3/napi-public.yml',
     output: {
         format: 'prettier',
         lint: 'eslint',
@@ -13,6 +13,6 @@ export default defineConfig({
         enums: 'javascript'
     },
     services: {
-        filter: '^\\w+ (/accounts|/workspaces|/runs)$'
+        filter: '^\\w+ /(accounts|workspaces|runs|plans|applies)'
     }
 });
