@@ -83,9 +83,27 @@
                 "command": "plan.open",
                 "title": "Show plan output",
                 "icon": "$(output)"
-            }
+            },
+            {
+                "command": "workspace.refresh",
+                "title": "Refresh",
+                "icon": "$(refresh)",
+                "enablement": "scalr.signed-in"
+              }
         ],
         "menus": {
+            "view/title": [
+                {
+                    "command": "workspace.refresh",
+                    "group": "navigation",
+                    "when": "view == workspaces"
+                },
+                {
+                    "command": "run.refresh",
+                    "group": "navigation",
+                    "when": "view == runs"
+                }
+            ],
             "view/item/context": [
                 {
                     "command": "workspace.open",

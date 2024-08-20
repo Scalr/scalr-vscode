@@ -44,9 +44,16 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
                 },
             ),
             vscode.commands.registerCommand(
-                'runs.loadMore',
+                'run.loadMore',
                 () => {
                     this.refresh(this.workspace);
+                },
+            ),
+            vscode.commands.registerCommand(
+                'run.refresh',
+                () => {
+                    this.reset();
+                    this.refresh();
                 },
             ),
 
@@ -101,7 +108,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
 
         const { data, error } = await getRuns({
             query: {
-                include: ['plan', 'apply', 'created-by', 'created-by-run'],
+                include: ['plan', 'policy-checks', 'cost-estimate', 'apply', 'created-by', 'created-by-run'],
                 'filter[workspace]': this.workspace?.workspace.id,
                 page: {
                     number: this.nextPage || 1
@@ -238,7 +245,7 @@ class PlanItem extends vscode.TreeItem {
     }
 
     public get logUri(): vscode.Uri {
-        return vscode.Uri.parse(`scalr-logs://plans/${this.plan.id}`);
+        return vscode.Uri.parse(`scalr-logs://plans/${this.plan.id}.log`);
     }
 }
 
@@ -252,7 +259,7 @@ class ApplyItem extends vscode.TreeItem {
     }
 
     public get logUri(): vscode.Uri {
-        return vscode.Uri.parse(`scalr-logs://applies/${this.apply.id}`);
+        return vscode.Uri.parse(`scalr-logs://applies/${this.apply.id}.log`);
     }
 }
 
@@ -262,7 +269,7 @@ class LoadMoreItem extends vscode.TreeItem {
   
         this.iconPath = new vscode.ThemeIcon('more', new vscode.ThemeColor('charts.gray'));
         this.command = {
-            command: 'runs.loadMore',
+            command: 'run.loadMore',
             title: 'Load more',
         };
     }

@@ -21,7 +21,7 @@ export class LogProvider implements vscode.TextDocumentContentProvider {
 
     private async getLogContent(uri: vscode.Uri): Promise<string> {
         const type = uri.authority;
-        const id = uri.path.replace('/', '');
+        const id = uri.path.replace('/', '').split('.')[0];
         let data;
         let error;
 

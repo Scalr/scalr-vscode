@@ -27,9 +27,22 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 },
             ),
             vscode.commands.registerCommand(
-                'workspaces.loadMore',
+                'workspace.loadMore',
                 () => {
                     this.refresh();
+                },
+            ),
+            vscode.commands.registerCommand(
+                'workspace.refresh',
+                (ws?: WorkspaceItem | LoadMoreItem) => {
+                    ws = undefined;
+
+
+                    this.workspaces = [];
+                    this.nextPage = null;
+                    this.refresh();
+                    this.runProvider.reset();
+                    this.runProvider.refresh(ws);
                 },
             ),
         );
@@ -158,7 +171,7 @@ class LoadMoreItem extends vscode.TreeItem {
   
         this.iconPath = new vscode.ThemeIcon('more', new vscode.ThemeColor('charts.gray'));
         this.command = {
-            command: 'workspaces.loadMore',
+            command: 'workspace.loadMore',
             title: 'Load more',
         };
     }
