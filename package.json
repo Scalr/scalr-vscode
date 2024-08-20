@@ -114,7 +114,7 @@
                 {
                     "command": "workspace.open",
                     "group": "inline",
-                    "when": "view == workspaces"
+                    "when": "view == workspaces && viewItem =~ /workspaceItem/"
                 },
                 {
                     "command": "run.open",

@@ -149,6 +149,7 @@ export class WorkspaceItem extends vscode.TreeItem {
         this.iconPath = getRunStatusIcon(run?.attributes?.status);
 
         this.webLink = vscode.Uri.parse(`${this.host}/e/${environment.id}/workspaces/${workspace.id}/`, true);
+        this.contextValue = 'workspaceItem';
 
         this.tooltip = new vscode.MarkdownString(undefined, true);
         this.tooltip.appendMarkdown(`## $(${this.iconPath.id}) [${this.workspace.attributes.name}](${this.webLink})\n\n`);
