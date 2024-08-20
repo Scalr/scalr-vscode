@@ -89,6 +89,12 @@
                 "title": "Refresh",
                 "icon": "$(refresh)",
                 "enablement": "scalr.signed-in"
+              },
+              {
+                "command": "run.refresh",
+                "title": "Refresh",
+                "icon": "$(refresh)",
+                "enablement": "scalr.signed-in"
               }
         ],
         "menus": {
