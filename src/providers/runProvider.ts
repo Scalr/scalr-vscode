@@ -130,7 +130,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         const applies: Map<string, Apply> = new Map();
         const createdBy: Map<string, User> = new Map();
 
-        data.included?.forEach((item) => {
+        data.included?.forEach((item: any) => {
             if (item.type === 'plans') {
                 plans.set(item.id as string, item as Plan);
             } else if (item.type === 'applies') {

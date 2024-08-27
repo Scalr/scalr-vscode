@@ -1,5 +1,6 @@
 import { API as GitApi, GitExtension } from './@types/git';
 import { Extension, extensions } from 'vscode';
+import console = require('console');
 
 async function getGitApi(): Promise<GitApi | undefined> {
     try {
