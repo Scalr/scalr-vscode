@@ -2,7 +2,7 @@ import *  as vscode from 'vscode';
 import { Run, Plan, Apply, User } from '../api/types.gen';
 import { getRuns } from '../api/services.gen';
 import { ScalrSession, ScalrAuthenticationProvider } from './authenticationProvider';
-import { getApplyStatusIcon } from './applyProvider';
+import { getApplyStatusIcon, getApplyLabel } from './applyProvider';
 import { getPlanStatusIcon, getPlanLabel } from './planProvider';
 import { WorkspaceItem } from './workspaceProvider';
 import { formatDate } from '../date-utils';
@@ -10,7 +10,6 @@ import { Pagination } from '../@types/api';
 
 
 export type RunTreeItem = RunItem  | ApplyItem | PlanItem | LoadMoreItem;
-
 
 
 export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem> {
@@ -197,28 +196,25 @@ class RunItem extends vscode.TreeItem {
         this.description = `${destroyLabel}${dryLabel} ${reason}`;
         this.iconPath = getRunStatusIcon(run.attributes?.status);
         
-        
         this.tooltip = new vscode.MarkdownString(undefined, true);
-        this.tooltip.appendMarkdown(`**Run reason** ${reason}\n\n`);
+        this.tooltip.appendMarkdown(`**Reason**: ${reason}\n\n`);
         this.tooltip.appendMarkdown('---\n\n');
         this.tooltip.appendMarkdown(`**Run ID** ${run.id}\n\n`);
         this.tooltip.appendMarkdown(`**Status** $(${this.iconPath.id}) ${run?.attributes?.status} \n\n`);
-        this.tooltip.appendMarkdown(`**Triggered at** ${createdAt} by ...\n\n`);
+        this.tooltip.appendMarkdown(`**Triggered at** ${createdAt}\n\n`);
         this.tooltip.appendMarkdown(`**Source** ${source}\n\n`);
-        if (plan) {
-            this.tooltip.appendMarkdown(`**Plan** ${getPlanLabel(plan)} - TODO add plan time\n`);
 
+        if (plan) {
+            this.tooltip.appendMarkdown(`**Plan** ${getPlanLabel(plan)}\n\n`);
+            this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         }
 
+        if (apply) {
+            this.tooltip.appendMarkdown(`**Apply** ${getApplyLabel(apply)}\n\n`);
+            this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
+        }
 
-        
-        // this.tooltip.appendMarkdown(`  - Cost estimate: ${run.costEstimateStatus ? 'Enabled' : 'Admin disabled cost estimation in the environment'}\n`);
-        // this.tooltip.appendMarkdown(`  - Policy check: ${run.policyCheckStatus ? 'Enforced' : 'Admin did not enforce policies in the environment'}\n`);
-        // this.tooltip.appendMarkdown(`- **Apply approval** - ${run.applyApprovalStatus} - ${formatTime(run.applyApprovalTime)}\n`);
-        // this.tooltip.appendMarkdown(`  - Approved automatically based on the workspace settings\n`);
-        // this.tooltip.appendMarkdown(`- **Apply** - ${run.applyStatus} ${run.applyId} - ${formatTime(run.applyTime)}\n\n`);
-        // this.tooltip.appendMarkdown(`---\n\n`);
-        // this.tooltip.appendMarkdown(`**Total duration** - ${formatDuration(run.totalDuration)}\n`);
+        //TODO: ape add the cost estimate and policy checks
 
         this.tooltip.isTrusted = true;
         
@@ -227,11 +223,6 @@ class RunItem extends vscode.TreeItem {
 
         this.webLink = vscode.Uri.parse(`${this.host}/e/${envId}/workspaces/${wsId}/runs/${run.id}/`, true);
         this.contextValue = 'runItem';
-
-        if (plan || apply) {
-            this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
-        }
-        
     }
 }
 
@@ -265,24 +256,21 @@ class ApplyItem extends vscode.TreeItem {
 
 class LoadMoreItem extends vscode.TreeItem {
     constructor() {
-        super('Load more...', vscode.TreeItemCollapsibleState.None);
+        super('Show more...', vscode.TreeItemCollapsibleState.None);
   
         this.iconPath = new vscode.ThemeIcon('more', new vscode.ThemeColor('charts.gray'));
         this.command = {
             command: 'run.loadMore',
-            title: 'Load more',
+            title: 'Show more',
         };
     }
 }
 
 /**
- * 
- * 
  * @param status 
  * @returns 
  */
 export function getRunStatusIcon(status?: string): vscode.ThemeIcon {
-
     switch (status) {
     // in progress
     case 'pending':
@@ -312,7 +300,6 @@ export function getRunStatusIcon(status?: string): vscode.ThemeIcon {
 }
 
 export function getSource(source?: string): string {
-
     switch (source) {
     // in progress
     case 'ui':

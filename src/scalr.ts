@@ -52,8 +52,6 @@ export class ScalrFeature implements vscode.Disposable {
         ctx.subscriptions.push(
             workspaceView, runView,
         );
-
-        
     }
 
     dispose() {

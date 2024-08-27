@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { initClient } from '../api/init';
 import { getAccounts } from '../api/services.gen';
 import { AccountListingDocument, Account, User } from '../api/types.gen';
-import { getRemoteRepoIdentifiers } from '../git';
+/* import { getRemoteRepoIdentifiers } from '../git'; TODO: uncomment when we'll be implementing Git-based filters */
 
 export class ScalrSession implements vscode.AuthenticationSession {
     readonly id: string = ScalrAuthenticationProvider.id;
@@ -33,10 +33,7 @@ implements vscode.AuthenticationProvider
         new vscode.EventEmitter<vscode.AuthenticationProviderAuthenticationSessionsChangeEvent>();
 
     constructor(private readonly ctx: vscode.ExtensionContext) {
-        this.logger = vscode.window.createOutputChannel(
-            'HashiCorp Authentication',
-            { log: true },
-        );
+        this.logger = vscode.window.createOutputChannel('Scalr Auth', { log: true });
 
         this.ctx.subscriptions.push(
             vscode.commands.registerCommand('scalr.login', async () => {
@@ -48,7 +45,7 @@ implements vscode.AuthenticationProvider
                     },
                 )) as ScalrSession;
                 vscode.window.showInformationMessage(
-                    `Logged in as ${session.username} with email ${session.email} in account ${session.account.label}`,
+                    `Logged in the account ${session.account.label}`,
                 );
             }),
         );
@@ -77,9 +74,6 @@ implements vscode.AuthenticationProvider
         if (!session) {
             return undefined;
         }
-
-        
-
 
         try {
             return JSON.parse(session) as ScalrSession;
@@ -119,8 +113,7 @@ implements vscode.AuthenticationProvider
         const accountName = await vscode.window.showInputBox({
             ignoreFocusOut: true,
             prompt: 'Enter the account name',
-            placeHolder:
-        'Your account name in scalr for example: example.scalr.io the account name is example.',
+            placeHolder: 'Your account name in Scalr for example: example.scalr.io the account name is "example".',
         });
 
         if (!accountName) {
@@ -133,13 +126,7 @@ implements vscode.AuthenticationProvider
             throw new Error('Token is required');
         }
 
-        console.log('accountName', accountName);
-        console.log('token', token);
-
         initClient(accountName, token);
-
-        console.log('initClient');
-        console.log('getRemoteRepoIdentifiers', await getRemoteRepoIdentifiers());
 
         const { data, error } = await getAccounts({
             query: {
@@ -165,15 +152,16 @@ implements vscode.AuthenticationProvider
         if (!accounts.included || accounts.included.length === 0) {
             throw new Error('No owner found');
         }
+
         const owner = accounts.included[0] as User;
         return new ScalrSession(
             token,
-      owner.attributes['full-name'] as string,
-      owner.attributes.email,
-      {
-          id: account.id as string,
-          label: account.attributes.name,
-      },
+            owner.attributes['full-name'] as string,
+            owner.attributes.email,
+            {
+                id: account.id as string,
+                label: account.attributes.name,
+            },
         );
     }
 
@@ -226,6 +214,7 @@ implements vscode.AuthenticationProvider
                 title: 'Scalr Authentication',
             },
         );
+
         if (choice === undefined) {
             return undefined;
         }

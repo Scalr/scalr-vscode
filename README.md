@@ -1,71 +1,65 @@
-# scalr README
+# Scalr VSCode Extension
 
-This is the README for your extension "scalr". After writing up a brief description, we recommend including the following sections.
+## Overview
+The Scalr VSCode Extension is a powerful tool designed to streamline your Terraform workflows by integrating Scalr functionalities directly into your Visual Studio Code environment. This extension allows you to manage workspaces, monitor runs, and access critical information about your infrastructure—without leaving your code editor.
 
 ## Features
+- **Workspace Management**: View a comprehensive list of available workspaces for logged-in users.
+- **Run Overview**: Access a list of all runs, with the ability to filter runs specific to a workspace.
+- **Detailed Information**: Get quick access to general information about any workspace or run.
+- **Plan/Apply Output**: Read the output from Terraform plan and apply operations directly within VSCode.
+- **Scalr UI Integration**: Convenient links provide quick navigation to the corresponding sections of the Scalr web UI.
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+## Installation
 
-For example if there is an image subfolder under your extension project workspace:
+### From the VSCode Marketplace
+1. Open Visual Studio Code.
+2. Navigate to the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window.
+3. Search for `Scalr` in the search box.
+4. Click **Install** to install the extension.
 
-\!\[feature X\]\(images/feature-x.png\)
+### Building Locally
+If you want to install dependencies and build the extension locally, follow these steps:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+#### Prerequisites
+- **Node.js**: Ensure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
+- **npm**: Make sure you have npm (comes with Node.js).
 
-## Requirements
+#### Steps to Build Locally
+1. **Clone the Repository**:
+   ```bash
+   git clone https://github.com/{your-username}/scalr-vscode.git
+   cd scalr-vscode
+   ```
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+2. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
 
-## Extension Settings
+3. **Run the Extension**:
+   - Open the project folder in Visual Studio Code.
+   - Press `F5` to open a new VSCode window with your extension loaded.
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## Usage
+1. **Login**: After installing, you can log in to your Scalr account through the extension.
+2. **View Workspaces**: Click on the Scalr icon in the sidebar to view your available workspaces.
+3. **Run Management**: Select a workspace to see all associated runs or access the list of all runs.
+4. **Access Details**: Click on a workspace or run to view detailed information, including metadata and status.
+5. **Plan/Apply Output**: Select a run to view the output from Terraform plan and apply operations.
+6. **UI Links**: Use the provided links to navigate quickly to the Scalr UI for deeper management tasks.
 
-For example:
+## Contributing
+Contributions are welcome! Please follow these steps to contribute:
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature-branch-name`).
+3. Make your changes.
+4. Commit your changes (`git commit -am 'Add new feature'`).
+5. Push to the branch (`git push origin feature-branch-name`).
+6. Open a pull request in the [scalr-vscode](https://github.com/Scalr/scalr-vscode) repository.
 
-This extension contributes the following settings:
+## License
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
--   `myExtension.enable`: Enable/disable this extension.
--   `myExtension.thing`: Set to `blah` to do something.
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
--   [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
--   Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
--   Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
--   Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
--   [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
--   [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+## Support
+For any issues or feature requests, please open an issue on our [GitHub Issues](https://github.com/Scalr/scalr-vscode/issues) page.
