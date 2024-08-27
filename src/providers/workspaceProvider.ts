@@ -4,7 +4,7 @@ import { getWorkspaces } from '../api/services.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
-
+import { formatDate } from '../date-utils';
 
 
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
@@ -13,7 +13,6 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     
     private nextPage: null | number = null;
     private workspaces: vscode.TreeItem[] = [];
-
 
     constructor(
         private ctx: vscode.ExtensionContext,
@@ -36,8 +35,6 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 'workspace.refresh',
                 (ws?: WorkspaceItem | LoadMoreItem) => {
                     ws = undefined;
-
-
                     this.workspaces = [];
                     this.nextPage = null;
                     this.refresh();
@@ -88,7 +85,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             query: {
                 include: ['latest-run', 'environment'],
                 page: {
-                    number: this.nextPage || 1
+                    number: this.nextPage || 1,
+                    size: 30,
                 },
                 // @ts-ignore TODO:ape this is must be fixed in our product
                 sort: ['-updated-at'] 
@@ -124,8 +122,6 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         });
 
     }
-
-
     
     dispose() {
         //
@@ -150,6 +146,11 @@ export class WorkspaceItem extends vscode.TreeItem {
 
         this.webLink = vscode.Uri.parse(`${this.host}/e/${environment.id}/workspaces/${workspace.id}/`, true);
         this.contextValue = 'workspaceItem';
+        let updatedAt = 'No data';
+
+        if (workspace.attributes['updated-at']) {
+            updatedAt = formatDate(workspace.attributes['updated-at']);
+        }
 
         this.tooltip = new vscode.MarkdownString(undefined, true);
         this.tooltip.appendMarkdown(`## $(${this.iconPath.id}) [${this.workspace.attributes.name}](${this.webLink})\n\n`);
@@ -162,18 +163,18 @@ export class WorkspaceItem extends vscode.TreeItem {
         this.tooltip.appendMarkdown('--|--\n');
         this.tooltip.appendMarkdown(`| **Iac Platform**         | ${workspace.attributes['iac-platform']}\n`);
         this.tooltip.appendMarkdown(`| **Terraform Version** | ${workspace.attributes['terraform-version']}|\n`);
-        this.tooltip.appendMarkdown(`| **Updated**           | ${workspace.attributes['updated-at']}|\n`);
+        this.tooltip.appendMarkdown(`| **Updated**           | ${updatedAt}|\n`);
     }   
 }
 
 class LoadMoreItem extends vscode.TreeItem {
     constructor() {
-        super('Load more...', vscode.TreeItemCollapsibleState.None);
+        super('Show more...', vscode.TreeItemCollapsibleState.None);
   
         this.iconPath = new vscode.ThemeIcon('more', new vscode.ThemeColor('charts.gray'));
         this.command = {
             command: 'workspace.loadMore',
-            title: 'Load more',
+            title: 'Show more',
         };
     }
 }

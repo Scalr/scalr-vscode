@@ -13,9 +13,7 @@ export class LogProvider implements vscode.TextDocumentContentProvider {
             createIfNone: false,
         });
 
-
         return this.getLogContent(uri);
-        
     } 
 
 
@@ -33,7 +31,6 @@ export class LogProvider implements vscode.TextDocumentContentProvider {
             ({ data, error } = await getApplyLog(
                 { path: { apply: id }, query: { clean: true } }
             ));
-            
         }
 
         if (error || !data) {

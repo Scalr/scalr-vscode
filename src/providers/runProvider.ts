@@ -12,7 +12,6 @@ import { Pagination } from '../@types/api';
 export type RunTreeItem = RunItem  | ApplyItem | PlanItem | LoadMoreItem;
 
 
-
 export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem> {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | RunTreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
@@ -197,21 +196,18 @@ class RunItem extends vscode.TreeItem {
         this.description = `${destroyLabel}${dryLabel} ${reason}`;
         this.iconPath = getRunStatusIcon(run.attributes?.status);
         
-        
         this.tooltip = new vscode.MarkdownString(undefined, true);
-        this.tooltip.appendMarkdown(`**Run reason** ${reason}\n\n`);
+        this.tooltip.appendMarkdown(`**Reason**: ${reason}\n\n`);
         this.tooltip.appendMarkdown('---\n\n');
         this.tooltip.appendMarkdown(`**Run ID** ${run.id}\n\n`);
         this.tooltip.appendMarkdown(`**Status** $(${this.iconPath.id}) ${run?.attributes?.status} \n\n`);
-        this.tooltip.appendMarkdown(`**Triggered at** ${createdAt} by ...\n\n`);
+        this.tooltip.appendMarkdown(`**Triggered at** ${createdAt}\n\n`);
         this.tooltip.appendMarkdown(`**Source** ${source}\n\n`);
-        if (plan) {
-            this.tooltip.appendMarkdown(`**Plan** ${getPlanLabel(plan)} - TODO add plan time\n`);
 
+        if (plan) {
+            this.tooltip.appendMarkdown(`**Plan** ${getPlanLabel(plan)}\n`);
         }
 
-
-        
         // this.tooltip.appendMarkdown(`  - Cost estimate: ${run.costEstimateStatus ? 'Enabled' : 'Admin disabled cost estimation in the environment'}\n`);
         // this.tooltip.appendMarkdown(`  - Policy check: ${run.policyCheckStatus ? 'Enforced' : 'Admin did not enforce policies in the environment'}\n`);
         // this.tooltip.appendMarkdown(`- **Apply approval** - ${run.applyApprovalStatus} - ${formatTime(run.applyApprovalTime)}\n`);
@@ -231,7 +227,6 @@ class RunItem extends vscode.TreeItem {
         if (plan || apply) {
             this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         }
-        
     }
 }
 
@@ -265,24 +260,21 @@ class ApplyItem extends vscode.TreeItem {
 
 class LoadMoreItem extends vscode.TreeItem {
     constructor() {
-        super('Load more...', vscode.TreeItemCollapsibleState.None);
+        super('Show more...', vscode.TreeItemCollapsibleState.None);
   
         this.iconPath = new vscode.ThemeIcon('more', new vscode.ThemeColor('charts.gray'));
         this.command = {
             command: 'run.loadMore',
-            title: 'Load more',
+            title: 'Show more',
         };
     }
 }
 
 /**
- * 
- * 
  * @param status 
  * @returns 
  */
 export function getRunStatusIcon(status?: string): vscode.ThemeIcon {
-
     switch (status) {
     // in progress
     case 'pending':
@@ -312,7 +304,6 @@ export function getRunStatusIcon(status?: string): vscode.ThemeIcon {
 }
 
 export function getSource(source?: string): string {
-
     switch (source) {
     // in progress
     case 'ui':

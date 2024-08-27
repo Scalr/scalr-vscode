@@ -6,3 +6,5 @@ node_modules
 .history/
 .idea/
 *.log
+
+.DS_Store
