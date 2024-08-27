@@ -2,7 +2,7 @@ import *  as vscode from 'vscode';
 import { Run, Plan, Apply, User } from '../api/types.gen';
 import { getRuns } from '../api/services.gen';
 import { ScalrSession, ScalrAuthenticationProvider } from './authenticationProvider';
-import { getApplyStatusIcon } from './applyProvider';
+import { getApplyStatusIcon, getApplyLabel } from './applyProvider';
 import { getPlanStatusIcon, getPlanLabel } from './planProvider';
 import { WorkspaceItem } from './workspaceProvider';
 import { formatDate } from '../date-utils';
@@ -205,16 +205,16 @@ class RunItem extends vscode.TreeItem {
         this.tooltip.appendMarkdown(`**Source** ${source}\n\n`);
 
         if (plan) {
-            this.tooltip.appendMarkdown(`**Plan** ${getPlanLabel(plan)}\n`);
+            this.tooltip.appendMarkdown(`**Plan** ${getPlanLabel(plan)}\n\n`);
+            this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
         }
 
-        // this.tooltip.appendMarkdown(`  - Cost estimate: ${run.costEstimateStatus ? 'Enabled' : 'Admin disabled cost estimation in the environment'}\n`);
-        // this.tooltip.appendMarkdown(`  - Policy check: ${run.policyCheckStatus ? 'Enforced' : 'Admin did not enforce policies in the environment'}\n`);
-        // this.tooltip.appendMarkdown(`- **Apply approval** - ${run.applyApprovalStatus} - ${formatTime(run.applyApprovalTime)}\n`);
-        // this.tooltip.appendMarkdown(`  - Approved automatically based on the workspace settings\n`);
-        // this.tooltip.appendMarkdown(`- **Apply** - ${run.applyStatus} ${run.applyId} - ${formatTime(run.applyTime)}\n\n`);
-        // this.tooltip.appendMarkdown(`---\n\n`);
-        // this.tooltip.appendMarkdown(`**Total duration** - ${formatDuration(run.totalDuration)}\n`);
+        if (apply) {
+            this.tooltip.appendMarkdown(`**Apply** ${getApplyLabel(apply)}\n\n`);
+            this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
+        }
+
+        //TODO: ape add the cost estimate and policy checks
 
         this.tooltip.isTrusted = true;
         
@@ -223,10 +223,6 @@ class RunItem extends vscode.TreeItem {
 
         this.webLink = vscode.Uri.parse(`${this.host}/e/${envId}/workspaces/${wsId}/runs/${run.id}/`, true);
         this.contextValue = 'runItem';
-
-        if (plan || apply) {
-            this.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
-        }
     }
 }
 

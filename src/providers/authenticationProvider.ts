@@ -33,7 +33,7 @@ implements vscode.AuthenticationProvider
         new vscode.EventEmitter<vscode.AuthenticationProviderAuthenticationSessionsChangeEvent>();
 
     constructor(private readonly ctx: vscode.ExtensionContext) {
-        this.logger = vscode.window.createOutputChannel('Auth', { log: true });
+        this.logger = vscode.window.createOutputChannel('Scalr Auth', { log: true });
 
         this.ctx.subscriptions.push(
             vscode.commands.registerCommand('scalr.login', async () => {
