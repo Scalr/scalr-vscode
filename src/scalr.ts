@@ -24,6 +24,8 @@ export class ScalrFeature implements vscode.Disposable {
             if (e.provider.id === ScalrAuthenticationProvider.id) {
                 workspaceDataProvider.reset();
                 workspaceDataProvider.refresh();
+                runProvider.reset();
+                runProvider.refresh();
             }
         });
 
