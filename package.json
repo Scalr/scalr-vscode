@@ -1,8 +1,11 @@
 {
     "name": "scalr",
-    "displayName": "scalr",
-    "description": "Scalr vscode extension.",
+    "displayName": "Scalr",
+    "description": "The Scalr VSCode Extension is a tool designed to streamline your Terraform workflows by integrating Scalr directly into your Visual Studio Code environment.",
     "version": "0.0.1",
+    "icon": "assets/scalr_full_colour.png",
+    "license": "MPL-2.0",
+    "publisher": "Scalr Inc.",
     "engines": {
         "vscode": "^1.91.0"
     },
@@ -56,10 +59,6 @@
         ],
         "commands": [
             {
-                "command": "scalr.hello",
-                "title": "Scalr: Hello World"
-            },
-            {
                 "command": "scalr.login",
                 "title": "Scalr: Login",
                 "enablement": "scalr.signed-in === false"
@@ -89,13 +88,13 @@
                 "title": "Refresh",
                 "icon": "$(refresh)",
                 "enablement": "scalr.signed-in"
-              },
-              {
+            },
+            {
                 "command": "run.refresh",
                 "title": "Refresh",
                 "icon": "$(refresh)",
                 "enablement": "scalr.signed-in"
-              }
+            }
         ],
         "menus": {
             "view/title": [
@@ -138,7 +137,7 @@
         "vscode:prepublish": "npm run package",
         "compile": "webpack",
         "watch": "webpack --watch",
-        "package": "webpack --mode production --devtool hidden-source`-map",
+        "package": "webpack --mode production --devtool hidden-source-map",
         "compile-tests": "tsc -p . --outDir out",
         "watch-tests": "tsc -p . -w --outDir out",
         "pretest": "npm run compile-tests && npm run compile && npm run lint",
@@ -167,5 +166,9 @@
     "dependencies": {
         "@hey-api/client-fetch": "^0.1.13",
         "date-fns": "^3.6.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Scalr/scalr-vscode.git"
     }
 }

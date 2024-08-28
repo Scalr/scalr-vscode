@@ -37,6 +37,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                     ws = undefined;
                     this.workspaces = [];
                     this.nextPage = null;
+                    this.reset();
                     this.refresh();
                     this.runProvider.reset();
                     this.runProvider.refresh(ws);
@@ -66,6 +67,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         }
 
         return workspaces;
+    }
+
+    reset(): void {
+        this.workspaces = [];
+        this.nextPage = null;
     }
 
     refresh(): void {
