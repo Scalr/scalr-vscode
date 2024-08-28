@@ -17,3 +17,6 @@ A clear and concise description of any alternative solutions or features you've 
 
 **Additional context**
 Add any other context or screenshots about the feature request here.
+
+**Vote on this feature request**
+If you think this feature is valuable, please give this issue a 👍 thumbs up! The more votes, the higher the priority.
