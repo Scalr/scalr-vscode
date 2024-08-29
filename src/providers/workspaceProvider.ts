@@ -36,7 +36,6 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 (ws?: WorkspaceItem | LoadMoreItem) => {
                     ws = undefined;
                     this.workspaces = [];
-                    this.nextPage = null;
                     this.reset();
                     this.refresh();
                     this.runProvider.reset();
@@ -58,7 +57,9 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     }
 
     private async buildChildren(): Promise<vscode.TreeItem[]> {
-        this.workspaces = [...this.workspaces, ...(await this.getWorkspaces())];
+        if (this.workspaces.length === 0 || this.nextPage) {
+            this.workspaces = [...this.workspaces, ...(await this.getWorkspaces())];
+        }
 
         const workspaces = this.workspaces.slice(0);
         if (this.nextPage !== null) {

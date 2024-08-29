@@ -82,7 +82,10 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
     }
 
     private async buildRuns(): Promise<(RunTreeItem | vscode.TreeItem)[]> {
-        this.runItems = [...this.runItems, ...(await this.getRuns())];
+
+        if (this.runItems.length === 0 || this.nextPage) {
+            this.runItems = [...this.runItems, ...(await this.getRuns())];
+        }
 
         const runs = this.runItems.slice(0);
         if (this.nextPage !== null) {
@@ -131,9 +134,9 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         const createdBy: Map<string, User> = new Map();
 
         data.included?.forEach((item: any) => {
-            if (item.type === 'plans') {
+            if (item.type === 'plans' && item.attributes?.status !== 'unreachable') {
                 plans.set(item.id as string, item as Plan);
-            } else if (item.type === 'applies') {
+            } else if (item.type === 'applies' && item.attributes?.status !== 'unreachable') {
                 applies.set(item.id as string, item as Apply);
             } else if (item.type === 'users') {
                 createdBy.set(item.id as string, item as User);
