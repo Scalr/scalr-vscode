@@ -2381,175 +2381,6 @@ see: https://jsonapi.org/format/#document-structure`,
     type: 'object',
 } as const;
 
-export const $Endpoint = {
-    description: `Endpoint is the destination for webhooks.
-It has URL, secret key and timeout/retry settings.
-
-The main use-case of endpoint is to configure it once on higher scope (e.g account/environments), and
-then re-use in many webhook configurations on a lower scopes (e.g. environments/workspaces).`,
-    properties: {
-        attributes: {
-            properties: {
-                'max-attempts': {
-                    default: 3,
-                    description: 'The number of retry attempts.',
-                    type: 'integer',
-                },
-                name: {
-                    description: 'The name of the endpoint.',
-                    maxLength: 255,
-                    type: 'string',
-                },
-                permissions: {
-                    readOnly: true,
-                    type: 'object',
-                },
-                'secret-key': {
-                    description: 'The secret passphrase for HMAC signature.',
-                    maxLength: 1024,
-                    type: 'string',
-                },
-                timeout: {
-                    default: 15,
-                    description: 'The HTTP transaction timeout.',
-                    type: 'integer',
-                },
-                url: {
-                    description: 'HTTP(s) destination URL.',
-                    maxLength: 2048,
-                    type: 'string',
-                },
-            },
-            required: ['name', 'url'],
-            type: 'object',
-        },
-        id: {
-            readOnly: true,
-            type: 'string',
-        },
-        links: {
-            properties: {
-                self: {
-                    readOnly: true,
-                    type: 'string',
-                },
-            },
-            readOnly: true,
-            type: 'object',
-        },
-        relationships: {
-            properties: {
-                account: {
-                    description: 'The account, this endpoint belongs to.',
-                    properties: {
-                        data: {
-                            nullable: true,
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['accounts'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    readOnly: true,
-                    required: ['data'],
-                    type: 'object',
-                },
-                environment: {
-                    description: 'The environment, this endpoint belongs to.',
-                    properties: {
-                        data: {
-                            nullable: true,
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['environments'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    required: ['data'],
-                    type: 'object',
-                },
-            },
-            type: 'object',
-        },
-        type: {
-            enum: ['endpoints'],
-            type: 'string',
-        },
-    },
-    required: ['type', 'attributes'],
-    type: 'object',
-} as const;
-
-export const $EndpointDocument = {
-    description: `JSON:API Document.
-
-see: https://jsonapi.org/format/#document-structure`,
-    properties: {
-        data: {
-            $ref: '#/components/schemas/Endpoint',
-        },
-        included: {
-            items: {
-                type: 'object',
-            },
-            readOnly: true,
-            type: 'array',
-        },
-        meta: {
-            readOnly: true,
-            type: 'object',
-        },
-    },
-    type: 'object',
-} as const;
-
-export const $EndpointListingDocument = {
-    description: `JSON:API Document Listing
-
-see: https://jsonapi.org/format/#document-structure`,
-    properties: {
-        data: {
-            items: {
-                $ref: '#/components/schemas/Endpoint',
-            },
-            type: 'array',
-        },
-        included: {
-            items: {
-                type: 'object',
-            },
-            readOnly: true,
-            type: 'array',
-        },
-        links: {
-            additionalProperties: {
-                type: 'string',
-            },
-            readOnly: true,
-            type: 'object',
-        },
-        meta: {
-            readOnly: true,
-            type: 'object',
-        },
-    },
-    type: 'object',
-} as const;
-
 export const $Environment = {
     description: `Environments are collections of related workspaces that correspond to functional areas, SDLC stages,
 projects or any grouping that is required.
@@ -7796,6 +7627,7 @@ export const $Sources = {
         'workspaces-account-bulk',
         'reports-iac-versions',
         'reports-stale-workspaces',
+        'auto-destroy',
     ],
     type: 'string',
 } as const;
@@ -8236,6 +8068,7 @@ Tags are unique within the account. Deleted tags will be removed from associated
                     description: 'The account this tag belongs to.',
                     properties: {
                         data: {
+                            nullable: true,
                             properties: {
                                 id: {
                                     type: 'string',
@@ -8249,11 +8082,11 @@ Tags are unique within the account. Deleted tags will be removed from associated
                             type: 'object',
                         },
                     },
+                    readOnly: true,
                     required: ['data'],
                     type: 'object',
                 },
             },
-            required: ['account'],
             type: 'object',
         },
         type: {
@@ -8261,7 +8094,7 @@ Tags are unique within the account. Deleted tags will be removed from associated
             type: 'string',
         },
     },
-    required: ['type', 'attributes', 'relationships'],
+    required: ['type', 'attributes'],
     type: 'object',
 } as const;
 
@@ -9762,6 +9595,7 @@ export const $UsageStatistic = {
                 date: {
                     description: 'The date when usage has been recorded',
                     format: 'date',
+                    nullable: true,
                     type: 'string',
                 },
                 'runs-count': {
@@ -10691,343 +10525,6 @@ export const $VcsTaskRequest = {
     type: 'object',
 } as const;
 
-export const $Webhook = {
-    description: `Webhooks provide a mechanism to integrate Scalr with external API's. Webhooks are triggered by
-[Events](event-definitions.html#list-event-definitions) which causes Scalr to send an HTTP POST
-payload to the [endpoint](endpoints.html) associated with the webhook.
-
-Webhooks can be used to trigger any action in any external system that has an API or programmable interface.
-The Endpoint will typically point to a server that processes the HTTP POST request and makes the onward calls
-to the external API.
-
-Webhooks can be created in [environments](environments.html) or in specific [workspaces](workspaces.html).
-
-### Webhook Notification
-
-Example:
-\`\`\`http
-POST /services/58320402 HTTP/1.1
-Host: hooks.example.com
-Content-Type: application/json
-Content-Length: 935
-Date: 2020-11-25T00:43:38+0000
-X-Scalr-Delivery-Id: wd-t6v0hrnn58vu4m0
-X-Signature: 5782c2fa7c38ddc45efd8b7497ac1c9c91ae90fae2fa06148b69bba4c2e22869
-
-{
-  "payload_version": 1,
-  "event_name": "run:needs_attention",
-  "run": {
-    "id": "run-t6v0g8prd9qi2h0",
-    "message": "Update variables.tf",
-    "status": "policy_checked",
-    "source": "ui",
-    "url": "https://my.scalr.io/#/workspaces/runs/dashboard?runId=run-t6v0g8prd9qi2h0",
-    "created_at": "2020-11-25T00:42:15",
-    "updated_at": "2020-11-25T00:43:38",
-    "created_by": {
-      "id": "user-stp8qjcvjljlo1o",
-      "username": "me@example.com",
-      "email": "me@example.com"
-    }
-  },
-  "webhook": {
-    "id": "wh-t6v0g1l0dlqhh58",
-    "name": "Data Platform"
-  },
-  "workspace": {
-    "id": "ws-t5hft7e7v366rd0",
-    "name": "my-example",
-    "url": "https://my.scalr.io/#/workspaces/dashboard?workspaceId=ws-t5hft7e7v366rd0"
-  },
-  "environment": {
-    "id": "env-sfuari395m7sck1",
-    "name": "my-development",
-    "url": "https://my.scalr.io/#/15986/17348/dashboard"
-  },
-  "variables": {
-    "foo": "bar"
-  }
-}
-\`\`\`
-
-### Signature Verification
-
-Scalr adds a cryptographic signature to Webhook notifications in order for you to be able to
-validate that they were indeed generated by Scalr.
-
-To validate Webhook notification, follow this procedure:
-
-* Obtain the \`secret_key\` for your [Endpoint](endpoints.html).
-* When receiving a Webhook payload, compute its signature using the following algorithm (see below for code samples)
-  * Concatenate the JSON payload and the \`Date\` header
-  * Compute a \`HMAC\` digest of the concatenated message, using the \`SHA-256\` algorithm
-  * Retrieve the hexadecimal value of the \`HMAC\` digest. This is the signature.
-* Compare the signature you computed to the one in the \`X-Signature\` HTTP Header. For maximum security,
-  ensure you perform a constant-time comparison.
-  * If the signatures match, the message is authentic, and was indeed sent by Scalr
-  * If the signatures do not match, the message is a forgery, and was not sent by Scalr
-
-To compute a Webhook notification signature in Bash, use the following algorithm. We assume that the \`$payload\`
-variable contains the request JSON payload, that \`$timestamp\` contains the \`Date\` Header, and that \`$secret_key\`
-is your Endpoint's \`secret-key\`.
-
-\`\`\`bash
-canonical_string="\${payload}\${timestamp}"
-signature=$(echo -n $canonical_string | openssl dgst -sha256 -hmac $secret_key | awk '{ print $2}')
-\`\`\`
-
-The extra fields below are not available in response by default. Ask for them explicitly in the query parameter \`fields[webhooks]\`:
-* statistics`,
-    properties: {
-        attributes: {
-            properties: {
-                enabled: {
-                    description: 'Webhook can be turned off by setting to `false`.',
-                    type: 'boolean',
-                },
-                'last-triggered-at': {
-                    description: 'The Date/Time of the last notification.',
-                    format: 'date-time',
-                    readOnly: true,
-                    type: 'string',
-                },
-                name: {
-                    description:
-                        'The name of the webhook. Use your target application/component name for better discoverability.',
-                    maxLength: 255,
-                    type: 'string',
-                },
-                permissions: {
-                    readOnly: true,
-                    type: 'object',
-                },
-                statistics: {
-                    description:
-                        'Webhook delivery statistics (delivered, failed and total) by periods: last hour, last day and last week',
-                    properties: {
-                        'last-day': {
-                            properties: {
-                                delivered: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                failed: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                total: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                            },
-                            type: 'object',
-                        },
-                        'last-hour': {
-                            properties: {
-                                delivered: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                failed: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                total: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                            },
-                            type: 'object',
-                        },
-                        'last-week': {
-                            properties: {
-                                delivered: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                failed: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                total: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                            },
-                            type: 'object',
-                        },
-                    },
-                    readOnly: true,
-                    type: 'object',
-                },
-            },
-            required: ['name'],
-            type: 'object',
-        },
-        id: {
-            readOnly: true,
-            type: 'string',
-        },
-        links: {
-            properties: {
-                self: {
-                    readOnly: true,
-                    type: 'string',
-                },
-            },
-            readOnly: true,
-            type: 'object',
-        },
-        relationships: {
-            properties: {
-                account: {
-                    description: 'The account this webhook belongs to.',
-                    properties: {
-                        data: {
-                            nullable: true,
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['accounts'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    readOnly: true,
-                    required: ['data'],
-                    type: 'object',
-                },
-                endpoint: {
-                    description: 'The Endpoint this webhook is delivered to.',
-                    properties: {
-                        data: {
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['endpoints'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    required: ['data'],
-                    type: 'object',
-                },
-                environment: {
-                    description: 'The environment this webhook belongs to.',
-                    properties: {
-                        data: {
-                            nullable: true,
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['environments'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    required: ['data'],
-                    type: 'object',
-                },
-                events: {
-                    description: `The list of events this webhook will be notified about.
-Use [List Event Definitions](event-definitions.html#list-event-definitions) to obtain the list
-of all available events.`,
-                    properties: {
-                        data: {
-                            items: {
-                                properties: {
-                                    id: {
-                                        type: 'string',
-                                    },
-                                    type: {
-                                        enum: ['event-definitions'],
-                                        type: 'string',
-                                    },
-                                },
-                                required: ['type', 'id'],
-                                type: 'object',
-                            },
-                            nullable: true,
-                            type: 'array',
-                        },
-                    },
-                    readOnly: true,
-                    required: ['data'],
-                    type: 'object',
-                },
-                workspace: {
-                    description: 'The optional workspace this webhook belongs to.',
-                    properties: {
-                        data: {
-                            nullable: true,
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['workspaces'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    required: ['data'],
-                    type: 'object',
-                },
-            },
-            required: ['endpoint'],
-            type: 'object',
-        },
-        type: {
-            enum: ['webhooks'],
-            type: 'string',
-        },
-    },
-    required: ['type', 'attributes', 'relationships'],
-    type: 'object',
-} as const;
-
-export const $WebhookDocument = {
-    description: `JSON:API Document.
-
-see: https://jsonapi.org/format/#document-structure`,
-    properties: {
-        data: {
-            $ref: '#/components/schemas/Webhook',
-        },
-        included: {
-            items: {
-                type: 'object',
-            },
-            readOnly: true,
-            type: 'array',
-        },
-        meta: {
-            readOnly: true,
-            type: 'object',
-        },
-    },
-    type: 'object',
-} as const;
-
 export const $WebhookIntegration = {
     description: `Represents the webhook integration
 
@@ -11594,39 +11091,6 @@ see: https://jsonapi.org/format/#document-structure`,
     type: 'object',
 } as const;
 
-export const $WebhookListingDocument = {
-    description: `JSON:API Document Listing
-
-see: https://jsonapi.org/format/#document-structure`,
-    properties: {
-        data: {
-            items: {
-                $ref: '#/components/schemas/Webhook',
-            },
-            type: 'array',
-        },
-        included: {
-            items: {
-                type: 'object',
-            },
-            readOnly: true,
-            type: 'array',
-        },
-        links: {
-            additionalProperties: {
-                type: 'string',
-            },
-            readOnly: true,
-            type: 'object',
-        },
-        meta: {
-            readOnly: true,
-            type: 'object',
-        },
-    },
-    type: 'object',
-} as const;
-
 export const $Workspace = {
     description: `A Workspace is where Terraform runs are performed for a specific configuration, and where the resulting
 state file(s) are stored.
@@ -11649,6 +11113,25 @@ The extra fields below are not available in response by default. Ask for them ex
                     description: `Indicates whether \`terraform apply\` should automatically run
 when terraform plan ends without error. Default \`false\`.`,
                     type: 'boolean',
+                },
+                'auto-destroy-days': {
+                    description: 'How many days should the workspace exist.',
+                    enum: [1, 2, 7, 14],
+                    nullable: true,
+                    type: 'integer',
+                },
+                'auto-destroy-status': {
+                    description: 'The status of scheduled destruction of the workspace.',
+                    nullable: true,
+                    readOnly: true,
+                    type: 'string',
+                },
+                'auto-destroy-time': {
+                    description: 'When should the destruction of the workspace begin.',
+                    format: 'date-time',
+                    nullable: true,
+                    readOnly: true,
+                    type: 'string',
                 },
                 'auto-queue-runs': {
                     default: 'skip_first',

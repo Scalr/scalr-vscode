@@ -1544,99 +1544,6 @@ export type DatadogIntegrationListingDocument = {
 };
 
 /**
- * Endpoint is the destination for webhooks.
- * It has URL, secret key and timeout/retry settings.
- *
- * The main use-case of endpoint is to configure it once on higher scope (e.g account/environments), and
- * then re-use in many webhook configurations on a lower scopes (e.g. environments/workspaces).
- */
-export type Endpoint = {
-    attributes: {
-        /**
-         * The number of retry attempts.
-         */
-        'max-attempts'?: number;
-        /**
-         * The name of the endpoint.
-         */
-        name: string;
-        readonly permissions?: {
-            [key: string]: unknown;
-        };
-        /**
-         * The secret passphrase for HMAC signature.
-         */
-        'secret-key'?: string;
-        /**
-         * The HTTP transaction timeout.
-         */
-        timeout?: number;
-        /**
-         * HTTP(s) destination URL.
-         */
-        url: string;
-    };
-    readonly id?: string;
-    readonly links?: {
-        readonly self?: string;
-    };
-    relationships?: {
-        /**
-         * The account, this endpoint belongs to.
-         */
-        readonly account?: {
-            data: {
-                id: string;
-                type: 'accounts';
-            } | null;
-        };
-        /**
-         * The environment, this endpoint belongs to.
-         */
-        environment?: {
-            data: {
-                id: string;
-                type: 'environments';
-            } | null;
-        };
-    };
-    type: 'endpoints';
-};
-
-/**
- * JSON:API Document.
- *
- * see: https://jsonapi.org/format/#document-structure
- */
-export type EndpointDocument = {
-    data?: Endpoint;
-    readonly included?: Array<{
-        [key: string]: unknown;
-    }>;
-    readonly meta?: {
-        [key: string]: unknown;
-    };
-};
-
-/**
- * JSON:API Document Listing
- *
- * see: https://jsonapi.org/format/#document-structure
- */
-export type EndpointListingDocument = {
-    data?: Array<Endpoint>;
-    readonly included?: Array<{
-        [key: string]: unknown;
-    }>;
-    readonly links?: {
-        [key: string]: string;
-    };
-    readonly meta?: {
-        [key: string]: unknown;
-    };
-};
-
-/**
  * Environments are collections of related workspaces that correspond to functional areas, SDLC stages,
  * projects or any grouping that is required.
  *
@@ -5115,7 +5022,8 @@ export type Sources =
     | 'workspaces-account'
     | 'workspaces-account-bulk'
     | 'reports-iac-versions'
-    | 'reports-stale-workspaces';
+    | 'reports-stale-workspaces'
+    | 'auto-destroy';
 
 export const Sources = {
     API: 'api',
@@ -5139,6 +5047,7 @@ export const Sources = {
     WORKSPACES_ACCOUNT_BULK: 'workspaces-account-bulk',
     REPORTS_IAC_VERSIONS: 'reports-iac-versions',
     REPORTS_STALE_WORKSPACES: 'reports-stale-workspaces',
+    AUTO_DESTROY: 'auto-destroy',
 } as const;
 
 /**
@@ -5356,15 +5265,15 @@ export type Tag = {
     readonly links?: {
         readonly self?: string;
     };
-    relationships: {
+    relationships?: {
         /**
          * The account this tag belongs to.
          */
-        account: {
+        readonly account?: {
             data: {
                 id: string;
                 type: 'accounts';
-            };
+            } | null;
         };
     };
     type: 'tags';
@@ -6161,7 +6070,7 @@ export type UsageStatistic = {
         /**
          * The date when usage has been recorded
          */
-        date?: string;
+        date?: string | null;
         /**
          * The count of runs finished within the date
          */
@@ -6708,204 +6617,6 @@ export type VcsTaskRequest = {
 };
 
 /**
- * Webhooks provide a mechanism to integrate Scalr with external API's. Webhooks are triggered by
- * [Events](event-definitions.html#list-event-definitions) which causes Scalr to send an HTTP POST
- * payload to the [endpoint](endpoints.html) associated with the webhook.
- *
- * Webhooks can be used to trigger any action in any external system that has an API or programmable interface.
- * The Endpoint will typically point to a server that processes the HTTP POST request and makes the onward calls
- * to the external API.
- *
- * Webhooks can be created in [environments](environments.html) or in specific [workspaces](workspaces.html).
- *
- * ### Webhook Notification
- *
- * Example:
- * ```http
- * POST /services/58320402 HTTP/1.1
- * Host: hooks.example.com
- * Content-Type: application/json
- * Content-Length: 935
- * Date: 2020-11-25T00:43:38+0000
- * X-Scalr-Delivery-Id: wd-t6v0hrnn58vu4m0
- * X-Signature: 5782c2fa7c38ddc45efd8b7497ac1c9c91ae90fae2fa06148b69bba4c2e22869
- *
- * {
- * "payload_version": 1,
- * "event_name": "run:needs_attention",
- * "run": {
- * "id": "run-t6v0g8prd9qi2h0",
- * "message": "Update variables.tf",
- * "status": "policy_checked",
- * "source": "ui",
- * "url": "https://my.scalr.io/#/workspaces/runs/dashboard?runId=run-t6v0g8prd9qi2h0",
- * "created_at": "2020-11-25T00:42:15",
- * "updated_at": "2020-11-25T00:43:38",
- * "created_by": {
- * "id": "user-stp8qjcvjljlo1o",
- * "username": "me@example.com",
- * "email": "me@example.com"
- * }
- * },
- * "webhook": {
- * "id": "wh-t6v0g1l0dlqhh58",
- * "name": "Data Platform"
- * },
- * "workspace": {
- * "id": "ws-t5hft7e7v366rd0",
- * "name": "my-example",
- * "url": "https://my.scalr.io/#/workspaces/dashboard?workspaceId=ws-t5hft7e7v366rd0"
- * },
- * "environment": {
- * "id": "env-sfuari395m7sck1",
- * "name": "my-development",
- * "url": "https://my.scalr.io/#/15986/17348/dashboard"
- * },
- * "variables": {
- * "foo": "bar"
- * }
- * }
- * ```
- *
- * ### Signature Verification
- *
- * Scalr adds a cryptographic signature to Webhook notifications in order for you to be able to
- * validate that they were indeed generated by Scalr.
- *
- * To validate Webhook notification, follow this procedure:
- *
- * * Obtain the `secret_key` for your [Endpoint](endpoints.html).
- * * When receiving a Webhook payload, compute its signature using the following algorithm (see below for code samples)
- * * Concatenate the JSON payload and the `Date` header
- * * Compute a `HMAC` digest of the concatenated message, using the `SHA-256` algorithm
- * * Retrieve the hexadecimal value of the `HMAC` digest. This is the signature.
- * * Compare the signature you computed to the one in the `X-Signature` HTTP Header. For maximum security,
- * ensure you perform a constant-time comparison.
- * * If the signatures match, the message is authentic, and was indeed sent by Scalr
- * * If the signatures do not match, the message is a forgery, and was not sent by Scalr
- *
- * To compute a Webhook notification signature in Bash, use the following algorithm. We assume that the `$payload`
- * variable contains the request JSON payload, that `$timestamp` contains the `Date` Header, and that `$secret_key`
- * is your Endpoint's `secret-key`.
- *
- * ```bash
- * canonical_string="${payload}${timestamp}"
- * signature=$(echo -n $canonical_string | openssl dgst -sha256 -hmac $secret_key | awk '{ print $2}')
- * ```
- *
- * The extra fields below are not available in response by default. Ask for them explicitly in the query parameter `fields[webhooks]`:
- * * statistics
- */
-export type Webhook = {
-    attributes: {
-        /**
-         * Webhook can be turned off by setting to `false`.
-         */
-        enabled?: boolean;
-        /**
-         * The Date/Time of the last notification.
-         */
-        readonly 'last-triggered-at'?: string;
-        /**
-         * The name of the webhook. Use your target application/component name for better discoverability.
-         */
-        name: string;
-        readonly permissions?: {
-            [key: string]: unknown;
-        };
-        /**
-         * Webhook delivery statistics (delivered, failed and total) by periods: last hour, last day and last week
-         */
-        readonly statistics?: {
-            'last-day'?: {
-                delivered?: number;
-                failed?: number;
-                total?: number;
-            };
-            'last-hour'?: {
-                delivered?: number;
-                failed?: number;
-                total?: number;
-            };
-            'last-week'?: {
-                delivered?: number;
-                failed?: number;
-                total?: number;
-            };
-        };
-    };
-    readonly id?: string;
-    readonly links?: {
-        readonly self?: string;
-    };
-    relationships: {
-        /**
-         * The account this webhook belongs to.
-         */
-        readonly account?: {
-            data: {
-                id: string;
-                type: 'accounts';
-            } | null;
-        };
-        /**
-         * The Endpoint this webhook is delivered to.
-         */
-        endpoint: {
-            data: {
-                id: string;
-                type: 'endpoints';
-            };
-        };
-        /**
-         * The environment this webhook belongs to.
-         */
-        environment?: {
-            data: {
-                id: string;
-                type: 'environments';
-            } | null;
-        };
-        /**
-         * The list of events this webhook will be notified about.
-         * Use [List Event Definitions](event-definitions.html#list-event-definitions) to obtain the list
-         * of all available events.
-         */
-        readonly events?: {
-            data: Array<{
-                id: string;
-                type: 'event-definitions';
-            }> | null;
-        };
-        /**
-         * The optional workspace this webhook belongs to.
-         */
-        workspace?: {
-            data: {
-                id: string;
-                type: 'workspaces';
-            } | null;
-        };
-    };
-    type: 'webhooks';
-};
-
-/**
- * JSON:API Document.
- *
- * see: https://jsonapi.org/format/#document-structure
- */
-export type WebhookDocument = {
-    data?: Webhook;
-    readonly included?: Array<{
-        [key: string]: unknown;
-    }>;
-    readonly meta?: {
-        [key: string]: unknown;
-    };
-};
-
-/**
  * Represents the webhook integration
  *
  * The extra fields below are not available in response by default. Ask for them explicitly in the query parameter `fields[webhook-integrations]`:
@@ -7206,24 +6917,6 @@ export type WebhookIntegrationListingDocument = {
 };
 
 /**
- * JSON:API Document Listing
- *
- * see: https://jsonapi.org/format/#document-structure
- */
-export type WebhookListingDocument = {
-    data?: Array<Webhook>;
-    readonly included?: Array<{
-        [key: string]: unknown;
-    }>;
-    readonly links?: {
-        [key: string]: string;
-    };
-    readonly meta?: {
-        [key: string]: unknown;
-    };
-};
-
-/**
  * A Workspace is where Terraform runs are performed for a specific configuration, and where the resulting
  * state file(s) are stored.
  *
@@ -7244,6 +6937,18 @@ export type Workspace = {
          * when terraform plan ends without error. Default `false`.
          */
         'auto-apply'?: boolean;
+        /**
+         * How many days should the workspace exist.
+         */
+        'auto-destroy-days'?: 1 | 2 | 7 | 14 | null;
+        /**
+         * The status of scheduled destruction of the workspace.
+         */
+        readonly 'auto-destroy-status'?: string | null;
+        /**
+         * When should the destruction of the workspace begin.
+         */
+        readonly 'auto-destroy-time'?: string | null;
         /**
          * Indicates if runs have to be queued automatically when a new configuration version is uploaded.
          * `skip_first` - after the very first configuration version is uploaded into the workspace the run will not be triggered.
@@ -7545,6 +7250,21 @@ export type Workspace = {
     };
     type: 'workspaces';
 };
+
+/**
+ * How many days should the workspace exist.
+ */
+export type auto_destroy_days = 1 | 2 | 7 | 14;
+
+/**
+ * How many days should the workspace exist.
+ */
+export const auto_destroy_days = {
+    _1: 1,
+    _2: 2,
+    _7: 7,
+    _14: 14,
+} as const;
 
 /**
  * Indicates if runs have to be queued automatically when a new configuration version is uploaded.
@@ -8589,6 +8309,10 @@ export type GetWorkspacesData = {
          * The ID of the VCS provider
          */
         'filter[vcs-provider]'?: string;
+        /**
+         * Filter by VCS repository
+         */
+        'filter[vcs-repo][identifier]'?: string;
         /**
          * The ID(s) of the Workspace.
          */

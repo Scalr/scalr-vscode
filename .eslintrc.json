@@ -3,7 +3,8 @@
     "globals": {
         "console": "readonly",
         "__dirname": "readonly",
-        "module": "readonly"
+        "module": "readonly",
+        "require": "readonly"
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
