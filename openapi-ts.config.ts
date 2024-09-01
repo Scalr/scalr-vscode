@@ -6,13 +6,13 @@ export default defineConfig({
     output: {
         format: 'prettier',
         lint: 'eslint',
-        path: './src/api'
+        path: './src/api',
     },
     types: {
         // dates: 'types+transform',
-        enums: 'javascript'
+        enums: 'javascript',
     },
     services: {
-        filter: '^\\w+ /(accounts|workspaces|runs|plans|applies)'
-    }
+        filter: '^\\w+ /(accounts|workspaces|runs|plans|applies)',
+    },
 });

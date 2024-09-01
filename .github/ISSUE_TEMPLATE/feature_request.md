@@ -1,7 +1,7 @@
 ---
 name: Feature Request
 about: Suggest a new feature or enhancement for the VSCode extension
-title: "[Feature]: "
+title: '[Feature]: '
 labels: enhancement
 assignees: 'emocharnik'
 ---

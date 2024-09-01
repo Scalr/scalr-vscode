@@ -11,18 +11,16 @@ export class ScalrSession implements vscode.AuthenticationSession {
     public readonly baseUrl: string;
 
     constructor(
-    public readonly accessToken: string,
-    public readonly username: string,
-    public readonly email: string,
-    public account: vscode.AuthenticationSessionAccountInformation,
+        public readonly accessToken: string,
+        public readonly username: string,
+        public readonly email: string,
+        public account: vscode.AuthenticationSessionAccountInformation
     ) {
         this.baseUrl = `https://${this.account.label}.scalr.io/v2`;
     }
 }
 
-export class ScalrAuthenticationProvider
-implements vscode.AuthenticationProvider
-{
+export class ScalrAuthenticationProvider implements vscode.AuthenticationProvider {
     public static readonly id: string = 'scalr';
     public static readonly providerLabel: string = 'scalr';
 
@@ -33,21 +31,17 @@ implements vscode.AuthenticationProvider
         new vscode.EventEmitter<vscode.AuthenticationProviderAuthenticationSessionsChangeEvent>();
 
     constructor(private readonly ctx: vscode.ExtensionContext) {
-        this.logger = vscode.window.createOutputChannel('Scalr Auth', { log: true });
+        this.logger = vscode.window.createOutputChannel('Scalr Auth', {
+            log: true,
+        });
 
         this.ctx.subscriptions.push(
             vscode.commands.registerCommand('scalr.login', async () => {
-                const session = (await vscode.authentication.getSession(
-                    ScalrAuthenticationProvider.id,
-                    [],
-                    {
-                        createIfNone: true,
-                    },
-                )) as ScalrSession;
-                vscode.window.showInformationMessage(
-                    `Logged in the account ${session.account.label}`,
-                );
-            }),
+                const session = (await vscode.authentication.getSession(ScalrAuthenticationProvider.id, [], {
+                    createIfNone: true,
+                })) as ScalrSession;
+                vscode.window.showInformationMessage(`Logged in the account ${session.account.label}`);
+            })
         );
     }
 
@@ -55,7 +49,7 @@ implements vscode.AuthenticationProvider
         return this._onDidChangeSessions.event;
     }
 
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
     async getSessions(scopes: string[]): Promise<vscode.AuthenticationSession[]> {
         const session = await this.getSession();
 
@@ -84,8 +78,8 @@ implements vscode.AuthenticationProvider
     }
 
     async createSession(
-        // eslint-disable-next-line no-unused-vars
-        _scopes: string[],
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        _scopes: string[]
     ): Promise<vscode.AuthenticationSession> {
         try {
             const session = await this.storeSession(await this.initSession());
@@ -96,11 +90,7 @@ implements vscode.AuthenticationProvider
                 changed: [],
             });
 
-            await vscode.commands.executeCommand(
-                'setContext',
-                'scalr.signed-in',
-                true,
-            );
+            await vscode.commands.executeCommand('setContext', 'scalr.signed-in', true);
 
             return session;
         } catch (error) {
@@ -154,18 +144,13 @@ implements vscode.AuthenticationProvider
         }
 
         const owner = accounts.included[0] as User;
-        return new ScalrSession(
-            token,
-            owner.attributes['full-name'] as string,
-            owner.attributes.email,
-            {
-                id: account.id as string,
-                label: account.attributes.name,
-            },
-        );
+        return new ScalrSession(token, owner.attributes['full-name'] as string, owner.attributes.email, {
+            id: account.id as string,
+            label: account.attributes.name,
+        });
     }
 
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async removeSession(_sessionId: string): Promise<void> {
         const session = await this.getSession();
         if (!session) {
@@ -173,11 +158,7 @@ implements vscode.AuthenticationProvider
         }
 
         await this.ctx.secrets.delete(this.sessionKey);
-        await vscode.commands.executeCommand(
-            'setContext',
-            'scalr.signed-in',
-            false,
-        );
+        await vscode.commands.executeCommand('setContext', 'scalr.signed-in', false);
 
         // Notify VSCode's UI
         this._onDidChangeSessions.fire({
@@ -193,9 +174,7 @@ implements vscode.AuthenticationProvider
         return session;
     }
 
-    private async promptForToken(
-        accountName: string,
-    ): Promise<string | undefined> {
+    private async promptForToken(accountName: string): Promise<string | undefined> {
         const choice = await vscode.window.showQuickPick(
             [
                 {
@@ -212,7 +191,7 @@ implements vscode.AuthenticationProvider
                 ignoreFocusOut: true,
                 placeHolder: 'Choose a method to authenticate with Scalr',
                 title: 'Scalr Authentication',
-            },
+            }
         );
 
         if (choice === undefined) {
@@ -222,27 +201,27 @@ implements vscode.AuthenticationProvider
         const scalrURL = `https://${accountName}.scalr.io/app/settings/tokens?source=vscode-scalr`;
         let token: string | undefined;
         switch (choice.label) {
-        case 'Generate a token':
-            await vscode.env.openExternal(vscode.Uri.parse(scalrURL));
-            // Prompt for the UAT.
-            token = await vscode.window.showInputBox({
-                ignoreFocusOut: true,
-                placeHolder: 'User access token',
-                prompt: 'Enter user access token',
-                password: true,
-            });
-            break;
-        case 'Existing token':
-        // Prompt for the UAT.
-            token = await vscode.window.showInputBox({
-                ignoreFocusOut: true,
-                placeHolder: 'User access token',
-                prompt: 'Enter user access token',
-                password: true,
-            });
-            break;
-        default:
-            break;
+            case 'Generate a token':
+                await vscode.env.openExternal(vscode.Uri.parse(scalrURL));
+                // Prompt for the UAT.
+                token = await vscode.window.showInputBox({
+                    ignoreFocusOut: true,
+                    placeHolder: 'User access token',
+                    prompt: 'Enter user access token',
+                    password: true,
+                });
+                break;
+            case 'Existing token':
+                // Prompt for the UAT.
+                token = await vscode.window.showInputBox({
+                    ignoreFocusOut: true,
+                    placeHolder: 'User access token',
+                    prompt: 'Enter user access token',
+                    password: true,
+                });
+                break;
+            default:
+                break;
         }
 
         return token;

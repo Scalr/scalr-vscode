@@ -4,13 +4,9 @@ import console = require('console');
 
 async function getGitApi(): Promise<GitApi | undefined> {
     try {
-        const extension = extensions.getExtension(
-            'vscode.git',
-        ) as Extension<GitExtension>;
+        const extension = extensions.getExtension('vscode.git') as Extension<GitExtension>;
         if (extension !== undefined) {
-            const gitExtension = extension.isActive
-                ? extension.exports
-                : await extension.activate();
+            const gitExtension = extension.isActive ? extension.exports : await extension.activate();
 
             return gitExtension.getAPI(1);
         }

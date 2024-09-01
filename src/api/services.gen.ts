@@ -149,12 +149,10 @@ import type {
  * List Accounts
  */
 export const getAccounts = (options?: Options<GetAccountsData>) => {
-    return (options?.client ?? client).get<GetAccountsResponse, GetAccountsError>(
-        {
-            ...options,
-            url: '/accounts',
-        },
-    );
+    return (options?.client ?? client).get<GetAccountsResponse, GetAccountsError>({
+        ...options,
+        url: '/accounts',
+    });
 };
 
 /**
@@ -172,13 +170,10 @@ export const getAccount = (options: Options<GetAccountData>) => {
  * Update Account
  */
 export const updateAccount = (options: Options<UpdateAccountData>) => {
-    return (options?.client ?? client).patch<
-    UpdateAccountResponse,
-    UpdateAccountError
-  >({
-      ...options,
-      url: '/accounts/{account}',
-  });
+    return (options?.client ?? client).patch<UpdateAccountResponse, UpdateAccountError>({
+        ...options,
+        url: '/accounts/{account}',
+    });
 };
 
 /**
@@ -192,16 +187,11 @@ export const updateAccount = (options: Options<UpdateAccountData>) => {
  * This is the preferred way to create users.
  *
  */
-export const inviteUserToAccount = (
-    options: Options<InviteUserToAccountData>,
-) => {
-    return (options?.client ?? client).post<
-    InviteUserToAccountResponse,
-    InviteUserToAccountError
-  >({
-      ...options,
-      url: '/accounts/{account}/actions/invite',
-  });
+export const inviteUserToAccount = (options: Options<InviteUserToAccountData>) => {
+    return (options?.client ?? client).post<InviteUserToAccountResponse, InviteUserToAccountError>({
+        ...options,
+        url: '/accounts/{account}/actions/invite',
+    });
 };
 
 /**
@@ -210,16 +200,11 @@ export const inviteUserToAccount = (
  * associated with the account.
  *
  */
-export const removeUserFromAccount = (
-    options: Options<RemoveUserFromAccountData>,
-) => {
-    return (options?.client ?? client).delete<
-    RemoveUserFromAccountResponse,
-    RemoveUserFromAccountError
-  >({
-      ...options,
-      url: '/accounts/{account}/actions/remove/{user}',
-  });
+export const removeUserFromAccount = (options: Options<RemoveUserFromAccountData>) => {
+    return (options?.client ?? client).delete<RemoveUserFromAccountResponse, RemoveUserFromAccountError>({
+        ...options,
+        url: '/accounts/{account}/actions/remove/{user}',
+    });
 };
 
 /**
@@ -231,32 +216,22 @@ export const removeUserFromAccount = (
  * in Scalr.
  *
  */
-export const deleteAccountBlobSettings = (
-    options: Options<DeleteAccountBlobSettingsData>,
-) => {
-    return (options?.client ?? client).delete<
-    DeleteAccountBlobSettingsResponse,
-    DeleteAccountBlobSettingsError
-  >({
-      ...options,
-      url: '/accounts/{account}/blob-settings',
-  });
+export const deleteAccountBlobSettings = (options: Options<DeleteAccountBlobSettingsData>) => {
+    return (options?.client ?? client).delete<DeleteAccountBlobSettingsResponse, DeleteAccountBlobSettingsError>({
+        ...options,
+        url: '/accounts/{account}/blob-settings',
+    });
 };
 
 /**
  * Get Blob Settings
  * Show details of account blob storage settings.
  */
-export const getAccountBlobSettings = (
-    options: Options<GetAccountBlobSettingsData>,
-) => {
-    return (options?.client ?? client).get<
-    GetAccountBlobSettingsResponse,
-    GetAccountBlobSettingsError
-  >({
-      ...options,
-      url: '/accounts/{account}/blob-settings',
-  });
+export const getAccountBlobSettings = (options: Options<GetAccountBlobSettingsData>) => {
+    return (options?.client ?? client).get<GetAccountBlobSettingsResponse, GetAccountBlobSettingsError>({
+        ...options,
+        url: '/accounts/{account}/blob-settings',
+    });
 };
 
 /**
@@ -271,16 +246,11 @@ export const getAccountBlobSettings = (
  * API will return `409` on any attempt to modify them.
  *
  */
-export const updateAccountBlobSettings = (
-    options: Options<UpdateAccountBlobSettingsData>,
-) => {
-    return (options?.client ?? client).patch<
-    UpdateAccountBlobSettingsResponse,
-    UpdateAccountBlobSettingsError
-  >({
-      ...options,
-      url: '/accounts/{account}/blob-settings',
-  });
+export const updateAccountBlobSettings = (options: Options<UpdateAccountBlobSettingsData>) => {
+    return (options?.client ?? client).patch<UpdateAccountBlobSettingsResponse, UpdateAccountBlobSettingsError>({
+        ...options,
+        url: '/accounts/{account}/blob-settings',
+    });
 };
 
 /**
@@ -292,16 +262,11 @@ export const updateAccountBlobSettings = (
  * in Scalr yet.
  *
  */
-export const replaceAccountBlobSettings = (
-    options: Options<ReplaceAccountBlobSettingsData>,
-) => {
-    return (options?.client ?? client).put<
-    ReplaceAccountBlobSettingsResponse,
-    ReplaceAccountBlobSettingsError
-  >({
-      ...options,
-      url: '/accounts/{account}/blob-settings',
-  });
+export const replaceAccountBlobSettings = (options: Options<ReplaceAccountBlobSettingsData>) => {
+    return (options?.client ?? client).put<ReplaceAccountBlobSettingsResponse, ReplaceAccountBlobSettingsError>({
+        ...options,
+        url: '/accounts/{account}/blob-settings',
+    });
 };
 
 /**
@@ -330,12 +295,10 @@ export const getApply = (options: Options<GetApplyData>) => {
  * Download the raw output of the terraform apply stage.
  */
 export const getApplyLog = (options: Options<GetApplyLogData>) => {
-    return (options?.client ?? client).get<GetApplyLogResponse, GetApplyLogError>(
-        {
-            ...options,
-            url: '/applies/{apply}/output',
-        },
-    );
+    return (options?.client ?? client).get<GetApplyLogResponse, GetApplyLogError>({
+        ...options,
+        url: '/applies/{apply}/output',
+    });
 };
 
 /**
@@ -354,13 +317,10 @@ export const getPlan = (options: Options<GetPlanData>) => {
  * Download JSON formatted execution plan.
  */
 export const getJsonOutput = (options: Options<GetJsonOutputData>) => {
-    return (options?.client ?? client).get<
-    GetJsonOutputResponse,
-    GetJsonOutputError
-  >({
-      ...options,
-      url: '/plans/{plan}/json-output',
-  });
+    return (options?.client ?? client).get<GetJsonOutputResponse, GetJsonOutputError>({
+        ...options,
+        url: '/plans/{plan}/json-output',
+    });
 };
 
 /**
@@ -378,16 +338,11 @@ export const getPlanLog = (options: Options<GetPlanLogData>) => {
  * Sanitized JSON Output
  * Download plan file in machine-readable format with sanitized sensitive values.
  */
-export const getSanitizedJsonOutput = (
-    options: Options<GetSanitizedJsonOutputData>,
-) => {
-    return (options?.client ?? client).get<
-    GetSanitizedJsonOutputResponse,
-    GetSanitizedJsonOutputError
-  >({
-      ...options,
-      url: '/plans/{plan}/sanitized-json-output',
-  });
+export const getSanitizedJsonOutput = (options: Options<GetSanitizedJsonOutputData>) => {
+    return (options?.client ?? client).get<GetSanitizedJsonOutputResponse, GetSanitizedJsonOutputError>({
+        ...options,
+        url: '/plans/{plan}/sanitized-json-output',
+    });
 };
 
 /**
@@ -423,13 +378,10 @@ export const createRun = (options?: Options<CreateRunData>) => {
  *
  */
 export const getRunsQueue = (options?: Options<GetRunsQueueData>) => {
-    return (options?.client ?? client).get<
-    GetRunsQueueResponse,
-    GetRunsQueueError
-  >({
-      ...options,
-      url: '/runs-queue',
-  });
+    return (options?.client ?? client).get<GetRunsQueueResponse, GetRunsQueueError>({
+        ...options,
+        url: '/runs-queue',
+    });
 };
 
 /**
@@ -502,13 +454,10 @@ export const forceRun = (options: Options<ForceRunData>) => {
  * List policy checks for a specific run.
  */
 export const listPolicyChecks = (options: Options<ListPolicyChecksData>) => {
-    return (options?.client ?? client).get<
-    ListPolicyChecksResponse,
-    ListPolicyChecksError
-  >({
-      ...options,
-      url: '/runs/{run}/policy-checks',
-  });
+    return (options?.client ?? client).get<ListPolicyChecksResponse, ListPolicyChecksError>({
+        ...options,
+        url: '/runs/{run}/policy-checks',
+    });
 };
 
 /**
@@ -517,29 +466,21 @@ export const listPolicyChecks = (options: Options<ListPolicyChecksData>) => {
  *
  * See [Policy Input](https://docs.scalr.io/docs/policy-as-code) data structure.
  */
-export const downloadPolicyInput = (
-    options: Options<DownloadPolicyInputData>,
-) => {
-    return (options?.client ?? client).get<
-    DownloadPolicyInputResponse,
-    DownloadPolicyInputError
-  >({
-      ...options,
-      url: '/runs/{run}/policy-input',
-  });
+export const downloadPolicyInput = (options: Options<DownloadPolicyInputData>) => {
+    return (options?.client ?? client).get<DownloadPolicyInputResponse, DownloadPolicyInputError>({
+        ...options,
+        url: '/runs/{run}/policy-input',
+    });
 };
 
 /**
  * List Workspaces
  */
 export const getWorkspaces = (options?: Options<GetWorkspacesData>) => {
-    return (options?.client ?? client).get<
-    GetWorkspacesResponse,
-    GetWorkspacesError
-  >({
-      ...options,
-      url: '/workspaces',
-  });
+    return (options?.client ?? client).get<GetWorkspacesResponse, GetWorkspacesError>({
+        ...options,
+        url: '/workspaces',
+    });
 };
 
 /**
@@ -553,26 +494,20 @@ export const getWorkspaces = (options?: Options<GetWorkspacesData>) => {
  *
  */
 export const createWorkspace = (options?: Options<CreateWorkspaceData>) => {
-    return (options?.client ?? client).post<
-    CreateWorkspaceResponse,
-    CreateWorkspaceError
-  >({
-      ...options,
-      url: '/workspaces',
-  });
+    return (options?.client ?? client).post<CreateWorkspaceResponse, CreateWorkspaceError>({
+        ...options,
+        url: '/workspaces',
+    });
 };
 
 /**
  * Delete a Workspace
  */
 export const deleteWorkspace = (options: Options<DeleteWorkspaceData>) => {
-    return (options?.client ?? client).delete<
-    DeleteWorkspaceResponse,
-    DeleteWorkspaceError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}',
-  });
+    return (options?.client ?? client).delete<DeleteWorkspaceResponse, DeleteWorkspaceError>({
+        ...options,
+        url: '/workspaces/{workspace}',
+    });
 };
 
 /**
@@ -580,26 +515,20 @@ export const deleteWorkspace = (options: Options<DeleteWorkspaceData>) => {
  * Show details of a specific workspace.
  */
 export const getWorkspace = (options: Options<GetWorkspaceData>) => {
-    return (options?.client ?? client).get<
-    GetWorkspaceResponse,
-    GetWorkspaceError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}',
-  });
+    return (options?.client ?? client).get<GetWorkspaceResponse, GetWorkspaceError>({
+        ...options,
+        url: '/workspaces/{workspace}',
+    });
 };
 
 /**
  * Update a Workspace
  */
 export const updateWorkspace = (options: Options<UpdateWorkspaceData>) => {
-    return (options?.client ?? client).patch<
-    UpdateWorkspaceResponse,
-    UpdateWorkspaceError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}',
-  });
+    return (options?.client ?? client).patch<UpdateWorkspaceResponse, UpdateWorkspaceError>({
+        ...options,
+        url: '/workspaces/{workspace}',
+    });
 };
 
 /**
@@ -607,13 +536,10 @@ export const updateWorkspace = (options: Options<UpdateWorkspaceData>) => {
  * This endpoint locks a workspace.
  */
 export const lockWorkspace = (options: Options<LockWorkspaceData>) => {
-    return (options?.client ?? client).post<
-    LockWorkspaceResponse,
-    LockWorkspaceError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/actions/lock',
-  });
+    return (options?.client ?? client).post<LockWorkspaceResponse, LockWorkspaceError>({
+        ...options,
+        url: '/workspaces/{workspace}/actions/lock',
+    });
 };
 
 /**
@@ -622,26 +548,20 @@ export const lockWorkspace = (options: Options<LockWorkspaceData>) => {
  * associated with a VCS repository.
  */
 export const resyncWorkspace = (options: Options<ResyncWorkspaceData>) => {
-    return (options?.client ?? client).post<
-    ResyncWorkspaceResponse,
-    ResyncWorkspaceError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/actions/resync',
-  });
+    return (options?.client ?? client).post<ResyncWorkspaceResponse, ResyncWorkspaceError>({
+        ...options,
+        url: '/workspaces/{workspace}/actions/resync',
+    });
 };
 
 /**
  * Set scheduled runs for the workspace
  */
 export const setSchedule = (options: Options<SetScheduleData>) => {
-    return (options?.client ?? client).post<
-    SetScheduleResponse,
-    SetScheduleError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/actions/set-schedule',
-  });
+    return (options?.client ?? client).post<SetScheduleResponse, SetScheduleError>({
+        ...options,
+        url: '/workspaces/{workspace}/actions/set-schedule',
+    });
 };
 
 /**
@@ -649,13 +569,10 @@ export const setSchedule = (options: Options<SetScheduleData>) => {
  * This endpoint unlocks a workspace.
  */
 export const unlockWorkspace = (options: Options<UnlockWorkspaceData>) => {
-    return (options?.client ?? client).post<
-    UnlockWorkspaceResponse,
-    UnlockWorkspaceError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/actions/unlock',
-  });
+    return (options?.client ?? client).post<UnlockWorkspaceResponse, UnlockWorkspaceError>({
+        ...options,
+        url: '/workspaces/{workspace}/actions/unlock',
+    });
 };
 
 /**
@@ -664,16 +581,11 @@ export const unlockWorkspace = (options: Options<UnlockWorkspaceData>) => {
  *
  * This state version will be the input state when running terraform operations.
  */
-export const getCurrentStateVersion = (
-    options: Options<GetCurrentStateVersionData>,
-) => {
-    return (options?.client ?? client).get<
-    GetCurrentStateVersionResponse,
-    GetCurrentStateVersionError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/current-state-version',
-  });
+export const getCurrentStateVersion = (options: Options<GetCurrentStateVersionData>) => {
+    return (options?.client ?? client).get<GetCurrentStateVersionResponse, GetCurrentStateVersionError>({
+        ...options,
+        url: '/workspaces/{workspace}/current-state-version',
+    });
 };
 
 /**
@@ -681,16 +593,11 @@ export const getCurrentStateVersion = (
  * This endpoint returns a list of outputs from current state version run output.
  *
  */
-export const getWorkspaceOutputs = (
-    options: Options<GetWorkspaceOutputsData>,
-) => {
-    return (options?.client ?? client).get<
-    GetWorkspaceOutputsResponse,
-    GetWorkspaceOutputsError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/outputs',
-  });
+export const getWorkspaceOutputs = (options: Options<GetWorkspaceOutputsData>) => {
+    return (options?.client ?? client).get<GetWorkspaceOutputsResponse, GetWorkspaceOutputsError>({
+        ...options,
+        url: '/workspaces/{workspace}/outputs',
+    });
 };
 
 /**
@@ -698,16 +605,13 @@ export const getWorkspaceOutputs = (
  * This endpoint returns a list of Provider configuration links or configurations that are used during the workspace runs.
  *
  */
-export const listProviderConfigurationLinks = (
-    options: Options<ListProviderConfigurationLinksData>,
-) => {
-    return (options?.client ?? client).get<
-    ListProviderConfigurationLinksResponse,
-    ListProviderConfigurationLinksError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/provider-configuration-links',
-  });
+export const listProviderConfigurationLinks = (options: Options<ListProviderConfigurationLinksData>) => {
+    return (options?.client ?? client).get<ListProviderConfigurationLinksResponse, ListProviderConfigurationLinksError>(
+        {
+            ...options,
+            url: '/workspaces/{workspace}/provider-configuration-links',
+        }
+    );
 };
 
 /**
@@ -715,16 +619,14 @@ export const listProviderConfigurationLinks = (
  * Attach a Provider configuration to the workspace.
  *
  */
-export const createProviderConfigurationLink = (
-    options: Options<CreateProviderConfigurationLinkData>,
-) => {
+export const createProviderConfigurationLink = (options: Options<CreateProviderConfigurationLinkData>) => {
     return (options?.client ?? client).post<
-    CreateProviderConfigurationLinkResponse,
-    CreateProviderConfigurationLinkError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/provider-configuration-links',
-  });
+        CreateProviderConfigurationLinkResponse,
+        CreateProviderConfigurationLinkError
+    >({
+        ...options,
+        url: '/workspaces/{workspace}/provider-configuration-links',
+    });
 };
 
 /**
@@ -733,16 +635,11 @@ export const createProviderConfigurationLink = (
  * from a list of allowed remote state consumers for a given workspace.
  *
  */
-export const deleteRemoteStateConsumers = (
-    options: Options<DeleteRemoteStateConsumersData>,
-) => {
-    return (options?.client ?? client).delete<
-    DeleteRemoteStateConsumersResponse,
-    DeleteRemoteStateConsumersError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/relationships/remote-state-consumers',
-  });
+export const deleteRemoteStateConsumers = (options: Options<DeleteRemoteStateConsumersData>) => {
+    return (options?.client ?? client).delete<DeleteRemoteStateConsumersResponse, DeleteRemoteStateConsumersError>({
+        ...options,
+        url: '/workspaces/{workspace}/relationships/remote-state-consumers',
+    });
 };
 
 /**
@@ -751,16 +648,11 @@ export const deleteRemoteStateConsumers = (
  * that are allowed to access the given workspace's state during runs.
  *
  */
-export const listRemoteStateConsumers = (
-    options: Options<ListRemoteStateConsumersData>,
-) => {
-    return (options?.client ?? client).get<
-    ListRemoteStateConsumersResponse,
-    ListRemoteStateConsumersError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/relationships/remote-state-consumers',
-  });
+export const listRemoteStateConsumers = (options: Options<ListRemoteStateConsumersData>) => {
+    return (options?.client ?? client).get<ListRemoteStateConsumersResponse, ListRemoteStateConsumersError>({
+        ...options,
+        url: '/workspaces/{workspace}/relationships/remote-state-consumers',
+    });
 };
 
 /**
@@ -768,16 +660,11 @@ export const listRemoteStateConsumers = (
  * This endpoint replaces a list of allowed remote state consumers for a given workspace.
  *
  */
-export const replaceRemoteStateConsumers = (
-    options: Options<ReplaceRemoteStateConsumersData>,
-) => {
-    return (options?.client ?? client).patch<
-    ReplaceRemoteStateConsumersResponse,
-    ReplaceRemoteStateConsumersError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/relationships/remote-state-consumers',
-  });
+export const replaceRemoteStateConsumers = (options: Options<ReplaceRemoteStateConsumersData>) => {
+    return (options?.client ?? client).patch<ReplaceRemoteStateConsumersResponse, ReplaceRemoteStateConsumersError>({
+        ...options,
+        url: '/workspaces/{workspace}/relationships/remote-state-consumers',
+    });
 };
 
 /**
@@ -786,16 +673,11 @@ export const replaceRemoteStateConsumers = (
  * to a list of allowed remote state consumers for a given workspace.
  *
  */
-export const addRemoteStateConsumers = (
-    options: Options<AddRemoteStateConsumersData>,
-) => {
-    return (options?.client ?? client).post<
-    AddRemoteStateConsumersResponse,
-    AddRemoteStateConsumersError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/relationships/remote-state-consumers',
-  });
+export const addRemoteStateConsumers = (options: Options<AddRemoteStateConsumersData>) => {
+    return (options?.client ?? client).post<AddRemoteStateConsumersResponse, AddRemoteStateConsumersError>({
+        ...options,
+        url: '/workspaces/{workspace}/relationships/remote-state-consumers',
+    });
 };
 
 /**
@@ -803,16 +685,11 @@ export const addRemoteStateConsumers = (
  * This endpoint removes given [tags](tags.html#the-tag-resource) from the workspace.
  *
  */
-export const deleteWorkspaceTags = (
-    options: Options<DeleteWorkspaceTagsData>,
-) => {
-    return (options?.client ?? client).delete<
-    DeleteWorkspaceTagsResponse,
-    DeleteWorkspaceTagsError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/relationships/tags',
-  });
+export const deleteWorkspaceTags = (options: Options<DeleteWorkspaceTagsData>) => {
+    return (options?.client ?? client).delete<DeleteWorkspaceTagsResponse, DeleteWorkspaceTagsError>({
+        ...options,
+        url: '/workspaces/{workspace}/relationships/tags',
+    });
 };
 
 /**
@@ -822,13 +699,10 @@ export const deleteWorkspaceTags = (
  *
  */
 export const listWorkspaceTags = (options: Options<ListWorkspaceTagsData>) => {
-    return (options?.client ?? client).get<
-    ListWorkspaceTagsResponse,
-    ListWorkspaceTagsError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/relationships/tags',
-  });
+    return (options?.client ?? client).get<ListWorkspaceTagsResponse, ListWorkspaceTagsError>({
+        ...options,
+        url: '/workspaces/{workspace}/relationships/tags',
+    });
 };
 
 /**
@@ -836,16 +710,11 @@ export const listWorkspaceTags = (options: Options<ListWorkspaceTagsData>) => {
  * This endpoint completely replaces workspace's tags with provided list.
  *
  */
-export const replaceWorkspaceTags = (
-    options: Options<ReplaceWorkspaceTagsData>,
-) => {
-    return (options?.client ?? client).patch<
-    ReplaceWorkspaceTagsResponse,
-    ReplaceWorkspaceTagsError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/relationships/tags',
-  });
+export const replaceWorkspaceTags = (options: Options<ReplaceWorkspaceTagsData>) => {
+    return (options?.client ?? client).patch<ReplaceWorkspaceTagsResponse, ReplaceWorkspaceTagsError>({
+        ...options,
+        url: '/workspaces/{workspace}/relationships/tags',
+    });
 };
 
 /**
@@ -854,11 +723,8 @@ export const replaceWorkspaceTags = (
  *
  */
 export const addWorkspaceTags = (options: Options<AddWorkspaceTagsData>) => {
-    return (options?.client ?? client).post<
-    AddWorkspaceTagsResponse,
-    AddWorkspaceTagsError
-  >({
-      ...options,
-      url: '/workspaces/{workspace}/relationships/tags',
-  });
+    return (options?.client ?? client).post<AddWorkspaceTagsResponse, AddWorkspaceTagsError>({
+        ...options,
+        url: '/workspaces/{workspace}/relationships/tags',
+    });
 };
