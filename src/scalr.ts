@@ -5,9 +5,7 @@ import { RunTreeDataProvider } from './providers/runProvider';
 import { LogProvider } from './providers/logProvider';
 
 export class ScalrFeature implements vscode.Disposable {
-    constructor(
-    private ctx: vscode.ExtensionContext,
-    ) {
+    constructor(private ctx: vscode.ExtensionContext) {
         const authProvider = new ScalrAuthenticationProvider(ctx);
         const runProvider = new RunTreeDataProvider(ctx);
         const workspaceDataProvider = new WorkspaceTreeDataProvider(ctx, runProvider);
@@ -16,8 +14,8 @@ export class ScalrFeature implements vscode.Disposable {
                 ScalrAuthenticationProvider.id,
                 ScalrAuthenticationProvider.providerLabel,
                 authProvider,
-                { supportsMultipleAccounts: false },
-            ),
+                { supportsMultipleAccounts: false }
+            )
         );
 
         vscode.authentication.onDidChangeSessions((e) => {
@@ -29,18 +27,14 @@ export class ScalrFeature implements vscode.Disposable {
             }
         });
 
-        ctx.subscriptions.push(
-            vscode.workspace.registerTextDocumentContentProvider('scalr-logs', new LogProvider())
-        );
-        
-        
-      
+        ctx.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider('scalr-logs', new LogProvider()));
+
         const workspaceView = vscode.window.createTreeView('workspaces', {
             canSelectMany: false,
             showCollapseAll: true,
             treeDataProvider: workspaceDataProvider,
         });
-        workspaceView.onDidChangeSelection((event) => { 
+        workspaceView.onDidChangeSelection((event) => {
             if (event.selection.length <= 0) {
                 return;
             }
@@ -54,18 +48,15 @@ export class ScalrFeature implements vscode.Disposable {
             runProvider.refresh(selected);
         });
 
-
         const runView = vscode.window.createTreeView('runs', {
             canSelectMany: false,
             showCollapseAll: true,
             treeDataProvider: runProvider,
         });
-        ctx.subscriptions.push(
-            workspaceView, runView,
-        );
+        ctx.subscriptions.push(workspaceView, runView);
     }
 
     dispose() {
-    //
+        //
     }
 }

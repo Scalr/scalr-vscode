@@ -11,8 +11,7 @@ export const $AWSEventBridgeIntegration = {
                     type: 'string',
                 },
                 'err-message': {
-                    description:
-            'Message from service that points to nature of a problem',
+                    description: 'Message from service that points to nature of a problem',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -161,8 +160,7 @@ An access policy is applied to an environment or a specific workspace.`,
         attributes: {
             properties: {
                 'is-system': {
-                    description:
-            'The access policy is a built-in read-only policy that cannot be updated or deleted.',
+                    description: 'The access policy is a built-in read-only policy that cannot be updated or deleted.',
                     readOnly: true,
                     type: 'boolean',
                 },
@@ -182,8 +180,7 @@ An access policy is applied to an environment or a specific workspace.`,
         relationships: {
             properties: {
                 account: {
-                    description:
-            'Grant access to the account and to all environments and workspaces in the account.',
+                    description: 'Grant access to the account and to all environments and workspaces in the account.',
                     properties: {
                         data: {
                             nullable: true,
@@ -204,8 +201,7 @@ An access policy is applied to an environment or a specific workspace.`,
                     type: 'object',
                 },
                 environment: {
-                    description:
-            'Grant access to the environment and all workspaces within it.',
+                    description: 'Grant access to the environment and all workspaces within it.',
                     properties: {
                         data: {
                             nullable: true,
@@ -578,20 +574,18 @@ export const $Account = {
                     type: 'string',
                 },
                 quotas: {
-                    description: 'The list of account\'s quotas',
+                    description: "The list of account's quotas",
                     properties: {
                         agents: {
                             description: 'The maximal number of agents',
                             type: 'integer',
                         },
                         'before-after-hooks-available': {
-                            description:
-                'Indicates if the before-after hooks are available for an account',
+                            description: 'Indicates if the before-after hooks are available for an account',
                             type: 'boolean',
                         },
                         'cost-estimate-available': {
-                            description:
-                'Indicates if the cost estimation is available for an account',
+                            description: 'Indicates if the cost estimation is available for an account',
                             type: 'boolean',
                         },
                         environments: {
@@ -603,8 +597,7 @@ export const $Account = {
                             type: 'integer',
                         },
                         'policy-group-checks-available': {
-                            description:
-                'Indicates if the policy group checks are available for an account',
+                            description: 'Indicates if the policy group checks are available for an account',
                             type: 'boolean',
                         },
                         'policy-groups': {
@@ -624,8 +617,7 @@ export const $Account = {
                             type: 'integer',
                         },
                         'service-accounts-available': {
-                            description:
-                'Indicates if the service accounts are available for an account',
+                            description: 'Indicates if the service accounts are available for an account',
                             type: 'boolean',
                         },
                         'sso-available': {
@@ -650,7 +642,7 @@ export const $Account = {
                 'support-access-enabled': {
                     default: true,
                     description:
-            'If enabled, Scalr support staff will be able to access the account for troubleshooting purposes.',
+                        'If enabled, Scalr support staff will be able to access the account for troubleshooting purposes.',
                     type: 'boolean',
                 },
             },
@@ -797,7 +789,7 @@ Scalr will store this account blobs: e.g. source code, terraform state, and logs
                 },
                 'error-message': {
                     description:
-            'This field contains the last error description, when these settings doesn\'t work properly.',
+                        "This field contains the last error description, when these settings doesn't work properly.",
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -1001,8 +993,7 @@ export const $AccountUser = {
         attributes: {
             properties: {
                 status: {
-                    description:
-            'The relation status. Can be: `Active`, `Inactive`, `Pending`.',
+                    description: 'The relation status. Can be: `Active`, `Inactive`, `Pending`.',
                     enum: ['Active', 'Inactive', 'Pending'],
                     type: 'string',
                 },
@@ -1169,8 +1160,7 @@ pool, the runner requires an [agent pool token](access-tokens.html#create-an-age
                     type: 'string',
                 },
                 'error-message': {
-                    description:
-            'Contains the error message if the agent is in an `errored` status.',
+                    description: 'Contains the error message if the agent is in an `errored` status.',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -1182,14 +1172,12 @@ pool, the runner requires an [agent pool token](access-tokens.html#create-an-age
                     type: 'string',
                 },
                 name: {
-                    description:
-            'The name of the agent. This must be unique within the agent pool.',
+                    description: 'The name of the agent. This must be unique within the agent pool.',
                     maxLength: 64,
                     type: 'string',
                 },
                 os: {
-                    description:
-            'The agent\'s OS distribution name and version (ex: `centos_8`, `ubuntu_20`)',
+                    description: "The agent's OS distribution name and version (ex: `centos_8`, `ubuntu_20`)",
                     maxLength: 64,
                     type: 'string',
                 },
@@ -1206,7 +1194,7 @@ The attribute \`error-message\` has the details.
                     type: 'string',
                 },
                 version: {
-                    description: 'The agent\'s version.',
+                    description: "The agent's version.",
                     readOnly: true,
                     type: 'string',
                 },
@@ -1336,8 +1324,7 @@ Agents could be hosted on a physical or virtual machines within the customer's n
                 },
                 'vcs-enabled': {
                     default: false,
-                    description:
-            'Indicates whether the VCS support is enabled for agents in the pool.',
+                    description: 'Indicates whether the VCS support is enabled for agents in the pool.',
                     type: 'boolean',
                 },
             },
@@ -1408,8 +1395,7 @@ Agents could be hosted on a physical or virtual machines within the customer's n
                 },
                 environment: {
                     deprecated: true,
-                    description:
-            'The environment the agent pool belongs to. This relationship is deprecated.',
+                    description: 'The environment the agent pool belongs to. This relationship is deprecated.',
                     properties: {
                         data: {
                             nullable: true,
@@ -1431,7 +1417,7 @@ Agents could be hosted on a physical or virtual machines within the customer's n
                 },
                 workspaces: {
                     description:
-            'The list of workspaces attached to the pool. Can be used to bulk link/unlink workspaces.',
+                        'The list of workspaces attached to the pool. Can be used to bulk link/unlink workspaces.',
                     properties: {
                         data: {
                             items: {
@@ -1564,15 +1550,7 @@ Final states:
 * \`errored\` - An error occurred during the apply. See \`output\` for details.
 * \`finished\` - Apply completed successfully.
 * \`unreachable\` - Apply will not be run.`,
-                    enum: [
-                        'pending',
-                        'queued',
-                        'running',
-                        'finished',
-                        'canceled',
-                        'errored',
-                        'unreachable',
-                    ],
+                    enum: ['pending', 'queued', 'running', 'finished', 'canceled', 'errored', 'unreachable'],
                     type: 'string',
                 },
                 'status-timestamps': {
@@ -1580,8 +1558,7 @@ Final states:
                         format: 'date-time',
                         type: 'string',
                     },
-                    description:
-            'Date/Time of transition to each status that has occurred.',
+                    description: 'Date/Time of transition to each status that has occurred.',
                     type: 'object',
                 },
             },
@@ -1670,12 +1647,7 @@ export const $BillingPlan = {
                                 type: 'string',
                             },
                             type: {
-                                enum: [
-                                    'membership',
-                                    'pre-paid-runs',
-                                    'flex-runs',
-                                    'flex-runs-minutes',
-                                ],
+                                enum: ['membership', 'pre-paid-runs', 'flex-runs', 'flex-runs-minutes'],
                                 type: 'string',
                             },
                             'unit-label': {
@@ -1785,7 +1757,7 @@ the upload status, and the relationships to VCS and the workspace.`,
             properties: {
                 'auto-queue-runs': {
                     description:
-            'Indicates if a run should automatically be queued when the configuration has been uploaded.',
+                        'Indicates if a run should automatically be queued when the configuration has been uploaded.',
                     type: 'boolean',
                 },
                 'created-at': {
@@ -1862,8 +1834,7 @@ With this set to \`true\` the configuration cannot be used for an apply and neve
                         format: 'date-time',
                         type: 'string',
                     },
-                    description:
-            'Date/Time of transition to each status that has occurred.',
+                    description: 'Date/Time of transition to each status that has occurred.',
                     readOnly: true,
                     type: 'object',
                 },
@@ -1882,7 +1853,7 @@ With this set to \`true\` the configuration cannot be used for an apply and neve
                 },
                 upload: {
                     description:
-            'URL for terraform configuration templates upload, that could be used to `PUT` a tar.gz archive of a local workspace directory. Available only in the create `configuration-versions` response.',
+                        'URL for terraform configuration templates upload, that could be used to `PUT` a tar.gz archive of a local workspace directory. Available only in the create `configuration-versions` response.',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -1895,7 +1866,7 @@ With this set to \`true\` the configuration cannot be used for an apply and neve
             properties: {
                 'vcs-revision': {
                     description:
-            'When configuration version was uploaded from a VCS, this relation points to the Git commit information',
+                        'When configuration version was uploaded from a VCS, this relation points to the Git commit information',
                     properties: {
                         data: {
                             nullable: true,
@@ -2006,8 +1977,7 @@ see: https://jsonapi.org/format/#document-structure`,
 } as const;
 
 export const $ConfirmRequest = {
-    description:
-    'A request to confirm a run. Includes optional time when apply should be queued.',
+    description: 'A request to confirm a run. Includes optional time when apply should be queued.',
     properties: {
         'apply-at': {
             description: 'The UTC datetime at which the Apply should be queued.',
@@ -2035,13 +2005,12 @@ including dry runs.`,
             properties: {
                 'delta-monthly-cost': {
                     default: '0.000',
-                    description:
-            'The change in the estimated cost ($) from the previous run (if any).',
+                    description: 'The change in the estimated cost ($) from the previous run (if any).',
                     type: 'string',
                 },
                 'error-message': {
                     description:
-            'When the cost estimate status is `errored`, this field contains the error description.',
+                        'When the cost estimate status is `errored`, this field contains the error description.',
                     nullable: true,
                     type: 'string',
                 },
@@ -2080,14 +2049,7 @@ Final states:
 * \`errored\` - The cost estimate has finished with an error. Attribute \`error-message\` contains the details.
 * \`finished\` - The cost estimate has completed successfully.
 * \`unreachable\` - The cost estimate will not run.`,
-                    enum: [
-                        'pending',
-                        'queued',
-                        'finished',
-                        'canceled',
-                        'errored',
-                        'unreachable',
-                    ],
+                    enum: ['pending', 'queued', 'finished', 'canceled', 'errored', 'unreachable'],
                     type: 'string',
                 },
                 'status-timestamps': {
@@ -2095,13 +2057,12 @@ Final states:
                         format: 'date-time',
                         type: 'string',
                     },
-                    description:
-            'Date/Time of transition to each status that has occurred.',
+                    description: 'Date/Time of transition to each status that has occurred.',
                     type: 'object',
                 },
                 'unmatched-resources-count': {
                     description:
-            'The number of resources in the terraform plan that were excluded from the estimation.',
+                        'The number of resources in the terraform plan that were excluded from the estimation.',
                     nullable: true,
                     type: 'integer',
                 },
@@ -2116,13 +2077,12 @@ Final states:
             properties: {
                 breakdown: {
                     description:
-            'Link to download the cost breakdown [JSON formatted output](https://www.infracost.io/docs/multi_project/report/#examples).',
+                        'Link to download the cost breakdown [JSON formatted output](https://www.infracost.io/docs/multi_project/report/#examples).',
                     nullable: true,
                     type: 'string',
                 },
                 output: {
-                    description:
-            'Link to download the raw output of the cost estimation.',
+                    description: 'Link to download the raw output of the cost estimation.',
                     nullable: true,
                     type: 'string',
                 },
@@ -2167,14 +2127,14 @@ see: https://jsonapi.org/format/#document-structure`,
 
 export const $CreateUser = {
     description:
-    'Represents a request to create an [IAM](https://docs.scalr.io/docs/identity-and-access-management) user.',
+        'Represents a request to create an [IAM](https://docs.scalr.io/docs/identity-and-access-management) user.',
     properties: {
         attributes: {
             properties: {
                 'change-password-on-sign-in': {
                     default: false,
                     description:
-            'If set to `true`, the user will be asked to change the temporary password on the first sign in.',
+                        'If set to `true`, the user will be asked to change the temporary password on the first sign in.',
                     type: 'boolean',
                 },
                 'created-at': {
@@ -2193,13 +2153,13 @@ export const $CreateUser = {
                 },
                 password: {
                     description:
-            'Must be at least 8 characters long and contain at least one digit, one lowercase letter, one uppercase letter, and one special character.',
+                        'Must be at least 8 characters long and contain at least one digit, one lowercase letter, one uppercase letter, and one special character.',
                     maxLength: 64,
                     type: 'string',
                 },
                 status: {
                     description:
-            'User status. Can be: `Active`, `Inactive`, `Pending`. Pending user will be activated after the first sign in.',
+                        'User status. Can be: `Active`, `Inactive`, `Pending`. Pending user will be activated after the first sign in.',
                     enum: ['Active', 'Inactive', 'Pending'],
                     type: 'string',
                 },
@@ -2298,8 +2258,7 @@ export const $DatadogIntegration = {
                     type: 'string',
                 },
                 'err-message': {
-                    description:
-            'Message from service that points to nature of a problem',
+                    description: 'Message from service that points to nature of a problem',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -2422,175 +2381,6 @@ see: https://jsonapi.org/format/#document-structure`,
     type: 'object',
 } as const;
 
-export const $Endpoint = {
-    description: `Endpoint is the destination for webhooks.
-It has URL, secret key and timeout/retry settings.
-
-The main use-case of endpoint is to configure it once on higher scope (e.g account/environments), and
-then re-use in many webhook configurations on a lower scopes (e.g. environments/workspaces).`,
-    properties: {
-        attributes: {
-            properties: {
-                'max-attempts': {
-                    default: 3,
-                    description: 'The number of retry attempts.',
-                    type: 'integer',
-                },
-                name: {
-                    description: 'The name of the endpoint.',
-                    maxLength: 255,
-                    type: 'string',
-                },
-                permissions: {
-                    readOnly: true,
-                    type: 'object',
-                },
-                'secret-key': {
-                    description: 'The secret passphrase for HMAC signature.',
-                    maxLength: 1024,
-                    type: 'string',
-                },
-                timeout: {
-                    default: 15,
-                    description: 'The HTTP transaction timeout.',
-                    type: 'integer',
-                },
-                url: {
-                    description: 'HTTP(s) destination URL.',
-                    maxLength: 2048,
-                    type: 'string',
-                },
-            },
-            required: ['name', 'url'],
-            type: 'object',
-        },
-        id: {
-            readOnly: true,
-            type: 'string',
-        },
-        links: {
-            properties: {
-                self: {
-                    readOnly: true,
-                    type: 'string',
-                },
-            },
-            readOnly: true,
-            type: 'object',
-        },
-        relationships: {
-            properties: {
-                account: {
-                    description: 'The account, this endpoint belongs to.',
-                    properties: {
-                        data: {
-                            nullable: true,
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['accounts'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    readOnly: true,
-                    required: ['data'],
-                    type: 'object',
-                },
-                environment: {
-                    description: 'The environment, this endpoint belongs to.',
-                    properties: {
-                        data: {
-                            nullable: true,
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['environments'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    required: ['data'],
-                    type: 'object',
-                },
-            },
-            type: 'object',
-        },
-        type: {
-            enum: ['endpoints'],
-            type: 'string',
-        },
-    },
-    required: ['type', 'attributes'],
-    type: 'object',
-} as const;
-
-export const $EndpointDocument = {
-    description: `JSON:API Document.
-
-see: https://jsonapi.org/format/#document-structure`,
-    properties: {
-        data: {
-            $ref: '#/components/schemas/Endpoint',
-        },
-        included: {
-            items: {
-                type: 'object',
-            },
-            readOnly: true,
-            type: 'array',
-        },
-        meta: {
-            readOnly: true,
-            type: 'object',
-        },
-    },
-    type: 'object',
-} as const;
-
-export const $EndpointListingDocument = {
-    description: `JSON:API Document Listing
-
-see: https://jsonapi.org/format/#document-structure`,
-    properties: {
-        data: {
-            items: {
-                $ref: '#/components/schemas/Endpoint',
-            },
-            type: 'array',
-        },
-        included: {
-            items: {
-                type: 'object',
-            },
-            readOnly: true,
-            type: 'array',
-        },
-        links: {
-            additionalProperties: {
-                type: 'string',
-            },
-            readOnly: true,
-            type: 'object',
-        },
-        meta: {
-            readOnly: true,
-            type: 'object',
-        },
-    },
-    type: 'object',
-} as const;
-
 export const $Environment = {
     description: `Environments are collections of related workspaces that correspond to functional areas, SDLC stages,
 projects or any grouping that is required.
@@ -2608,8 +2398,7 @@ that are available to every workspace.`,
             properties: {
                 'cost-estimation-enabled': {
                     default: true,
-                    description:
-            'Indicates if the cost estimation should be performed for `runs` in the environment.',
+                    description: 'Indicates if the cost estimation should be performed for `runs` in the environment.',
                     type: 'boolean',
                 },
                 'created-at': {
@@ -2701,8 +2490,7 @@ that are available to every workspace.`,
                     type: 'object',
                 },
                 'default-provider-configurations': {
-                    description:
-            'Provider configurations used in the environment workspaces by default.',
+                    description: 'Provider configurations used in the environment workspaces by default.',
                     properties: {
                         data: {
                             items: {
@@ -2749,8 +2537,7 @@ that are available to every workspace.`,
                     type: 'object',
                 },
                 'provider-configurations': {
-                    description:
-            'Provider configurations available for this environment.',
+                    description: 'Provider configurations available for this environment.',
                     properties: {
                         data: {
                             items: {
@@ -3019,8 +2806,7 @@ export const $IdentityProvider = {
         attributes: {
             properties: {
                 'idp-type': {
-                    description:
-            'The IdP type. Can be one of `scalr`, `ldap`, or `saml`.',
+                    description: 'The IdP type. Can be one of `scalr`, `ldap`, or `saml`.',
                     enum: ['scalr', 'ldap', 'saml'],
                     type: 'string',
                 },
@@ -3030,8 +2816,7 @@ export const $IdentityProvider = {
                     type: 'string',
                 },
                 'verification-status': {
-                    description:
-            'Represents the verification status with the external IdP (SAML/LDAP only)',
+                    description: 'Represents the verification status with the external IdP (SAML/LDAP only)',
                     enum: ['pending', 'success', 'running'],
                     type: 'string',
                 },
@@ -3110,8 +2895,7 @@ see: https://jsonapi.org/format/#document-structure`,
 } as const;
 
 export const $Module = {
-    description:
-    'A terraform module in the [Private Module Registry](../../module.html).',
+    description: 'A terraform module in the [Private Module Registry](../../module.html).',
     properties: {
         attributes: {
             properties: {
@@ -3131,8 +2915,7 @@ want to override this behavior by passing this argument in a
                     type: 'string',
                 },
                 'error-message': {
-                    description:
-            'This field contains the error description, when this module\'s status is `errored`.',
+                    description: "This field contains the error description, when this module's status is `errored`.",
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -3152,8 +2935,7 @@ For multi-cloud modules this argument should match terraform provider name (ex: 
                 },
                 source: {
                     default: '',
-                    description:
-            'The `source` by which the module should be addressed from a HCL template.',
+                    description: 'The `source` by which the module should be addressed from a HCL template.',
                     readOnly: true,
                     type: 'string',
                 },
@@ -3290,7 +3072,7 @@ is  \`my-module/\`.`,
                     type: 'object',
                 },
                 'latest-module-version': {
-                    description: 'The module\'s latest version.',
+                    description: "The module's latest version.",
                     properties: {
                         data: {
                             nullable: true,
@@ -3312,7 +3094,7 @@ is  \`my-module/\`.`,
                     type: 'object',
                 },
                 'module-version': {
-                    description: 'The module\'s latest successful version.',
+                    description: "The module's latest successful version.",
                     properties: {
                         data: {
                             nullable: true,
@@ -3359,7 +3141,7 @@ is  \`my-module/\`.`,
                     type: 'object',
                 },
                 'vcs-provider': {
-                    description: 'The module\'s VCS provider.',
+                    description: "The module's VCS provider.",
                     properties: {
                         data: {
                             properties: {
@@ -3621,8 +3403,7 @@ see: https://jsonapi.org/format/#document-structure`,
 } as const;
 
 export const $ModuleVersion = {
-    description:
-    'A terraform module\'s version in the [Private Module Registry](../../module.html).',
+    description: "A terraform module's version in the [Private Module Registry](../../module.html).",
     properties: {
         attributes: {
             properties: {
@@ -3791,8 +3572,7 @@ Attribute \`error-message\` contains the details.`,
         links: {
             properties: {
                 download: {
-                    description:
-            'The URL to download the tar.gz archive with module version source code.',
+                    description: 'The URL to download the tar.gz archive with module version source code.',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -3828,8 +3608,7 @@ Attribute \`error-message\` contains the details.`,
                     type: 'object',
                 },
                 'vcs-revision': {
-                    description:
-            'The Git commit information when the module version was uploaded from a VCS.',
+                    description: 'The Git commit information when the module version was uploaded from a VCS.',
                     properties: {
                         data: {
                             nullable: true,
@@ -3940,7 +3719,7 @@ Use [List Permissions](permissions.html#list-permissions) to obtain all possible
             properties: {
                 'applicable-scopes': {
                     description:
-            'Scope identities, this permission could be applied to in an [access policy](access-policies.html).',
+                        'Scope identities, this permission could be applied to in an [access policy](access-policies.html).',
                     items: {
                         enum: ['account', 'environment', 'workspace'],
                         type: 'string',
@@ -4074,15 +3853,7 @@ Final states:
 * \`errored\` - An error occurred during the plan. See \`output\` for details.
 * \`finished\` - Plan completed successfully.
 * \`unreachable\` - Plan will not be run.`,
-                    enum: [
-                        'pending',
-                        'queued',
-                        'running',
-                        'finished',
-                        'canceled',
-                        'errored',
-                        'unreachable',
-                    ],
+                    enum: ['pending', 'queued', 'running', 'finished', 'canceled', 'errored', 'unreachable'],
                     type: 'string',
                 },
                 'status-timestamps': {
@@ -4090,8 +3861,7 @@ Final states:
                         format: 'date-time',
                         type: 'string',
                     },
-                    description:
-            'Date/Time of transition to each status that has occurred.',
+                    description: 'Date/Time of transition to each status that has occurred.',
                     type: 'object',
                 },
             },
@@ -4160,8 +3930,7 @@ as declared in [scalr-policy.hcl](../../opa.html#creating-policy-groups).`,
             properties: {
                 enabled: {
                     default: true,
-                    description:
-            'If set to `false`, the policy will not be evaluated during a run.',
+                    description: 'If set to `false`, the policy will not be evaluated during a run.',
                     readOnly: true,
                     type: 'boolean',
                 },
@@ -4249,8 +4018,7 @@ in every workspace, including dry runs, where policies have been linked.`,
                     properties: {
                         'advisory-failed': {
                             default: 0,
-                            description:
-                'Number of policy checks that have failed with \'advisory\' level.',
+                            description: "Number of policy checks that have failed with 'advisory' level.",
                             type: 'integer',
                         },
                         'duration-ms': {
@@ -4260,8 +4028,7 @@ in every workspace, including dry runs, where policies have been linked.`,
                         },
                         'hard-failed': {
                             default: 0,
-                            description:
-                'Number of policy checks that have failed with "hard-mandatory" level.',
+                            description: 'Number of policy checks that have failed with "hard-mandatory" level.',
                             type: 'integer',
                         },
                         passed: {
@@ -4285,12 +4052,7 @@ in every workspace, including dry runs, where policies have been linked.`,
                                         type: 'string',
                                     },
                                     result: {
-                                        enum: [
-                                            'passed',
-                                            'hard_failed',
-                                            'soft_failed',
-                                            'advisory_failed',
-                                        ],
+                                        enum: ['passed', 'hard_failed', 'soft_failed', 'advisory_failed'],
                                         type: 'string',
                                     },
                                 },
@@ -4301,14 +4063,12 @@ in every workspace, including dry runs, where policies have been linked.`,
                         },
                         result: {
                             default: false,
-                            description:
-                'Indicates whether all policy checks have passed without failures.',
+                            description: 'Indicates whether all policy checks have passed without failures.',
                             type: 'boolean',
                         },
                         'soft-failed': {
                             default: 0,
-                            description:
-                'Number of policy checks that have failed with "soft-mandatory" level.',
+                            description: 'Number of policy checks that have failed with "soft-mandatory" level.',
                             type: 'integer',
                         },
                         'total-failed': {
@@ -4355,8 +4115,7 @@ Final states:
                         format: 'date-time',
                         type: 'string',
                     },
-                    description:
-            'Date/Time of transition to each status that has occurred.',
+                    description: 'Date/Time of transition to each status that has occurred.',
                     type: 'object',
                 },
             },
@@ -4459,14 +4218,12 @@ export const $PolicyCheckResult = {
                     type: 'string',
                 },
                 'pull-request-number': {
-                    description:
-            'The number of the pull request that triggered the policy check.',
+                    description: 'The number of the pull request that triggered the policy check.',
                     nullable: true,
                     type: 'string',
                 },
                 'pull-request-title': {
-                    description:
-            'The title of the pull request that triggered the policy check.',
+                    description: 'The title of the pull request that triggered the policy check.',
                     maxLength: 512,
                     nullable: true,
                     type: 'string',
@@ -4492,8 +4249,7 @@ export const $PolicyCheckResult = {
         relationships: {
             properties: {
                 environment: {
-                    description:
-            'The environment associated with this policy check result.',
+                    description: 'The environment associated with this policy check result.',
                     properties: {
                         data: {
                             nullable: true,
@@ -4556,8 +4312,7 @@ export const $PolicyCheckResult = {
                     type: 'object',
                 },
                 workspace: {
-                    description:
-            'The workspace associated with this policy check result.',
+                    description: 'The workspace associated with this policy check result.',
                     properties: {
                         data: {
                             nullable: true,
@@ -4661,21 +4416,19 @@ the policy group will participate in the policy check phase of every run in that
                     type: 'string',
                 },
                 'error-message': {
-                    description:
-            'This field contains the error description when the group\'s status is `errored`.',
+                    description: "This field contains the error description when the group's status is `errored`.",
                     nullable: true,
                     readOnly: true,
                     type: 'string',
                 },
                 'is-enforced': {
                     default: false,
-                    description:
-            'Indicates whether the policy group is enforced in all environments.',
+                    description: 'Indicates whether the policy group is enforced in all environments.',
                     type: 'boolean',
                 },
                 name: {
                     description:
-            'The policy group name must be unique within the account and contain only letters, numbers, dashes',
+                        'The policy group name must be unique within the account and contain only letters, numbers, dashes',
                     maxLength: 100,
                     type: 'string',
                 },
@@ -4816,7 +4569,7 @@ If omitted or submitted as an empty string, this defaults to the repository's ro
                     type: 'object',
                 },
                 'vcs-provider': {
-                    description: 'The policy group\'s VCS provider.',
+                    description: "The policy group's VCS provider.",
                     properties: {
                         data: {
                             properties: {
@@ -4836,8 +4589,7 @@ If omitted or submitted as an empty string, this defaults to the repository's ro
                     type: 'object',
                 },
                 'vcs-revision': {
-                    description:
-            'The Git commit information when the policy group was fetched from VCS.',
+                    description: 'The Git commit information when the policy group was fetched from VCS.',
                     properties: {
                         data: {
                             nullable: true,
@@ -4974,19 +4726,17 @@ see: https://jsonapi.org/format/#document-structure`,
 
 export const $ProviderConfiguration = {
     description:
-    'The configuration of provider. Provider configuration is managed on the account scope and can be linked to environments or workspaces.',
+        'The configuration of provider. Provider configuration is managed on the account scope and can be linked to environments or workspaces.',
     properties: {
         attributes: {
             properties: {
                 'aws-access-key': {
-                    description:
-            'AWS access key. This option is required with the `access_keys` credential type.',
+                    description: 'AWS access key. This option is required with the `access_keys` credential type.',
                     nullable: true,
                     type: 'string',
                 },
                 'aws-account-type': {
-                    description:
-            'The type of AWS account, available options: `regular`, `gov-cloud`, `cn-cloud`.',
+                    description: 'The type of AWS account, available options: `regular`, `gov-cloud`, `cn-cloud`.',
                     enum: ['regular', 'gov-cloud', 'cn-cloud'],
                     nullable: true,
                     type: 'string',
@@ -4999,35 +4749,34 @@ export const $ProviderConfiguration = {
                 },
                 'aws-credentials-type': {
                     description:
-            'The type of AWS credential, available options: `access_keys`, `role_delegation`, `oidc`.',
+                        'The type of AWS credential, available options: `access_keys`, `role_delegation`, `oidc`.',
                     enum: ['role_delegation', 'access_keys', 'oidc'],
                     nullable: true,
                     type: 'string',
                 },
                 'aws-external-id': {
                     description:
-            'External identifier to use when assuming the role. This option is required with the `role_delegation` credential type.',
+                        'External identifier to use when assuming the role. This option is required with the `role_delegation` credential type.',
                     minLength: 2,
                     nullable: true,
                     type: 'string',
                 },
                 'aws-role-arn': {
                     description:
-            'Amazon Resource Name (ARN) of the IAM Role to assume. This option is required with the `role_delegation` and `oidc` credential type.',
+                        'Amazon Resource Name (ARN) of the IAM Role to assume. This option is required with the `role_delegation` and `oidc` credential type.',
                     minLength: 20,
                     nullable: true,
                     type: 'string',
                 },
                 'aws-secret-key': {
-                    description:
-            'AWS secret key. This option is required with the `access_keys` credential type.',
+                    description: 'AWS secret key. This option is required with the `access_keys` credential type.',
                     format: 'password',
                     nullable: true,
                     type: 'string',
                 },
                 'aws-trusted-entity-type': {
                     description:
-            'Trusted entity type, available options: `aws_account`, `aws_service`. This option is required with the `role_delegation` credential type.',
+                        'Trusted entity type, available options: `aws_account`, `aws_service`. This option is required with the `role_delegation` credential type.',
                     enum: ['aws_account', 'aws_service'],
                     nullable: true,
                     type: 'string',
@@ -5039,8 +4788,7 @@ export const $ProviderConfiguration = {
                     type: 'string',
                 },
                 'azurerm-auth-type': {
-                    description:
-            'The type of azurerm credentials, available options: `client-secrets`, `oidc`.',
+                    description: 'The type of azurerm credentials, available options: `client-secrets`, `oidc`.',
                     enum: ['client-secrets', 'oidc'],
                     nullable: true,
                     type: 'string',
@@ -5067,8 +4815,7 @@ export const $ProviderConfiguration = {
                     type: 'string',
                 },
                 'error-message': {
-                    description:
-            'Contains the error message if the provider configuration is in an `errored` status.',
+                    description: 'Contains the error message if the provider configuration is in an `errored` status.',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -5076,7 +4823,7 @@ export const $ProviderConfiguration = {
                 'export-shell-variables': {
                     default: false,
                     description:
-            'Export provider variables into the run environment. This option is available only for built in providers.',
+                        'Export provider variables into the run environment. This option is available only for built in providers.',
                     type: 'boolean',
                 },
                 'google-auth-type': {
@@ -5093,13 +4840,12 @@ export const $ProviderConfiguration = {
                 },
                 'google-project': {
                     description:
-            'The default project to manage resources in. If another project is specified on a resource, it will take precedence.',
+                        'The default project to manage resources in. If another project is specified on a resource, it will take precedence.',
                     nullable: true,
                     type: 'string',
                 },
                 'google-service-account-email': {
-                    description:
-            'The service account email Scalr will use when authenticating to GCP.',
+                    description: 'The service account email Scalr will use when authenticating to GCP.',
                     nullable: true,
                     type: 'string',
                 },
@@ -5122,18 +4868,17 @@ export const $ProviderConfiguration = {
                 },
                 'is-custom': {
                     description:
-            'Determines if a provider configuration is custom. Note: custom provider configurations do not support built-in features like exporting as shell variables or on-save validation. Provider configuration will be validated during the run only.',
+                        'Determines if a provider configuration is custom. Note: custom provider configurations do not support built-in features like exporting as shell variables or on-save validation. Provider configuration will be validated during the run only.',
                     nullable: true,
                     type: 'boolean',
                 },
                 'is-shared': {
                     description:
-            'Indicates whether the provider configuration can be used in any workspace of the account without directly linking it to the environment.',
+                        'Indicates whether the provider configuration can be used in any workspace of the account without directly linking it to the environment.',
                     type: 'boolean',
                 },
                 name: {
-                    description:
-            'The name of a Scalr provider configuration. This field is unique for the account.',
+                    description: 'The name of a Scalr provider configuration. This field is unique for the account.',
                     maxLength: 255,
                     type: 'string',
                 },
@@ -5160,8 +4905,7 @@ export const $ProviderConfiguration = {
                     type: 'string',
                 },
                 status: {
-                    description:
-            'Provider configuration status. Can be: `active`, `errored`.',
+                    description: 'Provider configuration status. Can be: `active`, `errored`.',
                     enum: ['active', 'errored'],
                     readOnly: true,
                     type: 'string',
@@ -5208,7 +4952,7 @@ export const $ProviderConfiguration = {
                 },
                 environments: {
                     description:
-            'The list of environments attached to the provider configuration. Can be used to bulk link/unlink environments.',
+                        'The list of environments attached to the provider configuration. Can be used to bulk link/unlink environments.',
                     properties: {
                         data: {
                             items: {
@@ -5317,14 +5061,13 @@ see: https://jsonapi.org/format/#document-structure`,
 } as const;
 
 export const $ProviderConfigurationLink = {
-    description:
-    'The provider configuration link attaches the provider configuration to an environment or workspace.',
+    description: 'The provider configuration link attaches the provider configuration to an environment or workspace.',
     properties: {
         attributes: {
             properties: {
                 alias: {
                     description:
-            'Is used only for the workspace links. Meta-argument for using the same provider with different configurations for different resources.',
+                        'Is used only for the workspace links. Meta-argument for using the same provider with different configurations for different resources.',
                     maxLength: 255,
                     nullable: true,
                     type: 'string',
@@ -5332,7 +5075,7 @@ export const $ProviderConfigurationLink = {
                 default: {
                     default: false,
                     description:
-            'Is used only for the environment links. Indicates whether the provider configuration must be used in every environment workspace during runs without direct linking. This behaviour can be changed in specific workspace by creating direct workspace link without alias.',
+                        'Is used only for the environment links. Indicates whether the provider configuration must be used in every environment workspace during runs without direct linking. This behaviour can be changed in specific workspace by creating direct workspace link without alias.',
                     readOnly: true,
                     type: 'boolean',
                 },
@@ -5537,13 +5280,12 @@ export const $ProviderConfigurationParameter = {
                 sensitive: {
                     default: false,
                     description:
-            'Indicates whether the value is sensitive. When set to `true` then the parameter is not visible after being written.',
+                        'Indicates whether the value is sensitive. When set to `true` then the parameter is not visible after being written.',
                     type: 'boolean',
                 },
                 value: {
                     default: '',
-                    description:
-            'Parameter value. Not visible if sensitive: true is enabled',
+                    description: 'Parameter value. Not visible if sensitive: true is enabled',
                     nullable: true,
                     type: 'string',
                 },
@@ -5732,7 +5474,7 @@ export const $RegistryInputRequired = {
 } as const;
 
 export const $RemoteStateConsumerRelationship = {
-    description: 'Represents remote state consumers\' relationship.',
+    description: "Represents remote state consumers' relationship.",
     properties: {
         id: {
             type: 'string',
@@ -5779,7 +5521,7 @@ export const $RemoteStateConsumerRelationshipFieldsetsListingDocument = {
 
 export const $Role = {
     description:
-    'A collection of permissions that can be assigned to a user, team, or service account via an [access policy](access-policies.html).',
+        'A collection of permissions that can be assigned to a user, team, or service account via an [access policy](access-policies.html).',
     properties: {
         attributes: {
             properties: {
@@ -5790,8 +5532,7 @@ export const $Role = {
                     type: 'string',
                 },
                 'is-system': {
-                    description:
-            'When `true` the role is built-in, and cannot be modified or deleted.',
+                    description: 'When `true` the role is built-in, and cannot be modified or deleted.',
                     readOnly: true,
                     type: 'boolean',
                 },
@@ -5959,15 +5700,13 @@ Defaults to the current Auto Apply setting in the workspace.`,
                     type: 'string',
                 },
                 'error-message': {
-                    description:
-            'Contains error message, when the run has finished in `errored` status.',
+                    description: 'Contains error message, when the run has finished in `errored` status.',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
                 },
                 'has-changes': {
-                    description:
-            'Specifies whether the plan has proposed resource changes.',
+                    description: 'Specifies whether the plan has proposed resource changes.',
                     readOnly: true,
                     type: 'boolean',
                 },
@@ -5979,8 +5718,7 @@ Defaults to the current Auto Apply setting in the workspace.`,
                     type: 'string',
                 },
                 inputs: {
-                    description:
-            'Terraform input variables that were passed into the workspace.',
+                    description: 'Terraform input variables that were passed into the workspace.',
                     items: {
                         properties: {
                             description: {
@@ -6031,8 +5769,7 @@ in the current state.`,
                     type: 'boolean',
                 },
                 message: {
-                    description:
-            'Specifies the explanation message to associate with the run.',
+                    description: 'Specifies the explanation message to associate with the run.',
                     maxLength: 512,
                     nullable: true,
                     type: 'string',
@@ -6053,20 +5790,18 @@ in the current state.`,
                     type: 'integer',
                 },
                 refresh: {
-                    description:
-            'Specifies whether or not to refresh the state before a plan.',
+                    description: 'Specifies whether or not to refresh the state before a plan.',
                     nullable: true,
                     type: 'boolean',
                 },
                 'refresh-only': {
-                    description:
-            'Specifies whether this run should use the refresh-only plan mode.',
+                    description: 'Specifies whether this run should use the refresh-only plan mode.',
                     nullable: true,
                     type: 'boolean',
                 },
                 'replace-addrs': {
                     description:
-            'Specifies an optional list of resource addresses to force replacement of a particular resource. If the plan would\'ve normally produced an update or no-op action for this instance, Terraform will plan to replace it instead.',
+                        "Specifies an optional list of resource addresses to force replacement of a particular resource. If the plan would've normally produced an update or no-op action for this instance, Terraform will plan to replace it instead.",
                     items: {
                         maxLength: 262143,
                         type: 'string',
@@ -6151,14 +5886,13 @@ This is the final state for dry run.
                         format: 'date-time',
                         type: 'string',
                     },
-                    description:
-            'Timestamps of transition to prior and current statuses.',
+                    description: 'Timestamps of transition to prior and current statuses.',
                     readOnly: true,
                     type: 'object',
                 },
                 'target-addrs': {
                     description:
-            'If non-empty, requests that Terraform should create a plan including actions only for the given objects (specified using resource address syntax) and the objects they depend on.',
+                        'If non-empty, requests that Terraform should create a plan including actions only for the given objects (specified using resource address syntax) and the objects they depend on.',
                     items: {
                         maxLength: 262143,
                         type: 'string',
@@ -6208,7 +5942,7 @@ This is the final state for dry run.
                     type: 'object',
                 },
                 'configuration-version': {
-                    description: 'The Run\'s configuration version.',
+                    description: "The Run's configuration version.",
                     properties: {
                         data: {
                             nullable: true,
@@ -6363,7 +6097,7 @@ This is the final state for dry run.
                     type: 'object',
                 },
                 'state-versions': {
-                    description: 'The run\'s state versions.',
+                    description: "The run's state versions.",
                     properties: {
                         data: {
                             items: {
@@ -6388,8 +6122,7 @@ This is the final state for dry run.
                     type: 'object',
                 },
                 'status-transitions': {
-                    description:
-            'Date/Time of transition to each status that has occurred.',
+                    description: 'Date/Time of transition to each status that has occurred.',
                     properties: {
                         data: {
                             items: {
@@ -6439,7 +6172,7 @@ This is the final state for dry run.
                 },
                 'vcs-revision': {
                     description:
-            'Relation to the Git commit information, when the run\'s `configuration-version` source is `vcs`',
+                        "Relation to the Git commit information, when the run's `configuration-version` source is `vcs`",
                     properties: {
                         data: {
                             nullable: true,
@@ -6559,8 +6292,7 @@ The schedule mode determines whether the triggered run is an 'apply' 'destroy' o
         attributes: {
             properties: {
                 schedule: {
-                    description:
-            'Cron expression for scheduled runs. Time should be in UTC.',
+                    description: 'Cron expression for scheduled runs. Time should be in UTC.',
                     maxLength: 255,
                     type: 'string',
                 },
@@ -6709,8 +6441,7 @@ successful apply of runs in any of the upstream workspaces.`,
         relationships: {
             properties: {
                 downstream: {
-                    description:
-            'Downstream workspace in which new runs will be created.',
+                    description: 'Downstream workspace in which new runs will be created.',
                     properties: {
                         data: {
                             properties: {
@@ -6790,14 +6521,13 @@ export const $SamlIntegration = {
         attributes: {
             properties: {
                 'auto-redirect': {
-                    description:
-            'If enabled, user will be redirected to IdP\'s login page.',
+                    description: "If enabled, user will be redirected to IdP's login page.",
                     nullable: true,
                     type: 'boolean',
                 },
                 'base-url': {
                     description:
-            'Base URL to construct SAML endpoints from. It needs to be a URL with the protocol, server, port and context path.',
+                        'Base URL to construct SAML endpoints from. It needs to be a URL with the protocol, server, port and context path.',
                     nullable: true,
                     type: 'string',
                 },
@@ -6807,15 +6537,14 @@ export const $SamlIntegration = {
                     type: 'boolean',
                 },
                 'error-message': {
-                    description:
-            'A message from an IdP that indicates a nature of the problem',
+                    description: 'A message from an IdP that indicates a nature of the problem',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
                 },
                 'idp-cert-fingerprint': {
                     description:
-            'Instead of using the whole x509cert you can use a fingerprint in order to validate the SAMLResponse, but we don\'t recommend to use this method on production since is exploitable by collision attack.',
+                        "Instead of using the whole x509cert you can use a fingerprint in order to validate the SAMLResponse, but we don't recommend to use this method on production since is exploitable by collision attack.",
                     nullable: true,
                     type: 'string',
                 },
@@ -6830,7 +6559,7 @@ export const $SamlIntegration = {
                 },
                 'idp-single-logout-service-binding': {
                     description:
-            'SAML protocol binding to be used when returning the response message (urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect).',
+                        'SAML protocol binding to be used when returning the response message (urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect).',
                     nullable: true,
                     type: 'string',
                 },
@@ -6840,20 +6569,18 @@ export const $SamlIntegration = {
                     type: 'string',
                 },
                 'idp-single-logout-service-url': {
-                    description:
-            'URL target of IdP where Scalr will send the SLO Request.',
+                    description: 'URL target of IdP where Scalr will send the SLO Request.',
                     nullable: true,
                     type: 'string',
                 },
                 'idp-single-sign-on-service-binding': {
                     description:
-            'SAML protocol binding to be used when returning the response message (urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect).',
+                        'SAML protocol binding to be used when returning the response message (urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect).',
                     nullable: true,
                     type: 'string',
                 },
                 'idp-single-sign-on-service-url': {
-                    description:
-            'URL target of IdP where Scalr will send the Authentication Request Message.',
+                    description: 'URL target of IdP where Scalr will send the Authentication Request Message.',
                     type: 'string',
                 },
                 'idp-x509cert': {
@@ -6868,7 +6595,7 @@ export const $SamlIntegration = {
                 },
                 'idp-x509cert-multi-signing': {
                     description:
-            'In some scenarios IdP uses different certificates for signing/encryption, or is under key rollover phase and more than one certificate is published on IdP metadata. (when used, \'IdP x509cert\' and \'IdP Cert Fingerprint\' values are ignored)',
+                        "In some scenarios IdP uses different certificates for signing/encryption, or is under key rollover phase and more than one certificate is published on IdP metadata. (when used, 'IdP x509cert' and 'IdP Cert Fingerprint' values are ignored)",
                     nullable: true,
                     type: 'string',
                 },
@@ -6904,8 +6631,7 @@ export const $SamlIntegration = {
                     type: 'string',
                 },
                 'mapping-email': {
-                    description:
-            'Email attribute, in case usernames and emails are different.',
+                    description: 'Email attribute, in case usernames and emails are different.',
                     nullable: true,
                     type: 'string',
                 },
@@ -6915,8 +6641,7 @@ export const $SamlIntegration = {
                     type: 'string',
                 },
                 'mapping-groups': {
-                    description:
-            'The name of the Groups attribute to use in SAML Assertion.',
+                    description: 'The name of the Groups attribute to use in SAML Assertion.',
                     nullable: true,
                     type: 'string',
                 },
@@ -6933,13 +6658,12 @@ export const $SamlIntegration = {
                 'security-allow-repeat-attribute-name': {
                     default: false,
                     description:
-            'If true, it will not raise an error when the Statement Element contains attribute elements with name duplicated.',
+                        'If true, it will not raise an error when the Statement Element contains attribute elements with name duplicated.',
                     type: 'boolean',
                 },
                 'security-authn-requests-signed': {
                     default: false,
-                    description:
-            'Indicates whether the <samlp:AuthnRequest> messages sent by Scalr will be signed.',
+                    description: 'Indicates whether the <samlp:AuthnRequest> messages sent by Scalr will be signed.',
                     type: 'boolean',
                 },
                 'security-digest-algorithm': {
@@ -6954,27 +6678,24 @@ export const $SamlIntegration = {
                 },
                 'security-logout-request-signed': {
                     default: false,
-                    description:
-            'Indicates whether the <samlp:logoutRequest> messages sent by Scalr will be signed.',
+                    description: 'Indicates whether the <samlp:logoutRequest> messages sent by Scalr will be signed.',
                     type: 'boolean',
                 },
                 'security-logout-response-signed': {
                     default: false,
-                    description:
-            'Indicates whether the <samlp:logoutResponse> messages sent by Scalr will be signed.',
+                    description: 'Indicates whether the <samlp:logoutResponse> messages sent by Scalr will be signed.',
                     type: 'boolean',
                 },
                 'security-name-id-encrypted': {
                     default: false,
                     description:
-            'Indicates that the nameID of the <samlp:logoutRequest> sent by Scalr will be encrypted.',
+                        'Indicates that the nameID of the <samlp:logoutRequest> sent by Scalr will be encrypted.',
                     type: 'boolean',
                 },
                 'security-requested-authn-context': {
-                    default:
-            '["urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"]',
+                    default: '["urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport"]',
                     description:
-            'Leave empty and no AuthContext will be sent in the AuthNRequest,Set an array with the possible auth context values: ["urn:oasis:names:tc:SAML:2.0:ac:classes:Password", "urn:oasis:names:tc:SAML:2.0:ac:classes:X509"]',
+                        'Leave empty and no AuthContext will be sent in the AuthNRequest,Set an array with the possible auth context values: ["urn:oasis:names:tc:SAML:2.0:ac:classes:Password", "urn:oasis:names:tc:SAML:2.0:ac:classes:X509"]',
                     type: 'string',
                 },
                 'security-requested-authn-context-comparison': {
@@ -6984,8 +6705,7 @@ export const $SamlIntegration = {
                     type: 'string',
                 },
                 'security-sign-metadata': {
-                    description:
-            'Sign the Metadata. If enabled SP certificate must be provided.',
+                    description: 'Sign the Metadata. If enabled SP certificate must be provided.',
                     nullable: true,
                     type: 'boolean',
                 },
@@ -7002,37 +6722,36 @@ export const $SamlIntegration = {
                 'security-want-assertions-encrypted': {
                     default: false,
                     description:
-            'Indicates a requirement for the <saml:Assertion> elements received by Scalr to be encrypted.',
+                        'Indicates a requirement for the <saml:Assertion> elements received by Scalr to be encrypted.',
                     type: 'boolean',
                 },
                 'security-want-assertions-signed': {
                     default: false,
                     description:
-            'Indicates a requirement for the <saml:Assertion> elements received by Scalr to be signed.',
+                        'Indicates a requirement for the <saml:Assertion> elements received by Scalr to be signed.',
                     type: 'boolean',
                 },
                 'security-want-messages-signed': {
                     default: false,
                     description:
-            'Indicates a requirement for the <samlp:Response>, <samlp:LogoutRequest> and <samlp:LogoutResponse> elements received by Scalr to be signed.',
+                        'Indicates a requirement for the <samlp:Response>, <samlp:LogoutRequest> and <samlp:LogoutResponse> elements received by Scalr to be signed.',
                     type: 'boolean',
                 },
                 'security-want-name-id': {
                     default: true,
                     description:
-            'Indicates a requirement for the NameID element on the SAMLResponse received by this SP to be present.',
+                        'Indicates a requirement for the NameID element on the SAMLResponse received by this SP to be present.',
                     type: 'boolean',
                 },
                 'security-want-name-id-encrypted': {
                     default: false,
-                    description:
-            'Indicates a requirement for the NameID received by Scalr to be encrypted.',
+                    description: 'Indicates a requirement for the NameID received by Scalr to be encrypted.',
                     type: 'boolean',
                 },
                 'sp-assertion-consumer-service-binding': {
                     default: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
                     description:
-            'SAML protocol binding to be used when returning the response message. It supports HTTP-POST binding only.',
+                        'SAML protocol binding to be used when returning the response message. It supports HTTP-POST binding only.',
                     type: 'string',
                 },
                 'sp-default-entity-id': {
@@ -7077,7 +6796,7 @@ export const $SamlIntegration = {
                 strict: {
                     default: true,
                     description:
-            'If enabled, Scalr will reject unsigned or unencrypted messages when expects them to be signed or encrypted.',
+                        'If enabled, Scalr will reject unsigned or unencrypted messages when expects them to be signed or encrypted.',
                     type: 'boolean',
                 },
                 'use-identifier-in-urls': {
@@ -7086,8 +6805,7 @@ export const $SamlIntegration = {
                 },
                 'verification-status': {
                     default: 'pending',
-                    description:
-            'Represents the verification status with the IdP SAML provider)',
+                    description: 'Represents the verification status with the IdP SAML provider)',
                     enum: ['pending', 'success', 'running'],
                     readOnly: true,
                     type: 'string',
@@ -7223,18 +6941,16 @@ that needs to authenticate and be authorized to access data in Scalr APIs.`,
                 },
                 email: {
                     description:
-            'A read-only field which is generated when a service account is created. Consists of `<name>@<account-domain>.scalr.io`',
+                        'A read-only field which is generated when a service account is created. Consists of `<name>@<account-domain>.scalr.io`',
                     readOnly: true,
                     type: 'string',
                 },
                 name: {
-                    description:
-            'The service account name. The service account email will be created using this name.',
+                    description: 'The service account name. The service account email will be created using this name.',
                     type: 'string',
                 },
                 status: {
-                    description:
-            'The service account status. Can be: `Active`, `Inactive`.',
+                    description: 'The service account status. Can be: `Active`, `Inactive`.',
                     enum: ['Active', 'Inactive'],
                     type: 'string',
                 },
@@ -7529,8 +7245,7 @@ export const $SlackIntegration = {
                     type: 'string',
                 },
                 'err-message': {
-                    description:
-            'Message from service that points to nature of a problem',
+                    description: 'Message from service that points to nature of a problem',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -7545,8 +7260,7 @@ export const $SlackIntegration = {
                 },
                 'is-apply-only': {
                     default: false,
-                    description:
-            'Whether to notify about success or failure from the apply step only',
+                    description: 'Whether to notify about success or failure from the apply step only',
                     type: 'boolean',
                 },
                 name: {
@@ -7913,13 +7627,13 @@ export const $Sources = {
         'workspaces-account-bulk',
         'reports-iac-versions',
         'reports-stale-workspaces',
+        'auto-destroy',
     ],
     type: 'string',
 } as const;
 
 export const $StateVersion = {
-    description:
-    'A State version is the version of a state file associated with a workspace.',
+    description: 'A State version is the version of a state file associated with a workspace.',
     properties: {
         attributes: {
             properties: {
@@ -7934,7 +7648,7 @@ export const $StateVersion = {
                 },
                 lineage: {
                     description:
-            'Lineage of the state version. Should match the lineage extracted from the `terraform.tfstate`.',
+                        'Lineage of the state version. Should match the lineage extracted from the `terraform.tfstate`.',
                     maxLength: 255,
                     nullable: true,
                     type: 'string',
@@ -8037,7 +7751,7 @@ export const $StateVersion = {
                 },
                 serial: {
                     description:
-            'The serial of the state version which must match the `serial` value from the `terraform.tfstate`.',
+                        'The serial of the state version which must match the `serial` value from the `terraform.tfstate`.',
                     type: 'integer',
                 },
                 size: {
@@ -8076,8 +7790,7 @@ export const $StateVersion = {
         relationships: {
             properties: {
                 'next-state-version': {
-                    description:
-            'Next state version for the workspace to which state version is associated.',
+                    description: 'Next state version for the workspace to which state version is associated.',
                     properties: {
                         data: {
                             nullable: true,
@@ -8099,8 +7812,7 @@ export const $StateVersion = {
                     type: 'object',
                 },
                 'previous-state-version': {
-                    description:
-            'Previous state version for the workspace to which state version is associated.',
+                    description: 'Previous state version for the workspace to which state version is associated.',
                     properties: {
                         data: {
                             nullable: true,
@@ -8328,8 +8040,7 @@ Tags are unique within the account. Deleted tags will be removed from associated
         attributes: {
             properties: {
                 name: {
-                    description:
-            'The name of the tag. It must be unique within the account.',
+                    description: 'The name of the tag. It must be unique within the account.',
                     maxLength: 255,
                     type: 'string',
                 },
@@ -8357,6 +8068,7 @@ Tags are unique within the account. Deleted tags will be removed from associated
                     description: 'The account this tag belongs to.',
                     properties: {
                         data: {
+                            nullable: true,
                             properties: {
                                 id: {
                                     type: 'string',
@@ -8370,11 +8082,11 @@ Tags are unique within the account. Deleted tags will be removed from associated
                             type: 'object',
                         },
                     },
+                    readOnly: true,
                     required: ['data'],
                     type: 'object',
                 },
             },
-            required: ['account'],
             type: 'object',
         },
         type: {
@@ -8382,7 +8094,7 @@ Tags are unique within the account. Deleted tags will be removed from associated
             type: 'string',
         },
     },
-    required: ['type', 'attributes', 'relationships'],
+    required: ['type', 'attributes'],
     type: 'object',
 } as const;
 
@@ -8443,7 +8155,7 @@ see: https://jsonapi.org/format/#document-structure`,
 } as const;
 
 export const $TagRelationship = {
-    description: 'Represents tags\' relationship.',
+    description: "Represents tags' relationship.",
     properties: {
         id: {
             type: 'string',
@@ -8549,8 +8261,7 @@ A team can not be used to group service accounts, only standard users.`,
                     type: 'object',
                 },
                 'identity-provider': {
-                    description:
-            'Identity provider of the team. Can be internal (Scalr) or external (LDAP/SAML)',
+                    description: 'Identity provider of the team. Can be internal (Scalr) or external (LDAP/SAML)',
                     properties: {
                         data: {
                             nullable: true,
@@ -9012,12 +8723,7 @@ export const $TerraformProviderUsage = {
                     type: 'integer',
                 },
             },
-            required: [
-                'provider',
-                'source',
-                'versions-used-count',
-                'workspaces-count',
-            ],
+            required: ['provider', 'source', 'versions-used-count', 'workspaces-count'],
             type: 'object',
         },
         id: {
@@ -9302,8 +9008,7 @@ export const $TerraformResourceInstanceUsage = {
         attributes: {
             properties: {
                 address: {
-                    description:
-            'Resource instance address. Combines module, name and index of the resource.',
+                    description: 'Resource instance address. Combines module, name and index of the resource.',
                     maxLength: 255,
                     type: 'string',
                 },
@@ -9328,32 +9033,22 @@ export const $TerraformResourceInstanceUsage = {
                     type: 'string',
                 },
                 'updated-at': {
-                    description:
-            'Time when the resource instance was created or updated.',
+                    description: 'Time when the resource instance was created or updated.',
                     format: 'date-time',
                     type: 'string',
                 },
                 'updated-by-email': {
-                    description:
-            'The email of the user who create or update this resource instance.',
+                    description: 'The email of the user who create or update this resource instance.',
                     maxLength: 100,
                     type: 'string',
                 },
                 'workspace-name': {
-                    description:
-            'Name of the workspace this resource instance belongs to.',
+                    description: 'Name of the workspace this resource instance belongs to.',
                     maxLength: 255,
                     type: 'string',
                 },
             },
-            required: [
-                'name',
-                'external-id',
-                'address',
-                'workspace-name',
-                'updated-at',
-                'updated-by-email',
-            ],
+            required: ['name', 'external-id', 'address', 'workspace-name', 'updated-at', 'updated-by-email'],
             type: 'object',
         },
         id: {
@@ -9411,8 +9106,7 @@ export const $TerraformResourceInstanceUsage = {
                     type: 'object',
                 },
                 run: {
-                    description:
-            'The run which created or updated this resource instance.',
+                    description: 'The run which created or updated this resource instance.',
                     properties: {
                         data: {
                             nullable: true,
@@ -9525,13 +9219,11 @@ export const $TerraformResourceUsage = {
         attributes: {
             properties: {
                 'active-instances-count': {
-                    description:
-            'The total number of resource instances which are present in the infrastructure.',
+                    description: 'The total number of resource instances which are present in the infrastructure.',
                     type: 'integer',
                 },
                 'deleted-instances-count': {
-                    description:
-            'The total number of resource instances which are deleted from the infrastructure.',
+                    description: 'The total number of resource instances which are deleted from the infrastructure.',
                     type: 'integer',
                 },
                 name: {
@@ -9545,8 +9237,7 @@ export const $TerraformResourceUsage = {
                     type: 'string',
                 },
                 'workspaces-count': {
-                    description:
-            'The total number of workspaces where this resource is used.',
+                    description: 'The total number of workspaces where this resource is used.',
                     type: 'integer',
                 },
             },
@@ -9892,20 +9583,19 @@ export const $UsageStatistic = {
         attributes: {
             properties: {
                 'breakdown-id': {
-                    description:
-            'The identifier of a resource by which the usage is broken down',
+                    description: 'The identifier of a resource by which the usage is broken down',
                     nullable: true,
                     type: 'string',
                 },
                 'breakdown-name': {
-                    description:
-            'The name of a resource by which the usage is broken down',
+                    description: 'The name of a resource by which the usage is broken down',
                     nullable: true,
                     type: 'string',
                 },
                 date: {
                     description: 'The date when usage has been recorded',
                     format: 'date',
+                    nullable: true,
                     type: 'string',
                 },
                 'runs-count': {
@@ -10000,8 +9690,7 @@ see: https://jsonapi.org/format/#document-structure`,
 } as const;
 
 export const $User = {
-    description:
-    'Represents a Scalr [IAM](https://docs.scalr.io/docs/identity-and-access-management) user.',
+    description: 'Represents a Scalr [IAM](https://docs.scalr.io/docs/identity-and-access-management) user.',
     properties: {
         attributes: {
             properties: {
@@ -10134,7 +9823,7 @@ see: https://jsonapi.org/format/#document-structure`,
 
 export const $UserInvite = {
     description:
-    'Represents an create [IAM](https://docs.scalr.io/docs/identity-and-access-management) account user request.',
+        'Represents an create [IAM](https://docs.scalr.io/docs/identity-and-access-management) account user request.',
     properties: {
         attributes: {
             properties: {
@@ -10144,8 +9833,7 @@ export const $UserInvite = {
                 },
                 'send-invite': {
                     default: true,
-                    description:
-            'If set to `true`, email with invite to the account will be sent to the user email.',
+                    description: 'If set to `true`, email with invite to the account will be sent to the user email.',
                     type: 'boolean',
                 },
             },
@@ -10310,7 +9998,7 @@ In Scalr there are "terraform" and "environment" variables.
                 final: {
                     default: false,
                     description:
-            'Indicates whether the variable can be overridden on a lower down the Scalr organizational model.',
+                        'Indicates whether the variable can be overridden on a lower down the Scalr organizational model.',
                     type: 'boolean',
                 },
                 hcl: {
@@ -10333,8 +10021,7 @@ after being written.`,
                 },
                 value: {
                     default: '',
-                    description:
-            'Variable value. Not visible if sensitive: true is enabled',
+                    description: 'Variable value. Not visible if sensitive: true is enabled',
                     nullable: true,
                     type: 'string',
                 },
@@ -10517,39 +10204,34 @@ where the user should authorize Scalr to connect to their OAuth App.
                 },
                 'comments-enabled': {
                     default: false,
-                    description:
-            'Indicates whether commenting on PRs is enabled for this VCS provider.',
+                    description: 'Indicates whether commenting on PRs is enabled for this VCS provider.',
                     type: 'boolean',
                 },
                 'draft-pr-runs-enabled': {
                     default: false,
-                    description:
-            'Indicates whether the draft pull-request runs are enabled for this VCS provider.',
+                    description: 'Indicates whether the draft pull-request runs are enabled for this VCS provider.',
                     type: 'boolean',
                 },
                 'error-message': {
-                    description:
-            'Contains error message, if the connection to VCS provider is broken.',
+                    description: 'Contains error message, if the connection to VCS provider is broken.',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
                 },
                 'is-shared': {
                     description:
-            'Indicates whether the VCS provider can be used in any account environments or only linked one.',
+                        'Indicates whether the VCS provider can be used in any account environments or only linked one.',
                     type: 'boolean',
                 },
                 name: {
-                    description:
-            'VCS provider name, which must be unique within the account.',
+                    description: 'VCS provider name, which must be unique within the account.',
                     maxLength: 255,
                     minLength: 1,
                     pattern: '^[ A-Za-z0-9_-]+$',
                     type: 'string',
                 },
                 token: {
-                    description:
-            'Access token for an API client for using to connect to the VCS Provider.',
+                    description: 'Access token for an API client for using to connect to the VCS Provider.',
                     nullable: true,
                     type: 'string',
                 },
@@ -10564,7 +10246,7 @@ Required for GitHub Enterprise, GitLab Enterprise and Bitbucket Data Center.`,
                 },
                 username: {
                     description:
-            'Username for personal_token auth type. This field is required for bitbucket_enterprise provider.',
+                        'Username for personal_token auth type. This field is required for bitbucket_enterprise provider.',
                     maxLength: 255,
                     nullable: true,
                     type: 'string',
@@ -10625,7 +10307,7 @@ Required for GitHub Enterprise, GitLab Enterprise and Bitbucket Data Center.`,
                 },
                 'agent-pool': {
                     description:
-            'The ID of the agent pool to communicate with on-prem VCS provider that not accessible directly.',
+                        'The ID of the agent pool to communicate with on-prem VCS provider that not accessible directly.',
                     properties: {
                         data: {
                             nullable: true,
@@ -10646,8 +10328,7 @@ Required for GitHub Enterprise, GitLab Enterprise and Bitbucket Data Center.`,
                     type: 'object',
                 },
                 environments: {
-                    description:
-            'The list of environments this VCS integration is linked to.',
+                    description: 'The list of environments this VCS integration is linked to.',
                     properties: {
                         data: {
                             items: {
@@ -10844,343 +10525,6 @@ export const $VcsTaskRequest = {
     type: 'object',
 } as const;
 
-export const $Webhook = {
-    description: `Webhooks provide a mechanism to integrate Scalr with external API's. Webhooks are triggered by
-[Events](event-definitions.html#list-event-definitions) which causes Scalr to send an HTTP POST
-payload to the [endpoint](endpoints.html) associated with the webhook.
-
-Webhooks can be used to trigger any action in any external system that has an API or programmable interface.
-The Endpoint will typically point to a server that processes the HTTP POST request and makes the onward calls
-to the external API.
-
-Webhooks can be created in [environments](environments.html) or in specific [workspaces](workspaces.html).
-
-### Webhook Notification
-
-Example:
-\`\`\`http
-POST /services/58320402 HTTP/1.1
-Host: hooks.example.com
-Content-Type: application/json
-Content-Length: 935
-Date: 2020-11-25T00:43:38+0000
-X-Scalr-Delivery-Id: wd-t6v0hrnn58vu4m0
-X-Signature: 5782c2fa7c38ddc45efd8b7497ac1c9c91ae90fae2fa06148b69bba4c2e22869
-
-{
-  "payload_version": 1,
-  "event_name": "run:needs_attention",
-  "run": {
-    "id": "run-t6v0g8prd9qi2h0",
-    "message": "Update variables.tf",
-    "status": "policy_checked",
-    "source": "ui",
-    "url": "https://my.scalr.io/#/workspaces/runs/dashboard?runId=run-t6v0g8prd9qi2h0",
-    "created_at": "2020-11-25T00:42:15",
-    "updated_at": "2020-11-25T00:43:38",
-    "created_by": {
-      "id": "user-stp8qjcvjljlo1o",
-      "username": "me@example.com",
-      "email": "me@example.com"
-    }
-  },
-  "webhook": {
-    "id": "wh-t6v0g1l0dlqhh58",
-    "name": "Data Platform"
-  },
-  "workspace": {
-    "id": "ws-t5hft7e7v366rd0",
-    "name": "my-example",
-    "url": "https://my.scalr.io/#/workspaces/dashboard?workspaceId=ws-t5hft7e7v366rd0"
-  },
-  "environment": {
-    "id": "env-sfuari395m7sck1",
-    "name": "my-development",
-    "url": "https://my.scalr.io/#/15986/17348/dashboard"
-  },
-  "variables": {
-    "foo": "bar"
-  }
-}
-\`\`\`
-
-### Signature Verification
-
-Scalr adds a cryptographic signature to Webhook notifications in order for you to be able to
-validate that they were indeed generated by Scalr.
-
-To validate Webhook notification, follow this procedure:
-
-* Obtain the \`secret_key\` for your [Endpoint](endpoints.html).
-* When receiving a Webhook payload, compute its signature using the following algorithm (see below for code samples)
-  * Concatenate the JSON payload and the \`Date\` header
-  * Compute a \`HMAC\` digest of the concatenated message, using the \`SHA-256\` algorithm
-  * Retrieve the hexadecimal value of the \`HMAC\` digest. This is the signature.
-* Compare the signature you computed to the one in the \`X-Signature\` HTTP Header. For maximum security,
-  ensure you perform a constant-time comparison.
-  * If the signatures match, the message is authentic, and was indeed sent by Scalr
-  * If the signatures do not match, the message is a forgery, and was not sent by Scalr
-
-To compute a Webhook notification signature in Bash, use the following algorithm. We assume that the \`$payload\`
-variable contains the request JSON payload, that \`$timestamp\` contains the \`Date\` Header, and that \`$secret_key\`
-is your Endpoint's \`secret-key\`.
-
-\`\`\`bash
-canonical_string="\${payload}\${timestamp}"
-signature=$(echo -n $canonical_string | openssl dgst -sha256 -hmac $secret_key | awk '{ print $2}')
-\`\`\`
-
-The extra fields below are not available in response by default. Ask for them explicitly in the query parameter \`fields[webhooks]\`:
-* statistics`,
-    properties: {
-        attributes: {
-            properties: {
-                enabled: {
-                    description: 'Webhook can be turned off by setting to `false`.',
-                    type: 'boolean',
-                },
-                'last-triggered-at': {
-                    description: 'The Date/Time of the last notification.',
-                    format: 'date-time',
-                    readOnly: true,
-                    type: 'string',
-                },
-                name: {
-                    description:
-            'The name of the webhook. Use your target application/component name for better discoverability.',
-                    maxLength: 255,
-                    type: 'string',
-                },
-                permissions: {
-                    readOnly: true,
-                    type: 'object',
-                },
-                statistics: {
-                    description:
-            'Webhook delivery statistics (delivered, failed and total) by periods: last hour, last day and last week',
-                    properties: {
-                        'last-day': {
-                            properties: {
-                                delivered: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                failed: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                total: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                            },
-                            type: 'object',
-                        },
-                        'last-hour': {
-                            properties: {
-                                delivered: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                failed: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                total: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                            },
-                            type: 'object',
-                        },
-                        'last-week': {
-                            properties: {
-                                delivered: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                failed: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                                total: {
-                                    default: 0,
-                                    type: 'integer',
-                                },
-                            },
-                            type: 'object',
-                        },
-                    },
-                    readOnly: true,
-                    type: 'object',
-                },
-            },
-            required: ['name'],
-            type: 'object',
-        },
-        id: {
-            readOnly: true,
-            type: 'string',
-        },
-        links: {
-            properties: {
-                self: {
-                    readOnly: true,
-                    type: 'string',
-                },
-            },
-            readOnly: true,
-            type: 'object',
-        },
-        relationships: {
-            properties: {
-                account: {
-                    description: 'The account this webhook belongs to.',
-                    properties: {
-                        data: {
-                            nullable: true,
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['accounts'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    readOnly: true,
-                    required: ['data'],
-                    type: 'object',
-                },
-                endpoint: {
-                    description: 'The Endpoint this webhook is delivered to.',
-                    properties: {
-                        data: {
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['endpoints'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    required: ['data'],
-                    type: 'object',
-                },
-                environment: {
-                    description: 'The environment this webhook belongs to.',
-                    properties: {
-                        data: {
-                            nullable: true,
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['environments'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    required: ['data'],
-                    type: 'object',
-                },
-                events: {
-                    description: `The list of events this webhook will be notified about.
-Use [List Event Definitions](event-definitions.html#list-event-definitions) to obtain the list
-of all available events.`,
-                    properties: {
-                        data: {
-                            items: {
-                                properties: {
-                                    id: {
-                                        type: 'string',
-                                    },
-                                    type: {
-                                        enum: ['event-definitions'],
-                                        type: 'string',
-                                    },
-                                },
-                                required: ['type', 'id'],
-                                type: 'object',
-                            },
-                            nullable: true,
-                            type: 'array',
-                        },
-                    },
-                    readOnly: true,
-                    required: ['data'],
-                    type: 'object',
-                },
-                workspace: {
-                    description: 'The optional workspace this webhook belongs to.',
-                    properties: {
-                        data: {
-                            nullable: true,
-                            properties: {
-                                id: {
-                                    type: 'string',
-                                },
-                                type: {
-                                    enum: ['workspaces'],
-                                    type: 'string',
-                                },
-                            },
-                            required: ['type', 'id'],
-                            type: 'object',
-                        },
-                    },
-                    required: ['data'],
-                    type: 'object',
-                },
-            },
-            required: ['endpoint'],
-            type: 'object',
-        },
-        type: {
-            enum: ['webhooks'],
-            type: 'string',
-        },
-    },
-    required: ['type', 'attributes', 'relationships'],
-    type: 'object',
-} as const;
-
-export const $WebhookDocument = {
-    description: `JSON:API Document.
-
-see: https://jsonapi.org/format/#document-structure`,
-    properties: {
-        data: {
-            $ref: '#/components/schemas/Webhook',
-        },
-        included: {
-            items: {
-                type: 'object',
-            },
-            readOnly: true,
-            type: 'array',
-        },
-        meta: {
-            readOnly: true,
-            type: 'object',
-        },
-    },
-    type: 'object',
-} as const;
-
 export const $WebhookIntegration = {
     description: `Represents the webhook integration
 
@@ -11224,7 +10568,7 @@ The extra fields below are not available in response by default. Ask for them ex
                 },
                 'is-shared': {
                     description:
-            'Indicates whether the webhook is available in any environment of the account without directly linking it.',
+                        'Indicates whether the webhook is available in any environment of the account without directly linking it.',
                     type: 'boolean',
                 },
                 'last-triggered-at': {
@@ -11241,7 +10585,7 @@ The extra fields below are not available in response by default. Ask for them ex
                 },
                 name: {
                     description:
-            'The name of the webhook. Use your target application/component name for better discoverability.',
+                        'The name of the webhook. Use your target application/component name for better discoverability.',
                     maxLength: 255,
                     type: 'string',
                 },
@@ -11252,7 +10596,7 @@ The extra fields below are not available in response by default. Ask for them ex
                 },
                 statistics: {
                     description:
-            'Webhook delivery statistics (delivered, failed and total) by periods: last hour, last day and last week',
+                        'Webhook delivery statistics (delivered, failed and total) by periods: last hour, last day and last week',
                     nullable: true,
                     properties: {
                         'last-day': {
@@ -11433,20 +10777,17 @@ export const $WebhookIntegrationDelivery = {
                     type: 'integer',
                 },
                 'error-message': {
-                    description:
-            'The error message, if any, encountered during delivery.',
+                    description: 'The error message, if any, encountered during delivery.',
                     nullable: true,
                     type: 'string',
                 },
                 'last-handle-attempt-at': {
-                    description:
-            'The Date/Time of the last attempt to deliver the webhook.',
+                    description: 'The Date/Time of the last attempt to deliver the webhook.',
                     format: 'date-time',
                     type: 'string',
                 },
                 'request-body': {
-                    description:
-            'The data payload (JSON format) sent in the webhook request body.',
+                    description: 'The data payload (JSON format) sent in the webhook request body.',
                     type: 'object',
                 },
                 'request-headers': {
@@ -11463,7 +10804,7 @@ export const $WebhookIntegrationDelivery = {
                         },
                     ],
                     description:
-            'The data (JSON or plain text) received in the response body from the external system.',
+                        'The data (JSON or plain text) received in the response body from the external system.',
                     nullable: true,
                 },
                 'response-code': {
@@ -11472,14 +10813,12 @@ export const $WebhookIntegrationDelivery = {
                     type: 'integer',
                 },
                 'response-headers': {
-                    description:
-            'The HTTP response headers received from the external system.',
+                    description: 'The HTTP response headers received from the external system.',
                     nullable: true,
                     type: 'object',
                 },
                 status: {
-                    description:
-            'The delivery status. Can be: `pending`, `completed`, or `failed`.',
+                    description: 'The delivery status. Can be: `pending`, `completed`, or `failed`.',
                     type: 'string',
                 },
                 'triggered-at': {
@@ -11525,8 +10864,7 @@ export const $WebhookIntegrationDelivery = {
                     type: 'object',
                 },
                 event: {
-                    description:
-            'The specific event that triggered this webhook delivery.',
+                    description: 'The specific event that triggered this webhook delivery.',
                     properties: {
                         data: {
                             properties: {
@@ -11753,39 +11091,6 @@ see: https://jsonapi.org/format/#document-structure`,
     type: 'object',
 } as const;
 
-export const $WebhookListingDocument = {
-    description: `JSON:API Document Listing
-
-see: https://jsonapi.org/format/#document-structure`,
-    properties: {
-        data: {
-            items: {
-                $ref: '#/components/schemas/Webhook',
-            },
-            type: 'array',
-        },
-        included: {
-            items: {
-                type: 'object',
-            },
-            readOnly: true,
-            type: 'array',
-        },
-        links: {
-            additionalProperties: {
-                type: 'string',
-            },
-            readOnly: true,
-            type: 'object',
-        },
-        meta: {
-            readOnly: true,
-            type: 'object',
-        },
-    },
-    type: 'object',
-} as const;
-
 export const $Workspace = {
     description: `A Workspace is where Terraform runs are performed for a specific configuration, and where the resulting
 state file(s) are stored.
@@ -11799,8 +11104,7 @@ The extra fields below are not available in response by default. Ask for them ex
         attributes: {
             properties: {
                 'apply-schedule': {
-                    description:
-            'Cron expression for scheduled runs. Time should be in UTC.',
+                    description: 'Cron expression for scheduled runs. Time should be in UTC.',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -11809,6 +11113,25 @@ The extra fields below are not available in response by default. Ask for them ex
                     description: `Indicates whether \`terraform apply\` should automatically run
 when terraform plan ends without error. Default \`false\`.`,
                     type: 'boolean',
+                },
+                'auto-destroy-days': {
+                    description: 'How many days should the workspace exist.',
+                    enum: [1, 2, 7, 14],
+                    nullable: true,
+                    type: 'integer',
+                },
+                'auto-destroy-status': {
+                    description: 'The status of scheduled destruction of the workspace.',
+                    nullable: true,
+                    readOnly: true,
+                    type: 'string',
+                },
+                'auto-destroy-time': {
+                    description: 'When should the destruction of the workspace begin.',
+                    format: 'date-time',
+                    nullable: true,
+                    readOnly: true,
+                    type: 'string',
                 },
                 'auto-queue-runs': {
                     default: 'skip_first',
@@ -11837,8 +11160,7 @@ when terraform plan ends without error. Default \`false\`.`,
                     type: 'boolean',
                 },
                 'destroy-schedule': {
-                    description:
-            'Cron expression for scheduled destroy runs. Time should be in UTC.',
+                    description: 'Cron expression for scheduled destroy runs. Time should be in UTC.',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -11861,13 +11183,12 @@ Default \`false\`.`,
                     type: 'boolean',
                 },
                 'global-remote-state': {
-                    description:
-            'Specifies if the state is globally shared within the environment.',
+                    description: 'Specifies if the state is globally shared within the environment.',
                     type: 'boolean',
                 },
                 'has-resources': {
                     description:
-            'Indicates whether the workspace\'s current state version contains terraform resources.',
+                        "Indicates whether the workspace's current state version contains terraform resources.",
                     readOnly: true,
                     type: 'boolean',
                 },
@@ -11875,32 +11196,27 @@ Default \`false\`.`,
                     nullable: true,
                     properties: {
                         'post-apply': {
-                            description:
-                'Command that should be run after terraform apply operation executed.',
+                            description: 'Command that should be run after terraform apply operation executed.',
                             nullable: true,
                             type: 'string',
                         },
                         'post-plan': {
-                            description:
-                'Command that should be run after terraform plan operation executed.',
+                            description: 'Command that should be run after terraform plan operation executed.',
                             nullable: true,
                             type: 'string',
                         },
                         'pre-apply': {
-                            description:
-                'Command that should be run before terraform apply operation executed.',
+                            description: 'Command that should be run before terraform apply operation executed.',
                             nullable: true,
                             type: 'string',
                         },
                         'pre-init': {
-                            description:
-                'Command that should be run before terraform init operation executed.',
+                            description: 'Command that should be run before terraform init operation executed.',
                             nullable: true,
                             type: 'string',
                         },
                         'pre-plan': {
-                            description:
-                'Command that should be run before terraform plan operation executed.',
+                            description: 'Command that should be run before terraform plan operation executed.',
                             nullable: true,
                             type: 'string',
                         },
@@ -11914,8 +11230,7 @@ Default \`false\`.`,
                     type: 'string',
                 },
                 'lock-reason': {
-                    description:
-            'The reason (if any) that the workspace has been locked.',
+                    description: 'The reason (if any) that the workspace has been locked.',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -11940,8 +11255,7 @@ Comprises letters, numbers, \`-\`, and \`_\` only.`,
                 },
                 operations: {
                     deprecated: true,
-                    description:
-            'The attribute `operations` is deprecated. Use `execution-mode` instead.',
+                    description: 'The attribute `operations` is deprecated. Use `execution-mode` instead.',
                     type: 'boolean',
                 },
                 permissions: {
@@ -11949,14 +11263,13 @@ Comprises letters, numbers, \`-\`, and \`_\` only.`,
                     type: 'object',
                 },
                 'run-operation-timeout': {
-                    description:
-            'The timeout for the Terraform Run operations (in minutes).',
+                    description: 'The timeout for the Terraform Run operations (in minutes).',
                     nullable: true,
                     type: 'integer',
                 },
                 'terraform-version': {
                     description:
-            'The version of Terraform the workspace performs runs on. If omitted, the system default version is assigned.',
+                        'The version of Terraform the workspace performs runs on. If omitted, the system default version is assigned.',
                     type: 'string',
                 },
                 'updated-at': {
@@ -11967,8 +11280,7 @@ Comprises letters, numbers, \`-\`, and \`_\` only.`,
                     type: 'string',
                 },
                 'updated-by-email': {
-                    description:
-            'The email of the last user, that updated this workspace.',
+                    description: 'The email of the last user, that updated this workspace.',
                     nullable: true,
                     readOnly: true,
                     type: 'string',
@@ -12006,14 +11318,14 @@ Azure DevOps Services has the format \`<org>/<project>/<repo>\`.`,
                         'ingress-submodules': {
                             default: false,
                             description:
-                'Specifies whether git submodules should be fetched when cloning the VCS repository.',
+                                'Specifies whether git submodules should be fetched when cloning the VCS repository.',
                             type: 'boolean',
                         },
                         path: {
                             default: '',
                             deprecated: true,
                             description:
-                'The attribute `vcs-repo.path` is deprecated. Use working-directory and trigger-prefixes instead.',
+                                'The attribute `vcs-repo.path` is deprecated. Use working-directory and trigger-prefixes instead.',
                             nullable: true,
                             type: 'string',
                         },
@@ -12042,8 +11354,7 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                     type: 'object',
                 },
                 'working-directory': {
-                    description:
-            'A relative path where Terraform commands will execute in.',
+                    description: 'A relative path where Terraform commands will execute in.',
                     maxLength: 255,
                     nullable: true,
                     type: 'string',
@@ -12176,8 +11487,7 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                     type: 'object',
                 },
                 'latest-configuration-version': {
-                    description:
-            'The configuration version of the latest non-dry Run in this workspace.',
+                    description: 'The configuration version of the latest non-dry Run in this workspace.',
                     properties: {
                         data: {
                             nullable: true,
@@ -12373,7 +11683,7 @@ If 'trigger-patterns' and 'trigger-prefixes' are omitted, any change in the conf
                     type: 'object',
                 },
                 'vcs-provider': {
-                    description: 'VCS provider of the Run\'s workspace',
+                    description: "VCS provider of the Run's workspace",
                     properties: {
                         data: {
                             nullable: true,
@@ -12513,8 +11823,7 @@ export const $WorkspaceOutputFieldsetsListingDocument = {
 } as const;
 
 export const $WorkspaceReadme = {
-    description:
-    'A WorkspaceReadme resource represents the readme file for a workspace.',
+    description: 'A WorkspaceReadme resource represents the readme file for a workspace.',
     properties: {
         attributes: {
             properties: {

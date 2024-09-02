@@ -1,16 +1,15 @@
 import * as vscode from 'vscode';
-import { Workspace, Environment, Run, WorkspaceListingDocument} from '../api/types.gen';
+import { Workspace, Environment, Run, WorkspaceListingDocument } from '../api/types.gen';
 import { getWorkspaces } from '../api/services.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
 import { formatDate } from '../date-utils';
 
-
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
-    
+
     private nextPage: null | number = null;
     private workspaces: vscode.TreeItem[] = [];
 
@@ -19,29 +18,20 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         private runProvider: RunTreeDataProvider
     ) {
         ctx.subscriptions.push(
-            vscode.commands.registerCommand(
-                'workspace.open',
-                (ws: WorkspaceItem) => {
-                    vscode.env.openExternal(ws.webLink);
-                },
-            ),
-            vscode.commands.registerCommand(
-                'workspace.loadMore',
-                () => {
-                    this.refresh();
-                },
-            ),
-            vscode.commands.registerCommand(
-                'workspace.refresh',
-                (ws?: WorkspaceItem | LoadMoreItem) => {
-                    ws = undefined;
-                    this.workspaces = [];
-                    this.reset();
-                    this.refresh();
-                    this.runProvider.reset();
-                    this.runProvider.refresh(ws);
-                },
-            ),
+            vscode.commands.registerCommand('workspace.open', (ws: WorkspaceItem) => {
+                vscode.env.openExternal(ws.webLink);
+            }),
+            vscode.commands.registerCommand('workspace.loadMore', () => {
+                this.refresh();
+            }),
+            vscode.commands.registerCommand('workspace.refresh', (ws?: WorkspaceItem | LoadMoreItem) => {
+                ws = undefined;
+                this.workspaces = [];
+                this.reset();
+                this.refresh();
+                this.runProvider.reset();
+                this.runProvider.refresh(ws);
+            })
         );
     }
     getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
@@ -63,8 +53,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
         const workspaces = this.workspaces.slice(0);
         if (this.nextPage !== null) {
-            workspaces.push(new LoadMoreItem
-            ());
+            workspaces.push(new LoadMoreItem());
         }
 
         return workspaces;
@@ -80,10 +69,10 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     }
 
     private async getWorkspaces(): Promise<vscode.TreeItem[]> {
-        const session = await vscode.authentication.getSession(ScalrAuthenticationProvider.id, [], {
+        const session = (await vscode.authentication.getSession(ScalrAuthenticationProvider.id, [], {
             createIfNone: false,
-        }) as ScalrSession;
-      
+        })) as ScalrSession;
+
         if (session === undefined) {
             return [];
         }
@@ -95,11 +84,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                     number: this.nextPage || 1,
                     size: 30,
                 },
-                // @ts-ignore TODO:ape this is must be fixed in our product
-                sort: ['-updated-at'] 
-            }
+                // @ts-expect-error TODO:ape this is must be fixed in our product
+                sort: ['-updated-at'],
+            },
         });
-        
+
         if (error || !data) {
             vscode.window.showErrorMessage('Failed to fetch workspaces' + error);
             return [];
@@ -113,7 +102,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
         for (const inc of wsDocument.included || []) {
             if ((inc as Environment).type === 'environments') {
-                environmentMap.set(inc.id as string , inc as Environment);
+                environmentMap.set(inc.id as string, inc as Environment);
             } else if ((inc as Run).type === 'runs') {
                 runsMap.set(inc.id as string, inc as Run);
             }
@@ -121,15 +110,16 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
         const workspaces = wsDocument.data || [];
 
-        return workspaces.map(workspace => {
+        return workspaces.map((workspace) => {
             const environment = environmentMap.get(workspace.relationships.environment.data.id) as Environment;
-            const run = workspace.relationships['latest-run']?.data ? runsMap.get(workspace.relationships['latest-run'].data.id) : undefined;
+            const run = workspace.relationships['latest-run']?.data
+                ? runsMap.get(workspace.relationships['latest-run'].data.id)
+                : undefined;
 
             return new WorkspaceItem(session.baseUrl, environment, workspace, run);
         });
-
     }
-    
+
     dispose() {
         //
     }
@@ -142,8 +132,7 @@ export class WorkspaceItem extends vscode.TreeItem {
         public readonly host: string,
         public readonly environment: Environment,
         public readonly workspace: Workspace,
-        public readonly run?: Run,
-         
+        public readonly run?: Run
     ) {
         super(workspace.attributes.name, vscode.TreeItemCollapsibleState.None);
 
@@ -160,7 +149,9 @@ export class WorkspaceItem extends vscode.TreeItem {
         }
 
         this.tooltip = new vscode.MarkdownString(undefined, true);
-        this.tooltip.appendMarkdown(`## $(${this.iconPath.id}) [${this.workspace.attributes.name}](${this.webLink})\n\n`);
+        this.tooltip.appendMarkdown(
+            `## $(${this.iconPath.id}) [${this.workspace.attributes.name}](${this.webLink})\n\n`
+        );
         this.tooltip.appendMarkdown(`#### Environment: ${this.environment.attributes.name} \n`);
         this.tooltip.appendMarkdown('___\n\n');
         this.tooltip.appendMarkdown(`#### ID: ${this.workspace.id} \n`);
@@ -171,13 +162,13 @@ export class WorkspaceItem extends vscode.TreeItem {
         this.tooltip.appendMarkdown(`| **Iac Platform**         | ${workspace.attributes['iac-platform']}\n`);
         this.tooltip.appendMarkdown(`| **Terraform Version** | ${workspace.attributes['terraform-version']}|\n`);
         this.tooltip.appendMarkdown(`| **Updated**           | ${updatedAt}|\n`);
-    }   
+    }
 }
 
 class LoadMoreItem extends vscode.TreeItem {
     constructor() {
         super('Show more...', vscode.TreeItemCollapsibleState.None);
-  
+
         this.iconPath = new vscode.ThemeIcon('more', new vscode.ThemeColor('charts.gray'));
         this.command = {
             command: 'workspace.loadMore',
@@ -185,4 +176,3 @@ class LoadMoreItem extends vscode.TreeItem {
         };
     }
 }
-

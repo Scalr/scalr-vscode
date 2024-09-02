@@ -1,8 +1,11 @@
 {
     "root": true,
     "globals": {
-    "console": "readonly"
-  },
+        "console": "readonly",
+        "__dirname": "readonly",
+        "module": "readonly",
+        "require": "readonly"
+    },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
         "ecmaVersion": 6,
@@ -10,10 +13,10 @@
     },
     "plugins": ["@typescript-eslint", "prettier"],
     "extends": [
-        // "eslint:recommended"`
-        // "plugin:@typescript-eslint/recommended",
-        // "plugin:prettier/recommended",
-        // "prettier"
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:prettier/recommended",
+        "prettier"
     ],
     "rules": {
         "@typescript-eslint/naming-convention": [
@@ -27,11 +30,12 @@
         "curly": "warn",
         "no-throw-literal": "warn",
         "semi": ["error", "always"],
-        "quotes": ["error", "single"],
-        "indent": ["error", 4],
-        "no-unused-vars": ["error"],
+        "quotes": ["error", "single", { "avoidEscape": true }],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "no-unused-vars": "off",
         "eqeqeq": ["error", "always"],
-        "no-console": "warn"
+        "no-console": "warn",
+        "prettier/prettier": ["error"]
     },
     "ignorePatterns": ["out", "dist", "**/*.d.ts"]
 }

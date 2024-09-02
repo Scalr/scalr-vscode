@@ -9,9 +9,7 @@ import * as vscode from 'vscode';
 export function activate(context: vscode.ExtensionContext) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
-    context.subscriptions.push(
-        new ScalrFeature(context),
-    );
+    context.subscriptions.push(new ScalrFeature(context));
 }
 
 // This method is called when your extension is deactivated
