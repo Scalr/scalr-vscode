@@ -4,6 +4,10 @@
 
 The Scalr VSCode Extension is a tool designed to streamline your Terraform workflows by integrating Scalr directly into your Visual Studio Code environment. This extension allows you to manage workspaces, monitor runs, and access critical information about your infrastructure—without leaving your code editor.
 
+## Disclaimer: Early Stages
+
+Please Note: This extension is currently in its early stages of development. While it includes core functionalities, you may encounter bugs or incomplete features. We welcome your feedback and contributions to help improve and stabilize the extension.
+
 ## Features
 
 -   **Workspace Management**: View a comprehensive list of available workspaces for logged-in users.
@@ -71,7 +75,7 @@ Contributions are welcome! Please follow these steps to contribute:
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MPL-2.0 License. See the [LICENSE](LICENSE) file for details.
 
 ## Support
 

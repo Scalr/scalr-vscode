@@ -179,7 +179,7 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
             [
                 {
                     label: 'Existing token',
-                    detail: 'Peast an existing token from the clipboard',
+                    detail: 'Paste an existing token from the clipboard',
                 },
                 {
                     label: 'Generate a token',
