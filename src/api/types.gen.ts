@@ -7648,6 +7648,316 @@ export type GetApplyLogResponse = unknown | void;
 
 export type GetApplyLogError = unknown;
 
+export type ListEnvironmentsData = {
+    query?: {
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for Account resource.
+             */
+            accounts?: string;
+            /**
+             * The comma-separated list of fields to return in response for Environment resource.
+             */
+            environments?: string;
+            /**
+             * The comma-separated list of fields to return in response for PolicyGroup resource.
+             */
+            'policy-groups'?: string;
+            /**
+             * The comma-separated list of fields to return in response for ProviderConfiguration resource.
+             */
+            'provider-configurations'?: string;
+            /**
+             * The comma-separated list of fields to return in response for Tag resource.
+             */
+            tags?: string;
+            /**
+             * The comma-separated list of fields to return in response for User resource.
+             */
+            users?: string;
+        };
+        /**
+         * The ID of the Account
+         */
+        'filter[account]'?: string;
+        /**
+         * The ID of the Environment
+         */
+        'filter[environment]'?: string;
+        /**
+         * Filter by latest run date. Example: `filter[latest-run-date]=between:2022-01-01T00:00:00Z,2022-02-01T00:00:00Z`
+         */
+        'filter[latest-run-date]'?: string;
+        /**
+         * The environment name filter.
+         */
+        'filter[name]'?: string;
+        /**
+         * The ID of the Policy Group.
+         */
+        'filter[policy-group]'?: string;
+        /**
+         * Filter environments by tags
+         */
+        'filter[tag]'?: string;
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<
+            | 'account'
+            | 'created-by'
+            | 'default-provider-configurations'
+            | 'policy-groups'
+            | 'provider-configurations'
+            | 'tags'
+        >;
+        /**
+         * Page number
+         */
+        'page[number]'?: string;
+        /**
+         * Page size
+         */
+        'page[size]'?: string;
+        /**
+         * Query string, search by id, name.
+         */
+        query?: string;
+        /**
+         * The comma-separated list of attributes.
+         */
+        sort?: Array<'account' | 'cost-estimation-enabled' | 'created-at' | 'created-by-email' | 'name'>;
+    };
+};
+
+export type ListEnvironmentsResponse = EnvironmentListingDocument;
+
+export type ListEnvironmentsError = unknown;
+
+export type CreateEnvironmentData = {
+    body?: EnvironmentDocument;
+    query?: {
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for Account resource.
+             */
+            accounts?: string;
+            /**
+             * The comma-separated list of fields to return in response for Environment resource.
+             */
+            environments?: string;
+            /**
+             * The comma-separated list of fields to return in response for PolicyGroup resource.
+             */
+            'policy-groups'?: string;
+            /**
+             * The comma-separated list of fields to return in response for ProviderConfiguration resource.
+             */
+            'provider-configurations'?: string;
+            /**
+             * The comma-separated list of fields to return in response for Tag resource.
+             */
+            tags?: string;
+            /**
+             * The comma-separated list of fields to return in response for User resource.
+             */
+            users?: string;
+        };
+    };
+};
+
+export type CreateEnvironmentResponse = EnvironmentDocument;
+
+export type CreateEnvironmentError = unknown;
+
+export type DeleteEnvironmentData = {
+    path: {
+        /**
+         * The ID of the environment to delete.
+         */
+        environment: string;
+    };
+};
+
+export type DeleteEnvironmentResponse = void;
+
+export type DeleteEnvironmentError = unknown;
+
+export type GetEnvironmentData = {
+    path: {
+        /**
+         * The ID of the environment.
+         */
+        environment: string;
+    };
+    query?: {
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for Account resource.
+             */
+            accounts?: string;
+            /**
+             * The comma-separated list of fields to return in response for Environment resource.
+             */
+            environments?: string;
+            /**
+             * The comma-separated list of fields to return in response for PolicyGroup resource.
+             */
+            'policy-groups'?: string;
+            /**
+             * The comma-separated list of fields to return in response for ProviderConfiguration resource.
+             */
+            'provider-configurations'?: string;
+            /**
+             * The comma-separated list of fields to return in response for Tag resource.
+             */
+            tags?: string;
+            /**
+             * The comma-separated list of fields to return in response for User resource.
+             */
+            users?: string;
+        };
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<
+            | 'account'
+            | 'created-by'
+            | 'default-provider-configurations'
+            | 'policy-groups'
+            | 'provider-configurations'
+            | 'tags'
+        >;
+    };
+};
+
+export type GetEnvironmentResponse = EnvironmentDocument;
+
+export type GetEnvironmentError = unknown;
+
+export type UpdateEnvironmentData = {
+    body?: EnvironmentDocument;
+    path: {
+        /**
+         * The ID of the environment to update.
+         */
+        environment: string;
+    };
+    query?: {
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for Account resource.
+             */
+            accounts?: string;
+            /**
+             * The comma-separated list of fields to return in response for Environment resource.
+             */
+            environments?: string;
+            /**
+             * The comma-separated list of fields to return in response for PolicyGroup resource.
+             */
+            'policy-groups'?: string;
+            /**
+             * The comma-separated list of fields to return in response for ProviderConfiguration resource.
+             */
+            'provider-configurations'?: string;
+            /**
+             * The comma-separated list of fields to return in response for Tag resource.
+             */
+            tags?: string;
+            /**
+             * The comma-separated list of fields to return in response for User resource.
+             */
+            users?: string;
+        };
+    };
+};
+
+export type UpdateEnvironmentResponse = EnvironmentDocument;
+
+export type UpdateEnvironmentError = unknown;
+
+export type DeleteEnvironmentTagsData = {
+    body?: TagRelationshipFieldsetsListingDocument;
+    path: {
+        /**
+         * The environment whose tags will be deleted.
+         *
+         */
+        environment: string;
+    };
+};
+
+export type DeleteEnvironmentTagsResponse = void;
+
+export type DeleteEnvironmentTagsError = unknown;
+
+export type ListEnvironmentTagsData = {
+    path: {
+        /**
+         * The environment to list tags for.
+         *
+         */
+        environment: string;
+    };
+    query?: {
+        /**
+         * Page number
+         */
+        'page[number]'?: string;
+        /**
+         * Page size
+         */
+        'page[size]'?: string;
+    };
+};
+
+export type ListEnvironmentTagsResponse = TagRelationshipFieldsetsListingDocument;
+
+export type ListEnvironmentTagsError = unknown;
+
+export type ReplaceEnvironmentTagsData = {
+    body?: TagRelationshipFieldsetsListingDocument;
+    path: {
+        /**
+         * The environment whose tags will be replaced.
+         *
+         */
+        environment: string;
+    };
+};
+
+export type ReplaceEnvironmentTagsResponse = void;
+
+export type ReplaceEnvironmentTagsError = unknown;
+
+export type AddEnvironmentTagsData = {
+    body?: TagRelationshipFieldsetsListingDocument;
+    path: {
+        /**
+         * The environment to add the tags to.
+         *
+         */
+        environment: string;
+    };
+};
+
+export type AddEnvironmentTagsResponse = void;
+
+export type AddEnvironmentTagsError = unknown;
+
 export type GetPlanData = {
     path: {
         /**
@@ -9033,6 +9343,213 @@ export type $OpenApiTs = {
                  * Apply not found or user unauthorized to perform action.
                  */
                 '404': unknown;
+                /**
+                 * Client error.
+                 */
+                '4XX': unknown;
+                /**
+                 * Server error.
+                 */
+                '5XX': unknown;
+            };
+        };
+    };
+    '/environments': {
+        get: {
+            req: ListEnvironmentsData;
+            res: {
+                /**
+                 * Success.
+                 */
+                '200': EnvironmentListingDocument;
+                /**
+                 * Account not found or user unauthorized to perform action.
+                 */
+                '404': unknown;
+                /**
+                 * Client error.
+                 */
+                '4XX': unknown;
+                /**
+                 * Server error.
+                 */
+                '5XX': unknown;
+            };
+        };
+        post: {
+            req: CreateEnvironmentData;
+            res: {
+                /**
+                 * The environment was created.
+                 */
+                '201': EnvironmentDocument;
+                /**
+                 * Account relationship not found, or user unauthorized to perform action.
+                 */
+                '404': unknown;
+                /**
+                 * Invalid arguments.
+                 */
+                '422': unknown;
+                /**
+                 * Client error.
+                 */
+                '4XX': unknown;
+                /**
+                 * Server error.
+                 */
+                '5XX': unknown;
+            };
+        };
+    };
+    '/environments/{environment}': {
+        delete: {
+            req: DeleteEnvironmentData;
+            res: {
+                /**
+                 * Successfully deleted the environment.
+                 */
+                '204': void;
+                /**
+                 * Environment deletion is forbidden.
+                 */
+                '403': unknown;
+                /**
+                 * Environment not found, or user unauthorized to perform action.
+                 */
+                '404': unknown;
+                /**
+                 * Client error.
+                 */
+                '4XX': unknown;
+                /**
+                 * Server error.
+                 */
+                '5XX': unknown;
+            };
+        };
+        get: {
+            req: GetEnvironmentData;
+            res: {
+                /**
+                 * Success.
+                 */
+                '200': EnvironmentDocument;
+                /**
+                 * Environment not found or user unauthorized to perform action.
+                 */
+                '404': unknown;
+                /**
+                 * Client error.
+                 */
+                '4XX': unknown;
+                /**
+                 * Server error.
+                 */
+                '5XX': unknown;
+            };
+        };
+        patch: {
+            req: UpdateEnvironmentData;
+            res: {
+                /**
+                 * Successfully updated the environment.
+                 */
+                '200': EnvironmentDocument;
+                /**
+                 * Environment or relationship not found, or user unauthorized to perform action.
+                 */
+                '404': unknown;
+                /**
+                 * Invalid arguments.
+                 */
+                '422': unknown;
+                /**
+                 * Client error.
+                 */
+                '4XX': unknown;
+                /**
+                 * Server error.
+                 */
+                '5XX': unknown;
+            };
+        };
+    };
+    '/environments/{environment}/relationships/tags': {
+        delete: {
+            req: DeleteEnvironmentTagsData;
+            res: {
+                /**
+                 * Success.
+                 */
+                '204': void;
+                /**
+                 * User unauthorized to perform this action.
+                 */
+                '403': unknown;
+                /**
+                 * Client error.
+                 */
+                '4XX': unknown;
+                /**
+                 * Server error.
+                 */
+                '5XX': unknown;
+            };
+        };
+        get: {
+            req: ListEnvironmentTagsData;
+            res: {
+                /**
+                 * Success.
+                 */
+                '200': TagRelationshipFieldsetsListingDocument;
+                /**
+                 * User unauthorized to perform this action.
+                 */
+                '403': unknown;
+                /**
+                 * Client error.
+                 */
+                '4XX': unknown;
+                /**
+                 * Server error.
+                 */
+                '5XX': unknown;
+            };
+        };
+        patch: {
+            req: ReplaceEnvironmentTagsData;
+            res: {
+                /**
+                 * Success.
+                 */
+                '204': void;
+                /**
+                 * User unauthorized to perform this action.
+                 */
+                '403': unknown;
+                /**
+                 * Client error.
+                 */
+                '4XX': unknown;
+                /**
+                 * Server error.
+                 */
+                '5XX': unknown;
+            };
+        };
+        post: {
+            req: AddEnvironmentTagsData;
+            res: {
+                /**
+                 * Success.
+                 */
+                '204': void;
+                /**
+                 * User unauthorized to perform this action.
+                 */
+                '403': unknown;
                 /**
                  * Client error.
                  */

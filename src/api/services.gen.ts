@@ -38,6 +38,33 @@ import type {
     GetApplyLogData,
     GetApplyLogError,
     GetApplyLogResponse,
+    ListEnvironmentsData,
+    ListEnvironmentsError,
+    ListEnvironmentsResponse,
+    CreateEnvironmentData,
+    CreateEnvironmentError,
+    CreateEnvironmentResponse,
+    DeleteEnvironmentData,
+    DeleteEnvironmentError,
+    DeleteEnvironmentResponse,
+    GetEnvironmentData,
+    GetEnvironmentError,
+    GetEnvironmentResponse,
+    UpdateEnvironmentData,
+    UpdateEnvironmentError,
+    UpdateEnvironmentResponse,
+    DeleteEnvironmentTagsData,
+    DeleteEnvironmentTagsError,
+    DeleteEnvironmentTagsResponse,
+    ListEnvironmentTagsData,
+    ListEnvironmentTagsError,
+    ListEnvironmentTagsResponse,
+    ReplaceEnvironmentTagsData,
+    ReplaceEnvironmentTagsError,
+    ReplaceEnvironmentTagsResponse,
+    AddEnvironmentTagsData,
+    AddEnvironmentTagsError,
+    AddEnvironmentTagsResponse,
     GetPlanData,
     GetPlanError,
     GetPlanResponse,
@@ -298,6 +325,108 @@ export const getApplyLog = (options: Options<GetApplyLogData>) => {
     return (options?.client ?? client).get<GetApplyLogResponse, GetApplyLogError>({
         ...options,
         url: '/applies/{apply}/output',
+    });
+};
+
+/**
+ * List Environments
+ * This endpoint lists account environments.
+ */
+export const listEnvironments = (options?: Options<ListEnvironmentsData>) => {
+    return (options?.client ?? client).get<ListEnvironmentsResponse, ListEnvironmentsError>({
+        ...options,
+        url: '/environments',
+    });
+};
+
+/**
+ * Create an Environment
+ * Create a new environment in the account.
+ */
+export const createEnvironment = (options?: Options<CreateEnvironmentData>) => {
+    return (options?.client ?? client).post<CreateEnvironmentResponse, CreateEnvironmentError>({
+        ...options,
+        url: '/environments',
+    });
+};
+
+/**
+ * Delete an Environment
+ */
+export const deleteEnvironment = (options: Options<DeleteEnvironmentData>) => {
+    return (options?.client ?? client).delete<DeleteEnvironmentResponse, DeleteEnvironmentError>({
+        ...options,
+        url: '/environments/{environment}',
+    });
+};
+
+/**
+ * Get an Environment
+ * Show details of a specific environment.
+ */
+export const getEnvironment = (options: Options<GetEnvironmentData>) => {
+    return (options?.client ?? client).get<GetEnvironmentResponse, GetEnvironmentError>({
+        ...options,
+        url: '/environments/{environment}',
+    });
+};
+
+/**
+ * Update Environment
+ */
+export const updateEnvironment = (options: Options<UpdateEnvironmentData>) => {
+    return (options?.client ?? client).patch<UpdateEnvironmentResponse, UpdateEnvironmentError>({
+        ...options,
+        url: '/environments/{environment}',
+    });
+};
+
+/**
+ * Delete environment's tags
+ * This endpoint removes given [tags](tags.html#the-tag-resource) from the environment.
+ *
+ */
+export const deleteEnvironmentTags = (options: Options<DeleteEnvironmentTagsData>) => {
+    return (options?.client ?? client).delete<DeleteEnvironmentTagsResponse, DeleteEnvironmentTagsError>({
+        ...options,
+        url: '/environments/{environment}/relationships/tags',
+    });
+};
+
+/**
+ * List environment's tags
+ * This endpoint returns a list of [tags](tags.html#the-tag-resource),
+ * assigned to an environment.
+ *
+ */
+export const listEnvironmentTags = (options: Options<ListEnvironmentTagsData>) => {
+    return (options?.client ?? client).get<ListEnvironmentTagsResponse, ListEnvironmentTagsError>({
+        ...options,
+        url: '/environments/{environment}/relationships/tags',
+    });
+};
+
+/**
+ * Replace environment's tags
+ * This endpoint completely replaces environment's tags with provided list.
+ *
+ */
+export const replaceEnvironmentTags = (options: Options<ReplaceEnvironmentTagsData>) => {
+    return (options?.client ?? client).patch<ReplaceEnvironmentTagsResponse, ReplaceEnvironmentTagsError>({
+        ...options,
+        url: '/environments/{environment}/relationships/tags',
+    });
+};
+
+/**
+ * Add tags to the environment
+ * This endpoint assigns the list of [tags](tags.html#the-tag-resource) to the environment.
+ *
+ */
+export const addEnvironmentTags = (options: Options<AddEnvironmentTagsData>) => {
+    return (options?.client ?? client).post<AddEnvironmentTagsResponse, AddEnvironmentTagsError>({
+        ...options,
+        url: '/environments/{environment}/relationships/tags',
     });
 };
 

@@ -1,10 +1,17 @@
 import * as vscode from 'vscode';
-import { Workspace, Environment, Run, WorkspaceListingDocument } from '../api/types.gen';
-import { getWorkspaces } from '../api/services.gen';
+import { Workspace, Environment, Run, WorkspaceListingDocument, EnvironmentListingDocument } from '../api/types.gen';
+import { getWorkspaces, listEnvironments } from '../api/services.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
 import { formatDate } from '../date-utils';
+
+class QuickPickItem implements vscode.QuickPickItem {
+    constructor(
+        public label: string,
+        public id: string
+    ) {}
+}
 
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
@@ -12,6 +19,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
     private nextPage: null | number = null;
     private workspaces: vscode.TreeItem[] = [];
+    private filters: Map<string, string> = new Map();
 
     constructor(
         private ctx: vscode.ExtensionContext,
@@ -31,7 +39,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 this.refresh();
                 this.runProvider.reset();
                 this.runProvider.refresh(ws);
-            })
+            }),
+            vscode.commands.registerCommand('workspace.filter', () => this.chooseFilterOrClear())
         );
     }
     getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
@@ -56,6 +65,10 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             workspaces.push(new LoadMoreItem());
         }
 
+        if (this.filters.size > 0) {
+            workspaces.unshift(new FilterInfoItem(this.filters));
+        }
+
         return workspaces;
     }
 
@@ -77,6 +90,13 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             return [];
         }
 
+        const queryFilters: { [key: string]: string | undefined } = {};
+
+        for (const [filterKey, filterValue] of this.filters.entries()) {
+            const filterName = filterKey !== 'query' ? `filter[${filterKey}]` : filterKey;
+            queryFilters[filterName] = filterValue;
+        }
+
         const { data, error } = await getWorkspaces({
             query: {
                 include: ['latest-run', 'environment'],
@@ -86,6 +106,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 },
                 // @ts-expect-error TODO:ape this is must be fixed in our product
                 sort: ['-updated-at'],
+                ...queryFilters,
             },
         });
 
@@ -118,6 +139,112 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
             return new WorkspaceItem(session.baseUrl, environment, workspace, run);
         });
+    }
+
+    private async chooseFilterOrClear() {
+        const filterType = await vscode.window.showQuickPick(['By Environments', 'By Tags', 'Clear Filters'], {
+            placeHolder: 'Choose a filter type or clear all filters',
+        });
+
+        if (filterType === 'Clear Filters') {
+            this.filters.clear();
+            this.reset();
+            this.refresh();
+            return;
+        }
+
+        if (!filterType) {
+            vscode.window.showInformationMessage('No filter type selected');
+            return;
+        }
+
+        await this.enterFilterValue(filterType);
+    }
+
+    private async enterFilterValue(filterType: string) {
+        switch (filterType) {
+            case 'By Environments': {
+                const environments = await vscode.window.showQuickPick(this.getEnvironmentQuickPick(), {
+                    placeHolder: 'Select one or more environment filter by',
+                    canPickMany: true,
+                });
+
+                if (environments) {
+                    this.filters.set('environment', 'in:' + environments.map((env) => env.id).join(','));
+                }
+                break;
+            }
+            case 'By Tags': {
+                const tag = await vscode.window.showInputBox({
+                    placeHolder: 'Enter tag name',
+                    prompt: 'Filter by tag name',
+                });
+                if (tag) {
+                    this.filters.set('tags', tag);
+                }
+                break;
+            }
+            case 'by Query': {
+                const query = await vscode.window.showInputBox({
+                    placeHolder: 'Enter query',
+                    prompt: 'Filter by query',
+                });
+                if (query) {
+                    this.filters.set('query', query);
+                }
+                break;
+            }
+            default:
+                throw new Error('Unknown filter type');
+        }
+
+        this.reset();
+        this.refresh();
+    }
+
+    private async getEnvironmentQuickPick(): Promise<QuickPickItem[]> {
+        const { data, error } = await listEnvironments({
+            query: {
+                fields: { environments: 'name' },
+                page: {
+                    size: 100,
+                },
+            },
+        });
+
+        if (error || !data) {
+            vscode.window.showErrorMessage('Failed to fetch environments' + error);
+            return [];
+        }
+
+        data as EnvironmentListingDocument;
+        let environments = data.data as Environment[];
+        let pagination = data.meta?.pagination as Pagination;
+
+        while (pagination['next-page']) {
+            const { data: nextPageData, error: nextError } = await listEnvironments({
+                query: {
+                    fields: { environments: 'name' },
+                    page: {
+                        size: 100,
+                        number: pagination['next-page'],
+                    },
+                },
+            });
+
+            if (nextError || !nextPageData) {
+                vscode.window.showErrorMessage('Failed to fetch environments' + nextError);
+                return [];
+            }
+
+            environments = [...environments, ...(nextPageData.data as Environment[])];
+            pagination = nextPageData.meta?.pagination as Pagination;
+        }
+
+        return environments.map((env) => ({
+            label: env.attributes.name,
+            id: env.id as string,
+        }));
     }
 
     dispose() {
@@ -173,6 +300,17 @@ class LoadMoreItem extends vscode.TreeItem {
         this.command = {
             command: 'workspace.loadMore',
             title: 'Show more',
+            tooltip: 'Load more workspaces',
         };
+    }
+}
+
+class FilterInfoItem extends vscode.TreeItem {
+    constructor(private filters: Map<string, string>) {
+        super('Applied Filters:', vscode.TreeItemCollapsibleState.None);
+        this.description = Array.from(filters.entries())
+            .map(([key, value]) => `${key}: ${value}`)
+            .join(', ');
+        this.iconPath = new vscode.ThemeIcon('filter');
     }
 }

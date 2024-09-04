@@ -94,10 +94,21 @@
                 "title": "Refresh",
                 "icon": "$(refresh)",
                 "enablement": "scalr.signed-in"
+            },
+            {
+                "command": "workspace.filter",
+                "title": "Filter",
+                "icon": "$(filter)",
+                "enablement": "scalr.signed-in"
             }
         ],
         "menus": {
             "view/title": [
+                {
+                    "command": "workspace.filter",
+                    "group": "navigation",
+                    "when": "view == workspaces"
+                },
                 {
                     "command": "workspace.refresh",
                     "group": "navigation",
