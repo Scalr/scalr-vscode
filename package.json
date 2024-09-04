@@ -2,10 +2,10 @@
     "name": "scalr",
     "displayName": "Scalr",
     "description": "The Scalr VSCode Extension is a tool designed to streamline your Terraform workflows by integrating Scalr directly into your Visual Studio Code environment.",
-    "version": "0.0.1",
+    "version": "0.0.2",
     "icon": "assets/scalr_full_colour.png",
     "license": "MPL-2.0",
-    "publisher": "Scalr Inc.",
+    "publisher": "Scalr",
     "engines": {
         "vscode": "^1.91.0"
     },
