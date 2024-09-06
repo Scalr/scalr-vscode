@@ -323,6 +323,11 @@ class FilterInfoItem extends vscode.TreeItem {
 
         this.iconPath = new vscode.ThemeIcon('filter-filled');
         this.contextValue = 'workspaceFilterInfo';
+        this.command = {
+            command: 'workspace.filter',
+            title: 'Change filters',
+            tooltip: 'Change applied filters',
+        };
     }
 }
 
