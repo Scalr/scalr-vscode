@@ -162,7 +162,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     }
 
     private async enterFilterValue(filterType: string) {
-        const delay = 500;
+        const delay = 300;
         let typingTimer: NodeJS.Timeout | null = null;
 
         switch (filterType) {
@@ -170,11 +170,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 const environmentsQuickPicks = vscode.window.createQuickPick();
                 environmentsQuickPicks.items = await this.getEnvironmentQuickPick();
                 environmentsQuickPicks.title = 'Select one or more environments';
-                environmentsQuickPicks.placeholder = 'Enter a workspace name or ID';
+                environmentsQuickPicks.placeholder = 'Enter a environment name or ID';
                 environmentsQuickPicks.canSelectMany = true;
                 environmentsQuickPicks.selectedItems = environmentsQuickPicks.items.filter((env) => {
                     // @ts-expect-error we override the type with our custom property
-                    return (this.filters.get('environment') || []).includes(env.id);
+                    return this.filters.get('environment')?.some((selectedEnv) => selectedEnv.id === env.id);
                 });
 
                 environmentsQuickPicks.onDidChangeValue((value) => {
@@ -310,7 +310,7 @@ class FilterInfoItem extends vscode.TreeItem {
     constructor(private filters: Map<WorkspaceFilterApiType, QuickPickItem[] | string>) {
         super('Applied Filters', vscode.TreeItemCollapsibleState.None);
         this.description = 'By ' + Array.from(filters.keys()).join(', ');
-        this.tooltip = 'Applied filters: \n';
+        this.tooltip = '';
         for (const [filterKey, filterValue] of filters.entries()) {
             this.tooltip += `${filterKey}:  `;
             if (Array.isArray(filterValue)) {
