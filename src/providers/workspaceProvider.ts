@@ -6,25 +6,19 @@ import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
 import { formatDate } from '../date-utils';
 
-class QuickPickItem implements vscode.QuickPickItem {
-    constructor(
-        public label: string,
-        public id: string
-    ) {}
-}
-
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
 
     private nextPage: null | number = null;
     private workspaces: vscode.TreeItem[] = [];
-    private filters: Map<string, string> = new Map();
+    private filters: Map<WorkspaceFilterApiType, string[] | string>;
 
     constructor(
         private ctx: vscode.ExtensionContext,
         private runProvider: RunTreeDataProvider
     ) {
+        this.filters = this.loadFilters();
         ctx.subscriptions.push(
             vscode.commands.registerCommand('workspace.open', (ws: WorkspaceItem) => {
                 vscode.env.openExternal(ws.webLink);
@@ -40,7 +34,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 this.runProvider.reset();
                 this.runProvider.refresh(ws);
             }),
-            vscode.commands.registerCommand('workspace.filter', () => this.chooseFilterOrClear())
+            vscode.commands.registerCommand('workspace.filter', () => this.chooseFilterOrClear()),
+            vscode.commands.registerCommand('workspace.clearFilters', () => {
+                this.filters.clear();
+                this.applyFilters();
+            })
         );
     }
     getTreeItem(element: vscode.TreeItem): vscode.TreeItem {
@@ -81,6 +79,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         this.didChangeTreeData.fire();
     }
 
+    private loadFilters() {
+        const savedFilters = this.ctx.workspaceState.get<string>('workspaceFilters');
+        return savedFilters ? new Map(JSON.parse(savedFilters)) : new Map();
+    }
+
     private async getWorkspaces(): Promise<vscode.TreeItem[]> {
         const session = (await vscode.authentication.getSession(ScalrAuthenticationProvider.id, [], {
             createIfNone: false,
@@ -94,7 +97,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
         for (const [filterKey, filterValue] of this.filters.entries()) {
             const filterName = filterKey !== 'query' ? `filter[${filterKey}]` : filterKey;
-            queryFilters[filterName] = filterValue;
+            if (Array.isArray(filterValue)) {
+                queryFilters[filterName] = 'in:' + filterValue.join(',');
+            } else {
+                queryFilters[filterName] = filterValue;
+            }
         }
 
         const { data, error } = await getWorkspaces({
@@ -142,16 +149,9 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     }
 
     private async chooseFilterOrClear() {
-        const filterType = await vscode.window.showQuickPick(['By Environments', 'By Tags', 'Clear Filters'], {
+        const filterType = await vscode.window.showQuickPick(Object.values(WorkspaceFilter), {
             placeHolder: 'Choose a filter type or clear all filters',
         });
-
-        if (filterType === 'Clear Filters') {
-            this.filters.clear();
-            this.reset();
-            this.refresh();
-            return;
-        }
 
         if (!filterType) {
             vscode.window.showInformationMessage('No filter type selected');
@@ -162,53 +162,78 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     }
 
     private async enterFilterValue(filterType: string) {
+        const delay = 500;
+        let typingTimer: NodeJS.Timeout | null = null;
+
         switch (filterType) {
-            case 'By Environments': {
-                const environments = await vscode.window.showQuickPick(this.getEnvironmentQuickPick(), {
-                    placeHolder: 'Select one or more environment filter by',
-                    canPickMany: true,
+            case WorkspaceFilter.environment: {
+                const environmentsQuickPicks = vscode.window.createQuickPick();
+                environmentsQuickPicks.items = await this.getEnvironmentQuickPick();
+                environmentsQuickPicks.title = 'Select one or more environments';
+                environmentsQuickPicks.placeholder = 'Type to search by query';
+                environmentsQuickPicks.canSelectMany = true;
+                environmentsQuickPicks.selectedItems = environmentsQuickPicks.items.filter((env) => {
+                    // @ts-expect-error we override the type with our custom property
+                    return (this.filters.get('environment') || []).includes(env.id);
                 });
 
-                if (environments) {
-                    this.filters.set('environment', 'in:' + environments.map((env) => env.id).join(','));
-                }
-                break;
-            }
-            case 'By Tags': {
-                const tag = await vscode.window.showInputBox({
-                    placeHolder: 'Enter tag name',
-                    prompt: 'Filter by tag name',
+                environmentsQuickPicks.onDidChangeValue((value) => {
+                    if (typingTimer) {
+                        clearTimeout(typingTimer);
+                    }
+
+                    typingTimer = setTimeout(async () => {
+                        environmentsQuickPicks.items = await this.getEnvironmentQuickPick(value);
+                    }, delay);
                 });
-                if (tag) {
-                    this.filters.set('tags', tag);
-                }
+
+                environmentsQuickPicks.onDidAccept(() => {
+                    const selectedEnvironments = environmentsQuickPicks.selectedItems as QuickPickItem[];
+                    if (selectedEnvironments.length === 0) {
+                        this.filters.delete('environment');
+                    } else {
+                        this.filters.set(
+                            'environment',
+                            selectedEnvironments.map((env) => env.id)
+                        );
+                    }
+                    this.applyFilters();
+                    environmentsQuickPicks.hide();
+                });
+
+                environmentsQuickPicks.show();
                 break;
             }
-            case 'by Query': {
+            case WorkspaceFilter.query: {
                 const query = await vscode.window.showInputBox({
                     placeHolder: 'Enter query',
                     prompt: 'Filter by query',
                 });
                 if (query) {
                     this.filters.set('query', query);
+                } else {
+                    this.filters.delete('query');
                 }
+
+                this.applyFilters();
                 break;
             }
             default:
                 throw new Error('Unknown filter type');
         }
-
-        this.reset();
-        this.refresh();
     }
 
-    private async getEnvironmentQuickPick(): Promise<QuickPickItem[]> {
+    private applyFilters() {
+        this.reset();
+        this.refresh();
+        this.ctx.workspaceState.update('workspaceFilters', JSON.stringify(Array.from(this.filters.entries())));
+    }
+
+    private async getEnvironmentQuickPick(query?: string): Promise<QuickPickItem[]> {
         const { data, error } = await listEnvironments({
             query: {
                 fields: { environments: 'name' },
-                page: {
-                    size: 100,
-                },
+                query: query,
             },
         });
 
@@ -218,28 +243,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         }
 
         data as EnvironmentListingDocument;
-        let environments = data.data as Environment[];
-        let pagination = data.meta?.pagination as Pagination;
-
-        while (pagination['next-page']) {
-            const { data: nextPageData, error: nextError } = await listEnvironments({
-                query: {
-                    fields: { environments: 'name' },
-                    page: {
-                        size: 100,
-                        number: pagination['next-page'],
-                    },
-                },
-            });
-
-            if (nextError || !nextPageData) {
-                vscode.window.showErrorMessage('Failed to fetch environments' + nextError);
-                return [];
-            }
-
-            environments = [...environments, ...(nextPageData.data as Environment[])];
-            pagination = nextPageData.meta?.pagination as Pagination;
-        }
+        const environments = data.data as Environment[];
+        // const currentEnvironments = this.filters.get('environment') || [];
 
         return environments.map((env) => ({
             label: env.attributes.name,
@@ -247,9 +252,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         }));
     }
 
-    dispose() {
-        //
-    }
+    dispose() {}
 }
 
 export class WorkspaceItem extends vscode.TreeItem {
@@ -306,11 +309,27 @@ class LoadMoreItem extends vscode.TreeItem {
 }
 
 class FilterInfoItem extends vscode.TreeItem {
-    constructor(private filters: Map<string, string>) {
-        super('Applied Filters:', vscode.TreeItemCollapsibleState.None);
+    constructor(private filters: Map<WorkspaceFilterApiType, string[] | string>) {
+        super('Applied Filters', vscode.TreeItemCollapsibleState.None);
         this.description = Array.from(filters.entries())
             .map(([key, value]) => `${key}: ${value}`)
             .join(', ');
-        this.iconPath = new vscode.ThemeIcon('filter');
+        this.iconPath = new vscode.ThemeIcon('filter-filled');
+        this.contextValue = 'workspaceFilterInfo';
     }
 }
+
+class QuickPickItem implements vscode.QuickPickItem {
+    constructor(
+        public label: string,
+        public id: string
+    ) {}
+}
+
+enum WorkspaceFilter {
+    //important the key value must be the same as the filter key in the API
+    environment = 'By Environments',
+    query = 'By Query',
+}
+
+type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;
