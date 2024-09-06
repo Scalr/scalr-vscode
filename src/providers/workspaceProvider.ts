@@ -154,7 +154,6 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         });
 
         if (!filterType) {
-            vscode.window.showInformationMessage('No filter type selected');
             return;
         }
 
