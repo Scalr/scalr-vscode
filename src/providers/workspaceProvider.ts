@@ -150,7 +150,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
     private async chooseFilterOrClear() {
         const filterType = await vscode.window.showQuickPick(Object.values(WorkspaceFilter), {
-            placeHolder: 'Choose a filter type or clear all filters',
+            placeHolder: 'Select one of the filters below',
         });
 
         if (!filterType) {
@@ -170,7 +170,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 const environmentsQuickPicks = vscode.window.createQuickPick();
                 environmentsQuickPicks.items = await this.getEnvironmentQuickPick();
                 environmentsQuickPicks.title = 'Select one or more environments';
-                environmentsQuickPicks.placeholder = 'Type to search by query';
+                environmentsQuickPicks.placeholder = 'Enter a workspace name or ID';
                 environmentsQuickPicks.canSelectMany = true;
                 environmentsQuickPicks.selectedItems = environmentsQuickPicks.items.filter((env) => {
                     // @ts-expect-error we override the type with our custom property
@@ -204,8 +204,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             case WorkspaceFilter.query: {
                 const currentQuery = (this.filters.get('query') || '') as string;
                 const query = await vscode.window.showInputBox({
-                    placeHolder: currentQuery || 'Type to search by query',
-                    prompt: 'Filter by query',
+                    placeHolder: currentQuery || 'Enter a workspace name or ID',
+                    prompt: 'Filtering by workspace name or ID',
                 });
                 if (query) {
                     this.filters.set('query', query);
@@ -236,7 +236,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         });
 
         if (error || !data) {
-            vscode.window.showErrorMessage('Failed to fetch environments' + error);
+            vscode.window.showErrorMessage('Unable to get environments: ' + error);
             return [];
         }
 
@@ -300,7 +300,7 @@ class LoadMoreItem extends vscode.TreeItem {
         this.iconPath = new vscode.ThemeIcon('more', new vscode.ThemeColor('charts.gray'));
         this.command = {
             command: 'workspace.loadMore',
-            title: 'Show more',
+            title: 'Next page',
             tooltip: 'Load more workspaces',
         };
     }
@@ -335,8 +335,8 @@ class QuickPickItem implements vscode.QuickPickItem {
 
 enum WorkspaceFilter {
     //important the key value must be the same as the filter key in the API
-    environment = 'By Environments',
-    query = 'By Query',
+    environment = 'By environments',
+    query = 'By workspace name of ID',
 }
 
 type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;
