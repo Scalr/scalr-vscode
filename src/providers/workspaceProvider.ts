@@ -1,10 +1,32 @@
 import * as vscode from 'vscode';
 import { Workspace, Environment, Run, WorkspaceListingDocument, EnvironmentListingDocument } from '../api/types.gen';
-import { getWorkspaces, listEnvironments } from '../api/services.gen';
+import { getWorkspaces, listEnvironments, createRun } from '../api/services.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
 import { formatDate } from '../date-utils';
+
+class QuickPickItem implements vscode.QuickPickItem {
+    constructor(
+        public label: string,
+        public id: string
+    ) {}
+}
+
+enum WorkspaceFilter {
+    //important the key value must be the same as the filter key in the API
+    environment = 'By environments',
+    query = 'By workspace name of ID',
+}
+
+type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;
+
+enum RunTypes {
+    plan = 'Plan only',
+    apply = 'Plan & Apply',
+    refresh = 'Refresh-only',
+    destroy = 'Destroy',
+}
 
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
@@ -38,6 +60,9 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             vscode.commands.registerCommand('workspace.clearFilters', () => {
                 this.filters.clear();
                 this.applyFilters();
+            }),
+            vscode.commands.registerCommand('workspace.run', (ws: WorkspaceItem) => {
+                return this.createRun(ws);
             })
         );
     }
@@ -146,6 +171,66 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
             return new WorkspaceItem(session.baseUrl, environment, workspace, run);
         });
+    }
+
+    private async createRun(ws: WorkspaceItem) {
+        const runType = await vscode.window.showQuickPick(
+            [
+                {
+                    label: '$(run-all)',
+                    description: RunTypes.apply,
+                },
+                {
+                    label: '$(run)',
+                    description: RunTypes.plan,
+                },
+                {
+                    label: '$(refresh)',
+                    description: RunTypes.refresh,
+                },
+                {
+                    label: '$(close)',
+                    description: RunTypes.destroy,
+                },
+            ],
+            {
+                placeHolder: 'Queue new run',
+            }
+        );
+
+        if (runType) {
+            const { data, error } = await createRun({
+                body: {
+                    data: {
+                        type: 'runs',
+                        attributes: {
+                            'is-destroy': runType.description === RunTypes.destroy,
+                            'is-dry': runType.description === RunTypes.plan,
+                            'refresh-only': runType.description === RunTypes.refresh,
+                            message: 'Triggered from vscode',
+                        },
+                        relationships: {
+                            workspace: {
+                                data: {
+                                    type: 'workspaces',
+                                    id: ws.workspace.id as string,
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+
+            if (error || !data) {
+                vscode.window.showErrorMessage('Failed to create run' + error);
+                return;
+            }
+
+            const run = data.data as Run;
+            vscode.window.showInformationMessage(`Run ${run.id} has been created`);
+            this.runProvider.reset();
+            this.runProvider.refresh(ws);
+        }
     }
 
     private async chooseFilterOrClear() {
@@ -329,18 +414,3 @@ class FilterInfoItem extends vscode.TreeItem {
         };
     }
 }
-
-class QuickPickItem implements vscode.QuickPickItem {
-    constructor(
-        public label: string,
-        public id: string
-    ) {}
-}
-
-enum WorkspaceFilter {
-    //important the key value must be the same as the filter key in the API
-    environment = 'By environments',
-    query = 'By workspace name of ID',
-}
-
-type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;

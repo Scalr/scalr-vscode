@@ -106,6 +106,12 @@
                 "title": "Clear filters",
                 "icon": "$(clear-all)",
                 "enablement": "scalr.signed-in"
+            },
+            {
+                "command": "workspace.run",
+                "title": "Trigger Run",
+                "icon": "$(play)",
+                "enablement": "scalr.signed-in"
             }
         ],
         "menus": {
@@ -146,6 +152,11 @@
                     "command": "plan.open",
                     "group": "inline",
                     "when": "view == runs && viewItem =~ /planItem/"
+                },
+                {
+                    "command": "workspace.run",
+                    "group": "inline",
+                    "when": "view == workspaces && viewItem =~ /workspaceItem/"
                 },
                 {
                     "command": "workspace.clearFilters",
