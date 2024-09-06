@@ -8,7 +8,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.0.2]
 
--  Updated Workspaces widget: now users can filter workspaces by environments and perform search by workspaces name or ID. Filter are kept as long as session is active and applied automatically upon next launch of VSCode.
+-  Updated the Workspaces widget: now users can filter workspaces by environments and perform a search by workspace name or ID. Filters are kept as long as the session is active and applied automatically upon the next launch of VSCode.
 
 ## [0.0.1]
 ### New Features
