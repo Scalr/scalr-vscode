@@ -94,10 +94,27 @@
                 "title": "Refresh",
                 "icon": "$(refresh)",
                 "enablement": "scalr.signed-in"
+            },
+            {
+                "command": "workspace.filter",
+                "title": "Filter",
+                "icon": "$(filter)",
+                "enablement": "scalr.signed-in"
+            },
+            {
+                "command": "workspace.clearFilters",
+                "title": "Clear filters",
+                "icon": "$(clear-all)",
+                "enablement": "scalr.signed-in"
             }
         ],
         "menus": {
             "view/title": [
+                {
+                    "command": "workspace.filter",
+                    "group": "navigation",
+                    "when": "view == workspaces"
+                },
                 {
                     "command": "workspace.refresh",
                     "group": "navigation",
@@ -129,6 +146,11 @@
                     "command": "plan.open",
                     "group": "inline",
                     "when": "view == runs && viewItem =~ /planItem/"
+                },
+                {
+                    "command": "workspace.clearFilters",
+                    "group": "inline",
+                    "when": "view == workspaces && viewItem =~ /workspaceFilterInfo/"
                 }
             ]
         }
