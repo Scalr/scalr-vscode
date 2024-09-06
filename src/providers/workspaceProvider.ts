@@ -205,8 +205,9 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 break;
             }
             case WorkspaceFilter.query: {
+                const currentQuery = (this.filters.get('query') || '') as string;
                 const query = await vscode.window.showInputBox({
-                    placeHolder: 'Enter query',
+                    placeHolder: currentQuery || 'Type to search by query',
                     prompt: 'Filter by query',
                 });
                 if (query) {
