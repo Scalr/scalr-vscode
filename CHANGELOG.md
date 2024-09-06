@@ -6,6 +6,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.0.2]
+
+-  Updated Workspaces widget: now users can filter workspaces by environments and perform search by workspaces name or ID. Filter are kept as long as session is active and applied automatically upon next launch of VSCode.
+
+## [0.0.1]
 ### New Features
 
 -   **Workspaces Overview**: Logged-in users can now view a comprehensive list of available workspaces directly within the extension.
@@ -15,3 +20,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 -   **Scalr UI Integration**: Convenient UI links provide quick navigation to the relevant sections of the Scalr web UI.
 
 ---
+
+[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.2...HEAD
+[0.0.2]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.2
