@@ -12,7 +12,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
     private nextPage: null | number = null;
     private workspaces: vscode.TreeItem[] = [];
-    private filters: Map<WorkspaceFilterApiType, string[] | string>;
+    private filters: Map<WorkspaceFilterApiType, QuickPickItem[] | string>;
 
     constructor(
         private ctx: vscode.ExtensionContext,
@@ -98,7 +98,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         for (const [filterKey, filterValue] of this.filters.entries()) {
             const filterName = filterKey !== 'query' ? `filter[${filterKey}]` : filterKey;
             if (Array.isArray(filterValue)) {
-                queryFilters[filterName] = 'in:' + filterValue.join(',');
+                queryFilters[filterName] = 'in:' + filterValue.map((item) => item.id).join(',');
             } else {
                 queryFilters[filterName] = filterValue;
             }
@@ -192,10 +192,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                     if (selectedEnvironments.length === 0) {
                         this.filters.delete('environment');
                     } else {
-                        this.filters.set(
-                            'environment',
-                            selectedEnvironments.map((env) => env.id)
-                        );
+                        this.filters.set('environment', selectedEnvironments);
                     }
                     this.applyFilters();
                     environmentsQuickPicks.hide();
@@ -310,11 +307,20 @@ class LoadMoreItem extends vscode.TreeItem {
 }
 
 class FilterInfoItem extends vscode.TreeItem {
-    constructor(private filters: Map<WorkspaceFilterApiType, string[] | string>) {
+    constructor(private filters: Map<WorkspaceFilterApiType, QuickPickItem[] | string>) {
         super('Applied Filters', vscode.TreeItemCollapsibleState.None);
-        this.description = Array.from(filters.entries())
-            .map(([key, value]) => `${key}: ${value}`)
-            .join(', ');
+        this.description = 'By ' + Array.from(filters.keys()).join(', ');
+        this.tooltip = 'Applied filters: \n';
+        for (const [filterKey, filterValue] of filters.entries()) {
+            this.tooltip += `${filterKey}:  `;
+            if (Array.isArray(filterValue)) {
+                this.tooltip += filterValue.map((item) => item.label).join(', ');
+            } else {
+                this.tooltip += filterValue;
+            }
+            this.tooltip += '\n';
+        }
+
         this.iconPath = new vscode.ThemeIcon('filter-filled');
         this.contextValue = 'workspaceFilterInfo';
     }
