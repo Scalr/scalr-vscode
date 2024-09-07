@@ -21,7 +21,8 @@
         "opentofu"
     ],
     "activationEvents": [],
-    "main": "./dist/extension.js",
+    "main": "./dist/extension-node",
+    "browser": "./dist/extension-web",
     "contributes": {
         "viewsContainers": {
             "activitybar": [
