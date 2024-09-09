@@ -6,6 +6,20 @@ import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
 import { formatDate } from '../date-utils';
 
+class QuickPickItem implements vscode.QuickPickItem {
+    constructor(
+        public label: string,
+        public id: string
+    ) {}
+}
+
+enum WorkspaceFilter {
+    //important the key value must be the same as the filter key in the API
+    environment = 'By environments',
+    query = 'By workspace name of ID',
+}
+
+type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
@@ -118,7 +132,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         });
 
         if (error || !data) {
-            vscode.window.showErrorMessage('Failed to fetch workspaces' + error);
+            vscode.window.showErrorMessage('Failed to fetch workspaces: ' + error);
             return [];
         }
 
@@ -329,18 +343,3 @@ class FilterInfoItem extends vscode.TreeItem {
         };
     }
 }
-
-class QuickPickItem implements vscode.QuickPickItem {
-    constructor(
-        public label: string,
-        public id: string
-    ) {}
-}
-
-enum WorkspaceFilter {
-    //important the key value must be the same as the filter key in the API
-    environment = 'By environments',
-    query = 'By workspace name of ID',
-}
-
-type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;
