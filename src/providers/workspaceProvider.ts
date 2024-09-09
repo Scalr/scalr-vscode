@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { Workspace, Environment, Run, WorkspaceListingDocument, EnvironmentListingDocument } from '../api/types.gen';
-import { getWorkspaces, listEnvironments, createRun } from '../api/services.gen';
+import { getWorkspaces, listEnvironments } from '../api/services.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
@@ -20,14 +20,6 @@ enum WorkspaceFilter {
 }
 
 type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;
-
-enum RunTypes {
-    plan = 'Plan-only',
-    apply = 'Plan & Apply',
-    refresh = 'Refresh-only',
-    destroy = 'Destroy',
-}
-
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
@@ -60,9 +52,6 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             vscode.commands.registerCommand('workspace.clearFilters', () => {
                 this.filters.clear();
                 this.applyFilters();
-            }),
-            vscode.commands.registerCommand('workspace.run', (ws: WorkspaceItem) => {
-                return this.createRun(ws);
             })
         );
     }
@@ -171,69 +160,6 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
             return new WorkspaceItem(session.baseUrl, environment, workspace, run);
         });
-    }
-
-    private async createRun(ws: WorkspaceItem) {
-        const runType = await vscode.window.showQuickPick(
-            [
-                {
-                    label: '$(run-all)',
-                    description: RunTypes.apply,
-                },
-                {
-                    label: '$(run)',
-                    description: RunTypes.plan,
-                },
-                {
-                    label: '$(refresh)',
-                    description: RunTypes.refresh,
-                },
-                {
-                    label: '$(close)',
-                    description: RunTypes.destroy,
-                },
-            ],
-            {
-                placeHolder: 'Queue new run',
-            }
-        );
-
-        if (runType) {
-            const { data, error } = await createRun({
-                body: {
-                    data: {
-                        type: 'runs',
-                        attributes: {
-                            'is-destroy': runType.description === RunTypes.destroy,
-                            'is-dry': runType.description === RunTypes.plan,
-                            'refresh-only': runType.description === RunTypes.refresh,
-                            message: 'Triggered from VScode',
-                            source: 'vscode',
-                        },
-                        relationships: {
-                            workspace: {
-                                data: {
-                                    type: 'workspaces',
-                                    id: ws.workspace.id as string,
-                                },
-                            },
-                        },
-                    },
-                },
-            });
-
-            if (error || !data) {
-                vscode.window.showErrorMessage('Failed to queue the run: ' + error);
-                return;
-            }
-
-            vscode.window.showInformationMessage(
-                `The run has been queued in workspace '${ws.workspace.attributes.name}'`
-            );
-
-            this.runProvider.reset();
-            this.runProvider.refresh(ws);
-        }
     }
 
     private async chooseFilterOrClear() {

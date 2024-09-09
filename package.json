@@ -108,7 +108,7 @@
                 "enablement": "scalr.signed-in"
             },
             {
-                "command": "workspace.run",
+                "command": "run.create",
                 "title": "Trigger Run",
                 "icon": "$(play)",
                 "enablement": "scalr.signed-in"
@@ -154,7 +154,7 @@
                     "when": "view == runs && viewItem =~ /planItem/"
                 },
                 {
-                    "command": "workspace.run",
+                    "command": "run.create",
                     "group": "inline",
                     "when": "view == workspaces && viewItem =~ /workspaceItem/"
                 },
