@@ -22,7 +22,7 @@ enum WorkspaceFilter {
 type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;
 
 enum RunTypes {
-    plan = 'Plan only',
+    plan = 'Plan-only',
     apply = 'Plan & Apply',
     refresh = 'Refresh-only',
     destroy = 'Destroy',
@@ -143,7 +143,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         });
 
         if (error || !data) {
-            vscode.window.showErrorMessage('Failed to fetch workspaces' + error);
+            vscode.window.showErrorMessage('Failed to fetch workspaces: ' + error);
             return [];
         }
 
@@ -207,7 +207,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                             'is-destroy': runType.description === RunTypes.destroy,
                             'is-dry': runType.description === RunTypes.plan,
                             'refresh-only': runType.description === RunTypes.refresh,
-                            message: 'Triggered from vscode',
+                            message: 'Triggered from VScode',
+                            source: 'vscode',
                         },
                         relationships: {
                             workspace: {
@@ -222,12 +223,14 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             });
 
             if (error || !data) {
-                vscode.window.showErrorMessage('Failed to create run' + error);
+                vscode.window.showErrorMessage('Failed to queue the run: ' + error);
                 return;
             }
 
-            const run = data.data as Run;
-            vscode.window.showInformationMessage(`Run ${run.id} has been created`);
+            vscode.window.showInformationMessage(
+                `The run has been queued in workspace '${ws.workspace.attributes.name}'`
+            );
+
             this.runProvider.reset();
             this.runProvider.refresh(ws);
         }

@@ -178,7 +178,7 @@ class RunItem extends vscode.TreeItem {
         let reason = run.attributes?.['error-message'] || run.attributes?.['message'] || `Queued from ${source} `;
         const createdByLabel = this.createdBy?.attributes?.email || run.relationships?.['created-by-run'] || 'unknown';
         if (createdByLabel !== 'unknown') {
-            reason += `by ${createdByLabel}`;
+            reason += ` by ${createdByLabel}`;
         }
 
         const createdAt = formatDate(run.attributes?.['created-at'] as string);
@@ -310,6 +310,8 @@ export function getSource(source?: string): string {
         case 'api':
         case 'configuration-version':
             return 'API';
+        case 'vscode':
+            return 'VSCode';
         default:
             return source ?? 'unknown';
     }
