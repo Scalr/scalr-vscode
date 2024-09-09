@@ -10,11 +10,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Features
 
--   Added the ability to trigger Plan-only, Plan & Apply, and Destroy runs in a workspace. [#22](https://github.com/Scalr/scalr-vscode/pull/22)
+-   Added the ability to trigger Plan-only, Plan & Apply, and Destroy runs in a workspace. ([#22](https://github.com/Scalr/scalr-vscode/pull/22))
 
 ### Improvements
 
--   Added logs streaming for active runs.  [#22](https://github.com/Scalr/scalr-vscode/pull/22)
+-   Added logs streaming for active runs.  ([#22](https://github.com/Scalr/scalr-vscode/pull/22))
 
 ## [0.0.2]
 
