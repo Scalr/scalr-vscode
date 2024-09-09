@@ -30,6 +30,7 @@ export class LogProvider implements vscode.TextDocumentContentProvider, vscode.D
         this.interval[uriString] = setInterval(async () => {
             const status = await this.getStatus(uri);
             if (status === undefined || this.finalStatuses.includes(status)) {
+                this._onDidChange.fire(uri);
                 this.stopStreaming(uri);
                 return;
             }
