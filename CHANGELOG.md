@@ -6,11 +6,22 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.0.3]
+
+### Features
+
+-   Added the ability to trigger Plan-only, Plan & Apply, and Destroy runs in a workspace. [#22](https://github.com/Scalr/scalr-vscode/pull/22)
+
+### Improvements
+
+-   Added logs streaming for active runs.  [#22](https://github.com/Scalr/scalr-vscode/pull/22)
+
 ## [0.0.2]
 
 -  Updated the Workspaces widget: now users can filter workspaces by environments and perform a search by workspace name or ID. Filters are kept as long as the session is active and applied automatically upon the next launch of VSCode.
 
 ## [0.0.1]
+
 ### New Features
 
 -   **Workspaces Overview**: Logged-in users can now view a comprehensive list of available workspaces directly within the extension.
@@ -21,5 +32,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ---
 
-[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.2...HEAD
+[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.3...HEAD
+[0.0.3]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.3
 [0.0.2]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.2

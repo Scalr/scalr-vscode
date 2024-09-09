@@ -34,7 +34,7 @@ export class LogProvider implements vscode.TextDocumentContentProvider, vscode.D
                 return;
             }
             this._onDidChange.fire(uri);
-        }, 2000);
+        }, 3000);
     }
 
     stopStreaming(uri: vscode.Uri) {
