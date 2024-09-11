@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { getPlanLog, getApply, getApplyLog, getPlan } from '../api/services.gen';
 import { ScalrAuthenticationProvider } from '../providers/authenticationProvider';
+import { showErrorMessage } from '../api/error';
 
 export class LogProvider implements vscode.TextDocumentContentProvider, vscode.Disposable {
     _onDidChange = new vscode.EventEmitter<vscode.Uri>();
@@ -65,7 +66,7 @@ export class LogProvider implements vscode.TextDocumentContentProvider, vscode.D
         }
 
         if (error || !data || !data.data) {
-            vscode.window.showErrorMessage(`Failed to fetch status: ${error}`);
+            showErrorMessage(error, 'Failed to fetch status');
             return;
         }
 

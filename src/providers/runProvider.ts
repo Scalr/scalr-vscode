@@ -7,6 +7,7 @@ import { getPlanStatusIcon, getPlanLabel } from './planProvider';
 import { WorkspaceItem } from './workspaceProvider';
 import { formatDate } from '../date-utils';
 import { Pagination } from '../@types/api';
+import { showErrorMessage } from '../api/error';
 
 export type RunTreeItem = RunItem | ApplyItem | PlanItem | LoadMoreItem;
 
@@ -105,13 +106,13 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             });
 
             if (error || !data || !data.data) {
-                vscode.window.showErrorMessage('Failed to queue the run: ' + error);
+                showErrorMessage(error, 'Failed to queue the run');
                 return;
             }
 
             const planId = data.data.relationships?.plan?.data?.id as string;
             if (!planId) {
-                vscode.window.showErrorMessage('Failed to retrieve the plan ID.');
+                showErrorMessage(error, 'Failed to retrieve the plan ID');
                 return;
             }
 
@@ -122,7 +123,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             });
 
             if (planError || !planData || !planData.data) {
-                vscode.window.showErrorMessage('Failed to retrieve the plan: ' + planError);
+                showErrorMessage(error, 'Failed to retrieve the plan');
                 return;
             }
 
@@ -195,7 +196,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         });
 
         if (error) {
-            vscode.window.showErrorMessage('Failed to fetch runs');
+            showErrorMessage(error, 'Failed to load runs');
             return [];
         }
 

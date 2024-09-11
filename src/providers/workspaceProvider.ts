@@ -5,6 +5,7 @@ import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvi
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
 import { formatDate } from '../date-utils';
+import { showErrorMessage } from '../api/error';
 
 class QuickPickItem implements vscode.QuickPickItem {
     constructor(
@@ -132,7 +133,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         });
 
         if (error || !data) {
-            vscode.window.showErrorMessage('Failed to fetch workspaces: ' + error);
+            showErrorMessage(error, 'Unable to get workspaces');
             return [];
         }
 
@@ -249,7 +250,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         });
 
         if (error || !data) {
-            vscode.window.showErrorMessage('Unable to get environments: ' + error);
+            showErrorMessage(error, 'Unable to get environments');
             return [];
         }
 
