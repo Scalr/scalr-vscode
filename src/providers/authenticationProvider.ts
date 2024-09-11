@@ -1,7 +1,9 @@
 import * as vscode from 'vscode';
 import { initClient } from '../api/init';
+import { getErrorMessage } from '../api/error';
 import { getAccounts } from '../api/services.gen';
 import { AccountListingDocument, Account, User } from '../api/types.gen';
+
 /* import { getRemoteRepoIdentifiers } from '../git'; TODO: uncomment when we'll be implementing Git-based filters */
 
 export class ScalrSession implements vscode.AuthenticationSession {
@@ -94,7 +96,7 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
 
             return session;
         } catch (error) {
-            await vscode.window.showErrorMessage('Failed to load log: ' + error);
+            await vscode.window.showErrorMessage('Failed to log in: ' + error);
             throw error;
         }
     }
@@ -123,28 +125,34 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
                 filter: {
                     name: accountName,
                 },
+                fields: {
+                    accounts: 'name',
+                },
                 include: ['owner'],
             },
         });
 
         if (error || !data) {
-            throw new Error('Failed to load accounts: ' + error);
+            throw new Error(getErrorMessage(error));
         }
 
         const accounts = data as AccountListingDocument;
 
         if (!accounts.data || accounts.data.length === 0) {
-            throw new Error('No accounts found');
+            throw new Error('No accounts found with the provided name ' + accountName);
         }
 
         const account = accounts.data[0] as Account;
+        let email = 'unknown';
+        let fullName = 'unknown';
 
-        if (!accounts.included || accounts.included.length === 0) {
-            throw new Error('No owner found');
+        if (accounts.included && accounts.included.length !== 0) {
+            const owner = accounts.included[0] as User;
+            email = owner.attributes.email;
+            fullName = owner.attributes['full-name'] as string;
         }
 
-        const owner = accounts.included[0] as User;
-        return new ScalrSession(token, owner.attributes['full-name'] as string, owner.attributes.email, {
+        return new ScalrSession(token, fullName, email, {
             id: account.id as string,
             label: account.attributes.name,
         });
