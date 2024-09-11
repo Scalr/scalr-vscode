@@ -6,6 +6,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.0.4]
+
+### Fixed
+
+-   Add better error handling and reduce api call on create vscode session ([#28](https://github.com/Scalr/scalr-vscode/pull/28/files))
+
 ## [0.0.3]
 
 ### Features
@@ -14,11 +20,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ### Improvements
 
--   Added logs streaming for active runs.  ([#22](https://github.com/Scalr/scalr-vscode/pull/22))
+-   Added logs streaming for active runs. ([#22](https://github.com/Scalr/scalr-vscode/pull/22))
 
 ## [0.0.2]
 
--  Updated the Workspaces widget: now users can filter workspaces by environments and perform a search by workspace name or ID. Filters are kept as long as the session is active and applied automatically upon the next launch of VSCode.
+-   Updated the Workspaces widget: now users can filter workspaces by environments and perform a search by workspace name or ID. Filters are kept as long as the session is active and applied automatically upon the next launch of VSCode.
 
 ## [0.0.1]
 
@@ -32,6 +38,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ---
 
-[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.3...HEAD
+[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.4...HEAD
+[0.0.4]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.4
 [0.0.3]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.3
 [0.0.2]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.2
