@@ -90,6 +90,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         this.nextPage = null;
     }
 
+    resetFilters(): void {
+        this.filters.clear();
+        this.applyFilters();
+    }
+
     refresh(): void {
         this.didChangeTreeData.fire();
     }
@@ -264,7 +269,9 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         }));
     }
 
-    dispose() {}
+    dispose() {
+        this.ctx.workspaceState.update('workspaceFilters', undefined);
+    }
 }
 
 export class WorkspaceItem extends vscode.TreeItem {
