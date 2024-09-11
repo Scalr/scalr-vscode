@@ -20,7 +20,7 @@ export function getErrorMessage(error: unknown): string {
 
 export function showErrorMessage(error: unknown, prefix: string | undefined = undefined): void {
     if (prefix) {
-        vscode.window.showErrorMessage(prefix + ': ' + getErrorMessage(error));
+        vscode.window.showErrorMessage(prefix + '. ' + getErrorMessage(error));
         return;
     }
 
