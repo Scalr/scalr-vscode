@@ -96,7 +96,7 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
 
             return session;
         } catch (error) {
-            await vscode.window.showErrorMessage('Failed to load log: ' + error);
+            await vscode.window.showErrorMessage('Failed to log in: ' + error);
             throw error;
         }
     }
@@ -133,7 +133,7 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
         });
 
         if (error || !data) {
-            throw new Error('Failed to load accounts: ' + getErrorMessage(error));
+            throw new Error(getErrorMessage(error));
         }
 
         const accounts = data as AccountListingDocument;

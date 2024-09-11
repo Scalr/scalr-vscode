@@ -6,9 +6,11 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.0.4]
+
 ### Fixed
 
--   Add better error handling and reduce api call on create vscode session ([#28]https://github.com/Scalr/scalr-vscode/pull/28/files)
+-   Add better error handling and reduce api call on create vscode session ([#28](https://github.com/Scalr/scalr-vscode/pull/28/files))
 
 ## [0.0.3]
 
@@ -36,6 +38,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ---
 
-[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.3...HEAD
+[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.4...HEAD
+[0.0.4]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.4
 [0.0.3]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.3
 [0.0.2]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.2
