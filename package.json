@@ -199,6 +199,7 @@
     },
     "dependencies": {
         "@hey-api/client-fetch": "^0.1.13",
+        "@vscode-logging/logger": "^2.0.0",
         "date-fns": "^3.6.0"
     },
     "repository": {

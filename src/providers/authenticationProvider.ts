@@ -3,6 +3,7 @@ import { initClient } from '../api/init';
 import { getErrorMessage } from '../api/error';
 import { getAccounts } from '../api/services.gen';
 import { AccountListingDocument, Account, User } from '../api/types.gen';
+import { IVSCodeExtLogger } from '@vscode-logging/logger';
 
 /* import { getRemoteRepoIdentifiers } from '../git'; TODO: uncomment when we'll be implementing Git-based filters */
 
@@ -27,16 +28,14 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
     public static readonly providerLabel: string = 'scalr';
 
     private readonly sessionKey = 'scalr-session';
-    private logger: vscode.LogOutputChannel;
 
     private _onDidChangeSessions =
         new vscode.EventEmitter<vscode.AuthenticationProviderAuthenticationSessionsChangeEvent>();
 
-    constructor(private readonly ctx: vscode.ExtensionContext) {
-        this.logger = vscode.window.createOutputChannel('Scalr Auth', {
-            log: true,
-        });
-
+    constructor(
+        private readonly ctx: vscode.ExtensionContext,
+        private readonly logger: IVSCodeExtLogger
+    ) {
         this.ctx.subscriptions.push(
             vscode.commands.registerCommand('scalr.login', async () => {
                 const session = (await vscode.authentication.getSession(ScalrAuthenticationProvider.id, [], {
@@ -59,7 +58,7 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
             return [];
         }
 
-        initClient(session.account.label, session.accessToken);
+        initClient(session.account.label, session.accessToken, this.logger);
         await vscode.commands.executeCommand('setContext', 'scalr.signed-in', true);
 
         return [session];
@@ -118,7 +117,9 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
             throw new Error('Token is required');
         }
 
-        initClient(accountName, token);
+        this.logger.info('Creating session for account', [accountName]);
+
+        initClient(accountName, token, this.logger);
 
         const { data, error } = await getAccounts({
             query: {
@@ -133,6 +134,7 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
         });
 
         if (error || !data) {
+            this.logger.error('Failed to get accounts', error);
             throw new Error(getErrorMessage(error));
         }
 
@@ -152,10 +154,12 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
             fullName = owner.attributes['full-name'] as string;
         }
 
-        return new ScalrSession(token, fullName, email, {
+        const session = new ScalrSession(token, fullName, email, {
             id: account.id as string,
             label: account.attributes.name,
         });
+        this.logger.info('Session created for account3', [accountName]);
+        return session;
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
