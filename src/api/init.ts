@@ -12,8 +12,7 @@ export const initClient = (accountName: string, token: string, logger: IVSCodeEx
             array: { explode: false, style: 'form' },
         },
     });
-
-    client.interceptors.response.use((response: Response): Response => {
+    client.interceptors.response.use((response: Response, request: Request): Response => {
         if (response.ok) {
             return response;
         }
@@ -23,10 +22,15 @@ export const initClient = (accountName: string, token: string, logger: IVSCodeEx
             .json()
             .then((json) => {
                 const respJson = JSON.stringify(json, null, 2);
+                const requestInfo = `Request: ${request.method} ${request.url}`;
                 if (response.status >= 400 && response.status < 500) {
-                    logger.warn(`Client error: ${response.status} - ${response.statusText}. Response: ${respJson}`);
+                    logger.warn(
+                        `Client error: ${response.status} - ${response.statusText}. ${requestInfo}. Response: ${respJson}`
+                    );
                 } else if (response.status >= 500) {
-                    logger.error(`Server error: ${response.status} - ${response.statusText}. Response: ${respJson}`);
+                    logger.error(
+                        `Server error: ${response.status} - ${response.statusText}. ${requestInfo}. Response: ${respJson}`
+                    );
                 }
             });
 
