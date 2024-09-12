@@ -64,11 +64,6 @@
                 "enablement": "scalr.signed-in === false"
             },
             {
-                "command": "scalr.login.onprem",
-                "title": "Scalr: Login on prem",
-                "enablement": "scalr.signed-in === false"
-            },
-            {
                 "command": "workspace.open",
                 "title": "View workspace",
                 "icon": "$(globe)"
