@@ -3,10 +3,20 @@ import { ScalrAuthenticationProvider } from './providers/authenticationProvider'
 import { WorkspaceTreeDataProvider, WorkspaceItem } from './providers/workspaceProvider';
 import { RunTreeDataProvider } from './providers/runProvider';
 import { LogProvider } from './providers/logProvider';
+import { getExtensionLogger } from '@vscode-logging/logger';
 
 export class ScalrFeature implements vscode.Disposable {
     constructor(private ctx: vscode.ExtensionContext) {
-        const authProvider = new ScalrAuthenticationProvider(ctx);
+        const logger = getExtensionLogger({
+            extName: 'Scalr',
+            level: 'debug',
+            logPath: ctx.logUri.path,
+            logOutputChannel: vscode.window.createOutputChannel('Scalr'),
+            sourceLocationTracking: false,
+            logConsole: false,
+        });
+        logger.info('Scalr extension activated');
+        const authProvider = new ScalrAuthenticationProvider(ctx, logger);
         const runProvider = new RunTreeDataProvider(ctx);
         const workspaceDataProvider = new WorkspaceTreeDataProvider(ctx, runProvider);
         ctx.subscriptions.push(

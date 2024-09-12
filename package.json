@@ -64,6 +64,11 @@
                 "enablement": "scalr.signed-in === false"
             },
             {
+                "command": "scalr.login.onprem",
+                "title": "Scalr: Login on prem",
+                "enablement": "scalr.signed-in === false"
+            },
+            {
                 "command": "workspace.open",
                 "title": "View workspace",
                 "icon": "$(globe)"
@@ -199,6 +204,7 @@
     },
     "dependencies": {
         "@hey-api/client-fetch": "^0.1.13",
+        "@vscode-logging/logger": "^2.0.0",
         "date-fns": "^3.6.0"
     },
     "repository": {
