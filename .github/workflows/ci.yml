@@ -30,9 +30,3 @@ jobs:
 
             - name: Run tests
               run: npm test
-
-            - name: Build project (optional)
-              run: npm run build # Uncomment if you have a build script
-
-
-            # Add more steps as needed, such as linting, formatting, etc.
