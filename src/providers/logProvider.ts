@@ -9,7 +9,7 @@ export class LogProvider implements vscode.TextDocumentContentProvider, vscode.D
     onDidChange = this._onDidChange.event;
     private interval: { [key: string]: NodeJS.Timeout } = {};
     private finalStatuses = ['canceled', 'errored', 'finished', 'unreachable'];
-    // eslint-disable-next-line no-unused-vars
+
     async provideTextDocumentContent(uri: vscode.Uri): Promise<string> {
         await vscode.authentication.getSession(ScalrAuthenticationProvider.id, [], {
             createIfNone: false,
