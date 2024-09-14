@@ -173,7 +173,7 @@
         "package": "webpack --mode production --devtool hidden-source-map",
         "compile-tests": "tsc -p . --outDir out",
         "watch-tests": "tsc -p . -w --outDir out",
-        "pretest": "npm run compile-tests && npm run compile && npm run lint",
+        "pretest": "npm run compile-tests && npm run build && npm run lint",
         "lint": "eslint 'src/**/*.ts' --fix",
         "test": "vscode-test",
         "openapi-ts": "openapi-ts",
