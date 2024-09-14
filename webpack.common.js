@@ -2,7 +2,7 @@
 
 'use strict';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const path = require('path');
 
 //@ts-check
@@ -41,9 +41,8 @@ const extensionConfig = {
             },
         ],
     },
-    devtool: 'nosources-source-map',
     infrastructureLogging: {
         level: 'log', // enables logging required for problem matchers
     },
 };
-module.exports = [extensionConfig];
+module.exports = extensionConfig;
