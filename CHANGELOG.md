@@ -6,6 +6,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.0.5]
+
+### Improvements
+
+-   Web-Compatible Extension ([#23]https://github.com/Scalr/scalr-vscode/issues/23)
+
 ## [0.0.4]
 
 ### Fixed
