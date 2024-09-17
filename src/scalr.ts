@@ -20,6 +20,7 @@ export class ScalrFeature implements vscode.Disposable {
 
         vscode.authentication.onDidChangeSessions((e) => {
             if (e.provider.id === ScalrAuthenticationProvider.id) {
+                workspaceDataProvider.resetFilters();
                 workspaceDataProvider.reset();
                 workspaceDataProvider.refresh();
                 runProvider.reset();
@@ -27,7 +28,12 @@ export class ScalrFeature implements vscode.Disposable {
             }
         });
 
-        ctx.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider('scalr-logs', new LogProvider()));
+        const logProvider = new LogProvider();
+        vscode.workspace.onDidCloseTextDocument((doc) => {
+            logProvider.stopStreaming(doc.uri);
+        });
+
+        ctx.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider('scalr-logs', logProvider));
 
         const workspaceView = vscode.window.createTreeView('workspaces', {
             canSelectMany: false,

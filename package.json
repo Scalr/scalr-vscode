@@ -1,8 +1,8 @@
 {
     "name": "scalr",
     "displayName": "Scalr",
-    "description": "The Scalr VSCode Extension is a tool designed to streamline your Terraform workflows by integrating Scalr directly into your Visual Studio Code environment.",
-    "version": "0.0.2",
+    "description": "The Scalr VSCode Extension is a tool designed to streamline your Opentofu/Terraform workflows by integrating Scalr directly into your Visual Studio Code environment.",
+    "version": "0.0.3",
     "icon": "assets/scalr_full_colour.png",
     "license": "MPL-2.0",
     "publisher": "Scalr",
@@ -107,6 +107,12 @@
                 "title": "Clear filters",
                 "icon": "$(clear-all)",
                 "enablement": "scalr.signed-in"
+            },
+            {
+                "command": "run.create",
+                "title": "Trigger Run",
+                "icon": "$(play)",
+                "enablement": "scalr.signed-in"
             }
         ],
         "menus": {
@@ -147,6 +153,11 @@
                     "command": "plan.open",
                     "group": "inline",
                     "when": "view == runs && viewItem =~ /planItem/"
+                },
+                {
+                    "command": "run.create",
+                    "group": "inline",
+                    "when": "view == workspaces && viewItem =~ /workspaceItem/"
                 },
                 {
                     "command": "workspace.clearFilters",

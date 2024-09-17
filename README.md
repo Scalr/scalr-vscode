@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Scalr VSCode Extension is a tool designed to streamline your Terraform workflows by integrating Scalr directly into your Visual Studio Code environment. This extension allows you to manage workspaces, monitor runs, and access critical information about your infrastructure—without leaving your code editor.
+The Scalr VSCode Extension is a tool designed to streamline your Opentofu/Terraform workflows by integrating Scalr directly into your Visual Studio Code environment. This extension allows you to manage workspaces, monitor runs, and access critical information about your infrastructure—without leaving your code editor.
 
 ## Disclaimer: Early Stages
 
@@ -12,6 +12,7 @@ Please Note: This extension is currently in its early stages of development. Whi
 
 -   **Workspace Management**: View a comprehensive list of available workspaces for logged-in users.
 -   **Run Overview**: Access a list of all runs, with the ability to filter runs specific to a workspace.
+-   **Run triggering**: Preview, Apply, or Destroy infrastructure in the selected workspace and review changes right in the VSCode.
 -   **Detailed Information**: Get quick access to general information about any workspace or run.
 -   **Plan/Apply Output**: Read the output from Terraform plan and apply operations directly within VSCode.
 -   **Scalr UI Integration**: Convenient links provide quick navigation to the corresponding sections of the Scalr web UI.

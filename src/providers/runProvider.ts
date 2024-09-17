@@ -1,14 +1,22 @@
 import * as vscode from 'vscode';
 import { Run, Plan, Apply, User } from '../api/types.gen';
-import { getRuns } from '../api/services.gen';
+import { getRuns, getPlan, createRun } from '../api/services.gen';
 import { ScalrSession, ScalrAuthenticationProvider } from './authenticationProvider';
 import { getApplyStatusIcon, getApplyLabel } from './applyProvider';
 import { getPlanStatusIcon, getPlanLabel } from './planProvider';
 import { WorkspaceItem } from './workspaceProvider';
 import { formatDate } from '../date-utils';
 import { Pagination } from '../@types/api';
+import { showErrorMessage } from '../api/error';
 
 export type RunTreeItem = RunItem | ApplyItem | PlanItem | LoadMoreItem;
+
+enum RunTypes {
+    plan = 'Plan-only',
+    apply = 'Plan & Apply',
+    refresh = 'Refresh-only',
+    destroy = 'Destroy',
+}
 
 export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem> {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | RunTreeItem>();
@@ -24,8 +32,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
                 vscode.env.openExternal(run.webLink);
             }),
             vscode.commands.registerCommand('plan.open', async (plan: PlanItem) => {
-                const doc = await vscode.workspace.openTextDocument(plan.logUri);
-                return await vscode.window.showTextDocument(doc);
+                return await this.openTextDocument(plan.logUri);
             }),
             vscode.commands.registerCommand('apply.open', async (apply: ApplyItem) => {
                 const doc = await vscode.workspace.openTextDocument(apply.logUri);
@@ -37,6 +44,9 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             vscode.commands.registerCommand('run.refresh', () => {
                 this.reset();
                 this.refresh();
+            }),
+            vscode.commands.registerCommand('run.create', async (ws: WorkspaceItem) => {
+                return await this.createRun(ws);
             })
         );
     }
@@ -44,6 +54,92 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
     refresh(workspace?: WorkspaceItem): void {
         this.workspace = workspace;
         this.didChangeTreeData.fire();
+    }
+
+    private async createRun(ws: WorkspaceItem) {
+        const runType = await vscode.window.showQuickPick(
+            [
+                {
+                    label: '$(run-all)',
+                    description: RunTypes.apply,
+                },
+                {
+                    label: '$(run)',
+                    description: RunTypes.plan,
+                },
+                {
+                    label: '$(refresh)',
+                    description: RunTypes.refresh,
+                },
+                {
+                    label: '$(close)',
+                    description: RunTypes.destroy,
+                },
+            ],
+            {
+                placeHolder: 'Queue new run',
+            }
+        );
+
+        if (runType) {
+            const { data, error } = await createRun({
+                body: {
+                    data: {
+                        type: 'runs',
+                        attributes: {
+                            'is-destroy': runType.description === RunTypes.destroy,
+                            'is-dry': runType.description === RunTypes.plan,
+                            'refresh-only': runType.description === RunTypes.refresh,
+                            message: 'Triggered from VScode',
+                            source: 'vscode',
+                        },
+                        relationships: {
+                            workspace: {
+                                data: {
+                                    type: 'workspaces',
+                                    id: ws.workspace.id as string,
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+
+            if (error || !data || !data.data) {
+                showErrorMessage(error, 'Failed to queue the run');
+                return;
+            }
+
+            const planId = data.data.relationships?.plan?.data?.id as string;
+            if (!planId) {
+                showErrorMessage(error, 'Failed to retrieve the plan ID');
+                return;
+            }
+
+            const { data: planData, error: planError } = await getPlan({
+                path: {
+                    plan: planId,
+                },
+            });
+
+            if (planError || !planData || !planData.data) {
+                showErrorMessage(error, 'Failed to retrieve the plan');
+                return;
+            }
+
+            this.reset();
+            this.refresh(ws);
+            vscode.window.showInformationMessage(
+                `The run has been queued in workspace '${ws.workspace.attributes.name}'`
+            );
+            const logUri = new PlanItem(planData.data).logUri;
+            return await this.openTextDocument(logUri);
+        }
+    }
+
+    private async openTextDocument(uri: vscode.Uri): Promise<vscode.TextEditor> {
+        const doc = await vscode.workspace.openTextDocument(uri);
+        return await vscode.window.showTextDocument(doc);
     }
 
     reset(): void {
@@ -100,7 +196,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         });
 
         if (error) {
-            vscode.window.showErrorMessage('Failed to fetch runs');
+            showErrorMessage(error, 'Failed to load runs');
             return [];
         }
 
@@ -178,7 +274,7 @@ class RunItem extends vscode.TreeItem {
         let reason = run.attributes?.['error-message'] || run.attributes?.['message'] || `Queued from ${source} `;
         const createdByLabel = this.createdBy?.attributes?.email || run.relationships?.['created-by-run'] || 'unknown';
         if (createdByLabel !== 'unknown') {
-            reason += `by ${createdByLabel}`;
+            reason += ` by ${createdByLabel}`;
         }
 
         const createdAt = formatDate(run.attributes?.['created-at'] as string);
@@ -216,7 +312,7 @@ class RunItem extends vscode.TreeItem {
     }
 }
 
-class PlanItem extends vscode.TreeItem {
+export class PlanItem extends vscode.TreeItem {
     constructor(public readonly plan: Plan) {
         super(getPlanLabel(plan), vscode.TreeItemCollapsibleState.None);
         this.iconPath = getPlanStatusIcon(plan.attributes?.status);
@@ -310,6 +406,8 @@ export function getSource(source?: string): string {
         case 'api':
         case 'configuration-version':
             return 'API';
+        case 'vscode':
+            return 'VSCode';
         default:
             return source ?? 'unknown';
     }
