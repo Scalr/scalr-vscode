@@ -44,7 +44,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ---
 
-[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.4...HEAD
+[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.5...HEAD
+[0.0.5]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.5
 [0.0.4]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.4
 [0.0.3]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.3
 [0.0.2]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.2
