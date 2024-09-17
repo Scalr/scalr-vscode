@@ -11286,6 +11286,7 @@ Comprises letters, numbers, \`-\`, and \`_\` only.`,
                     type: 'string',
                 },
                 'var-files': {
+                    default: [],
                     description: 'The list of Terraform variables files.',
                     items: {
                         type: 'string',
