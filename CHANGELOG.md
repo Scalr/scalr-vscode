@@ -8,9 +8,9 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.0.5]
 
-### Improvements
+### Features
 
--   Web-Compatible Extension ([#23]https://github.com/Scalr/scalr-vscode/issues/23)
+-   Added support for the web version of the extension ([#23](https://github.com/Scalr/scalr-vscode/issues/23))
 
 ## [0.0.4]
 
