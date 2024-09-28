@@ -1,12 +1,9 @@
-//@ts-check
-
 'use strict';
 
+/* eslint-disable @typescript-eslint/no-var-requires */
 // eslint-disable-next-line @typescript-eslint/no-require-imports
 const path = require('path');
-
-//@ts-check
-/** @typedef {import('webpack').Configuration} WebpackConfig **/
+const webpack = require('webpack');
 
 /** @type WebpackConfig */
 const extensionConfig = {
@@ -45,4 +42,5 @@ const extensionConfig = {
         level: 'log', // enables logging required for problem matchers
     },
 };
+
 module.exports = extensionConfig;

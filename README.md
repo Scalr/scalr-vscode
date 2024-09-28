@@ -4,18 +4,22 @@
 
 The Scalr VSCode Extension is a tool designed to streamline your Opentofu/Terraform workflows by integrating Scalr directly into your Visual Studio Code environment. This extension allows you to manage workspaces, monitor runs, and access critical information about your infrastructure—without leaving your code editor.
 
+![](assets/scalr-extension.png)
+
 ## Disclaimer: Early Stages
 
 Please Note: This extension is currently in its early stages of development. While it includes core functionalities, you may encounter bugs or incomplete features. We welcome your feedback and contributions to help improve and stabilize the extension.
 
 ## Features
 
--   **Workspace Management**: View a comprehensive list of available workspaces for logged-in users.
--   **Run Overview**: Access a list of all runs, with the ability to filter runs specific to a workspace.
--   **Run triggering**: Preview, Apply, or Destroy infrastructure in the selected workspace and review changes right in the VSCode.
--   **Detailed Information**: Get quick access to general information about any workspace or run.
--   **Plan/Apply Output**: Read the output from Terraform plan and apply operations directly within VSCode.
--   **Scalr UI Integration**: Convenient links provide quick navigation to the corresponding sections of the Scalr web UI.
+| Feature              | Description                                                                                                 |
+|----------------------|-------------------------------------------------------------------------------------------------------------|
+| Workspace Management | View a comprehensive list of available workspaces for logged-in users.                                      |
+| Run Overview         | Access a list of all runs, with the ability to filter runs specific to a workspace.                         |
+| Run triggering       | Preview, Apply, or Destroy infrastructure in the selected workspace and review changes right in the VSCode. |
+| Detailed Information | Get quick access to general information about any workspace or run.                                         |
+| Plan/Apply Output    | Read the output from Terraform plan and apply operations directly within VSCode.                            |
+| Scalr UI Integration | Convenient links provide quick navigation to the corresponding sections of the Scalr web UI.                |
 
 ## Installation
 
@@ -30,10 +34,10 @@ Please Note: This extension is currently in its early stages of development. Whi
 
 If you want to install dependencies and build the extension locally, follow these steps:
 
-#### Prerequisites
 
--   **Node.js**: Ensure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
--   **npm**: Make sure you have npm (comes with Node.js).
+> ℹ️ **Prerequisites**:
+> -   **Node.js**: Ensure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
+> -   **npm**: Make sure you have npm (comes with Node.js).
 
 #### Steps to Build Locally
 
@@ -56,12 +60,15 @@ If you want to install dependencies and build the extension locally, follow thes
 
 ## Usage
 
-1. **Login**: After installing, you can log in to your Scalr account through the extension.
-2. **View Workspaces**: Click on the Scalr icon in the sidebar to view your available workspaces.
-3. **Run Management**: Select a workspace to see all associated runs or access the list of all runs.
-4. **Access Details**: Click on a workspace or run to view detailed information, including metadata and status.
-5. **Plan/Apply Output**: Select a run to view the output from Terraform plan and apply operations.
-6. **UI Links**: Use the provided links to navigate quickly to the Scalr UI for deeper management tasks.
+| Command           | How to?                                                                                   |
+|-------------------|-------------------------------------------------------------------------------------------|
+| Login             | After installing, you can log in to your Scalr account through the extension.             |
+| View Workspaces   | Click on the Scalr icon in the sidebar to view your available workspaces.                 |
+| Run Management    | Select a workspace to see all associated runs or access the list of all runs.             |
+| Access Details    | Click on a workspace or run to view detailed information, including metadata and status.  |
+| Plan/Apply Output | Select a run to view the output from Terraform plan and apply operations.                 |
+| UI Links          | Use the provided links to navigate quickly to the Scalr UI for deeper management tasks.   |
+
 
 ## Contributing
 
