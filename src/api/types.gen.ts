@@ -2933,6 +2933,10 @@ export type PolicyGroup = {
          */
         readonly 'error-message'?: string | null;
         /**
+         * The stage of the run to evaluate the policy group.
+         */
+        'execute-as'?: 'pre_plan_check' | 'policy_check';
+        /**
          * Indicates whether the policy group is enforced in all environments.
          */
         'is-enforced'?: boolean;
@@ -3031,6 +3035,19 @@ export type PolicyGroup = {
     };
     type: 'policy-groups';
 };
+
+/**
+ * The stage of the run to evaluate the policy group.
+ */
+export type execute_as = 'pre_plan_check' | 'policy_check';
+
+/**
+ * The stage of the run to evaluate the policy group.
+ */
+export const execute_as = {
+    PRE_PLAN_CHECK: 'pre_plan_check',
+    POLICY_CHECK: 'policy_check',
+} as const;
 
 /**
  * Policy group current status.
@@ -3809,21 +3826,31 @@ export type Run = {
          */
         readonly status?:
             | 'pending'
+            | 'pre_plan_queued'
+            | 'pre_plan_running'
+            | 'pre_plan_finished'
             | 'plan_queued'
             | 'planning'
             | 'planned'
-            | 'planned_and_finished'
             | 'confirmed'
+            | 'discarded'
+            | 'planned_and_finished'
+            | 'post_plan_running'
+            | 'post_plan_finished'
             | 'cost_estimating'
             | 'cost_estimated'
             | 'policy_checking'
             | 'policy_override'
             | 'policy_checked'
+            | 'pre_apply_queued'
+            | 'pre_apply_running'
+            | 'pre_apply_finished'
             | 'apply_queued'
             | 'applying'
             | 'applied'
+            | 'post_apply_running'
+            | 'post_apply_finished'
             | 'errored'
-            | 'discarded'
             | 'canceled';
         /**
          * Timestamps of transition to prior and current statuses.
@@ -4014,21 +4041,31 @@ export const iac_platform = {
  */
 export type status13 =
     | 'pending'
+    | 'pre_plan_queued'
+    | 'pre_plan_running'
+    | 'pre_plan_finished'
     | 'plan_queued'
     | 'planning'
     | 'planned'
-    | 'planned_and_finished'
     | 'confirmed'
+    | 'discarded'
+    | 'planned_and_finished'
+    | 'post_plan_running'
+    | 'post_plan_finished'
     | 'cost_estimating'
     | 'cost_estimated'
     | 'policy_checking'
     | 'policy_override'
     | 'policy_checked'
+    | 'pre_apply_queued'
+    | 'pre_apply_running'
+    | 'pre_apply_finished'
     | 'apply_queued'
     | 'applying'
     | 'applied'
+    | 'post_apply_running'
+    | 'post_apply_finished'
     | 'errored'
-    | 'discarded'
     | 'canceled';
 
 /**
@@ -4073,21 +4110,31 @@ export type status13 =
  */
 export const status13 = {
     PENDING: 'pending',
+    PRE_PLAN_QUEUED: 'pre_plan_queued',
+    PRE_PLAN_RUNNING: 'pre_plan_running',
+    PRE_PLAN_FINISHED: 'pre_plan_finished',
     PLAN_QUEUED: 'plan_queued',
     PLANNING: 'planning',
     PLANNED: 'planned',
-    PLANNED_AND_FINISHED: 'planned_and_finished',
     CONFIRMED: 'confirmed',
+    DISCARDED: 'discarded',
+    PLANNED_AND_FINISHED: 'planned_and_finished',
+    POST_PLAN_RUNNING: 'post_plan_running',
+    POST_PLAN_FINISHED: 'post_plan_finished',
     COST_ESTIMATING: 'cost_estimating',
     COST_ESTIMATED: 'cost_estimated',
     POLICY_CHECKING: 'policy_checking',
     POLICY_OVERRIDE: 'policy_override',
     POLICY_CHECKED: 'policy_checked',
+    PRE_APPLY_QUEUED: 'pre_apply_queued',
+    PRE_APPLY_RUNNING: 'pre_apply_running',
+    PRE_APPLY_FINISHED: 'pre_apply_finished',
     APPLY_QUEUED: 'apply_queued',
     APPLYING: 'applying',
     APPLIED: 'applied',
+    POST_APPLY_RUNNING: 'post_apply_running',
+    POST_APPLY_FINISHED: 'post_apply_finished',
     ERRORED: 'errored',
-    DISCARDED: 'discarded',
     CANCELED: 'canceled',
 } as const;
 
