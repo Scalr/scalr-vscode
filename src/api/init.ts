@@ -1,7 +1,7 @@
-import { createClient } from '@hey-api/client-fetch';
+import { client } from '../api/services.gen';
 
 export const initClient = (accountName: string, token: string) => {
-    return createClient({
+    client.setConfig({
         baseUrl: `https://${accountName}.scalr.io/api/iacp/v3/`,
         headers: {
             Authorization: `Bearer ${token}`,

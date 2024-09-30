@@ -1,0 +1,2 @@
+npm run openapi-ts 
+npx lint-staged

@@ -169,38 +169,51 @@
     },
     "scripts": {
         "vscode:prepublish": "npm run package",
-        "compile": "webpack",
-        "watch": "webpack --watch",
+        "build": "webpack --config webpack.prod.js",
+        "watch": "webpack --watch --config webpack.dev.js",
         "package": "webpack --mode production --devtool hidden-source-map",
         "compile-tests": "tsc -p . --outDir out",
         "watch-tests": "tsc -p . -w --outDir out",
-        "pretest": "npm run compile-tests && npm run compile && npm run lint",
-        "lint": "eslint src --ext ts --fix",
+        "pretest": "npm run compile-tests && npm run build && npm run lint",
+        "lint": "eslint 'src/**/*.ts' --fix",
         "test": "vscode-test",
         "openapi-ts": "openapi-ts",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "prepare": "husky"
     },
     "devDependencies": {
-        "@hey-api/openapi-ts": "^0.51.0",
+        "@eslint/eslintrc": "^3.1.0",
+        "@eslint/js": "^9.10.0",
+        "@hey-api/openapi-ts": "^0.53.0",
         "@types/mocha": "^10.0.7",
-        "@types/node": "20.x",
+        "@types/node": "^22.5.4",
         "@types/vscode": "^1.91.0",
-        "@typescript-eslint/eslint-plugin": "^7.14.1",
-        "@typescript-eslint/parser": "^7.11.0",
-        "@vscode/test-cli": "^0.0.9",
+        "@typescript-eslint/eslint-plugin": "^8.5.0",
+        "@typescript-eslint/parser": "^8.5.0",
+        "@vscode/test-cli": "^0.0.10",
         "@vscode/test-electron": "^2.4.0",
-        "eslint": "^8.57.0",
+        "clean-webpack-plugin": "^4.0.0",
+        "eslint": "^9.10.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-prettier": "^5.2.1",
+        "husky": "^8.0.0",
+        "lint-staged": "^15.2.10",
         "prettier": "^3.3.3",
         "ts-loader": "^9.5.1",
         "typescript": "^5.5.4",
         "webpack": "^5.92.1",
-        "webpack-cli": "^5.1.4"
+        "webpack-cli": "^5.1.4",
+        "webpack-merge": "^6.0.1"
     },
     "dependencies": {
-        "@hey-api/client-fetch": "^0.1.13",
+        "@hey-api/client-fetch": "^0.2.4",
         "date-fns": "^3.6.0"
+    },
+    "lint-staged": {
+        "*.ts": [
+            "eslint --fix",
+            "prettier --write"
+        ]
     },
     "repository": {
         "type": "git",

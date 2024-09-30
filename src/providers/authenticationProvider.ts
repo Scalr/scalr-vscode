@@ -51,7 +51,7 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
         return this._onDidChangeSessions.event;
     }
 
-    // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     async getSessions(scopes: string[]): Promise<vscode.AuthenticationSession[]> {
         const session = await this.getSession();
 

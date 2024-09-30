@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Workspace, Environment, Run, WorkspaceListingDocument, EnvironmentListingDocument } from '../api/types.gen';
+import { Workspace, Environment, Run, WorkspaceListingDocument } from '../api/types.gen';
 import { getWorkspaces, listEnvironments } from '../api/services.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
@@ -259,7 +259,6 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             return [];
         }
 
-        data as EnvironmentListingDocument;
         const environments = data.data as Environment[];
         // const currentEnvironments = this.filters.get('environment') || [];
 
