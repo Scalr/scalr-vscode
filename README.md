@@ -13,13 +13,18 @@ Please Note: This extension is currently in its early stages of development. Whi
 ## Features
 
 | Feature              | Description                                                                                                  |
-|----------------------|--------------------------------------------------------------------------------------------------------------|
+| -------------------- | ------------------------------------------------------------------------------------------------------------ |
 | Workspace Management | View a comprehensive list of available workspaces for logged-in users.                                       |
 | Run Overview         | Access a list of all runs, with the ability to filter runs specific to a workspace.                          |
 | Run triggering       | Preview, Apply, or Destroy infrastructure in the selected workspace and review changes right in the VS Code. |
 | Detailed Information | Get quick access to general information about any workspace or run.                                          |
 | Plan/Apply Output    | Read the output from Terraform plan and apply operations directly within VS Code.                            |
 | Scalr UI Integration | Convenient links provide quick navigation to the corresponding sections of the Scalr web UI.                 |
+
+## HTTP PROXY
+
+If the [proxy server](https://code.visualstudio.com/docs/setup/network#_proxy-server-support) is don't used. The proxy for https://scalr.io/ coudl be configured on vscode by http.proxy and http.proxyAuthorization variables (Settings > User > Applications > Poxy)
+or by HTTP_PROXY, HTTPS_PROXY environment variables.
 
 ## Installation
 
@@ -34,8 +39,8 @@ Please Note: This extension is currently in its early stages of development. Whi
 
 If you want to install dependencies and build the extension locally, follow these steps:
 
-
 > ℹ️ **Prerequisites**:
+>
 > -   **Node.js**: Ensure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
 > -   **npm**: Make sure you have npm (comes with Node.js).
 
@@ -60,15 +65,14 @@ If you want to install dependencies and build the extension locally, follow thes
 
 ## Usage
 
-| Command           | How to?                                                                                   |
-|-------------------|-------------------------------------------------------------------------------------------|
-| Login             | After installing, you can log in to your Scalr account through the extension.             |
-| View Workspaces   | Click on the Scalr icon in the sidebar to view your available workspaces.                 |
-| Run Management    | Select a workspace to see all associated runs or access the list of all runs.             |
-| Access Details    | Click on a workspace or run to view detailed information, including metadata and status.  |
-| Plan/Apply Output | Select a run to view the output from Terraform plan and apply operations.                 |
-| UI Links          | Use the provided links to navigate quickly to the Scalr UI for deeper management tasks.   |
-
+| Command           | How to?                                                                                  |
+| ----------------- | ---------------------------------------------------------------------------------------- |
+| Login             | After installing, you can log in to your Scalr account through the extension.            |
+| View Workspaces   | Click on the Scalr icon in the sidebar to view your available workspaces.                |
+| Run Management    | Select a workspace to see all associated runs or access the list of all runs.            |
+| Access Details    | Click on a workspace or run to view detailed information, including metadata and status. |
+| Plan/Apply Output | Select a run to view the output from Terraform plan and apply operations.                |
+| UI Links          | Use the provided links to navigate quickly to the Scalr UI for deeper management tasks.  |
 
 ## Contributing
 

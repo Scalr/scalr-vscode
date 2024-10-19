@@ -65,7 +65,7 @@ export class LogProvider implements vscode.TextDocumentContentProvider, vscode.D
             ({ data, error } = await getApply({ path: { apply: id } }));
         }
 
-        if (error || !data || !data.data) {
+        if (!data || !data.data) {
             showErrorMessage(error, 'Failed to fetch status');
             return;
         }
@@ -96,12 +96,12 @@ export class LogProvider implements vscode.TextDocumentContentProvider, vscode.D
                 return `Failed to fetch log: ${error}`;
             }
 
-            if (data && data instanceof Blob) {
-                return await data.text();
+            if (data) {
+                return data as string;
             }
 
             // Wait before retrying
-            const retryDelay = 500 * (attempt + 1);
+            const retryDelay = 100 * (attempt + 1);
             await new Promise((resolve) => setTimeout(resolve, retryDelay));
         }
 

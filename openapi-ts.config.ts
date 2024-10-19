@@ -1,7 +1,5 @@
-import { defineConfig } from '@hey-api/openapi-ts';
-
-export default defineConfig({
-    client: '@hey-api/client-fetch',
+export default {
+    client: '@hey-api/client-axios',
     input: 'https://scalr.io/api/iacp/v3/openapi-public.yml',
     output: {
         format: 'prettier',
@@ -15,4 +13,4 @@ export default defineConfig({
     services: {
         filter: '^\\w+ /(accounts|workspaces|runs|plans|applies|environments)',
     },
-});
+};

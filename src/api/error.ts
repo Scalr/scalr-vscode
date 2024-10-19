@@ -1,5 +1,7 @@
 import { ErrorDocument } from './types.gen';
 import * as vscode from 'vscode';
+import * as anxios from 'axios';
+import { AxiosError } from 'axios';
 
 export function getErrorMessage(error: unknown): string {
     if (typeof error === 'string') {
@@ -13,6 +15,21 @@ export function getErrorMessage(error: unknown): string {
             //@ts-expect-error the title is not exposed in the error type but it is in the api
             return errorDocument.errors.map((e) => e.title || e.detail).join('\n');
         }
+    }
+
+    if (anxios.isAxiosError(error)) {
+        const axiosError = error as AxiosError;
+        if (axiosError.code === 'ECONNABORTED') {
+            return 'Connection timeout ple check your internet connection or proxy settings.';
+        } else if (axiosError.status === 407) {
+            return 'Proxy authentication required. Please check your proxy settings.';
+        }
+
+        return axiosError.message;
+    }
+
+    if (error instanceof Error) {
+        return error.message;
     }
 
     return 'Unknown error';

@@ -6,6 +6,7 @@ import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
 import { formatDate } from '../date-utils';
 import { showErrorMessage } from '../api/error';
+import { exec } from 'child_process';
 
 class QuickPickItem implements vscode.QuickPickItem {
     constructor(
@@ -123,8 +124,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 queryFilters[filterName] = filterValue;
             }
         }
-
-        const { data, error } = await getWorkspaces({
+        const { data } = await getWorkspaces<false>({
             query: {
                 include: ['latest-run', 'environment'],
                 page: {
@@ -136,9 +136,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 ...queryFilters,
             },
         });
-
-        if (error || !data) {
-            showErrorMessage(error, 'Unable to get workspaces');
+        if (!data) {
             return [];
         }
 
