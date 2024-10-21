@@ -13,7 +13,7 @@ Please Note: This extension is currently in its early stages of development. Whi
 ## Features
 
 | Feature              | Description                                                                                                  |
-| -------------------- | ------------------------------------------------------------------------------------------------------------ |
+|----------------------|--------------------------------------------------------------------------------------------------------------|
 | Workspace Management | View a comprehensive list of available workspaces for logged-in users.                                       |
 | Run Overview         | Access a list of all runs, with the ability to filter runs specific to a workspace.                          |
 | Run triggering       | Preview, Apply, or Destroy infrastructure in the selected workspace and review changes right in the VS Code. |
@@ -41,8 +41,10 @@ If your environment requires using an HTTP proxy to connect to external services
    - If the extension needs to use the proxy for specific API calls, ensure it respects the global proxy settings in VS Code. You can also configure proxy settings directly in the extension by setting the following in your `settings.json`:
    
    ```json
-   "http.proxy": "http://<proxy-url>:<port>",
-   "http.proxyStrictSSL": false
+   {
+     "http.proxy": "http://<proxy-url>:<port>",
+     "http.proxyStrictSSL": false
+   }
    ```
 
 5. **Restart VS Code**:  
@@ -90,7 +92,7 @@ If you want to install dependencies and build the extension locally, follow thes
 ## Usage
 
 | Command           | How to?                                                                                  |
-| ----------------- | ---------------------------------------------------------------------------------------- |
+|-------------------|------------------------------------------------------------------------------------------|
 | Login             | After installing, you can log in to your Scalr account through the extension.            |
 | View Workspaces   | Click on the Scalr icon in the sidebar to view your available workspaces.                |
 | Run Management    | Select a workspace to see all associated runs or access the list of all runs.            |
