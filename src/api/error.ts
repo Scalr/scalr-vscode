@@ -13,7 +13,7 @@ export function getErrorMessage(error: unknown): string {
         if (axiosError.code === 'ECONNABORTED') {
             return 'Connection timeout please check your internet connection or proxy settings.';
         } else if (axiosError.status === 407) {
-            return 'Proxy authentication required. Please check your proxy settings.';
+            return 'Proxy authentication required. Please update your proxy settings.';
         } else if (axiosError.status === 401) {
             vscode.commands.executeCommand('setContext', 'scalr.signed-in', false);
         }

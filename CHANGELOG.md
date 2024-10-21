@@ -12,7 +12,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 -   HTTP proxy support ([#38](https://github.com/Scalr/scalr-vscode/issues/38))
 -   Scalr Workspaces & Runs Commands ([#36]https://github.com/Scalr/scalr-vscode/issues/36))
--   Added User-Agent scalr-vscode/version header for API tracking
 
 ## [0.0.5]
 
