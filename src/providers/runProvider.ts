@@ -213,12 +213,12 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         included.forEach((item) => {
             if ((item as Plan).type === 'plans') {
                 const plan = item as Plan;
-                if (plan.attributes?.status !== 'unreachable') {
+                if (plan.attributes?.status !== 'unreachable' && plan.attributes?.status !== 'pending') {
                     plans.set(item.id as string, plan);
                 }
             } else if ((item as Apply).type === 'applies') {
                 const apply = item as Apply;
-                if (apply.attributes?.status !== 'unreachable') {
+                if (apply.attributes?.status !== 'unreachable' && apply.attributes?.status !== 'pending') {
                     applies.set(item.id as string, apply);
                 }
             } else if ((item as User).type === 'users') {

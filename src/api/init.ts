@@ -2,7 +2,7 @@ import { client } from './services.gen';
 import * as qs from 'qs';
 import { showErrorMessage } from './error';
 import * as vscode from 'vscode';
-import { Axios, AxiosProxyConfig } from 'axios';
+import { Axios, AxiosProxyConfig, AxiosHeaders } from 'axios';
 import { URL } from 'url';
 
 function getProxySettings(): AxiosProxyConfig | false {
@@ -30,18 +30,29 @@ export const initClient = (accountName: string, token: string) => {
         (response) => response,
         (error) => {
             showErrorMessage(error);
-            return Promise.reject(error);
+            // return Promise.reject(error);
         }
     );
 
     const proxy = getProxySettings();
 
+    const appVersion = vscode.extensions.getExtension('Scalr.scalr')?.packageJSON.version;
+    let headers: any = {
+        Authorization: `Bearer ${token}`,
+        'Content-type': 'application/vnd.api+json',
+        'User-Agent': `scalr-vscode/${appVersion}`,
+    };
+
+    if (proxy && !proxy.auth) {
+        const httpAuth = vscode.workspace.getConfiguration('http').get('proxyAuthorization');
+        if (httpAuth) {
+            headers['Proxy-Authorization'] = httpAuth;
+        }
+    }
+
     return client.setConfig({
         baseURL: `https://${accountName}.scalr.io/api/iacp/v3`,
-        headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-type': 'application/vnd.api+json',
-        },
+        headers: headers,
         paramsSerializer: (params) => {
             return qs.stringify(params, { arrayFormat: 'comma' });
         },

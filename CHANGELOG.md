@@ -8,7 +8,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [0.0.6]
 
--   HTTP proxy support ([[#38](https://github.com/Scalr/scalr-vscode/issues/38)])
+-   HTTP proxy support ([#38](https://github.com/Scalr/scalr-vscode/issues/38))
+-   Scalr Workspaces & Runs Commands ([#36]https://github.com/Scalr/scalr-vscode/issues/36))
 
 ## [0.0.5]
 

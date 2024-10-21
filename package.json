@@ -66,51 +66,51 @@
             },
             {
                 "command": "workspace.open",
-                "title": "View workspace",
+                "title": "Scalr: View workspace",
                 "icon": "$(globe)"
             },
             {
                 "command": "run.open",
-                "title": "View runs",
+                "title": "Scalr: View runs",
                 "icon": "$(globe)"
             },
             {
                 "command": "apply.open",
-                "title": "Show apply output",
+                "title": "Scalr: Show apply output",
                 "icon": "$(output)"
             },
             {
                 "command": "plan.open",
-                "title": "Show plan output",
+                "title": "Scalr: Show plan output",
                 "icon": "$(output)"
             },
             {
                 "command": "workspace.refresh",
-                "title": "Refresh",
+                "title": "Scalr: Refresh Workspaces",
                 "icon": "$(refresh)",
                 "enablement": "scalr.signed-in"
             },
             {
                 "command": "run.refresh",
-                "title": "Refresh",
+                "title": "Scalr: Refresh Runs",
                 "icon": "$(refresh)",
                 "enablement": "scalr.signed-in"
             },
             {
                 "command": "workspace.filter",
-                "title": "Filter",
+                "title": "Scalr: Filter Workspaces",
                 "icon": "$(filter)",
                 "enablement": "scalr.signed-in"
             },
             {
                 "command": "workspace.clearFilters",
-                "title": "Clear filters",
+                "title": "Scalr: Clear filters",
                 "icon": "$(clear-all)",
                 "enablement": "scalr.signed-in"
             },
             {
                 "command": "run.create",
-                "title": "Trigger Run",
+                "title": "Scalr: Trigger Run",
                 "icon": "$(play)",
                 "enablement": "scalr.signed-in"
             }
@@ -163,6 +163,28 @@
                     "command": "workspace.clearFilters",
                     "group": "inline",
                     "when": "view == workspaces && viewItem =~ /workspaceFilterInfo/"
+                }
+            ],
+            "commandPalette": [
+                {
+                    "command": "workspace.open",
+                    "when": "false"
+                },
+                {
+                    "command": "run.open",
+                    "when": "false"
+                },
+                {
+                    "command": "plan.open",
+                    "when": "false"
+                },
+                {
+                    "command": "apply.open",
+                    "when": "false"
+                },
+                {
+                    "command": "run.create",
+                    "when": "false"
                 }
             ]
         }
