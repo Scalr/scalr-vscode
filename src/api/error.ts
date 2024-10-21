@@ -11,7 +11,7 @@ export function getErrorMessage(error: unknown): string {
     if (anxios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         if (axiosError.code === 'ECONNABORTED') {
-            return 'Connection timeout plese check your internet connection or proxy settings.';
+            return 'Connection timeout please check your internet connection or proxy settings.';
         } else if (axiosError.status === 407) {
             return 'Proxy authentication required. Please check your proxy settings.';
         } else if (axiosError.status === 401) {
