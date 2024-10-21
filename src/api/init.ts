@@ -30,7 +30,6 @@ export const initClient = (accountName: string, token: string) => {
         (response) => response,
         (error) => {
             showErrorMessage(error);
-            // return Promise.reject(error);
         }
     );
 
@@ -56,7 +55,7 @@ export const initClient = (accountName: string, token: string) => {
         paramsSerializer: (params) => {
             return qs.stringify(params, { arrayFormat: 'comma' });
         },
-        timeout: 3000, //miliseconds
+        timeout: 5000, //miliseconds
         proxy: proxy,
         throwOnError: false,
     });
