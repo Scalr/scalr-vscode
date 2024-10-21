@@ -6,7 +6,6 @@ import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
 import { formatDate } from '../date-utils';
 import { showErrorMessage } from '../api/error';
-import { exec } from 'child_process';
 
 class QuickPickItem implements vscode.QuickPickItem {
     constructor(

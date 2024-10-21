@@ -66,22 +66,22 @@
             },
             {
                 "command": "workspace.open",
-                "title": "Scalr: View workspace",
+                "title": "Scalr: View Workspace",
                 "icon": "$(globe)"
             },
             {
                 "command": "run.open",
-                "title": "Scalr: View runs",
+                "title": "Scalr: View Runs",
                 "icon": "$(globe)"
             },
             {
                 "command": "apply.open",
-                "title": "Scalr: Show apply output",
+                "title": "Scalr: Show Apply Output",
                 "icon": "$(output)"
             },
             {
                 "command": "plan.open",
-                "title": "Scalr: Show plan output",
+                "title": "Scalr: Show Plan Output",
                 "icon": "$(output)"
             },
             {

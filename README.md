@@ -23,7 +23,7 @@ Please Note: This extension is currently in its early stages of development. Whi
 
 ## HTTP PROXY
 
-If the [proxy server](https://code.visualstudio.com/docs/setup/network#_proxy-server-support) is don't used. The proxy for https://scalr.io/ coudl be configured on vscode by http.proxy and http.proxyAuthorization variables (Settings > User > Applications > Poxy)
+If the [proxy server](https://code.visualstudio.com/docs/setup/network#_proxy-server-support) is don't used. The proxy for https://scalr.io/ could be configured on vscode by http.proxy and http.proxyAuthorization variables (Settings > User > Applications > Poxy)
 or by HTTP_PROXY, HTTPS_PROXY environment variables.
 
 ## Installation

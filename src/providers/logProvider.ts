@@ -96,12 +96,12 @@ export class LogProvider implements vscode.TextDocumentContentProvider, vscode.D
                 return `Failed to fetch log: ${error}`;
             }
 
-            if (data) {
-                return data as string;
+            if (data && typeof data === 'string') {
+                return data;
             }
 
             // Wait before retrying
-            const retryDelay = 100 * (attempt + 1);
+            const retryDelay = 500 * (attempt + 1);
             await new Promise((resolve) => setTimeout(resolve, retryDelay));
         }
 
