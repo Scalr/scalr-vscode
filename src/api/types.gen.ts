@@ -813,6 +813,10 @@ export type AgentListingDocument = {
 export type AgentPool = {
     attributes: {
         /**
+         * Indicates whether the pool is used by any workspace.
+         */
+        readonly 'in-use'?: boolean;
+        /**
          * The name of the agent pool. This must be unique within a Scalr scope
          * (e.g. account or environment).
          */
@@ -2204,11 +2208,13 @@ export type ModuleVersion = {
             name?: string;
             sensitive?: boolean;
             value?:
-                | string
-                | {
-                      [key: string]: unknown;
-                  }
-                | Array<unknown>
+                | (
+                      | string
+                      | {
+                            [key: string]: unknown;
+                        }
+                      | Array<unknown>
+                  )
                 | null;
         }> | null;
         /**
@@ -2931,6 +2937,10 @@ export type PolicyGroup = {
          */
         readonly 'error-message'?: string | null;
         /**
+         * The stage of the run to evaluate the policy group.
+         */
+        'execute-as'?: 'pre_plan_check' | 'policy_check';
+        /**
          * Indicates whether the policy group is enforced in all environments.
          */
         'is-enforced'?: boolean;
@@ -3031,6 +3041,19 @@ export type PolicyGroup = {
 };
 
 /**
+ * The stage of the run to evaluate the policy group.
+ */
+export type execute_as = 'pre_plan_check' | 'policy_check';
+
+/**
+ * The stage of the run to evaluate the policy group.
+ */
+export const execute_as = {
+    PRE_PLAN_CHECK: 'pre_plan_check',
+    POLICY_CHECK: 'policy_check',
+} as const;
+
+/**
  * Policy group current status.
  *
  * * `fetching` - waiting for policies to be synchronized with VCS.
@@ -3118,7 +3141,7 @@ export type ProviderConfiguration = {
         /**
          * The type of AWS account, available options: `regular`, `gov-cloud`, `cn-cloud`.
          */
-        'aws-account-type'?: 'regular' | 'gov-cloud' | 'cn-cloud' | null;
+        'aws-account-type'?: ('regular' | 'gov-cloud' | 'cn-cloud') | null;
         /**
          * The value of the aud claim for the identity token.
          */
@@ -3126,7 +3149,7 @@ export type ProviderConfiguration = {
         /**
          * The type of AWS credential, available options: `access_keys`, `role_delegation`, `oidc`.
          */
-        'aws-credentials-type'?: 'role_delegation' | 'access_keys' | 'oidc' | null;
+        'aws-credentials-type'?: ('role_delegation' | 'access_keys' | 'oidc') | null;
         /**
          * External identifier to use when assuming the role. This option is required with the `role_delegation` credential type.
          */
@@ -3142,7 +3165,7 @@ export type ProviderConfiguration = {
         /**
          * Trusted entity type, available options: `aws_account`, `aws_service`. This option is required with the `role_delegation` credential type.
          */
-        'aws-trusted-entity-type'?: 'aws_account' | 'aws_service' | null;
+        'aws-trusted-entity-type'?: ('aws_account' | 'aws_service') | null;
         /**
          * The value of the aud claim for the identity token.
          */
@@ -3150,7 +3173,7 @@ export type ProviderConfiguration = {
         /**
          * The type of azurerm credentials, available options: `client-secrets`, `oidc`.
          */
-        'azurerm-auth-type'?: 'client-secrets' | 'oidc' | null;
+        'azurerm-auth-type'?: ('client-secrets' | 'oidc') | null;
         /**
          * The Client ID which should be used.
          */
@@ -3178,7 +3201,7 @@ export type ProviderConfiguration = {
         /**
          * Authentication type to access GCP.
          */
-        'google-auth-type'?: 'service-account-key' | 'oidc' | null;
+        'google-auth-type'?: ('service-account-key' | 'oidc') | null;
         /**
          * Service account key file in JSON format.
          */
@@ -3549,13 +3572,15 @@ export type Reason = {
 
 export type RegistryInputOptional = {
     default:
-        | boolean
-        | number
-        | string
-        | Array<unknown>
-        | {
-              [key: string]: unknown;
-          }
+        | (
+              | boolean
+              | number
+              | string
+              | Array<unknown>
+              | {
+                    [key: string]: unknown;
+                }
+          )
         | null;
     description?: string | null;
     name: string;
@@ -3718,13 +3743,15 @@ export type Run = {
             name?: string;
             sensitive?: boolean;
             value?:
-                | boolean
-                | number
-                | string
-                | Array<unknown>
-                | {
-                      [key: string]: unknown;
-                  }
+                | (
+                      | boolean
+                      | number
+                      | string
+                      | Array<unknown>
+                      | {
+                            [key: string]: unknown;
+                        }
+                  )
                 | null;
         }> | null;
         /**
@@ -3803,21 +3830,31 @@ export type Run = {
          */
         readonly status?:
             | 'pending'
+            | 'pre_plan_queued'
+            | 'pre_plan_running'
+            | 'pre_plan_finished'
             | 'plan_queued'
             | 'planning'
             | 'planned'
-            | 'planned_and_finished'
             | 'confirmed'
+            | 'discarded'
+            | 'planned_and_finished'
+            | 'post_plan_running'
+            | 'post_plan_finished'
             | 'cost_estimating'
             | 'cost_estimated'
             | 'policy_checking'
             | 'policy_override'
             | 'policy_checked'
+            | 'pre_apply_queued'
+            | 'pre_apply_running'
+            | 'pre_apply_finished'
             | 'apply_queued'
             | 'applying'
             | 'applied'
+            | 'post_apply_running'
+            | 'post_apply_finished'
             | 'errored'
-            | 'discarded'
             | 'canceled';
         /**
          * Timestamps of transition to prior and current statuses.
@@ -4008,21 +4045,31 @@ export const iac_platform = {
  */
 export type status13 =
     | 'pending'
+    | 'pre_plan_queued'
+    | 'pre_plan_running'
+    | 'pre_plan_finished'
     | 'plan_queued'
     | 'planning'
     | 'planned'
-    | 'planned_and_finished'
     | 'confirmed'
+    | 'discarded'
+    | 'planned_and_finished'
+    | 'post_plan_running'
+    | 'post_plan_finished'
     | 'cost_estimating'
     | 'cost_estimated'
     | 'policy_checking'
     | 'policy_override'
     | 'policy_checked'
+    | 'pre_apply_queued'
+    | 'pre_apply_running'
+    | 'pre_apply_finished'
     | 'apply_queued'
     | 'applying'
     | 'applied'
+    | 'post_apply_running'
+    | 'post_apply_finished'
     | 'errored'
-    | 'discarded'
     | 'canceled';
 
 /**
@@ -4067,21 +4114,31 @@ export type status13 =
  */
 export const status13 = {
     PENDING: 'pending',
+    PRE_PLAN_QUEUED: 'pre_plan_queued',
+    PRE_PLAN_RUNNING: 'pre_plan_running',
+    PRE_PLAN_FINISHED: 'pre_plan_finished',
     PLAN_QUEUED: 'plan_queued',
     PLANNING: 'planning',
     PLANNED: 'planned',
-    PLANNED_AND_FINISHED: 'planned_and_finished',
     CONFIRMED: 'confirmed',
+    DISCARDED: 'discarded',
+    PLANNED_AND_FINISHED: 'planned_and_finished',
+    POST_PLAN_RUNNING: 'post_plan_running',
+    POST_PLAN_FINISHED: 'post_plan_finished',
     COST_ESTIMATING: 'cost_estimating',
     COST_ESTIMATED: 'cost_estimated',
     POLICY_CHECKING: 'policy_checking',
     POLICY_OVERRIDE: 'policy_override',
     POLICY_CHECKED: 'policy_checked',
+    PRE_APPLY_QUEUED: 'pre_apply_queued',
+    PRE_APPLY_RUNNING: 'pre_apply_running',
+    PRE_APPLY_FINISHED: 'pre_apply_finished',
     APPLY_QUEUED: 'apply_queued',
     APPLYING: 'applying',
     APPLIED: 'applied',
+    POST_APPLY_RUNNING: 'post_apply_running',
+    POST_APPLY_FINISHED: 'post_apply_finished',
     ERRORED: 'errored',
-    DISCARDED: 'discarded',
     CANCELED: 'canceled',
 } as const;
 
@@ -4372,9 +4429,11 @@ export type SamlIntegration = {
          * Algorithm that Scalr will use on digest process.
          */
         'security-digest-algorithm'?:
-            | 'http://www.w3.org/2001/04/xmlenc#sha256'
-            | 'http://www.w3.org/2001/04/xmldsig-more#sha384'
-            | 'http://www.w3.org/2001/04/xmlenc#sha512'
+            | (
+                  | 'http://www.w3.org/2001/04/xmlenc#sha256'
+                  | 'http://www.w3.org/2001/04/xmldsig-more#sha384'
+                  | 'http://www.w3.org/2001/04/xmlenc#sha512'
+              )
             | null;
         /**
          * Indicates whether the <samlp:logoutRequest> messages sent by Scalr will be signed.
@@ -5023,7 +5082,8 @@ export type Sources =
     | 'workspaces-account-bulk'
     | 'reports-iac-versions'
     | 'reports-stale-workspaces'
-    | 'auto-destroy';
+    | 'auto-destroy'
+    | 'comment-github';
 
 export const Sources = {
     API: 'api',
@@ -5048,6 +5108,7 @@ export const Sources = {
     REPORTS_IAC_VERSIONS: 'reports-iac-versions',
     REPORTS_STALE_WORKSPACES: 'reports-stale-workspaces',
     AUTO_DESTROY: 'auto-destroy',
+    COMMENT_GITHUB: 'comment-github',
 } as const;
 
 /**
@@ -5083,11 +5144,13 @@ export type StateVersion = {
             name?: string;
             sensitive?: boolean;
             value?:
-                | string
-                | {
-                      [key: string]: unknown;
-                  }
-                | Array<unknown>
+                | (
+                      | string
+                      | {
+                            [key: string]: unknown;
+                        }
+                      | Array<unknown>
+                  )
                 | null;
         }> | null;
         /**
@@ -5103,7 +5166,7 @@ export type StateVersion = {
          */
         readonly resources?: Array<{
             address?: string;
-            index?: string | number | null;
+            index?: (string | number) | null;
             module?: string | null;
             type?: string;
         }>;
@@ -6279,6 +6342,14 @@ export type Variable = {
          */
         sensitive?: boolean;
         /**
+         * The variable last update timestamp.
+         */
+        readonly 'updated-at'?: string | null;
+        /**
+         * The email of the last user who updated this variable.
+         */
+        readonly 'updated-by-email'?: string | null;
+        /**
          * Variable value. Not visible if sensitive: true is enabled
          */
         value?: string | null;
@@ -6304,6 +6375,15 @@ export type Variable = {
             data: {
                 id: string;
                 type: 'environments';
+            } | null;
+        };
+        /**
+         * The user who updated this variable last time.
+         */
+        readonly 'updated-by'?: {
+            data: {
+                id: string;
+                type: 'users';
             } | null;
         };
         /**
@@ -6412,6 +6492,10 @@ export type VcsProvider = {
          * VCS provider name, which must be unique within the account.
          */
         name: string;
+        /**
+         * Indicates whether triggering dry runs from a PR comment is enabled for this VCS provider.
+         */
+        'plans-enabled'?: boolean;
         /**
          * Access token for an API client for using to connect to the VCS Provider.
          */
@@ -6763,10 +6847,12 @@ export type WebhookIntegrationDelivery = {
          * The data (JSON or plain text) received in the response body from the external system.
          */
         'response-body'?:
-            | {
-                  [key: string]: unknown;
-              }
-            | string
+            | (
+                  | {
+                        [key: string]: unknown;
+                    }
+                  | string
+              )
             | null;
         /**
          * The HTTP status code returned by the external system.
@@ -6940,7 +7026,7 @@ export type Workspace = {
         /**
          * How many days should the workspace exist.
          */
-        'auto-destroy-days'?: 1 | 2 | 7 | 14 | null;
+        'auto-destroy-days'?: (1 | 2 | 7 | 14) | null;
         /**
          * The status of scheduled destruction of the workspace.
          */
@@ -6987,10 +7073,6 @@ export type Workspace = {
          * Default `false`.
          */
         'force-latest-run'?: boolean;
-        /**
-         * Specifies if the state is globally shared within the environment.
-         */
-        'global-remote-state'?: boolean;
         /**
          * Indicates whether the workspace's current state version contains terraform resources.
          */
@@ -7049,6 +7131,10 @@ export type Workspace = {
         readonly permissions?: {
             [key: string]: unknown;
         };
+        /**
+         * Specifies if the state is shared within the environment.
+         */
+        'remote-state-sharing'?: boolean;
         /**
          * The timeout for the Terraform Run operations (in minutes).
          */
@@ -9052,1420 +9138,3 @@ export type AddWorkspaceTagsData = {
 export type AddWorkspaceTagsResponse = void;
 
 export type AddWorkspaceTagsError = unknown;
-
-export type $OpenApiTs = {
-    '/accounts': {
-        get: {
-            req: GetAccountsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': AccountListingDocument;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/accounts/{account}': {
-        get: {
-            req: GetAccountData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': AccountDocument;
-                /**
-                 * Account not found or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        patch: {
-            req: UpdateAccountData;
-            res: {
-                /**
-                 * Successfully updated the account.
-                 */
-                '200': AccountDocument;
-                /**
-                 * Account or relationship not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Invalid arguments.
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/accounts/{account}/actions/invite': {
-        post: {
-            req: InviteUserToAccountData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '201': AccountUserDocument;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * User, Account, not found.
-                 */
-                '404': unknown;
-                /**
-                 * Invalid team or role.
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/accounts/{account}/actions/remove/{user}': {
-        delete: {
-            req: RemoveUserFromAccountData;
-            res: {
-                /**
-                 * Successfully removed.
-                 */
-                '204': void;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * The user or account not found.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/accounts/{account}/blob-settings': {
-        delete: {
-            req: DeleteAccountBlobSettingsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '204': void;
-                /**
-                 * Cannot delete settings in a current state.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        get: {
-            req: GetAccountBlobSettingsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': AccountBlobSettingsDocument;
-                /**
-                 * Account not found or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        patch: {
-            req: UpdateAccountBlobSettingsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': AccountBlobSettingsDocument;
-                /**
-                 * Custom blob settings are not set. Do `PUT` to create them.
-                 */
-                '404': unknown;
-                /**
-                 * Cannot update settings in a current state.
-                 */
-                '409': unknown;
-                /**
-                 * Invalid arguments.
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        put: {
-            req: ReplaceAccountBlobSettingsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': AccountBlobSettingsDocument;
-                /**
-                 * Cannot replace settings in a current state.
-                 */
-                '409': unknown;
-                /**
-                 * Invalid arguments.
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/accounts/{account}/metrics': {
-        get: {
-            req: GetMetricsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': AccountMetrics;
-                /**
-                 * Account or relationship not found, or user unauthorized to perform an action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/applies/{apply}': {
-        get: {
-            req: GetApplyData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': ApplyDocument;
-                /**
-                 * Apply not found or user unauthorized to perform action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/applies/{apply}/output': {
-        get: {
-            req: GetApplyLogData;
-            res: {
-                /**
-                 * Apply log.
-                 */
-                '200': unknown;
-                /**
-                 * Apply has not yet completed or can't be served.
-                 */
-                '204': void;
-                /**
-                 * The location of the temporary download link.
-                 */
-                '302': unknown;
-                /**
-                 * Apply not found or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/environments': {
-        get: {
-            req: ListEnvironmentsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': EnvironmentListingDocument;
-                /**
-                 * Account not found or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        post: {
-            req: CreateEnvironmentData;
-            res: {
-                /**
-                 * The environment was created.
-                 */
-                '201': EnvironmentDocument;
-                /**
-                 * Account relationship not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Invalid arguments.
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/environments/{environment}': {
-        delete: {
-            req: DeleteEnvironmentData;
-            res: {
-                /**
-                 * Successfully deleted the environment.
-                 */
-                '204': void;
-                /**
-                 * Environment deletion is forbidden.
-                 */
-                '403': unknown;
-                /**
-                 * Environment not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        get: {
-            req: GetEnvironmentData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': EnvironmentDocument;
-                /**
-                 * Environment not found or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        patch: {
-            req: UpdateEnvironmentData;
-            res: {
-                /**
-                 * Successfully updated the environment.
-                 */
-                '200': EnvironmentDocument;
-                /**
-                 * Environment or relationship not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Invalid arguments.
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/environments/{environment}/relationships/tags': {
-        delete: {
-            req: DeleteEnvironmentTagsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '204': void;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        get: {
-            req: ListEnvironmentTagsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': TagRelationshipFieldsetsListingDocument;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        patch: {
-            req: ReplaceEnvironmentTagsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '204': void;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        post: {
-            req: AddEnvironmentTagsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '204': void;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/plans/{plan}': {
-        get: {
-            req: GetPlanData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': PlanDocument;
-                /**
-                 * Plan not found or user unauthorized to perform action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/plans/{plan}/json-output': {
-        get: {
-            req: GetJsonOutputData;
-            res: {
-                /**
-                 * Terraform json plan.
-                 */
-                '200': unknown;
-                /**
-                 * Plan has not yet completed.
-                 */
-                '204': void;
-                /**
-                 * Plan not found or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Plan cannot be served due to size limitations.
-                 */
-                '413': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/plans/{plan}/output': {
-        get: {
-            req: GetPlanLogData;
-            res: {
-                /**
-                 * Plan log.
-                 */
-                '200': unknown;
-                /**
-                 * Plan has not yet completed or can't be served.
-                 */
-                '204': void;
-                /**
-                 * The location of the temporary download link.
-                 */
-                '302': unknown;
-                /**
-                 * Plan not found or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/plans/{plan}/sanitized-json-output': {
-        get: {
-            req: GetSanitizedJsonOutputData;
-            res: {
-                /**
-                 * Sanitized terraform json plan.
-                 */
-                '200': unknown;
-                /**
-                 * Plan has not yet completed or can't be served.
-                 */
-                '204': void;
-                /**
-                 * Redirects to JSON Output if the API server is not sure
-                 * that the plan can be correctly sanitized and a user permissions
-                 * allow to read sensitive plan values.
-                 */
-                '307': unknown;
-                /**
-                 * Plan not found or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/runs': {
-        get: {
-            req: GetRunsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': RunListingDocument;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        post: {
-            req: CreateRunData;
-            res: {
-                /**
-                 * Successfully created a run.
-                 */
-                '201': RunDocument;
-                /**
-                 * Environment or workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Invalid attributes.
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/runs-queue': {
-        get: {
-            req: GetRunsQueueData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': RunListingDocument;
-                /**
-                 * User unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/runs/{run}': {
-        get: {
-            req: GetRunData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': RunDocument;
-                /**
-                 * Run not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/runs/{run}/actions/apply': {
-        post: {
-            req: ConfirmRunData;
-            res: {
-                /**
-                 * Successfully queued an apply request.
-                 */
-                '202': unknown;
-                /**
-                 * Run not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Run was not paused for confirmation. Apply not allowed.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/runs/{run}/actions/cancel': {
-        post: {
-            req: CancelRunData;
-            res: {
-                /**
-                 * Successfully queued a cancel request.
-                 */
-                '202': unknown;
-                /**
-                 * Run is already cancelled, nothing should be done.
-                 */
-                '204': void;
-                /**
-                 * Run not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Run was not planning or applying. Cancel not allowed.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/runs/{run}/actions/discard': {
-        post: {
-            req: DiscardRunData;
-            res: {
-                /**
-                 * Successfully queued a discard request.
-                 */
-                '202': unknown;
-                /**
-                 * Run not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Run was not paused for confirmation or priority. Discard not allowed.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/runs/{run}/actions/force': {
-        post: {
-            req: ForceRunData;
-            res: {
-                /**
-                 * Successfully forced a run.
-                 */
-                '202': unknown;
-                /**
-                 * Run not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Workspace force_latest_run enabled or status is not pending. Force not allowed.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/runs/{run}/policy-checks': {
-        get: {
-            req: ListPolicyChecksData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': PolicyCheckListingDocument;
-                /**
-                 * Plan not found or user unauthorized to perform action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/runs/{run}/policy-input': {
-        get: {
-            req: DownloadPolicyInputData;
-            res: {
-                /**
-                 * Successfully generated input archive.
-                 */
-                '200': unknown;
-                /**
-                 * Run was not found, plan wasn't completed or user unauthorized to perform the action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces': {
-        get: {
-            req: GetWorkspacesData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': WorkspaceListingDocument;
-                /**
-                 * Environment not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        post: {
-            req: CreateWorkspaceData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '201': WorkspaceDocument;
-                /**
-                 * Environment not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Malformed request body (missing attributes, wrong types, etc.).
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces/{workspace}': {
-        delete: {
-            req: DeleteWorkspaceData;
-            res: {
-                /**
-                 * Successfully deleted the workspace.
-                 */
-                '204': void;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Workspace can't be deleted because it has managed resources
-                 * and deletion protection is enabled.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        get: {
-            req: GetWorkspaceData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': WorkspaceDocument;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        patch: {
-            req: UpdateWorkspaceData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': WorkspaceDocument;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Malformed request body (missing attributes, wrong types, etc.).
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces/{workspace}/actions/lock': {
-        post: {
-            req: LockWorkspaceData;
-            res: {
-                /**
-                 * Successfully locked the workspace.
-                 */
-                '200': WorkspaceDocument;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Workspace already locked.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces/{workspace}/actions/resync': {
-        post: {
-            req: ResyncWorkspaceData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '201': ConfigurationVersionDocument;
-                /**
-                 * Workspace not found or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Workspace is not bound to any repository.
-                 */
-                '409': unknown;
-                /**
-                 * Malformed request body (missing attributes, wrong types, etc.).
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces/{workspace}/actions/set-schedule': {
-        post: {
-            req: SetScheduleData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': WorkspaceDocument;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Malformed request body (missing attributes, wrong types, etc.).
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces/{workspace}/actions/unlock': {
-        post: {
-            req: UnlockWorkspaceData;
-            res: {
-                /**
-                 * Successfully unlocked the workspace.
-                 */
-                '200': WorkspaceDocument;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Workspace already unlocked, or locked by a different user.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces/{workspace}/current-state-version': {
-        get: {
-            req: GetCurrentStateVersionData;
-            res: {
-                /**
-                 * Successfully returned current state version for the given workspace.
-                 */
-                '200': StateVersionDocument;
-                /**
-                 * Workspace not found, workspace does not have a current state version,
-                 * or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces/{workspace}/outputs': {
-        get: {
-            req: GetWorkspaceOutputsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': WorkspaceOutputFieldsetsListingDocument;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces/{workspace}/provider-configuration-links': {
-        get: {
-            req: ListProviderConfigurationLinksData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': ProviderConfigurationLinkListingDocument;
-                /**
-                 * User unauthorized to perform action.
-                 */
-                '403': unknown;
-                /**
-                 * Workspace not found.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        post: {
-            req: CreateProviderConfigurationLinkData;
-            res: {
-                /**
-                 * Created.
-                 */
-                '201': ProviderConfigurationLinkDocument;
-                /**
-                 * User unauthorized to perform action.
-                 */
-                '403': unknown;
-                /**
-                 * Workspace or Provider configuration not found.
-                 */
-                '404': unknown;
-                /**
-                 * Malformed request body (missing attributes, wrong types, etc.).
-                 */
-                '422': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces/{workspace}/relationships/remote-state-consumers': {
-        delete: {
-            req: DeleteRemoteStateConsumersData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '204': void;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Not allowed. `global-remote-state` is enabled for the workspace.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        get: {
-            req: ListRemoteStateConsumersData;
-            res: {
-                /**
-                 * Request was successful.
-                 */
-                '200': RemoteStateConsumerRelationshipFieldsetsListingDocument;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        patch: {
-            req: ReplaceRemoteStateConsumersData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '204': void;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Not allowed. `global-remote-state` is enabled for the workspace.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        post: {
-            req: AddRemoteStateConsumersData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '204': void;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Workspace not found, or user unauthorized to perform action.
-                 */
-                '404': unknown;
-                /**
-                 * Not allowed. `global-remote-state` is enabled for the workspace.
-                 */
-                '409': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-    '/workspaces/{workspace}/relationships/tags': {
-        delete: {
-            req: DeleteWorkspaceTagsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '204': void;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        get: {
-            req: ListWorkspaceTagsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '200': TagRelationshipFieldsetsListingDocument;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        patch: {
-            req: ReplaceWorkspaceTagsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '204': void;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-        post: {
-            req: AddWorkspaceTagsData;
-            res: {
-                /**
-                 * Success.
-                 */
-                '204': void;
-                /**
-                 * User unauthorized to perform this action.
-                 */
-                '403': unknown;
-                /**
-                 * Client error.
-                 */
-                '4XX': unknown;
-                /**
-                 * Server error.
-                 */
-                '5XX': unknown;
-            };
-        };
-    };
-};

@@ -2,12 +2,12 @@
     "name": "scalr",
     "displayName": "Scalr",
     "description": "The Scalr VSCode Extension is a tool designed to streamline your Opentofu/Terraform workflows by integrating Scalr directly into your Visual Studio Code environment.",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "icon": "assets/scalr_full_colour.png",
     "license": "MPL-2.0",
     "publisher": "Scalr",
     "engines": {
-        "vscode": "^1.91.0"
+        "vscode": "^1.94.0"
     },
     "categories": [
         "Programming Languages",
@@ -66,51 +66,51 @@
             },
             {
                 "command": "workspace.open",
-                "title": "View workspace",
+                "title": "Scalr: View Workspace",
                 "icon": "$(globe)"
             },
             {
                 "command": "run.open",
-                "title": "View runs",
+                "title": "Scalr: View Runs",
                 "icon": "$(globe)"
             },
             {
                 "command": "apply.open",
-                "title": "Show apply output",
+                "title": "Scalr: Show Apply Output",
                 "icon": "$(output)"
             },
             {
                 "command": "plan.open",
-                "title": "Show plan output",
+                "title": "Scalr: Show Plan Output",
                 "icon": "$(output)"
             },
             {
                 "command": "workspace.refresh",
-                "title": "Refresh",
+                "title": "Scalr: Refresh Workspaces",
                 "icon": "$(refresh)",
                 "enablement": "scalr.signed-in"
             },
             {
                 "command": "run.refresh",
-                "title": "Refresh",
+                "title": "Scalr: Refresh Runs",
                 "icon": "$(refresh)",
                 "enablement": "scalr.signed-in"
             },
             {
                 "command": "workspace.filter",
-                "title": "Filter",
+                "title": "Scalr: Filter Workspaces",
                 "icon": "$(filter)",
                 "enablement": "scalr.signed-in"
             },
             {
                 "command": "workspace.clearFilters",
-                "title": "Clear filters",
+                "title": "Scalr: Clear filters",
                 "icon": "$(clear-all)",
                 "enablement": "scalr.signed-in"
             },
             {
                 "command": "run.create",
-                "title": "Trigger Run",
+                "title": "Scalr: Trigger Run",
                 "icon": "$(play)",
                 "enablement": "scalr.signed-in"
             }
@@ -164,6 +164,28 @@
                     "group": "inline",
                     "when": "view == workspaces && viewItem =~ /workspaceFilterInfo/"
                 }
+            ],
+            "commandPalette": [
+                {
+                    "command": "workspace.open",
+                    "when": "false"
+                },
+                {
+                    "command": "run.open",
+                    "when": "false"
+                },
+                {
+                    "command": "plan.open",
+                    "when": "false"
+                },
+                {
+                    "command": "apply.open",
+                    "when": "false"
+                },
+                {
+                    "command": "run.create",
+                    "when": "false"
+                }
             ]
         }
     },
@@ -177,30 +199,34 @@
         "pretest": "npm run compile-tests && npm run compile && npm run lint",
         "lint": "eslint src --ext ts --fix",
         "test": "vscode-test",
-        "openapi-ts": "openapi-ts",
+        "apiclient": "openapi-ts",
         "format": "prettier --write ."
     },
     "devDependencies": {
-        "@hey-api/openapi-ts": "^0.51.0",
-        "@types/mocha": "^10.0.7",
-        "@types/node": "20.x",
-        "@types/vscode": "^1.91.0",
-        "@typescript-eslint/eslint-plugin": "^7.14.1",
-        "@typescript-eslint/parser": "^7.11.0",
-        "@vscode/test-cli": "^0.0.9",
-        "@vscode/test-electron": "^2.4.0",
-        "eslint": "^8.57.0",
+        "@hey-api/openapi-ts": "^0.53.11",
+        "@types/mocha": "^10.0.9",
+        "@types/node": "22.x",
+        "@types/vscode": "^1.94.0",
+        "@typescript-eslint/eslint-plugin": "^8.10.0",
+        "@typescript-eslint/parser": "^8.10.0",
+        "@vscode/test-cli": "^0.0.10",
+        "@vscode/test-electron": "^2.4.1",
+        "eslint": "^9.12.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-plugin-prettier": "^5.2.1",
         "prettier": "^3.3.3",
         "ts-loader": "^9.5.1",
-        "typescript": "^5.5.4",
-        "webpack": "^5.92.1",
+        "typescript": "^5.6.3",
+        "webpack": "^5.95.0",
         "webpack-cli": "^5.1.4"
     },
     "dependencies": {
-        "@hey-api/client-fetch": "^0.1.13",
-        "date-fns": "^3.6.0"
+        "@hey-api/client-axios": "^0.2.9",
+        "@types/qs": "^6.9.16",
+        "date-fns": "^4.1.0",
+        "process": "^0.11.10",
+        "qs": "^6.13.0",
+        "url": "^0.11.4"
     },
     "repository": {
         "type": "git",

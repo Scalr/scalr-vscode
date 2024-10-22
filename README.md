@@ -21,6 +21,37 @@ Please Note: This extension is currently in its early stages of development. Whi
 | Plan/Apply Output    | Read the output from Terraform plan and apply operations directly within VS Code.                            |
 | Scalr UI Integration | Convenient links provide quick navigation to the corresponding sections of the Scalr web UI.                 |
 
+### Configuring an HTTP Proxy
+
+If your environment requires using an HTTP proxy to connect to external services, you can configure the VS Code extension to use a proxy by following these steps:
+
+1. **Open Settings**:  
+   - Go to the **Settings** tab in VS Code.  
+   - Alternatively, you can open the command palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS) and search for `Preferences: Open Settings (UI)`.
+
+2. **Search for Proxy Settings**:  
+   - In the Settings search bar, type `proxy`.
+
+3. **Configure Proxy**:  
+   - **HTTP Proxy**: Enter your HTTP proxy URL under `Proxy > HTTP: Proxy`.
+   - **HTTPS Proxy**: If your proxy also handles HTTPS traffic, enter it under `Proxy > HTTPS: Proxy`.
+   - **Proxy Strict SSL**: Toggle `Proxy > Strict SSL` if your proxy uses a self-signed certificate.
+
+4. **Configure the Extension**:  
+   - If the extension needs to use the proxy for specific API calls, ensure it respects the global proxy settings in VS Code. You can also configure proxy settings directly in the extension by setting the following in your `settings.json`:
+   
+   ```json
+   {
+     "http.proxy": "http://<proxy-url>:<port>",
+     "http.proxyStrictSSL": false
+   }
+   ```
+
+5. **Restart VS Code**:  
+   After configuring your proxy, restart VS Code to ensure the settings are applied.
+
+For more advanced proxy configurations, refer to the official [VS Code documentation](https://code.visualstudio.com/docs/setup/network#_proxy-server-support).
+
 ## Installation
 
 ### From the VS Code Marketplace
@@ -34,8 +65,8 @@ Please Note: This extension is currently in its early stages of development. Whi
 
 If you want to install dependencies and build the extension locally, follow these steps:
 
-
 > ℹ️ **Prerequisites**:
+>
 > -   **Node.js**: Ensure you have Node.js installed. You can download it from [nodejs.org](https://nodejs.org/).
 > -   **npm**: Make sure you have npm (comes with Node.js).
 
@@ -60,15 +91,14 @@ If you want to install dependencies and build the extension locally, follow thes
 
 ## Usage
 
-| Command           | How to?                                                                                   |
-|-------------------|-------------------------------------------------------------------------------------------|
-| Login             | After installing, you can log in to your Scalr account through the extension.             |
-| View Workspaces   | Click on the Scalr icon in the sidebar to view your available workspaces.                 |
-| Run Management    | Select a workspace to see all associated runs or access the list of all runs.             |
-| Access Details    | Click on a workspace or run to view detailed information, including metadata and status.  |
-| Plan/Apply Output | Select a run to view the output from Terraform plan and apply operations.                 |
-| UI Links          | Use the provided links to navigate quickly to the Scalr UI for deeper management tasks.   |
-
+| Command           | How to?                                                                                  |
+|-------------------|------------------------------------------------------------------------------------------|
+| Login             | After installing, you can log in to your Scalr account through the extension.            |
+| View Workspaces   | Click on the Scalr icon in the sidebar to view your available workspaces.                |
+| Run Management    | Select a workspace to see all associated runs or access the list of all runs.            |
+| Access Details    | Click on a workspace or run to view detailed information, including metadata and status. |
+| Plan/Apply Output | Select a run to view the output from Terraform plan and apply operations.                |
+| UI Links          | Use the provided links to navigate quickly to the Scalr UI for deeper management tasks.  |
 
 ## Contributing
 

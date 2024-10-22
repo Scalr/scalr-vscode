@@ -123,8 +123,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 queryFilters[filterName] = filterValue;
             }
         }
-
-        const { data, error } = await getWorkspaces({
+        const { data } = await getWorkspaces<false>({
             query: {
                 include: ['latest-run', 'environment'],
                 page: {
@@ -136,9 +135,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 ...queryFilters,
             },
         });
-
-        if (error || !data) {
-            showErrorMessage(error, 'Unable to get workspaces');
+        if (!data) {
             return [];
         }
 

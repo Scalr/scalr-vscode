@@ -82,7 +82,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         );
 
         if (runType) {
-            const { data, error } = await createRun({
+            const { data } = await createRun<false>({
                 body: {
                     data: {
                         type: 'runs',
@@ -105,25 +105,24 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
                 },
             });
 
-            if (error || !data || !data.data) {
-                showErrorMessage(error, 'Failed to queue the run');
+            if (!data || !data.data) {
                 return;
             }
 
             const planId = data.data.relationships?.plan?.data?.id as string;
             if (!planId) {
-                showErrorMessage(error, 'Failed to retrieve the plan ID');
+                showErrorMessage('Failed to retrieve the plan identifier');
                 return;
             }
 
-            const { data: planData, error: planError } = await getPlan({
+            const { data: planData } = await getPlan({
                 path: {
                     plan: planId,
                 },
             });
 
-            if (planError || !planData || !planData.data) {
-                showErrorMessage(error, 'Failed to retrieve the plan');
+            if (!planData || !planData.data) {
+                showErrorMessage('Failed to retrieve the plan');
                 return;
             }
 
@@ -185,7 +184,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             return [];
         }
 
-        const { data, error } = await getRuns({
+        const { data } = await getRuns({
             query: {
                 include: ['plan', 'policy-checks', 'cost-estimate', 'apply', 'created-by', 'created-by-run'],
                 'filter[workspace]': this.workspace?.workspace.id,
@@ -195,8 +194,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             },
         });
 
-        if (error) {
-            showErrorMessage(error, 'Failed to load runs');
+        if (!data) {
             return [];
         }
 
@@ -213,17 +211,17 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         const included = data.included ?? ([] as (Plan | Apply | User)[]);
 
         included.forEach((item) => {
-            if (item.type === 'plans') {
+            if ((item as Plan).type === 'plans') {
                 const plan = item as Plan;
-                if (plan.attributes?.status !== 'unreachable') {
+                if (plan.attributes?.status !== 'unreachable' && plan.attributes?.status !== 'pending') {
                     plans.set(item.id as string, plan);
                 }
-            } else if (item.type === 'applies') {
+            } else if ((item as Apply).type === 'applies') {
                 const apply = item as Apply;
-                if (apply.attributes?.status !== 'unreachable') {
+                if (apply.attributes?.status !== 'unreachable' && apply.attributes?.status !== 'pending') {
                     applies.set(item.id as string, apply);
                 }
-            } else if (item.type === 'users') {
+            } else if ((item as User).type === 'users') {
                 createdBy.set(item.id as string, item as User);
             }
         });
