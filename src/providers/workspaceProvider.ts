@@ -329,9 +329,9 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             allWorkspaces = allWorkspaces.concat(workspaces);
 
             // Check if there are more pages
-            const pagination: Pagination | undefined = wsDocument.meta?.pagination;
-            if (pagination && pagination.total && pagination.size) {
-                hasMore = (pageNumber * pageSize) < pagination.total;
+            const pagination = wsDocument.meta?.pagination as Pagination | undefined;
+            if (pagination && pagination['next-page'] !== null) {
+                hasMore = true;
             } else {
                 // Fallback: if less than requested page size returned, assume last page
                 hasMore = workspaces.length === pageSize;
