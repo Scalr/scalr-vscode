@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { Run, Plan, Apply, User } from '../api/types.gen';
+import { Run, Plan, Apply, User, Workspace, Environment } from '../api/types.gen';
 import { getRuns, getPlan, createRun } from '../api/services.gen';
 import { ScalrSession, ScalrAuthenticationProvider } from './authenticationProvider';
 import { getApplyStatusIcon, getApplyLabel } from './applyProvider';
@@ -22,6 +22,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
     private readonly didChangeTreeData = new vscode.EventEmitter<void | RunTreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
     private workspace: WorkspaceItem | undefined;
+    private filteredWorkspaceIds: string[] | undefined;
 
     private runItems: (RunItem | LoadMoreItem)[] = [];
     private nextPage: null | number = null;
@@ -51,8 +52,9 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         );
     }
 
-    refresh(workspace?: WorkspaceItem): void {
+    refresh(workspace?: WorkspaceItem, filteredWorkspaceIds?: string[]): void {
         this.workspace = workspace;
+        this.filteredWorkspaceIds = filteredWorkspaceIds;
         this.didChangeTreeData.fire();
     }
 
@@ -144,6 +146,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
     reset(): void {
         this.runItems = [];
         this.nextPage = null;
+        this.filteredWorkspaceIds = undefined;
     }
 
     getTreeItem(element: RunItem): RunTreeItem {
@@ -184,10 +187,28 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             return [];
         }
 
+        // Determine workspace filter based on selected workspace or visible workspaces
+        let workspaceFilter: string | undefined;
+        
+        if (this.workspace?.workspace.id) {
+            // If a specific workspace is selected, filter by that workspace
+            workspaceFilter = this.workspace.workspace.id;
+        } else if (this.filteredWorkspaceIds !== undefined) {
+            if (this.filteredWorkspaceIds.length > 0) {
+                // Show runs from all currently visible/filtered workspaces
+                workspaceFilter = 'in:' + this.filteredWorkspaceIds.join(',');
+            } else {
+                // Empty array means no workspaces match the filter (e.g., environment with no workspaces)
+                // Return empty array immediately to avoid API call
+                return [];
+            }
+        }
+        // If no filters are applied, workspaceFilter remains undefined and shows all runs
+
         const { data } = await getRuns({
             query: {
-                include: ['plan', 'policy-checks', 'cost-estimate', 'apply', 'created-by', 'created-by-run'],
-                'filter[workspace]': this.workspace?.workspace.id,
+                include: ['plan', 'policy-checks', 'cost-estimate', 'apply', 'created-by', 'created-by-run', 'workspace', 'environment'],
+                'filter[workspace]': workspaceFilter,
                 page: {
                     number: this.nextPage || 1,
                 },
@@ -207,8 +228,10 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         const plans: Map<string, Plan> = new Map();
         const applies: Map<string, Apply> = new Map();
         const createdBy: Map<string, User> = new Map();
+        const workspaces: Map<string, Workspace> = new Map();
+        const environments: Map<string, Environment> = new Map();
 
-        const included = data.included ?? ([] as (Plan | Apply | User)[]);
+        const included = data.included ?? ([] as (Plan | Apply | User | Workspace | Environment)[]);
 
         included.forEach((item) => {
             if ((item as Plan).type === 'plans') {
@@ -223,10 +246,21 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
                 }
             } else if ((item as User).type === 'users') {
                 createdBy.set(item.id as string, item as User);
+            } else if ((item as Workspace).type === 'workspaces') {
+                workspaces.set(item.id as string, item as Workspace);
+            } else if ((item as Environment).type === 'environments') {
+                environments.set(item.id as string, item as Environment);
             }
         });
 
         return data.data.map((run: Run) => {
+            const workspace = run.relationships?.workspace?.data 
+                ? workspaces.get(run.relationships.workspace.data.id) 
+                : undefined;
+            const environment = run.relationships?.environment?.data 
+                ? environments.get(run.relationships.environment.data.id) 
+                : undefined;
+                
             return new RunItem(
                 session.baseUrl,
                 run,
@@ -234,7 +268,9 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
                     ? createdBy.get(run.relationships['created-by'].data.id)
                     : undefined,
                 run.relationships?.plan?.data ? plans.get(run.relationships.plan.data.id) : undefined,
-                run.relationships?.apply?.data ? applies.get(run.relationships.apply.data.id) : undefined
+                run.relationships?.apply?.data ? applies.get(run.relationships.apply.data.id) : undefined,
+                workspace,
+                environment
             );
         });
     }
@@ -262,9 +298,17 @@ class RunItem extends vscode.TreeItem {
         public readonly run: Run,
         public readonly createdBy?: User,
         public readonly plan?: Plan,
-        public readonly apply?: Apply
+        public readonly apply?: Apply,
+        public readonly workspace?: Workspace,
+        public readonly environment?: Environment
     ) {
-        super(run.id as string, vscode.TreeItemCollapsibleState.None);
+        // Create a descriptive label with workspace context
+        const workspaceName = workspace?.attributes?.name || 'Unknown Workspace';
+        const runLabel = `${run.id} - ${workspaceName}`;
+        
+        super(runLabel, vscode.TreeItemCollapsibleState.None);
+        
+        const environmentName = environment?.attributes?.name || 'Unknown Environment';
 
         const dryLabel = run.attributes?.['is-dry'] ? '(dry)' : '';
         const destroyLabel = run.attributes?.['is-destroy'] ? '(destroy)' : '';
@@ -277,10 +321,14 @@ class RunItem extends vscode.TreeItem {
 
         const createdAt = formatDate(run.attributes?.['created-at'] as string);
 
-        this.description = `${destroyLabel}${dryLabel} ${reason}`;
+        // Include environment in description for additional context
+        this.description = `(${environmentName}) ${destroyLabel}${dryLabel} ${reason}`;
         this.iconPath = getRunStatusIcon(run.attributes?.status);
 
         this.tooltip = new vscode.MarkdownString(undefined, true);
+        this.tooltip.appendMarkdown(`**Workspace**: ${workspaceName}\n\n`);
+        this.tooltip.appendMarkdown(`**Environment**: ${environmentName}\n\n`);
+        this.tooltip.appendMarkdown('---\n\n');
         this.tooltip.appendMarkdown(`**Reason**: ${reason}\n\n`);
         this.tooltip.appendMarkdown('---\n\n');
         this.tooltip.appendMarkdown(`**Run ID** ${run.id}\n\n`);

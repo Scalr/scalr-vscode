@@ -6,6 +6,14 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.0.8]
+
+### Improvements
+
+-   Enhanced workspace provider with improved filtering logic
+-   Improved run provider with better filtering and search functionality
+-   Added ESLint security plugin for better code security
+
 ## [0.0.6]
 
 ### Features
@@ -51,7 +59,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ---
 
-[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.6...HEAD
+[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.8...HEAD
+[0.0.8]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.8
 [0.0.6]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.6
 [0.0.5]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.5
 [0.0.4]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.4

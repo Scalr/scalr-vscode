@@ -18,13 +18,16 @@ export class ScalrFeature implements vscode.Disposable {
             )
         );
 
-        vscode.authentication.onDidChangeSessions((e) => {
+        vscode.authentication.onDidChangeSessions(async (e) => {
             if (e.provider.id === ScalrAuthenticationProvider.id) {
-                workspaceDataProvider.resetFilters();
+                await workspaceDataProvider.resetFilters();
                 workspaceDataProvider.reset();
                 workspaceDataProvider.refresh();
+                
+                // Reset and refresh run provider with current visible workspaces
+                const filteredWorkspaceIds = await workspaceDataProvider.getFilteredWorkspaceIds();
                 runProvider.reset();
-                runProvider.refresh();
+                runProvider.refresh(undefined, filteredWorkspaceIds);
             }
         });
 
