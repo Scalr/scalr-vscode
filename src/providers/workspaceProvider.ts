@@ -304,23 +304,46 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         }
 
         // Get all workspaces that match the filters (not just the current page)
-        const { data } = await getWorkspaces<false>({
-            query: {
-                page: {
-                    size: 100, // Get more workspaces at once for filtering
-                },
-                ...queryFilters,
-            },
-        });
+        let allWorkspaces: Workspace[] = [];
+        let pageNumber = 1;
+        const pageSize = 100;
+        let hasMore = true;
 
-        if (!data) {
+        while (hasMore) {
+            const { data } = await getWorkspaces<false>({
+                query: {
+                    page: {
+                        size: pageSize,
+                        number: pageNumber,
+                    },
+                    ...queryFilters,
+                },
+            });
+
+            if (!data) {
+                break; // API call failed, stop fetching more pages
+            }
+
+            const wsDocument = data as WorkspaceListingDocument;
+            const workspaces = wsDocument.data || [];
+            allWorkspaces = allWorkspaces.concat(workspaces);
+
+            // Check if there are more pages
+            const pagination: Pagination | undefined = wsDocument.meta?.pagination;
+            if (pagination && pagination.total && pagination.size) {
+                hasMore = (pageNumber * pageSize) < pagination.total;
+            } else {
+                // Fallback: if less than requested page size returned, assume last page
+                hasMore = workspaces.length === pageSize;
+            }
+            pageNumber += 1;
+        }
+
+        if (allWorkspaces.length === 0) {
             return [];  // Return empty array instead of undefined when API call fails but filters are applied
         }
 
-        const wsDocument = data as WorkspaceListingDocument;
-        const workspaces = wsDocument.data || [];
-        
-        return workspaces.map(workspace => workspace.id as string);
+        return allWorkspaces.map(workspace => workspace.id as string);
     }
 
     dispose() {
