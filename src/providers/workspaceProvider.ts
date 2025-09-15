@@ -41,18 +41,21 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             vscode.commands.registerCommand('workspace.loadMore', () => {
                 this.refresh();
             }),
-            vscode.commands.registerCommand('workspace.refresh', (ws?: WorkspaceItem | LoadMoreItem) => {
+            vscode.commands.registerCommand('workspace.refresh', async (ws?: WorkspaceItem | LoadMoreItem) => {
                 ws = undefined;
                 this.workspaces = [];
                 this.reset();
                 this.refresh();
+                
+                // Always update run provider with current visible workspace IDs
+                const filteredWorkspaceIds = await this.getFilteredWorkspaceIds();
                 this.runProvider.reset();
-                this.runProvider.refresh(ws);
+                this.runProvider.refresh(ws, filteredWorkspaceIds);
             }),
             vscode.commands.registerCommand('workspace.filter', () => this.chooseFilterOrClear()),
-            vscode.commands.registerCommand('workspace.clearFilters', () => {
+            vscode.commands.registerCommand('workspace.clearFilters', async () => {
                 this.filters.clear();
-                this.applyFilters();
+                await this.applyFilters();
             })
         );
     }
@@ -90,9 +93,9 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         this.nextPage = null;
     }
 
-    resetFilters(): void {
+    async resetFilters(): Promise<void> {
         this.filters.clear();
-        this.applyFilters();
+        await this.applyFilters();
     }
 
     refresh(): void {
@@ -203,14 +206,14 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                     }, delay);
                 });
 
-                environmentsQuickPicks.onDidAccept(() => {
+                environmentsQuickPicks.onDidAccept(async () => {
                     const selectedEnvironments = environmentsQuickPicks.selectedItems as QuickPickItem[];
                     if (selectedEnvironments.length === 0) {
                         this.filters.delete('environment');
                     } else {
                         this.filters.set('environment', selectedEnvironments);
                     }
-                    this.applyFilters();
+                    await this.applyFilters();
                     environmentsQuickPicks.hide();
                 });
 
@@ -229,7 +232,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                     this.filters.delete('query');
                 }
 
-                this.applyFilters();
+                await this.applyFilters();
                 break;
             }
             default:
@@ -237,10 +240,15 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         }
     }
 
-    private applyFilters() {
+    private async applyFilters() {
         this.reset();
         this.refresh();
         this.ctx.workspaceState.update('workspaceFilters', JSON.stringify(Array.from(this.filters.entries())));
+        
+        // Update run provider with filtered workspace IDs
+        const filteredWorkspaceIds = await this.getFilteredWorkspaceIds();
+        this.runProvider.reset();
+        this.runProvider.refresh(undefined, filteredWorkspaceIds);
     }
 
     private async getEnvironmentQuickPick(query?: string): Promise<QuickPickItem[]> {
@@ -264,6 +272,55 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             label: env.attributes.name,
             id: env.id as string,
         }));
+    }
+
+    /**
+     * Get the list of currently visible workspace IDs for use by the run provider
+     * @returns Array of workspace IDs that match current filters, or undefined if no filters applied (shows all)
+     */
+    public async getFilteredWorkspaceIds(): Promise<string[] | undefined> {
+        // If no filters are applied, return undefined to show all workspaces/runs
+        if (this.filters.size === 0) {
+            return undefined;
+        }
+
+        const session = (await vscode.authentication.getSession(ScalrAuthenticationProvider.id, [], {
+            createIfNone: false,
+        })) as ScalrSession;
+
+        if (session === undefined) {
+            return [];  // Return empty array instead of undefined when not authenticated but filters are applied
+        }
+
+        const queryFilters: { [key: string]: string | undefined } = {};
+
+        for (const [filterKey, filterValue] of this.filters.entries()) {
+            const filterName = filterKey !== 'query' ? `filter[${filterKey}]` : filterKey;
+            if (Array.isArray(filterValue)) {
+                queryFilters[filterName] = 'in:' + filterValue.map((item) => item.id).join(',');
+            } else {
+                queryFilters[filterName] = filterValue;
+            }
+        }
+
+        // Get all workspaces that match the filters (not just the current page)
+        const { data } = await getWorkspaces<false>({
+            query: {
+                page: {
+                    size: 100, // Get more workspaces at once for filtering
+                },
+                ...queryFilters,
+            },
+        });
+
+        if (!data) {
+            return [];  // Return empty array instead of undefined when API call fails but filters are applied
+        }
+
+        const wsDocument = data as WorkspaceListingDocument;
+        const workspaces = wsDocument.data || [];
+        
+        return workspaces.map(workspace => workspace.id as string);
     }
 
     dispose() {
