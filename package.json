@@ -203,7 +203,7 @@
         "format": "prettier --write ."
     },
     "devDependencies": {
-        "@hey-api/openapi-ts": "^0.53.11",
+        "@hey-api/openapi-ts": "^0.92.4",
         "@types/mocha": "^10.0.9",
         "@types/node": "22.x",
         "@types/vscode": "^1.94.0",
