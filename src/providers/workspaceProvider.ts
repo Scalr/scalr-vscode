@@ -247,7 +247,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
 
                 let identifier: string | undefined;
 
-                if (detectedIdentifiers.length > 0) {
+                if (detectedIdentifiers.length === 1) {
+                    // Single repo detected — apply automatically
+                    identifier = detectedIdentifiers[0];
+                } else if (detectedIdentifiers.length > 1) {
+                    // Multiple repos — let the user pick
                     const items: vscode.QuickPickItem[] = detectedIdentifiers.map((id) => ({ label: id }));
                     if (currentRepo && !detectedIdentifiers.includes(currentRepo)) {
                         items.unshift({ label: currentRepo, description: '(current filter)' });
@@ -272,6 +276,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                         identifier = selected.label;
                     }
                 } else {
+                    // No git remotes found — fall back to manual input
                     identifier = await vscode.window.showInputBox({
                         value: currentRepo,
                         placeHolder: 'org/repo',
