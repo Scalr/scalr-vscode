@@ -6,6 +6,7 @@ import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
 import { formatDate } from '../date-utils';
 import { showErrorMessage } from '../api/error';
+import { getRemoteRepoIdentifiers } from '../git';
 
 class QuickPickItem implements vscode.QuickPickItem {
     constructor(
@@ -17,7 +18,8 @@ class QuickPickItem implements vscode.QuickPickItem {
 enum WorkspaceFilter {
     //important the key value must be the same as the filter key in the API
     environment = 'By environments',
-    query = 'By workspace name of ID',
+    query = 'By workspace name or ID',
+    repository = 'By repository',
 }
 
 type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;
@@ -119,7 +121,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         const queryFilters: { [key: string]: string | undefined } = {};
 
         for (const [filterKey, filterValue] of this.filters.entries()) {
-            const filterName = filterKey !== 'query' ? `filter[${filterKey}]` : filterKey;
+            const filterName = filterKey === 'query'
+                ? 'query'
+                : filterKey === 'repository'
+                    ? 'filter[vcs-repo][identifier]'
+                    : `filter[${filterKey}]`;
             if (Array.isArray(filterValue)) {
                 queryFilters[filterName] = 'in:' + filterValue.map((item) => item.id).join(',');
             } else {
@@ -235,6 +241,53 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                 await this.applyFilters();
                 break;
             }
+            case WorkspaceFilter.repository: {
+                const currentRepo = (this.filters.get('repository') || '') as string;
+                const detectedIdentifiers = await getRemoteRepoIdentifiers();
+
+                let identifier: string | undefined;
+
+                if (detectedIdentifiers.length > 0) {
+                    const items: vscode.QuickPickItem[] = detectedIdentifiers.map((id) => ({ label: id }));
+                    if (currentRepo && !detectedIdentifiers.includes(currentRepo)) {
+                        items.unshift({ label: currentRepo, description: '(current filter)' });
+                    }
+                    items.push({ label: '$(edit) Enter manually...', description: 'Type a repository identifier' });
+
+                    const selected = await vscode.window.showQuickPick(items, {
+                        placeHolder: 'Select or enter a repository identifier (e.g., org/repo)',
+                    });
+
+                    if (!selected) {
+                        return;
+                    }
+
+                    if (selected.label === '$(edit) Enter manually...') {
+                        identifier = await vscode.window.showInputBox({
+                            value: currentRepo,
+                            placeHolder: 'org/repo',
+                            prompt: 'Filtering by VCS repository identifier',
+                        });
+                    } else {
+                        identifier = selected.label;
+                    }
+                } else {
+                    identifier = await vscode.window.showInputBox({
+                        value: currentRepo,
+                        placeHolder: 'org/repo',
+                        prompt: 'Filtering by VCS repository identifier',
+                    });
+                }
+
+                if (identifier) {
+                    this.filters.set('repository', identifier);
+                } else {
+                    this.filters.delete('repository');
+                }
+
+                await this.applyFilters();
+                break;
+            }
             default:
                 throw new Error('Unknown filter type');
         }
@@ -295,7 +348,11 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         const queryFilters: { [key: string]: string | undefined } = {};
 
         for (const [filterKey, filterValue] of this.filters.entries()) {
-            const filterName = filterKey !== 'query' ? `filter[${filterKey}]` : filterKey;
+            const filterName = filterKey === 'query'
+                ? 'query'
+                : filterKey === 'repository'
+                    ? 'filter[vcs-repo][identifier]'
+                    : `filter[${filterKey}]`;
             if (Array.isArray(filterValue)) {
                 queryFilters[filterName] = 'in:' + filterValue.map((item) => item.id).join(',');
             } else {

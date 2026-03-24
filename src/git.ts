@@ -1,6 +1,5 @@
 import { API as GitApi, GitExtension } from './@types/git';
 import { Extension, extensions } from 'vscode';
-import console = require('console');
 
 async function getGitApi(): Promise<GitApi | undefined> {
     try {
@@ -17,6 +16,22 @@ async function getGitApi(): Promise<GitApi | undefined> {
     return undefined;
 }
 
+function parseRepoIdentifier(url: string): string | undefined {
+    // HTTPS format: https://github.com/org/repo.git or https://github.com/org/repo
+    const httpsMatch = url.match(/https?:\/\/[^/]+\/(.+?)(?:\.git)?$/);
+    if (httpsMatch) {
+        return httpsMatch[1];
+    }
+
+    // SSH format: git@github.com:org/repo.git
+    const sshMatch = url.match(/git@[^:]+:(.+?)(?:\.git)?$/);
+    if (sshMatch) {
+        return sshMatch[1];
+    }
+
+    return undefined;
+}
+
 export async function getRemoteRepoIdentifiers(): Promise<string[]> {
     const gitApi = await getGitApi();
     if (gitApi === undefined) {
@@ -28,12 +43,18 @@ export async function getRemoteRepoIdentifiers(): Promise<string[]> {
         return [];
     }
 
-    return repositories.map((repo) => {
-        const rootUri = repo.state.remotes[0].name;
-        if (rootUri === undefined) {
-            return '';
+    const identifiers: string[] = [];
+    for (const repo of repositories) {
+        for (const remote of repo.state.remotes) {
+            const url = remote.fetchUrl || remote.pushUrl;
+            if (url) {
+                const identifier = parseRepoIdentifier(url);
+                if (identifier && !identifiers.includes(identifier)) {
+                    identifiers.push(identifier);
+                }
+            }
         }
+    }
 
-        return rootUri;
-    });
+    return identifiers;
 }
