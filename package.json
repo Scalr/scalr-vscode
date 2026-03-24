@@ -228,6 +228,9 @@
         "qs": "^6.13.0",
         "url": "^0.11.4"
     },
+    "overrides": {
+        "serialize-javascript": "^7.0.4"
+    },
     "repository": {
         "type": "git",
         "url": "https://github.com/Scalr/scalr-vscode.git"
