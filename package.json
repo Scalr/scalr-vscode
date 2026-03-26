@@ -117,7 +117,7 @@
             {
                 "command": "run.createDryFromWorkingDirectory",
                 "title": "Scalr: Dry Run from Working Directory",
-                "icon": "$(rocket)",
+                "icon": "$(play)",
                 "enablement": "scalr.signed-in"
             }
         ],
