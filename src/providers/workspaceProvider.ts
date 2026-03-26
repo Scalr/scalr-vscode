@@ -1,11 +1,12 @@
 import * as vscode from 'vscode';
 import { Workspace, Environment, Run, WorkspaceListingDocument, EnvironmentListingDocument } from '../api/types.gen';
-import { getWorkspaces, listEnvironments } from '../api/services.gen';
+import { getWorkspaces, listEnvironments } from '../api/sdk.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
 import { formatDate } from '../date-utils';
 import { showErrorMessage } from '../api/error';
+import { getRemoteRepoIdentifiers } from '../git';
 
 class QuickPickItem implements vscode.QuickPickItem {
     constructor(
@@ -17,10 +18,23 @@ class QuickPickItem implements vscode.QuickPickItem {
 enum WorkspaceFilter {
     //important the key value must be the same as the filter key in the API
     environment = 'By environments',
-    query = 'By workspace name of ID',
+    query = 'By workspace name or ID',
+    repository = 'By repository',
 }
 
 type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;
+
+function filterKeyToApiParam(filterKey: WorkspaceFilterApiType): string {
+    switch (filterKey) {
+        case 'query':
+            return 'query';
+        case 'repository':
+            return 'filter[vcs-repo][identifier]';
+        default:
+            return `filter[${filterKey}]`;
+    }
+}
+
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
@@ -119,7 +133,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         const queryFilters: { [key: string]: string | undefined } = {};
 
         for (const [filterKey, filterValue] of this.filters.entries()) {
-            const filterName = filterKey !== 'query' ? `filter[${filterKey}]` : filterKey;
+            const filterName = filterKeyToApiParam(filterKey);
             if (Array.isArray(filterValue)) {
                 queryFilters[filterName] = 'in:' + filterValue.map((item) => item.id).join(',');
             } else {
@@ -129,10 +143,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         const { data } = await getWorkspaces<false>({
             query: {
                 include: ['latest-run', 'environment'],
-                page: {
-                    number: this.nextPage || 1,
-                    size: 30,
-                },
+                'page[number]': String(this.nextPage || 1),
+                'page[size]': '30',
                 // @ts-expect-error TODO:ape this is must be fixed in our product
                 sort: ['-updated-at'],
                 ...queryFilters,
@@ -143,12 +155,14 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         }
 
         const wsDocument = data as WorkspaceListingDocument;
-        const pagination = wsDocument.meta?.pagination as Pagination;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pagination = (wsDocument as any).meta?.pagination as Pagination;
         this.nextPage = pagination['next-page'];
         const environmentMap = new Map<string, Environment>();
         const runsMap = new Map<string, Run>();
 
-        for (const inc of wsDocument.included || []) {
+        for (const item of wsDocument.included || []) {
+            const inc = item as Environment | Run;
             if ((inc as Environment).type === 'environments') {
                 environmentMap.set(inc.id as string, inc as Environment);
             } else if ((inc as Run).type === 'runs') {
@@ -169,15 +183,24 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     }
 
     private async chooseFilterOrClear() {
-        const filterType = await vscode.window.showQuickPick(Object.values(WorkspaceFilter), {
+        const detectedIdentifiers = await getRemoteRepoIdentifiers();
+        const repoLabel = detectedIdentifiers.length > 0 ? 'By current repository' : WorkspaceFilter.repository;
+
+        const filterOptions = new Map<string, string>([
+            [WorkspaceFilter.environment, WorkspaceFilter.environment],
+            [WorkspaceFilter.query, WorkspaceFilter.query],
+            [repoLabel, WorkspaceFilter.repository],
+        ]);
+
+        const selected = await vscode.window.showQuickPick(Array.from(filterOptions.keys()), {
             placeHolder: 'Select one of the filters below',
         });
 
-        if (!filterType) {
+        if (!selected) {
             return;
         }
 
-        await this.enterFilterValue(filterType);
+        await this.enterFilterValue(filterOptions.get(selected)!);
     }
 
     private async enterFilterValue(filterType: string) {
@@ -230,6 +253,58 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
                     this.filters.set('query', query);
                 } else {
                     this.filters.delete('query');
+                }
+
+                await this.applyFilters();
+                break;
+            }
+            case WorkspaceFilter.repository: {
+                const currentRepo = (this.filters.get('repository') || '') as string;
+                const detectedIdentifiers = await getRemoteRepoIdentifiers();
+
+                let identifier: string | undefined;
+
+                if (detectedIdentifiers.length === 1) {
+                    // Single repo detected — apply automatically
+                    identifier = detectedIdentifiers[0];
+                } else if (detectedIdentifiers.length > 1) {
+                    // Multiple repos — let the user pick
+                    const items: vscode.QuickPickItem[] = detectedIdentifiers.map((id) => ({ label: id }));
+                    if (currentRepo && !detectedIdentifiers.includes(currentRepo)) {
+                        items.unshift({ label: currentRepo, description: '(current filter)' });
+                    }
+                    items.push({ label: '$(edit) Enter manually...', description: 'Type a repository identifier' });
+
+                    const selected = await vscode.window.showQuickPick(items, {
+                        placeHolder: 'Select or enter a repository identifier (e.g., org/repo)',
+                    });
+
+                    if (!selected) {
+                        return;
+                    }
+
+                    if (selected.label === '$(edit) Enter manually...') {
+                        identifier = await vscode.window.showInputBox({
+                            value: currentRepo,
+                            placeHolder: 'org/repo',
+                            prompt: 'Filtering by VCS repository identifier',
+                        });
+                    } else {
+                        identifier = selected.label;
+                    }
+                } else {
+                    // No git remotes found — fall back to manual input
+                    identifier = await vscode.window.showInputBox({
+                        value: currentRepo,
+                        placeHolder: 'org/repo',
+                        prompt: 'Filtering by VCS repository identifier',
+                    });
+                }
+
+                if (identifier) {
+                    this.filters.set('repository', identifier);
+                } else {
+                    this.filters.delete('repository');
                 }
 
                 await this.applyFilters();
@@ -295,7 +370,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         const queryFilters: { [key: string]: string | undefined } = {};
 
         for (const [filterKey, filterValue] of this.filters.entries()) {
-            const filterName = filterKey !== 'query' ? `filter[${filterKey}]` : filterKey;
+            const filterName = filterKeyToApiParam(filterKey);
             if (Array.isArray(filterValue)) {
                 queryFilters[filterName] = 'in:' + filterValue.map((item) => item.id).join(',');
             } else {
@@ -312,10 +387,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         while (hasMore) {
             const { data } = await getWorkspaces<false>({
                 query: {
-                    page: {
-                        size: pageSize,
-                        number: pageNumber,
-                    },
+                    'page[size]': String(pageSize),
+                    'page[number]': String(pageNumber),
                     ...queryFilters,
                 },
             });
@@ -329,7 +402,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             allWorkspaces = allWorkspaces.concat(workspaces);
 
             // Check if there are more pages
-            const pagination = wsDocument.meta?.pagination as Pagination | undefined;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const pagination = (wsDocument as any).meta?.pagination as Pagination | undefined;
             if (pagination && pagination['next-page'] !== null) {
                 hasMore = true;
             } else {

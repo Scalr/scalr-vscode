@@ -2,7 +2,7 @@
     "name": "scalr",
     "displayName": "Scalr",
     "description": "The Scalr VSCode Extension is a tool designed to streamline your Opentofu/Terraform workflows by integrating Scalr directly into your Visual Studio Code environment.",
-    "version": "0.0.8",
+    "version": "0.1.0",
     "icon": "assets/scalr_full_colour.png",
     "license": "MPL-2.0",
     "publisher": "Scalr",
@@ -217,7 +217,7 @@
         "eslint-plugin-security": "^3.0.1",
         "prettier": "^3.8.1",
         "ts-loader": "^9.5.4",
-        "typescript": "^6.0.2",
+        "typescript": "^5.9.3",
         "webpack": "^5.105.4",
         "webpack-cli": "^7.0.2"
     },

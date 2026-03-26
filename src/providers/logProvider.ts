@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getPlanLog, getApply, getApplyLog, getPlan } from '../api/services.gen';
+import { getPlanLog, getApply, getApplyLog, getPlan } from '../api/sdk.gen';
 import { ScalrAuthenticationProvider } from '../providers/authenticationProvider';
 import { showErrorMessage } from '../api/error';
 
@@ -84,11 +84,13 @@ export class LogProvider implements vscode.TextDocumentContentProvider, vscode.D
                 ({ data, error } = await getPlanLog({
                     path: { plan: id },
                     query: { clean: true },
+                    parseAs: 'text',
                 }));
             } else {
                 ({ data, error } = await getApplyLog({
                     path: { apply: id },
                     query: { clean: true },
+                    parseAs: 'text',
                 }));
             }
 

@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import { initClient } from '../api/init';
 import { getErrorMessage } from '../api/error';
-import { getAccounts } from '../api/services.gen';
+import { getAccounts } from '../api/sdk.gen';
 import { AccountListingDocument, Account, User } from '../api/types.gen';
 
 /* import { getRemoteRepoIdentifiers } from '../git'; TODO: uncomment when we'll be implementing Git-based filters */
@@ -122,9 +122,7 @@ export class ScalrAuthenticationProvider implements vscode.AuthenticationProvide
 
         const { data, error } = await getAccounts({
             query: {
-                filter: {
-                    name: accountName,
-                },
+                'filter[name]': accountName,
                 fields: {
                     accounts: 'name',
                 },

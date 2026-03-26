@@ -32,6 +32,8 @@ export interface Ref {
 
 export interface Remote {
     name: string;
+    fetchUrl?: string;
+    pushUrl?: string;
 }
 
 export interface InputBox {
