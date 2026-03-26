@@ -84,11 +84,13 @@ export class LogProvider implements vscode.TextDocumentContentProvider, vscode.D
                 ({ data, error } = await getPlanLog({
                     path: { plan: id },
                     query: { clean: true },
+                    parseAs: 'text',
                 }));
             } else {
                 ({ data, error } = await getApplyLog({
                     path: { apply: id },
                     query: { clean: true },
+                    parseAs: 'text',
                 }));
             }
 
