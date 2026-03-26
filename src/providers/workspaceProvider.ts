@@ -183,15 +183,24 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     }
 
     private async chooseFilterOrClear() {
-        const filterType = await vscode.window.showQuickPick(Object.values(WorkspaceFilter), {
+        const detectedIdentifiers = await getRemoteRepoIdentifiers();
+        const repoLabel = detectedIdentifiers.length > 0 ? 'By current repository' : WorkspaceFilter.repository;
+
+        const filterOptions = new Map<string, string>([
+            [WorkspaceFilter.environment, WorkspaceFilter.environment],
+            [WorkspaceFilter.query, WorkspaceFilter.query],
+            [repoLabel, WorkspaceFilter.repository],
+        ]);
+
+        const selected = await vscode.window.showQuickPick(Array.from(filterOptions.keys()), {
             placeHolder: 'Select one of the filters below',
         });
 
-        if (!filterType) {
+        if (!selected) {
             return;
         }
 
-        await this.enterFilterValue(filterType);
+        await this.enterFilterValue(filterOptions.get(selected)!);
     }
 
     private async enterFilterValue(filterType: string) {
