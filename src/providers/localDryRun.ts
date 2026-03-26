@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
-import { getWorkspaces, getConfigurationVersion, createRun, getPlan } from '../api/sdk.gen';
-import { Workspace, WorkspaceListingDocument } from '../api/types.gen';
+import { getWorkspaces, listEnvironments, getConfigurationVersion, createRun, getPlan } from '../api/sdk.gen';
+import { Workspace, WorkspaceListingDocument, EnvironmentListingDocument, Environment } from '../api/types.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { PlanItem } from './runProvider';
 import { Pagination } from '../@types/api';
@@ -11,7 +11,11 @@ const out = vscode.window.createOutputChannel('Scalr', { log: true });
 
 const DRY_RUN_WORKSPACE_CACHE_KEY = 'localDryRun.workspaceCache';
 
-async function fetchMatchingWorkspaces(identifier: string, relativeWorkingDir: string): Promise<Workspace[]> {
+// ---------------------------------------------------------------------------
+// Workspace fetching helpers
+// ---------------------------------------------------------------------------
+
+async function fetchWorkspacesByVcs(identifier: string, relativeWorkingDir: string): Promise<Workspace[]> {
     const matching: Workspace[] = [];
     let pageNumber = 1;
 
@@ -51,6 +55,103 @@ async function fetchMatchingWorkspaces(identifier: string, relativeWorkingDir: s
     return matching;
 }
 
+async function fetchWorkspacesByFilter(extraQuery: Record<string, string>): Promise<Workspace[]> {
+    const all: Workspace[] = [];
+    let pageNumber = 1;
+
+    while (true) {
+        const { data } = await getWorkspaces<false>({
+            query: { 'page[number]': String(pageNumber), 'page[size]': '100', ...extraQuery },
+        });
+
+        if (!data) break;
+
+        const wsDoc = data as WorkspaceListingDocument;
+        const workspaces = wsDoc.data || [];
+        all.push(...workspaces);
+
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pagination = (wsDoc as any).meta?.pagination as Pagination | undefined;
+        if (!pagination?.['next-page']) break;
+        pageNumber++;
+    }
+
+    return all;
+}
+
+// ---------------------------------------------------------------------------
+// "Other workspace" selection flow
+// ---------------------------------------------------------------------------
+
+type OtherFilter = 'environment' | 'query';
+
+async function selectWorkspaceFromOther(): Promise<Workspace | undefined> {
+    const filterPick = await vscode.window.showQuickPick(
+        [
+            { label: '$(symbol-namespace) By environment', filter: 'environment' as OtherFilter },
+            { label: '$(search) By workspace name or ID', filter: 'query' as OtherFilter },
+        ],
+        { title: 'Select Scalr Workspace — Other', placeHolder: 'How do you want to find the workspace?' }
+    );
+
+    if (!filterPick) return undefined;
+
+    let workspaces: Workspace[] = [];
+
+    if (filterPick.filter === 'environment') {
+        // Fetch environments for the picker
+        const { data: envData } = await listEnvironments<false>({
+            query: { fields: { environments: 'name' }, 'page[size]': '100' },
+        });
+
+        const environments = ((envData as EnvironmentListingDocument | undefined)?.data ?? []) as Environment[];
+
+        if (environments.length === 0) {
+            vscode.window.showWarningMessage('No environments found.');
+            return undefined;
+        }
+
+        const envPick = await vscode.window.showQuickPick(
+            environments.map((e) => ({ label: e.attributes?.name ?? e.id ?? '', id: e.id as string })),
+            { title: 'Select Environment', placeHolder: 'Choose an environment to list workspaces' }
+        );
+
+        if (!envPick) return undefined;
+
+        workspaces = await fetchWorkspacesByFilter({ 'filter[environment]': envPick.id });
+    } else {
+        const query = await vscode.window.showInputBox({
+            title: 'Select Scalr Workspace — Other',
+            placeHolder: 'workspace-name or ws-xxxx',
+            prompt: 'Filter workspaces by name or ID',
+        });
+
+        if (!query) return undefined;
+
+        workspaces = await fetchWorkspacesByFilter({ query });
+    }
+
+    if (workspaces.length === 0) {
+        vscode.window.showWarningMessage('No workspaces found for the selected filter.');
+        return undefined;
+    }
+
+    const wsPick = await vscode.window.showQuickPick(
+        workspaces.map((ws) => ({
+            label: ws.attributes?.name ?? (ws.id as string),
+            description: ws.id as string,
+            workspace: ws,
+        })),
+        { title: 'Select Scalr Workspace', placeHolder: 'Choose a workspace for the dry run' }
+    );
+
+    return wsPick?.workspace;
+}
+
+// ---------------------------------------------------------------------------
+// Upload polling
+// ---------------------------------------------------------------------------
+
 async function pollForUpload(cvId: string): Promise<boolean> {
     for (let i = 0; i < 30; i++) {
         await new Promise((r) => setTimeout(r, 2000));
@@ -67,6 +168,10 @@ async function pollForUpload(cvId: string): Promise<boolean> {
     out.warn('pollForUpload: timed out after 30 attempts (~60s)');
     return false;
 }
+
+// ---------------------------------------------------------------------------
+// Entry point
+// ---------------------------------------------------------------------------
 
 export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<void> {
     if (vscode.env.uiKind === vscode.UIKind.Web) {
@@ -100,55 +205,92 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
     out.info(`active file: ${activeFilePath}`);
     out.info(`relative working-directory: ${JSON.stringify(relativeWorkingDir)}`);
 
+    // Step 1 — ask the user where to trigger the run
+    const repoLabel = relativeWorkingDir
+        ? `${repoInfo.identifier} › ${relativeWorkingDir}`
+        : repoInfo.identifier;
+
+    const sourcePick = await vscode.window.showQuickPick(
+        [
+            {
+                label: '$(repo) Current repository',
+                description: repoLabel,
+                source: 'repo' as const,
+            },
+            {
+                label: '$(search) Other workspace...',
+                description: 'Filter by environment or workspace name/ID',
+                source: 'other' as const,
+            },
+        ],
+        { title: 'Scalr: Dry Run', placeHolder: 'Where do you want to trigger the dry run?' }
+    );
+
+    if (!sourcePick) return;
+
+    // Step 2 — resolve the target workspace
+    let selectedWorkspace: Workspace | undefined;
+
+    if (sourcePick.source === 'other') {
+        selectedWorkspace = await selectWorkspaceFromOther();
+        if (!selectedWorkspace) return;
+    } else {
+        // VCS-matched path (existing logic)
+        await vscode.window.withProgress(
+            { location: vscode.ProgressLocation.Notification, title: 'Scalr', cancellable: false },
+            async (progress) => {
+                progress.report({ message: 'Matching workspaces...' });
+                const matchingWorkspaces = await fetchWorkspacesByVcs(repoInfo.identifier, relativeWorkingDir);
+                out.info(`workspaces matched: ${matchingWorkspaces.length}`);
+                matchingWorkspaces.forEach((w) =>
+                    out.info(`  matched: id=${w.id} name=${w.attributes?.name}`)
+                );
+
+                if (matchingWorkspaces.length === 0) {
+                    vscode.window.showErrorMessage(
+                        `No Scalr workspaces found for repository '${repoInfo.identifier}' with working directory '${relativeWorkingDir || '.'}'.`
+                    );
+                    return;
+                }
+
+                if (matchingWorkspaces.length === 1) {
+                    selectedWorkspace = matchingWorkspaces[0];
+                } else {
+                    const cacheKey = `${DRY_RUN_WORKSPACE_CACHE_KEY}.${gitRootPath}.${relativeWorkingDir}`;
+                    const cachedId = ctx.workspaceState.get<string>(cacheKey);
+
+                    const picks = matchingWorkspaces.map((ws) => ({
+                        label: ws.attributes.name,
+                        description: ws.id as string,
+                        workspace: ws,
+                        picked: ws.id === cachedId,
+                    }));
+
+                    const pick = await vscode.window.showQuickPick(picks, {
+                        placeHolder: 'Multiple workspaces match — select one for the dry run',
+                        title: 'Select Scalr Workspace',
+                    });
+
+                    if (!pick) return;
+
+                    selectedWorkspace = pick.workspace;
+                    await ctx.workspaceState.update(cacheKey, selectedWorkspace.id);
+                }
+            }
+        );
+    }
+
+    if (!selectedWorkspace) return;
+
+    // Step 3 — create CV, upload archive, queue run
     await vscode.window.withProgress(
         { location: vscode.ProgressLocation.Notification, title: 'Scalr', cancellable: false },
         async (progress) => {
-            progress.report({ message: 'Matching workspaces...' });
-
-            const matchingWorkspaces = await fetchMatchingWorkspaces(repoInfo.identifier, relativeWorkingDir);
-            out.info(`workspaces matched: ${matchingWorkspaces.length}`);
-            matchingWorkspaces.forEach((w) =>
-                out.info(`  matched: id=${w.id} name=${w.attributes?.name} working-directory=${JSON.stringify(w.attributes?.['working-directory'])} vcs-repo.identifier=${w.attributes?.['vcs-repo']?.identifier}`)
-            );
-
-            if (matchingWorkspaces.length === 0) {
-                vscode.window.showErrorMessage(
-                    `No Scalr workspaces found for repository '${repoInfo.identifier}' with working directory '${relativeWorkingDir || '.'}'.`
-                );
-                return;
-            }
-
-            let selectedWorkspace: Workspace;
-
-            if (matchingWorkspaces.length === 1) {
-                selectedWorkspace = matchingWorkspaces[0];
-            } else {
-                const cacheKey = `${DRY_RUN_WORKSPACE_CACHE_KEY}.${gitRootPath}.${relativeWorkingDir}`;
-                const cachedId = ctx.workspaceState.get<string>(cacheKey);
-
-                const picks = matchingWorkspaces.map((ws) => ({
-                    label: ws.attributes.name,
-                    description: ws.id as string,
-                    workspace: ws,
-                    picked: ws.id === cachedId,
-                }));
-
-                const pick = await vscode.window.showQuickPick(picks, {
-                    placeHolder: 'Multiple workspaces match — select one for the dry run',
-                    title: 'Select Scalr Workspace',
-                });
-
-                if (!pick) return;
-
-                selectedWorkspace = pick.workspace;
-                await ctx.workspaceState.update(cacheKey, selectedWorkspace.id);
-            }
-
-            progress.report({ message: `Creating configuration version for '${selectedWorkspace.attributes.name}'...` });
+            progress.report({ message: `Creating configuration version for '${selectedWorkspace!.attributes.name}'...` });
 
             const tfeBaseUrl = `https://${(session as ScalrSession).account.label}.scalr.io/api/tfe/v2`;
             const cvCreateResp = await globalThis.fetch(
-                `${tfeBaseUrl}/workspaces/${selectedWorkspace.id}/configuration-versions`,
+                `${tfeBaseUrl}/workspaces/${selectedWorkspace!.id}/configuration-versions`,
                 {
                     method: 'POST',
                     headers: {
@@ -250,7 +392,7 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
                             source: 'vscode',
                         },
                         relationships: {
-                            workspace: { data: { type: 'workspaces', id: selectedWorkspace.id as string } },
+                            workspace: { data: { type: 'workspaces', id: selectedWorkspace!.id as string } },
                             'configuration-version': {
                                 data: { type: 'configuration-versions', id: cvId },
                             },
@@ -265,7 +407,7 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
             }
 
             vscode.window.showInformationMessage(
-                `Dry run queued in workspace '${selectedWorkspace.attributes.name}'.`
+                `Dry run queued in workspace '${selectedWorkspace!.attributes.name}'.`
             );
 
             const planId = runData.data.relationships?.plan?.data?.id as string | undefined;
