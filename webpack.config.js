@@ -34,6 +34,11 @@ const webConfig = {
             // for the list of Node.js core module polyfills.
             assert: require.resolve('assert'),
             url: require.resolve('url/'),
+            // Desktop-only modules used for local dry runs — not available in web workers
+            child_process: false,
+            fs: false,
+            os: false,
+            path: false,
         },
     },
     module: {

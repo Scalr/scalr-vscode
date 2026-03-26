@@ -8,6 +8,16 @@ export function getErrorMessage(error: unknown): string {
         return error;
     }
 
+    // JSON:API error document returned by the fetch-based client
+    if (error && typeof error === 'object' && 'errors' in error) {
+        const errorDocument = error as ErrorDocument;
+        if (Array.isArray(errorDocument.errors) && errorDocument.errors.length > 0) {
+            //TODO:ape add the title to the error type in scalr api
+            //@ts-expect-error the title is not exposed in the error type but it is in the api
+            return errorDocument.errors.map((e) => e.title || e.detail).join('\n');
+        }
+    }
+
     if (anxios.isAxiosError(error)) {
         const axiosError = error as AxiosError;
         if (axiosError.code === 'ECONNABORTED') {
