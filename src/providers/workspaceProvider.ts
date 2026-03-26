@@ -23,6 +23,18 @@ enum WorkspaceFilter {
 }
 
 type WorkspaceFilterApiType = keyof typeof WorkspaceFilter;
+
+function filterKeyToApiParam(filterKey: WorkspaceFilterApiType): string {
+    switch (filterKey) {
+        case 'query':
+            return 'query';
+        case 'repository':
+            return 'filter[vcs-repo][identifier]';
+        default:
+            return `filter[${filterKey}]`;
+    }
+}
+
 export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode.TreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | vscode.TreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
@@ -121,11 +133,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         const queryFilters: { [key: string]: string | undefined } = {};
 
         for (const [filterKey, filterValue] of this.filters.entries()) {
-            const filterName = filterKey === 'query'
-                ? 'query'
-                : filterKey === 'repository'
-                    ? 'filter[vcs-repo][identifier]'
-                    : `filter[${filterKey}]`;
+            const filterName = filterKeyToApiParam(filterKey);
             if (Array.isArray(filterValue)) {
                 queryFilters[filterName] = 'in:' + filterValue.map((item) => item.id).join(',');
             } else {
@@ -353,11 +361,7 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         const queryFilters: { [key: string]: string | undefined } = {};
 
         for (const [filterKey, filterValue] of this.filters.entries()) {
-            const filterName = filterKey === 'query'
-                ? 'query'
-                : filterKey === 'repository'
-                    ? 'filter[vcs-repo][identifier]'
-                    : `filter[${filterKey}]`;
+            const filterName = filterKeyToApiParam(filterKey);
             if (Array.isArray(filterValue)) {
                 queryFilters[filterName] = 'in:' + filterValue.map((item) => item.id).join(',');
             } else {
