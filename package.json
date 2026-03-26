@@ -113,6 +113,12 @@
                 "title": "Scalr: Trigger Run",
                 "icon": "$(play)",
                 "enablement": "scalr.signed-in"
+            },
+            {
+                "command": "run.createDryFromWorkingDirectory",
+                "title": "Scalr: Dry Run from Working Directory",
+                "icon": "$(rocket)",
+                "enablement": "scalr.signed-in"
             }
         ],
         "menus": {
