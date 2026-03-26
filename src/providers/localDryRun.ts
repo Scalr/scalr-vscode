@@ -1,11 +1,13 @@
 import * as vscode from 'vscode';
-import { getWorkspaces, createConfigurationVersion, getConfigurationVersion, createRun, getPlan } from '../api/sdk.gen';
-import { Workspace, WorkspaceListingDocument, ConfigurationVersionDocument } from '../api/types.gen';
-import { ScalrAuthenticationProvider } from './authenticationProvider';
+import { getWorkspaces, getConfigurationVersion, createRun, getPlan } from '../api/sdk.gen';
+import { Workspace, WorkspaceListingDocument } from '../api/types.gen';
+import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { PlanItem } from './runProvider';
 import { Pagination } from '../@types/api';
 import { showErrorMessage } from '../api/error';
 import { getGitRepoInfo } from '../git';
+
+const out = vscode.window.createOutputChannel('Scalr', { log: true });
 
 const DRY_RUN_WORKSPACE_CACHE_KEY = 'localDryRun.workspaceCache';
 
@@ -27,9 +29,13 @@ async function fetchMatchingWorkspaces(identifier: string, relativeWorkingDir: s
         const wsDoc = data as WorkspaceListingDocument;
         const workspaces = wsDoc.data || [];
 
+        out.info(`  page ${pageNumber}: API returned ${workspaces.length} workspace(s) for identifier="${identifier}"`);
+
         for (const ws of workspaces) {
             const wsWorkingDir = (ws.attributes?.['working-directory'] || '').replace(/^\/+|\/+$/g, '');
             const localDir = relativeWorkingDir.replace(/^\/+|\/+$/g, '').replace(/\\/g, '/');
+
+            out.info(`  candidate: id=${ws.id} name=${ws.attributes?.name} working-directory=${JSON.stringify(ws.attributes?.['working-directory'])} vcs-repo.identifier=${ws.attributes?.['vcs-repo']?.identifier} → wsWorkingDir=${JSON.stringify(wsWorkingDir)} localDir=${JSON.stringify(localDir)} match=${wsWorkingDir === localDir}`);
 
             if (wsWorkingDir === localDir) {
                 matching.push(ws);
@@ -48,11 +54,17 @@ async function fetchMatchingWorkspaces(identifier: string, relativeWorkingDir: s
 async function pollForUpload(cvId: string): Promise<boolean> {
     for (let i = 0; i < 30; i++) {
         await new Promise((r) => setTimeout(r, 2000));
-        const { data } = await getConfigurationVersion({ path: { configuration_version: cvId } });
+        const { data, error, response } = await getConfigurationVersion({ path: { configuration_version: cvId } });
         const status = data?.data?.attributes?.status;
+        const errorMessage = data?.data?.attributes?.['error-message'];
+        out.info(`  poll ${i + 1}/30: HTTP ${response?.status} status=${JSON.stringify(status)}${errorMessage ? ` error-message=${JSON.stringify(errorMessage)}` : ''}`);
+        if (error) {
+            out.error(`  poll error: ${JSON.stringify(error, null, 2)}`);
+        }
         if (status === 'uploaded') return true;
         if (status === 'errored') return false;
     }
+    out.warn('pollForUpload: timed out after 30 attempts (~60s)');
     return false;
 }
 
@@ -76,10 +88,17 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
         return;
     }
 
-    const activeFolder = vscode.workspace.workspaceFolders?.[0];
+    const activeFilePath = vscode.window.activeTextEditor?.document.uri.fsPath;
     const path = await import(/* webpackIgnore: true */ 'path');
     const gitRootPath = repoInfo.rootUri.fsPath;
-    const relativeWorkingDir = activeFolder ? path.relative(gitRootPath, activeFolder.uri.fsPath) : '';
+    const activeFileDir = activeFilePath ? path.dirname(activeFilePath) : gitRootPath;
+    const relativeWorkingDir = path.relative(gitRootPath, activeFileDir);
+
+    out.show(true);
+    out.info(`repo identifier: ${repoInfo.identifier}`);
+    out.info(`git root: ${gitRootPath}`);
+    out.info(`active file: ${activeFilePath}`);
+    out.info(`relative working-directory: ${JSON.stringify(relativeWorkingDir)}`);
 
     await vscode.window.withProgress(
         { location: vscode.ProgressLocation.Notification, title: 'Scalr', cancellable: false },
@@ -87,12 +106,14 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
             progress.report({ message: 'Matching workspaces...' });
 
             const matchingWorkspaces = await fetchMatchingWorkspaces(repoInfo.identifier, relativeWorkingDir);
+            out.info(`workspaces matched: ${matchingWorkspaces.length}`);
+            matchingWorkspaces.forEach((w) =>
+                out.info(`  matched: id=${w.id} name=${w.attributes?.name} working-directory=${JSON.stringify(w.attributes?.['working-directory'])} vcs-repo.identifier=${w.attributes?.['vcs-repo']?.identifier}`)
+            );
 
             if (matchingWorkspaces.length === 0) {
                 vscode.window.showErrorMessage(
-                    `No Scalr workspaces found for repository '${repoInfo.identifier}'` +
-                        (relativeWorkingDir ? ` with working directory '${relativeWorkingDir}'` : '') +
-                        '.'
+                    `No Scalr workspaces found for repository '${repoInfo.identifier}' with working directory '${relativeWorkingDir || '.'}'.`
                 );
                 return;
             }
@@ -125,21 +146,42 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
 
             progress.report({ message: `Creating configuration version for '${selectedWorkspace.attributes.name}'...` });
 
-            const { data: cvData } = await createConfigurationVersion<false>({
-                body: {
-                    data: {
-                        type: 'configuration-versions',
-                        attributes: { 'auto-queue-runs': false, 'is-dry': true },
-                        relationships: {
-                            workspace: { data: { id: selectedWorkspace.id as string, type: 'workspaces' } },
-                        },
+            const tfeBaseUrl = `https://${(session as ScalrSession).account.label}.scalr.io/api/tfe/v2`;
+            const cvCreateResp = await globalThis.fetch(
+                `${tfeBaseUrl}/workspaces/${selectedWorkspace.id}/configuration-versions`,
+                {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${session.accessToken}`,
+                        'Content-Type': 'application/vnd.api+json',
+                        // Temporary: backend rejects uploads for VCS-sourced CVs unless the
+                        // request looks like a CLI-driven run. Remove once backend is fixed.
+                        'User-Agent': 'go-tfe',
                     },
-                },
-            });
+                    body: JSON.stringify({
+                        data: {
+                            type: 'configuration-versions',
+                            attributes: { 'auto-queue-runs': false, speculative: true },
+                        },
+                    }),
+                }
+            );
 
-            const cv = (cvData as ConfigurationVersionDocument | undefined)?.data;
-            if (!cv?.id || !cv.links?.upload) {
-                showErrorMessage(undefined, 'Failed to create configuration version.');
+            out.info(`createConfigurationVersion (tfe/v2) → HTTP ${cvCreateResp.status}`);
+            const cvBody = await cvCreateResp.json();
+            out.info(`createConfigurationVersion data: ${JSON.stringify(cvBody, null, 2)}`);
+
+            if (!cvCreateResp.ok) {
+                showErrorMessage(cvBody?.errors?.[0], 'Failed to create configuration version.');
+                return;
+            }
+
+            const cvId: string | undefined = cvBody?.data?.id;
+            const uploadUrl: string | undefined = cvBody?.data?.attributes?.['upload-url'];
+
+            if (!cvId || !uploadUrl) {
+                out.error(`No upload-url in response. cvId=${cvId} upload-url=${uploadUrl}`);
+                vscode.window.showErrorMessage('Failed to obtain configuration version upload URL.');
                 return;
             }
 
@@ -153,7 +195,7 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
 
             try {
                 await new Promise<void>((resolve, reject) => {
-                    cp.exec(`tar czf "${archivePath}" -C "${gitRootPath}" .`, (err) => {
+                    cp.exec(`tar czf "${archivePath}" --exclude='.git' --exclude='.terraform' -C "${gitRootPath}" .`, (err) => {
                         if (err) reject(err);
                         else resolve();
                     });
@@ -167,11 +209,12 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
 
             try {
                 const fileData = fs.readFileSync(archivePath);
-                const uploadResponse = await globalThis.fetch(cv.links.upload, {
+                const uploadResponse = await globalThis.fetch(uploadUrl, {
                     method: 'PUT',
                     body: fileData,
                     headers: { 'Content-Type': 'application/octet-stream' },
                 });
+                out.info(`upload → HTTP ${uploadResponse.status}`);
                 if (!uploadResponse.ok) {
                     showErrorMessage(undefined, `Upload failed with status ${uploadResponse.status}.`);
                     return;
@@ -189,7 +232,7 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
 
             progress.report({ message: 'Waiting for upload to be processed...' });
 
-            const uploaded = await pollForUpload(cv.id);
+            const uploaded = await pollForUpload(cvId);
             if (!uploaded) {
                 showErrorMessage(undefined, 'Configuration version upload failed or timed out.');
                 return;
@@ -209,7 +252,7 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
                         relationships: {
                             workspace: { data: { type: 'workspaces', id: selectedWorkspace.id as string } },
                             'configuration-version': {
-                                data: { type: 'configuration-versions', id: cv.id },
+                                data: { type: 'configuration-versions', id: cvId },
                             },
                         },
                     },
