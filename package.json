@@ -122,6 +122,13 @@
             }
         ],
         "menus": {
+            "editor/title": [
+                {
+                    "command": "run.createDryFromWorkingDirectory",
+                    "group": "navigation",
+                    "when": "resourceExtname == .tf || resourceExtname == .tofu"
+                }
+            ],
             "view/title": [
                 {
                     "command": "workspace.filter",
