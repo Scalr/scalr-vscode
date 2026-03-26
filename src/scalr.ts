@@ -4,7 +4,6 @@ import { WorkspaceTreeDataProvider, WorkspaceItem } from './providers/workspaceP
 import { RunTreeDataProvider } from './providers/runProvider';
 import { LogProvider } from './providers/logProvider';
 import { triggerLocalDryRun } from './providers/localDryRun';
-import { DryRunCodeLensProvider } from './providers/dryRunCodeLensProvider';
 
 export class ScalrFeature implements vscode.Disposable {
     constructor(private ctx: vscode.ExtensionContext) {
@@ -43,10 +42,6 @@ export class ScalrFeature implements vscode.Disposable {
         ctx.subscriptions.push(
             vscode.commands.registerCommand('run.createDryFromWorkingDirectory', () =>
                 triggerLocalDryRun(ctx)
-            ),
-            vscode.languages.registerCodeLensProvider(
-                [{ language: 'terraform' }, { pattern: '**/*.tf' }, { pattern: '**/*.tofu' }],
-                new DryRunCodeLensProvider()
             )
         );
 
