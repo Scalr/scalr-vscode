@@ -222,7 +222,7 @@
         "webpack-cli": "^7.0.2"
     },
     "dependencies": {
-        "@hey-api/client-axios": "^0.2.9",
+        "@hey-api/client-axios": "^0.9.1",
         "@types/qs": "^6.15.0",
         "date-fns": "^4.1.0",
         "process": "^0.11.10",
