@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { Run, Plan, Apply, User, Workspace, Environment } from '../api/types.gen';
-import { getRuns, getPlan, createRun } from '../api/services.gen';
+import { getRuns, getPlan, createRun } from '../api/sdk.gen';
 import { ScalrSession, ScalrAuthenticationProvider } from './authenticationProvider';
 import { getApplyStatusIcon, getApplyLabel } from './applyProvider';
 import { getPlanStatusIcon, getPlanLabel } from './planProvider';
@@ -209,9 +209,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             query: {
                 include: ['plan', 'policy-checks', 'cost-estimate', 'apply', 'created-by', 'created-by-run', 'workspace', 'environment'],
                 'filter[workspace]': workspaceFilter,
-                page: {
-                    number: this.nextPage || 1,
-                },
+                'page[number]': String(this.nextPage || 1),
             },
         });
 
@@ -223,7 +221,8 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
             return [];
         }
 
-        const pagination = data.meta?.pagination as Pagination;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pagination = (data as any).meta?.pagination as Pagination;
         this.nextPage = pagination['next-page'];
         const plans: Map<string, Plan> = new Map();
         const applies: Map<string, Apply> = new Map();
@@ -231,7 +230,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         const workspaces: Map<string, Workspace> = new Map();
         const environments: Map<string, Environment> = new Map();
 
-        const included = data.included ?? ([] as (Plan | Apply | User | Workspace | Environment)[]);
+        const included = (data.included ?? []) as (Plan | Apply | User | Workspace | Environment)[];
 
         included.forEach((item) => {
             if ((item as Plan).type === 'plans') {

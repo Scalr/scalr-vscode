@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getPlanLog, getApply, getApplyLog, getPlan } from '../api/services.gen';
+import { getPlanLog, getApply, getApplyLog, getPlan } from '../api/sdk.gen';
 import { ScalrAuthenticationProvider } from '../providers/authenticationProvider';
 import { showErrorMessage } from '../api/error';
 

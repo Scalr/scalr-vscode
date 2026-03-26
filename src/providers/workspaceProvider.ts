@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { Workspace, Environment, Run, WorkspaceListingDocument, EnvironmentListingDocument } from '../api/types.gen';
-import { getWorkspaces, listEnvironments } from '../api/services.gen';
+import { getWorkspaces, listEnvironments } from '../api/sdk.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { getRunStatusIcon, RunTreeDataProvider } from './runProvider';
 import { Pagination } from '../@types/api';
@@ -143,10 +143,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         const { data } = await getWorkspaces<false>({
             query: {
                 include: ['latest-run', 'environment'],
-                page: {
-                    number: this.nextPage || 1,
-                    size: 30,
-                },
+                'page[number]': String(this.nextPage || 1),
+                'page[size]': '30',
                 // @ts-expect-error TODO:ape this is must be fixed in our product
                 sort: ['-updated-at'],
                 ...queryFilters,
@@ -157,12 +155,14 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         }
 
         const wsDocument = data as WorkspaceListingDocument;
-        const pagination = wsDocument.meta?.pagination as Pagination;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const pagination = (wsDocument as any).meta?.pagination as Pagination;
         this.nextPage = pagination['next-page'];
         const environmentMap = new Map<string, Environment>();
         const runsMap = new Map<string, Run>();
 
-        for (const inc of wsDocument.included || []) {
+        for (const item of wsDocument.included || []) {
+            const inc = item as Environment | Run;
             if ((inc as Environment).type === 'environments') {
                 environmentMap.set(inc.id as string, inc as Environment);
             } else if ((inc as Run).type === 'runs') {
@@ -387,10 +387,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         while (hasMore) {
             const { data } = await getWorkspaces<false>({
                 query: {
-                    page: {
-                        size: pageSize,
-                        number: pageNumber,
-                    },
+                    'page[size]': String(pageSize),
+                    'page[number]': String(pageNumber),
                     ...queryFilters,
                 },
             });
@@ -404,7 +402,8 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
             allWorkspaces = allWorkspaces.concat(workspaces);
 
             // Check if there are more pages
-            const pagination = wsDocument.meta?.pagination as Pagination | undefined;
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const pagination = (wsDocument as any).meta?.pagination as Pagination | undefined;
             if (pagination && pagination['next-page'] !== null) {
                 hasMore = true;
             } else {
