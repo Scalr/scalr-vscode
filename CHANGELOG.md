@@ -6,6 +6,12 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.1.0]
+
+### Features
+
+-   Filter workspaces by VCS repository ([#20](https://github.com/Scalr/scalr-vscode/issues/20)). When a git remote is detected in the current VS Code workspace, selecting "By current repository" applies the filter automatically — no manual input needed. Users with multiple remotes get a picker; the option to enter a repository identifier manually is always available.
+
 ## [0.0.8]
 
 ### Improvements
@@ -59,7 +65,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ---
 
-[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.0.8...HEAD
+[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/Scalr/scalr-vscode/compare/v0.0.8...v0.1.0
 [0.0.8]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.8
 [0.0.6]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.6
 [0.0.5]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.5
