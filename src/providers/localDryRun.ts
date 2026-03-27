@@ -199,7 +199,6 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
     const activeFileDir = activeFilePath ? path.dirname(activeFilePath) : gitRootPath;
     const relativeWorkingDir = path.relative(gitRootPath, activeFileDir);
 
-    out.show(true);
     out.info(`repo identifier: ${repoInfo.identifier}`);
     out.info(`git root: ${gitRootPath}`);
     out.info(`active file: ${activeFilePath}`);
