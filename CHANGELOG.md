@@ -6,6 +6,29 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.2.0]
+
+### Features
+
+-   **Queue runs from your working directory** ([#66](https://github.com/Scalr/scalr-vscode/issues/66)). Open any `.tf` or `.tofu` file and click the ▶ button in the editor title bar to queue a run against the matching Scalr workspace — no `terraform init` required. The extension detects your git repository and working directory, finds the right workspace automatically, packages only the relevant files, and streams live logs as the run progresses. For CLI-sourced workspaces you can choose between a Plan-only or a Plan & Apply run; for VCS-backed workspaces a speculative plan is always used.
+
+-   **"Other workspace" picker**. When no workspace matches the current repository automatically, you can pick any CLI workspace by environment or by name/ID and still trigger a run from your local files.
+
+-   **Workspace type labels**. Each workspace in the picker is now labelled **VCS**, **Module**, or **CLI** so you can tell at a glance how it is sourced.
+
+-   **Approve and discard runs without leaving VS Code**. Runs that are waiting for confirmation now show an ✓ Approve and an ✕ Discard button directly on the plan sub-item in the Runs view. Approving a run automatically opens the apply log so you can follow the apply in real time.
+
+-   **Cancel in-progress runs**. A cancel button appears on any run that is actively planning or applying.
+
+-   **Visual indicators for runs requiring approval**. A bell icon on the run item (and on the workspace item) signals that a run is waiting for your input, making it easy to spot without opening the Scalr web UI.
+
+### Improvements
+
+-   Workspaces and Runs views now refresh automatically every 5 seconds, keeping status current without manual intervention.
+-   When a plan step finishes, both views refresh immediately so the approve/discard actions appear without delay.
+-   Clicking the Refresh button in the Runs view preserves any active workspace or repository filter.
+-   Queuing a run from the working directory automatically focuses and filters both the Workspaces and Runs views to the target workspace.
+
 ## [0.1.0]
 
 ### Features

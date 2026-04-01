@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { Run, Plan, Apply, User, Workspace, Environment } from '../api/types.gen';
-import { getRuns, getPlan, createRun } from '../api/sdk.gen';
+import { getRuns, getRun, getPlan, createRun, confirmRun, discardRun, cancelRun } from '../api/sdk.gen';
 import { ScalrSession, ScalrAuthenticationProvider } from './authenticationProvider';
 import { getApplyStatusIcon, getApplyLabel } from './applyProvider';
 import { getPlanStatusIcon, getPlanLabel } from './planProvider';
@@ -18,7 +18,7 @@ enum RunTypes {
     destroy = 'Destroy',
 }
 
-export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem> {
+export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>, vscode.Disposable {
     private readonly didChangeTreeData = new vscode.EventEmitter<void | RunTreeItem>();
     public readonly onDidChangeTreeData = this.didChangeTreeData.event;
     private workspace: WorkspaceItem | undefined;
@@ -26,8 +26,10 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
 
     private runItems: (RunItem | LoadMoreItem)[] = [];
     private nextPage: null | number = null;
+    private autoRefreshTimer: ReturnType<typeof setInterval> | undefined;
 
     constructor(private ctx: vscode.ExtensionContext) {
+        this.autoRefreshTimer = setInterval(() => this.softRefresh(), 5000);
         this.ctx.subscriptions.push(
             vscode.commands.registerCommand('run.open', (run: RunItem) => {
                 vscode.env.openExternal(run.webLink);
@@ -43,11 +45,34 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
                 this.refresh(this.workspace);
             }),
             vscode.commands.registerCommand('run.refresh', () => {
-                this.reset();
-                this.refresh();
+                this.softRefresh();
             }),
             vscode.commands.registerCommand('run.create', async (ws: WorkspaceItem) => {
                 return await this.createRun(ws);
+            }),
+            vscode.commands.registerCommand('run.approve', async (item: PlanItem) => {
+                if (!item?.runId) { return; }
+                await confirmRun({ path: { run: item.runId } });
+                this.softRefresh();
+                // Poll until the apply ID is available, then open its log
+                this.openApplyLogWhenReady(item.runId);
+            }),
+            vscode.commands.registerCommand('run.discard', async (item: PlanItem) => {
+                if (!item?.runId) { return; }
+                await discardRun({ path: { run: item.runId } });
+                this.softRefresh();
+            }),
+            vscode.commands.registerCommand('run.cancel', async (item: RunItem) => {
+                if (!item?.run?.id) { return; }
+                await cancelRun({ path: { run: item.run.id as string } });
+                this.softRefresh();
+            }),
+            vscode.commands.registerCommand('plan.openOnClick', async (plan: PlanItem) => {
+                return await this.openTextDocument(plan.logUri);
+            }),
+            vscode.commands.registerCommand('apply.openOnClick', async (apply: ApplyItem) => {
+                const doc = await vscode.workspace.openTextDocument(apply.logUri);
+                return await vscode.window.showTextDocument(doc);
             })
         );
     }
@@ -143,10 +168,37 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         return await vscode.window.showTextDocument(doc);
     }
 
+    private async openApplyLogWhenReady(runId: string): Promise<void> {
+        for (let i = 0; i < 30; i++) {
+            await new Promise(r => setTimeout(r, 2000));
+            const { data } = await getRun({ path: { run: runId } });
+            const applyId = data?.data?.relationships?.apply?.data?.id;
+            if (applyId) {
+                const logUri = vscode.Uri.parse(`scalr-logs://applies/${applyId}.log`);
+                this.openTextDocument(logUri);
+                return;
+            }
+        }
+    }
+
+    /** Full reset — clears filter state. Used when switching workspaces. */
     reset(): void {
         this.runItems = [];
         this.nextPage = null;
         this.filteredWorkspaceIds = undefined;
+    }
+
+    /** Soft reset — clears items/pagination but keeps the current workspace/filter. */
+    softRefresh(): void {
+        this.runItems = [];
+        this.nextPage = null;
+        this.didChangeTreeData.fire();
+    }
+
+    dispose(): void {
+        if (this.autoRefreshTimer !== undefined) {
+            clearInterval(this.autoRefreshTimer);
+        }
     }
 
     getTreeItem(element: RunItem): RunTreeItem {
@@ -172,10 +224,6 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         }
 
         return runs;
-    }
-
-    dispose() {
-        //
     }
 
     private async getRuns(): Promise<RunItem[]> {
@@ -278,7 +326,7 @@ export class RunTreeDataProvider implements vscode.TreeDataProvider<RunTreeItem>
         const details = [];
 
         if (run.plan) {
-            details.push(new PlanItem(run.plan));
+            details.push(new PlanItem(run.plan, run.run));
         }
 
         if (run.apply) {
@@ -353,15 +401,34 @@ class RunItem extends vscode.TreeItem {
         const wsId = this.run.relationships?.workspace?.data?.id;
 
         this.webLink = vscode.Uri.parse(`${this.host}/e/${envId}/workspaces/${wsId}/runs/${run.id}/`, true);
-        this.contextValue = 'runItem';
+        const cancellableStatuses = ['planning', 'plan_queued', 'apply_queued', 'applying', 'policy_checking', 'cost_estimating'];
+        this.contextValue = cancellableStatuses.includes(run.attributes?.status ?? '')
+            ? 'runItem/cancellable'
+            : 'runItem';
     }
 }
 
 export class PlanItem extends vscode.TreeItem {
-    constructor(public readonly plan: Plan) {
+    public readonly runId?: string;
+
+    constructor(public readonly plan: Plan, run?: Run) {
         super(getPlanLabel(plan), vscode.TreeItemCollapsibleState.None);
         this.iconPath = getPlanStatusIcon(plan.attributes?.status);
-        this.contextValue = 'planItem';
+        this.runId = run?.id as string | undefined;
+
+        const status = run?.attributes?.status ?? '';
+        const approvable = ['planned', 'policy_checked', 'policy_override'].includes(status);
+        const discardable = ['pending', 'planned', 'policy_checked', 'policy_override'].includes(status);
+        const flags = ['planItem'];
+        if (approvable) { flags.push('approvable'); }
+        if (discardable) { flags.push('discardable'); }
+        this.contextValue = flags.join(' ');
+
+        this.command = {
+            command: 'plan.openOnClick',
+            title: 'View Plan Log',
+            arguments: [this],
+        };
     }
 
     public get logUri(): vscode.Uri {
@@ -374,6 +441,11 @@ class ApplyItem extends vscode.TreeItem {
         super(`Apply ${apply.attributes?.status}`, vscode.TreeItemCollapsibleState.None);
         this.iconPath = getApplyStatusIcon(apply.attributes?.status);
         this.contextValue = 'applyItem';
+        this.command = {
+            command: 'apply.openOnClick',
+            title: 'View Apply Log',
+            arguments: [this],
+        };
     }
 
     public get logUri(): vscode.Uri {
@@ -413,11 +485,11 @@ export function getRunStatusIcon(status?: string): vscode.ThemeIcon {
         case 'canceled':
             return new vscode.ThemeIcon('error', new vscode.ThemeColor('charts.gray'));
         case 'planned':
+        case 'policy_checked':
         case 'policy_override':
-            return new vscode.ThemeIcon('warning', new vscode.ThemeColor('charts.yellow'));
+            return new vscode.ThemeIcon('bell-dot', new vscode.ThemeColor('charts.orange'));
         case 'applied':
         case 'planned_and_finished':
-        case 'policy_checked':
             return new vscode.ThemeIcon('pass', new vscode.ThemeColor('charts.green'));
         case 'errored':
             return new vscode.ThemeIcon('error', new vscode.ThemeColor('charts.red'));

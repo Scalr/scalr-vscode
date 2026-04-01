@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import { getWorkspaces, listEnvironments, getConfigurationVersion, createRun, getPlan } from '../api/sdk.gen';
+import { getWorkspaces, listEnvironments, getConfigurationVersion, createConfigurationVersion, createRun, getPlan } from '../api/sdk.gen';
 import { Workspace, WorkspaceListingDocument, EnvironmentListingDocument, Environment } from '../api/types.gen';
 import { ScalrAuthenticationProvider, ScalrSession } from './authenticationProvider';
 import { PlanItem } from './runProvider';
@@ -10,6 +10,12 @@ import { getGitRepoInfo } from '../git';
 const out = vscode.window.createOutputChannel('Scalr', { log: true });
 
 const DRY_RUN_WORKSPACE_CACHE_KEY = 'localDryRun.workspaceCache';
+
+function workspaceSourceLabel(ws: Workspace): string {
+    if (ws.attributes?.['vcs-repo']) return '$(repo) VCS';
+    if (ws.relationships?.['module-version']?.data) return '$(package) Module';
+    return '$(terminal) CLI';
+}
 
 // ---------------------------------------------------------------------------
 // Workspace fetching helpers
@@ -139,10 +145,11 @@ async function selectWorkspaceFromOther(): Promise<Workspace | undefined> {
     const wsPick = await vscode.window.showQuickPick(
         workspaces.map((ws) => ({
             label: ws.attributes?.name ?? (ws.id as string),
-            description: ws.id as string,
+            description: workspaceSourceLabel(ws),
+            detail: ws.id as string,
             workspace: ws,
         })),
-        { title: 'Select Scalr Workspace', placeHolder: 'Choose a workspace for the dry run' }
+        { title: 'Select Scalr Workspace', placeHolder: 'Choose a workspace for the run' }
     );
 
     return wsPick?.workspace;
@@ -173,7 +180,10 @@ async function pollForUpload(cvId: string): Promise<boolean> {
 // Entry point
 // ---------------------------------------------------------------------------
 
-export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<void> {
+export async function triggerLocalDryRun(
+    ctx: vscode.ExtensionContext,
+    onRunQueued: (workspaceId: string) => void
+): Promise<void> {
     if (vscode.env.uiKind === vscode.UIKind.Web) {
         vscode.window.showWarningMessage('Dry run from working directory requires the desktop version of VS Code.');
         return;
@@ -222,7 +232,7 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
                 source: 'other' as const,
             },
         ],
-        { title: 'Scalr: Dry Run', placeHolder: 'Where do you want to trigger the dry run?' }
+        { title: 'Scalr: Queue Run', placeHolder: 'Where do you want to trigger the run?' }
     );
 
     if (!sourcePick) return;
@@ -260,13 +270,14 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
 
                     const picks = matchingWorkspaces.map((ws) => ({
                         label: ws.attributes.name,
-                        description: ws.id as string,
+                        description: workspaceSourceLabel(ws),
+                        detail: ws.id as string,
                         workspace: ws,
                         picked: ws.id === cachedId,
                     }));
 
                     const pick = await vscode.window.showQuickPick(picks, {
-                        placeHolder: 'Multiple workspaces match — select one for the dry run',
+                        placeHolder: 'Multiple workspaces match — select one for the run',
                         title: 'Select Scalr Workspace',
                     });
 
@@ -281,47 +292,46 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
 
     if (!selectedWorkspace) return;
 
-    // Step 3 — create CV, upload archive, queue run
+    // Step 3 — choose run mode (CLI workspaces support Plan & Apply; VCS is plan-only)
+    const isVcs = !!selectedWorkspace.attributes?.['vcs-repo'];
+    let speculative = true; // plan-only by default
+
+    if (!isVcs) {
+        const modePick = await vscode.window.showQuickPick(
+            [
+                { label: '$(search) Plan-only', description: 'Dry run, no apply', speculative: true },
+                { label: '$(play) Plan & Apply', description: 'Run plan then apply if approved', speculative: false },
+            ],
+            { title: 'Scalr: Queue Run — Select Mode', placeHolder: 'Choose run mode' }
+        );
+        if (!modePick) return;
+        speculative = modePick.speculative;
+    }
+
+    // Step 4 — create CV, upload archive, queue run
     await vscode.window.withProgress(
         { location: vscode.ProgressLocation.Notification, title: 'Scalr', cancellable: false },
         async (progress) => {
             progress.report({ message: `Creating configuration version for '${selectedWorkspace!.attributes.name}'...` });
 
-            const tfeBaseUrl = `https://${(session as ScalrSession).account.label}.scalr.io/api/tfe/v2`;
-            const cvCreateResp = await globalThis.fetch(
-                `${tfeBaseUrl}/workspaces/${selectedWorkspace!.id}/configuration-versions`,
-                {
-                    method: 'POST',
-                    headers: {
-                        Authorization: `Bearer ${session.accessToken}`,
-                        'Content-Type': 'application/vnd.api+json',
-                        // Temporary: backend rejects uploads for VCS-sourced CVs unless the
-                        // request looks like a CLI-driven run. Remove once backend is fixed.
-                        'User-Agent': 'go-tfe',
-                    },
-                    body: JSON.stringify({
-                        data: {
-                            type: 'configuration-versions',
-                            attributes: { 'auto-queue-runs': false, speculative: true },
+            const { data: cvData } = await createConfigurationVersion({
+                body: {
+                    data: {
+                        type: 'configuration-versions',
+                        attributes: { 'auto-queue-runs': false, 'is-dry': speculative },
+                        relationships: {
+                            workspace: { data: { id: selectedWorkspace!.id as string, type: 'workspaces' } },
                         },
-                    }),
-                }
-            );
+                    },
+                },
+            });
+            out.info(`createConfigurationVersion → id=${cvData?.data?.id}`);
 
-            out.info(`createConfigurationVersion (tfe/v2) → HTTP ${cvCreateResp.status}`);
-            const cvBody = await cvCreateResp.json();
-            out.info(`createConfigurationVersion data: ${JSON.stringify(cvBody, null, 2)}`);
-
-            if (!cvCreateResp.ok) {
-                showErrorMessage(cvBody?.errors?.[0], 'Failed to create configuration version.');
-                return;
-            }
-
-            const cvId: string | undefined = cvBody?.data?.id;
-            const uploadUrl: string | undefined = cvBody?.data?.attributes?.['upload-url'];
+            const cvId = cvData?.data?.id;
+            const uploadUrl = cvData?.data?.links?.upload;
 
             if (!cvId || !uploadUrl) {
-                out.error(`No upload-url in response. cvId=${cvId} upload-url=${uploadUrl}`);
+                out.error(`No upload URL in response. cvId=${cvId} upload=${uploadUrl}`);
                 vscode.window.showErrorMessage('Failed to obtain configuration version upload URL.');
                 return;
             }
@@ -334,16 +344,85 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
 
             const archivePath = path.join(os.tmpdir(), `scalr-dry-run-${Date.now()}.tar.gz`);
 
+            // Determine archive root:
+            // - VCS workspace → whole git repo (working-directory is applied by Scalr)
+            // - CLI, empty working-directory → just the active file's directory
+            // - CLI, working-directory = "a/b" (N parts) → N levels up from activeFileDir
+            let archiveRoot: string;
+            if (isVcs) {
+                archiveRoot = gitRootPath;
+            } else {
+                const wsWorkingDir = (selectedWorkspace!.attributes?.['working-directory'] || '').replace(/^\/+|\/+$/g, '');
+                if (!wsWorkingDir) {
+                    archiveRoot = activeFileDir;
+                } else {
+                    const depth = wsWorkingDir.split('/').filter(Boolean).length;
+                    archiveRoot = path.resolve(activeFileDir, '../'.repeat(depth));
+                }
+            }
+            out.info(`archiving: root=${archiveRoot} (isVcs=${isVcs} working-directory=${JSON.stringify(selectedWorkspace!.attributes?.['working-directory'])})`);
+
+            // Helper: promisified execFile — no shell, safe on Windows
+            const execFileAsync = (cmd: string, args: string[], opts?: { cwd?: string; maxBuffer?: number }) =>
+                new Promise<{ stdout: string }>((resolve, reject) =>
+                    cp.execFile(cmd, args, { ...opts, encoding: 'utf8' }, (err, stdout) =>
+                        err ? reject(err) : resolve({ stdout: stdout as string })
+                    )
+                );
+
+            // Minimal .terraformignore pattern matcher (subset of .gitignore syntax)
+            const matchesTerraformIgnore = (filePath: string, patterns: string[]): boolean => {
+                for (const raw of patterns) {
+                    const p = raw.trim();
+                    if (!p || p.startsWith('#')) { continue; }
+                    const regexSrc = '^' + p
+                        .replace(/\./g, '\\.')
+                        .replace(/\*\*/g, '.*')
+                        .replace(/\*/g, '[^/]*')
+                        .replace(/\/$/, '(?:/|$)');
+                    if (new RegExp(regexSrc).test(filePath)) { return true; }
+                }
+                return false;
+            };
+
+            let fileListPath: string | undefined;
             try {
-                await new Promise<void>((resolve, reject) => {
-                    cp.exec(`tar czf "${archivePath}" --exclude='.git' --exclude='.terraform' -C "${gitRootPath}" .`, (err) => {
-                        if (err) reject(err);
-                        else resolve();
-                    });
-                });
+                // Step 1: get file list via git so .gitignore exclusions are respected
+                // (node_modules, .terraform/providers, build artefacts, etc.)
+                let files: string[];
+                try {
+                    const { stdout } = await execFileAsync(
+                        'git', ['ls-files', '--cached', '--others', '--exclude-standard'],
+                        { cwd: archiveRoot, maxBuffer: 50 * 1024 * 1024 }
+                    );
+                    files = stdout.split('\n').filter(Boolean);
+                } catch {
+                    out.warn('git ls-files failed (not a git repo?), falling back to plain tar');
+                    await execFileAsync('tar', ['czf', archivePath, '--exclude', '.git', '--exclude', '.terraform', '-C', archiveRoot, '.']);
+                    files = [];
+                }
+
+                if (files.length > 0) {
+                    // Step 2: filter against .terraformignore if present
+                    const tfIgnorePath = path.join(archiveRoot, '.terraformignore');
+                    if (fs.existsSync(tfIgnorePath)) {
+                        const patterns = fs.readFileSync(tfIgnorePath, 'utf8').split('\n');
+                        files = files.filter((f) => !matchesTerraformIgnore(f, patterns));
+                    }
+                    out.info(`archiving ${files.length} files`);
+
+                    // Step 3: write file list to a temp file (newline-separated)
+                    fileListPath = path.join(os.tmpdir(), `scalr-files-${Date.now()}.txt`);
+                    fs.writeFileSync(fileListPath, files.join('\n'));
+
+                    // Step 4: create the archive — no shell, no pipe, cross-platform
+                    await execFileAsync('tar', ['czf', archivePath, '-C', archiveRoot, '--files-from', fileListPath]);
+                }
             } catch (err) {
                 showErrorMessage(undefined, `Failed to create archive: ${err}`);
                 return;
+            } finally {
+                if (fileListPath && fs.existsSync(fileListPath)) { fs.unlinkSync(fileListPath); }
             }
 
             progress.report({ message: 'Uploading to Scalr...' });
@@ -379,14 +458,14 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
                 return;
             }
 
-            progress.report({ message: 'Triggering plan...' });
+            progress.report({ message: speculative ? 'Triggering plan...' : 'Triggering plan & apply...' });
 
             const { data: runData } = await createRun<false>({
                 body: {
                     data: {
                         type: 'runs',
                         attributes: {
-                            'is-dry': true,
+                            'is-dry': speculative,
                             message: 'Triggered from VSCode working directory',
                             source: 'vscode',
                         },
@@ -406,8 +485,10 @@ export async function triggerLocalDryRun(ctx: vscode.ExtensionContext): Promise<
             }
 
             vscode.window.showInformationMessage(
-                `Dry run queued in workspace '${selectedWorkspace!.attributes.name}'.`
+                `Run queued in workspace '${selectedWorkspace!.attributes.name}'.`
             );
+            onRunQueued(selectedWorkspace!.id as string);
+            await vscode.commands.executeCommand('runs.focus');
 
             const planId = runData.data.relationships?.plan?.data?.id as string | undefined;
             if (!planId) return;

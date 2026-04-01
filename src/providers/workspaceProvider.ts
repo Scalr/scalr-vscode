@@ -42,12 +42,14 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     private nextPage: null | number = null;
     private workspaces: vscode.TreeItem[] = [];
     private filters: Map<WorkspaceFilterApiType, QuickPickItem[] | string>;
+    private autoRefreshTimer: ReturnType<typeof setInterval> | undefined;
 
     constructor(
         private ctx: vscode.ExtensionContext,
         private runProvider: RunTreeDataProvider
     ) {
         this.filters = this.loadFilters();
+        this.autoRefreshTimer = setInterval(() => this.softRefresh(), 5000);
         ctx.subscriptions.push(
             vscode.commands.registerCommand('workspace.open', (ws: WorkspaceItem) => {
                 vscode.env.openExternal(ws.webLink);
@@ -105,6 +107,12 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     reset(): void {
         this.workspaces = [];
         this.nextPage = null;
+    }
+
+    public softRefresh(): void {
+        this.workspaces = [];
+        this.nextPage = null;
+        this.didChangeTreeData.fire();
     }
 
     async resetFilters(): Promise<void> {
@@ -315,6 +323,15 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
         }
     }
 
+    public filterToWorkspace(workspaceId: string): void {
+        this.filters.set('query', workspaceId);
+        this.reset();
+        this.refresh();
+        this.ctx.workspaceState.update('workspaceFilters', JSON.stringify(Array.from(this.filters.entries())));
+        this.runProvider.reset();
+        this.runProvider.refresh(undefined, [workspaceId]);
+    }
+
     private async applyFilters() {
         this.reset();
         this.refresh();
@@ -421,6 +438,9 @@ export class WorkspaceTreeDataProvider implements vscode.TreeDataProvider<vscode
     }
 
     dispose() {
+        if (this.autoRefreshTimer !== undefined) {
+            clearInterval(this.autoRefreshTimer);
+        }
         this.ctx.workspaceState.update('workspaceFilters', undefined);
     }
 }

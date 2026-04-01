@@ -36,12 +36,18 @@ export class ScalrFeature implements vscode.Disposable {
         vscode.workspace.onDidCloseTextDocument((doc) => {
             logProvider.stopStreaming(doc.uri);
         });
+        logProvider.onStepFinished(() => {
+            runProvider.softRefresh();
+            workspaceDataProvider.softRefresh();
+        });
 
         ctx.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider('scalr-logs', logProvider));
 
         ctx.subscriptions.push(
             vscode.commands.registerCommand('run.createDryFromWorkingDirectory', () =>
-                triggerLocalDryRun(ctx)
+                triggerLocalDryRun(ctx, (workspaceId) => {
+                    workspaceDataProvider.filterToWorkspace(workspaceId);
+                })
             )
         );
 
