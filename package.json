@@ -214,7 +214,7 @@
         "eslint": "^10.1.0",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-prettier": "^5.2.1",
-        "eslint-plugin-security": "^3.0.1",
+        "eslint-plugin-security": "^4.0.0",
         "prettier": "^3.8.1",
         "ts-loader": "^9.5.4",
         "typescript": "^5.9.3",
