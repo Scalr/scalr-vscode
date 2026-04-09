@@ -3,6 +3,7 @@ import { ScalrAuthenticationProvider } from './providers/authenticationProvider'
 import { WorkspaceTreeDataProvider, WorkspaceItem } from './providers/workspaceProvider';
 import { RunTreeDataProvider } from './providers/runProvider';
 import { LogProvider } from './providers/logProvider';
+import { triggerLocalDryRun } from './providers/localDryRun';
 
 export class ScalrFeature implements vscode.Disposable {
     constructor(private ctx: vscode.ExtensionContext) {
@@ -35,8 +36,20 @@ export class ScalrFeature implements vscode.Disposable {
         vscode.workspace.onDidCloseTextDocument((doc) => {
             logProvider.stopStreaming(doc.uri);
         });
+        logProvider.onStepFinished(() => {
+            runProvider.softRefresh();
+            workspaceDataProvider.softRefresh();
+        });
 
         ctx.subscriptions.push(vscode.workspace.registerTextDocumentContentProvider('scalr-logs', logProvider));
+
+        ctx.subscriptions.push(
+            vscode.commands.registerCommand('run.createDryFromWorkingDirectory', () =>
+                triggerLocalDryRun(ctx, (workspaceId) => {
+                    workspaceDataProvider.filterToWorkspace(workspaceId);
+                })
+            )
+        );
 
         const workspaceView = vscode.window.createTreeView('workspaces', {
             canSelectMany: false,

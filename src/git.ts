@@ -1,5 +1,5 @@
 import { API as GitApi, GitExtension } from './@types/git';
-import { Extension, extensions } from 'vscode';
+import { Extension, extensions, Uri, workspace as vsWorkspace } from 'vscode';
 
 async function getGitApi(): Promise<GitApi | undefined> {
     try {
@@ -27,6 +27,44 @@ function parseRepoIdentifier(url: string): string | undefined {
     const sshMatch = url.match(/git@[^:]+:(.+?)(?:\.git)?$/);
     if (sshMatch) {
         return sshMatch[1];
+    }
+
+    return undefined;
+}
+
+export interface GitRepoInfo {
+    rootUri: Uri;
+    identifier: string;
+}
+
+/**
+ * Returns the git repository root URI and VCS identifier for the repository
+ * containing the currently active workspace folder.
+ */
+export async function getGitRepoInfo(): Promise<GitRepoInfo | undefined> {
+    const gitApi = await getGitApi();
+    if (!gitApi) return undefined;
+
+    const repositories = gitApi.repositories;
+    if (repositories.length === 0) return undefined;
+
+    const activeFolder = vsWorkspace.workspaceFolders?.[0];
+
+    // Prefer the repo that contains the active workspace folder
+    let repo = repositories[0];
+    if (activeFolder && repositories.length > 1) {
+        const match = repositories.find((r) => activeFolder.uri.fsPath.startsWith(r.rootUri.fsPath));
+        if (match) repo = match;
+    }
+
+    for (const remote of repo.state.remotes) {
+        const url = remote.fetchUrl || remote.pushUrl;
+        if (url) {
+            const identifier = parseRepoIdentifier(url);
+            if (identifier) {
+                return { rootUri: repo.rootUri, identifier };
+            }
+        }
     }
 
     return undefined;

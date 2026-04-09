@@ -5,6 +5,8 @@ import { showErrorMessage } from '../api/error';
 
 export class LogProvider implements vscode.TextDocumentContentProvider, vscode.Disposable {
     _onDidChange = new vscode.EventEmitter<vscode.Uri>();
+    private _onStepFinished = new vscode.EventEmitter<void>();
+    readonly onStepFinished = this._onStepFinished.event;
 
     onDidChange = this._onDidChange.event;
     private interval: { [key: string]: NodeJS.Timeout } = {};
@@ -33,6 +35,7 @@ export class LogProvider implements vscode.TextDocumentContentProvider, vscode.D
             if (status === undefined || this.finalStatuses.includes(status)) {
                 this._onDidChange.fire(uri);
                 this.stopStreaming(uri);
+                this._onStepFinished.fire();
                 return;
             }
             this._onDidChange.fire(uri);

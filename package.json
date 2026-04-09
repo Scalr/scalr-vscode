@@ -113,9 +113,40 @@
                 "title": "Scalr: Trigger Run",
                 "icon": "$(play)",
                 "enablement": "scalr.signed-in"
+            },
+            {
+                "command": "run.createDryFromWorkingDirectory",
+                "title": "Scalr: Queue Run from Working Directory",
+                "icon": "$(play)",
+                "enablement": "scalr.signed-in"
+            },
+            {
+                "command": "run.approve",
+                "title": "Scalr: Approve Run",
+                "icon": "$(check)",
+                "enablement": "scalr.signed-in"
+            },
+            {
+                "command": "run.discard",
+                "title": "Scalr: Discard Run",
+                "icon": "$(close)",
+                "enablement": "scalr.signed-in"
+            },
+            {
+                "command": "run.cancel",
+                "title": "Scalr: Cancel Run",
+                "icon": "$(stop-circle)",
+                "enablement": "scalr.signed-in"
             }
         ],
         "menus": {
+            "editor/title": [
+                {
+                    "command": "run.createDryFromWorkingDirectory",
+                    "group": "navigation",
+                    "when": "resourceExtname == .tf || resourceExtname == .tofu"
+                }
+            ],
             "view/title": [
                 {
                     "command": "workspace.filter",
@@ -145,14 +176,19 @@
                     "when": "view == runs && viewItem =~ /runItem/"
                 },
                 {
-                    "command": "apply.open",
+                    "command": "run.cancel",
                     "group": "inline",
-                    "when": "view == runs && viewItem =~ /applyItem/"
+                    "when": "view == runs && viewItem =~ /runItem\\/cancellable/"
                 },
                 {
-                    "command": "plan.open",
+                    "command": "run.approve",
                     "group": "inline",
-                    "when": "view == runs && viewItem =~ /planItem/"
+                    "when": "view == runs && viewItem =~ /approvable/"
+                },
+                {
+                    "command": "run.discard",
+                    "group": "inline",
+                    "when": "view == runs && viewItem =~ /discardable/"
                 },
                 {
                     "command": "run.create",
@@ -184,6 +220,18 @@
                 },
                 {
                     "command": "run.create",
+                    "when": "false"
+                },
+                {
+                    "command": "run.approve",
+                    "when": "false"
+                },
+                {
+                    "command": "run.discard",
+                    "when": "false"
+                },
+                {
+                    "command": "run.cancel",
                     "when": "false"
                 }
             ]
