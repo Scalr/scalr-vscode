@@ -6,7 +6,7 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
-## [0.2.0]
+## [0.1.0]
 
 ### Features
 
@@ -21,6 +21,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 -   **Cancel in-progress runs**. A cancel button appears on any run that is actively planning or applying.
 
 -   **Visual indicators for runs requiring approval**. A bell icon on the run item (and on the workspace item) signals that a run is waiting for your input, making it easy to spot without opening the Scalr web UI.
+  
+-   Filter workspaces by VCS repository ([#20](https://github.com/Scalr/scalr-vscode/issues/20)). When a git remote is detected in the current VS Code workspace, selecting "By current repository" applies the filter automatically — no manual input needed. Users with multiple remotes get a picker; the option to enter a repository identifier manually is always available.
 
 ### Improvements
 
@@ -28,12 +30,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 -   When a plan step finishes, both views refresh immediately so the approve/discard actions appear without delay.
 -   Clicking the Refresh button in the Runs view preserves any active workspace or repository filter.
 -   Queuing a run from the working directory automatically focuses and filters both the Workspaces and Runs views to the target workspace.
-
-## [0.1.0]
-
-### Features
-
--   Filter workspaces by VCS repository ([#20](https://github.com/Scalr/scalr-vscode/issues/20)). When a git remote is detected in the current VS Code workspace, selecting "By current repository" applies the filter automatically — no manual input needed. Users with multiple remotes get a picker; the option to enter a repository identifier manually is always available.
 
 ## [0.0.8]
 
