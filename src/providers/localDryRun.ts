@@ -1,3 +1,4 @@
+import type { ExecFileException } from 'child_process';
 import * as vscode from 'vscode';
 import { getWorkspaces, listEnvironments, getConfigurationVersion, createConfigurationVersion, createRun, getPlan } from '../api/sdk.gen';
 import { Workspace, WorkspaceListingDocument, EnvironmentListingDocument, Environment } from '../api/types.gen';
@@ -365,8 +366,8 @@ export async function triggerLocalDryRun(
             // Helper: promisified execFile — no shell, safe on Windows
             const execFileAsync = (cmd: string, args: string[], opts?: { cwd?: string; maxBuffer?: number }) =>
                 new Promise<{ stdout: string }>((resolve, reject) =>
-                    cp.execFile(cmd, args, { ...opts, encoding: 'utf8' }, (err, stdout) =>
-                        err ? reject(err) : resolve({ stdout: stdout as string })
+                    cp.execFile(cmd, args, { ...opts, encoding: 'utf8' }, (err: ExecFileException | null, stdout: string) =>
+                        err ? reject(err) : resolve({ stdout })
                     )
                 );
 
