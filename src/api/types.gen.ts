@@ -911,6 +911,14 @@ export type Apply = {
          */
         'resource-destructions'?: number | null;
         /**
+         * The number of resources forgotten.
+         */
+        'resource-forgets'?: number | null;
+        /**
+         * The number of resources imported.
+         */
+        'resource-imports'?: number | null;
+        /**
          * The Apply's current status.
          *
          * Transient states:
@@ -1588,6 +1596,78 @@ export type DatadogIntegrationListingDocument = {
     };
 };
 
+export type DockerIntegration = {
+    attributes: {
+        /**
+         * Last Docker registry connection test error message, if any.
+         */
+        readonly 'error-message'?: string | null;
+        /**
+         * Whether registry credentials should be exported into the run pipeline for OpenTofu OCI module access.
+         */
+        'export-credentials'?: boolean;
+        /**
+         * Name of the Docker integration.
+         */
+        name: string;
+        /**
+         * Docker registry password or personal access token used for authentication.
+         */
+        password?: string | null;
+        /**
+         * Docker registry URL. Use the registry endpoint used by the runtime. Its normalized host[:port] is used as the auth server address.
+         */
+        'registry-url': string;
+        /**
+         * Integration status after the latest connection test.
+         */
+        status?: 'active' | 'disabled' | 'failed' | 'pending';
+        /**
+         * Docker registry username used for authentication.
+         */
+        username: string | null;
+    };
+    readonly id?: string;
+    readonly links?: {
+        readonly self?: string;
+    };
+    relationships?: {
+        /**
+         * The account this integration belongs to.
+         */
+        readonly account?: {
+            data: {
+                id: string;
+                type: 'accounts';
+            } | null;
+        };
+    };
+    type: 'docker-integrations';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type DockerIntegrationDocument = {
+    data?: DockerIntegration;
+    readonly included?: Array<unknown>;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type DockerIntegrationListingDocument = {
+    data?: Array<DockerIntegration>;
+    readonly included?: Array<unknown>;
+    readonly links?: {
+        [key: string]: string;
+    };
+};
+
 export type DriftDetectionSchedule = {
     attributes: {
         /**
@@ -1637,6 +1717,14 @@ export type DriftDetectionScheduleDocument = {
 
 export type DriftReport = {
     attributes: {
+        /**
+         * Whether the drift-detection for the workspace is paused.
+         */
+        'is-paused'?: boolean;
+        /**
+         * Reason for pausing the drift-detection for the workspace.
+         */
+        'pause-reason'?: string | null;
         /**
          * The reason for the drift report action.
          */
@@ -1969,6 +2057,66 @@ export type FederatedEnvironmentRelationship = {
  */
 export type FederatedEnvironmentRelationshipFieldsetsListingDocument = {
     data?: Array<FederatedEnvironmentRelationship>;
+    readonly included?: Array<unknown>;
+    readonly links?: {
+        [key: string]: string;
+    };
+};
+
+/**
+ * The GPG key resource.
+ */
+export type GpgKey = {
+    attributes: {
+        /**
+         * The full ASCII-armored public GPG key.
+         */
+        'ascii-armor'?: string | null;
+        /**
+         * The timestamp when the GPG key was added.
+         */
+        readonly 'created-at'?: string;
+        /**
+         * The email of the user who added the GPG key.
+         */
+        readonly 'created-by-email'?: string;
+        /**
+         * The description of the GPG key.
+         */
+        description?: string | null;
+        /**
+         * The name of the GPG key.
+         */
+        name: string;
+        /**
+         * The number of provider versions used by the GPG key.
+         */
+        readonly 'usage-count'?: number;
+    };
+    readonly id?: string;
+    links?: {
+        [key: string]: string;
+    };
+    type: 'gpg-keys';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type GpgKeyDocument = {
+    data?: GpgKey;
+    readonly included?: Array<unknown>;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type GpgKeyListingDocument = {
+    data?: Array<GpgKey>;
     readonly included?: Array<unknown>;
     readonly links?: {
         [key: string]: string;
@@ -2371,7 +2519,7 @@ export type InfracostIntegrationListingDocument = {
  * A terraform module in the [Private Module Registry](/docs/private-module-registry).
  */
 export type Module = {
-    attributes: {
+    attributes?: {
         /**
          * The resource creation timestamp.
          */
@@ -2384,6 +2532,10 @@ export type Module = {
          * [Create Module](modules.html#create-a-module) operation.
          */
         readonly description?: string;
+        /**
+         * Docker/OCI image repository path for OCI-backed modules.
+         */
+        'docker-image'?: string | null;
         /**
          * This field contains the error description, when this module's status is `errored`.
          */
@@ -2404,6 +2556,10 @@ export type Module = {
          */
         readonly source?: string;
         /**
+         * The upstream source type for the module.
+         */
+        'source-type'?: 'vcs' | 'docker';
+        /**
          * The Module's current status.
          *
          * Initial status:
@@ -2422,7 +2578,7 @@ export type Module = {
          * `error-message` contains the details.
          */
         status?: 'no_version_tags' | 'pending' | 'setup_complete' | 'errored';
-        'vcs-repo': {
+        'vcs-repo'?: {
             /**
              * A reference to the module's VCS repository.
              *
@@ -2442,13 +2598,13 @@ export type Module = {
              * is  `my-module/`.
              */
             'tag-prefix'?: string;
-        };
+        } | null;
     };
     readonly id?: string;
     readonly links?: {
         readonly self?: string;
     };
-    relationships: {
+    relationships?: {
         /**
          * The relationship `account` is deprecated. Use `namespace` instead.
          *
@@ -2467,6 +2623,15 @@ export type Module = {
             data: {
                 id: string;
                 type: 'users';
+            } | null;
+        };
+        /**
+         * Docker registry connection used by OCI-backed modules.
+         */
+        'docker-integration'?: {
+            data: {
+                id: string;
+                type: 'docker-integrations';
             } | null;
         };
         /**
@@ -2519,11 +2684,11 @@ export type Module = {
         /**
          * The module's VCS provider.
          */
-        'vcs-provider': {
+        'vcs-provider'?: {
             data: {
                 id: string;
                 type: 'vcs-providers';
-            };
+            } | null;
         };
     };
     type: 'modules';
@@ -2634,6 +2799,54 @@ export type ModuleResyncRequest = {
      * will be synchronized.
      */
     force?: boolean;
+};
+
+/**
+ * The provider configuration link attaches the provider configuration to an module test configuration.
+ */
+export type ModuleTestProviderConfigurationLink = {
+    readonly id?: string;
+    readonly links?: {
+        readonly self?: string;
+    };
+    relationships: {
+        'provider-configuration': {
+            data: {
+                id: string;
+                type: 'provider-configurations';
+            };
+        };
+        readonly 'test-configuration'?: {
+            data: {
+                id: string;
+                type: 'test-configurations';
+            } | null;
+        };
+    };
+    type: 'module-test-provider-configuration-links';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ModuleTestProviderConfigurationLinkDocument = {
+    data?: ModuleTestProviderConfigurationLink;
+    readonly included?: Array<unknown>;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ModuleTestProviderConfigurationLinkListingDocument = {
+    data?: Array<ModuleTestProviderConfigurationLink>;
+    readonly included?: Array<unknown>;
+    readonly links?: {
+        [key: string]: string;
+    };
 };
 
 /**
@@ -3404,6 +3617,51 @@ export type PolicyGroupListingDocument = {
 };
 
 /**
+ * The Terraform Registry Provider resource.
+ */
+export type Provider = {
+    attributes: {
+        /**
+         * The description of the provider.
+         */
+        description?: string | null;
+        /**
+         * The name of the provider.
+         */
+        name: string;
+        /**
+         * The namespace this provider belongs to.
+         */
+        readonly namespace?: string;
+    };
+    readonly id?: string;
+    readonly links?: {
+        readonly self?: string;
+    };
+    relationships?: {
+        /**
+         * The latest version of the provider in any status.
+         */
+        readonly 'latest-provider-version'?: {
+            data: {
+                id: string;
+                type: 'provider-versions';
+            } | null;
+        };
+        /**
+         * The latest uploaded version of the provider.
+         */
+        readonly 'provider-version'?: {
+            data: {
+                id: string;
+                type: 'provider-versions';
+            } | null;
+        };
+    };
+    type: 'providers';
+};
+
+/**
  * The configuration of provider. Provider configuration is managed on the account scope and can be linked to environments or workspaces.
  */
 export type ProviderConfiguration = {
@@ -3424,6 +3682,10 @@ export type ProviderConfiguration = {
          * The value of the aud claim for the identity token.
          */
         'aws-audience'?: string | null;
+        /**
+         * The credential source for the initial assume-role call. Applicable when the trusted entity type is `aws_service`. Available options: `Ec2InstanceMetadata`, `EcsContainer`. Defaults to `Ec2InstanceMetadata`.
+         */
+        'aws-credentials-source'?: 'Ec2InstanceMetadata' | 'EcsContainer';
         /**
          * The type of AWS credential, available options: `access_keys`, `role_delegation`, `oidc`.
          */
@@ -3511,6 +3773,10 @@ export type ProviderConfiguration = {
          */
         'google-workload-provider-name'?: string | null;
         /**
+         * Indicates whether the provider configuration can be used in module tests.
+         */
+        'is-allowed-in-module-test'?: boolean;
+        /**
          * Determines if a provider configuration is custom. Note: custom provider configurations do not support built-in features like exporting as shell variables or on-save validation. Provider configuration will be validated during the run only.
          */
         'is-custom'?: boolean | null;
@@ -3518,6 +3784,10 @@ export type ProviderConfiguration = {
          * Indicates whether the provider configuration can be used in any workspace of the account without directly linking it to the environment.
          */
         'is-shared'?: boolean;
+        /**
+         * Indicates whether the provider configuration is currently linked to any module test.
+         */
+        readonly 'is-used-in-module-test'?: boolean;
         /**
          * The name of a Scalr provider configuration. This field is unique for the account.
          */
@@ -3784,6 +4054,153 @@ export type ProviderConfigurationWorkspaceUsage = {
  */
 export type ProviderConfigurationWorkspaceUsageFieldsetsListingDocument = {
     data?: Array<ProviderConfigurationWorkspaceUsage>;
+    readonly included?: Array<unknown>;
+    readonly links?: {
+        [key: string]: string;
+    };
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ProviderDocument = {
+    data?: Provider;
+    readonly included?: Array<unknown>;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ProviderListingDocument = {
+    data?: Array<Provider>;
+    readonly included?: Array<unknown>;
+    readonly links?: {
+        [key: string]: string;
+    };
+};
+
+/**
+ * A ProviderReadme resource represents the README file of a provider version.
+ */
+export type ProviderReadme = {
+    attributes?: {
+        /**
+         * The content of the README file.
+         */
+        content?: string;
+        /**
+         * The time when the README record was created.
+         */
+        'created-at'?: string;
+    };
+    readonly id?: string;
+    links?: {
+        [key: string]: string;
+    };
+    type: 'provider-readme';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ProviderReadmeDocument = {
+    data?: ProviderReadme;
+    readonly included?: Array<unknown>;
+};
+
+/**
+ * The Terraform Registry Provider Version resource.
+ */
+export type ProviderVersion = {
+    attributes: {
+        /**
+         * The email of the user who added the provider version.
+         */
+        readonly 'created-by-email'?: string | null;
+        /**
+         * The error description when this provider version's status is `errored`.
+         */
+        readonly 'error-message'?: string | null;
+        /**
+         * The timestamp when the provider version was released.
+         */
+        readonly 'released-at'?: string | null;
+        /**
+         * A blob size in bytes.
+         */
+        readonly size?: number | null;
+        /**
+         * The provider version's current status.
+         */
+        status?: 'pending' | 'uploaded' | 'errored';
+        /**
+         * Semantic version.
+         */
+        version: string;
+    };
+    readonly id?: string;
+    readonly links?: {
+        readonly self?: string;
+        /**
+         * The URL to upload the tar.gz archive with provider version release files. Available only in the `create-provider-version` response.
+         */
+        readonly upload?: string | null;
+    };
+    relationships: {
+        /**
+         * The GPG key used to verify the signature of the provider version.
+         */
+        'gpg-key': {
+            data: {
+                id: string;
+                type: 'gpg-keys';
+            };
+        };
+        /**
+         * The provider that the provider version belongs to.
+         */
+        provider: {
+            data: {
+                id: string;
+                type: 'providers';
+            };
+        };
+        /**
+         * The README of the provider version.
+         */
+        readonly readme?: {
+            data: {
+                id: string;
+                type: 'provider-readme';
+            } | null;
+        };
+    };
+    type: 'provider-versions';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ProviderVersionDocument = {
+    data?: ProviderVersion;
+    readonly included?: Array<unknown>;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ProviderVersionListingDocument = {
+    data?: Array<ProviderVersion>;
     readonly included?: Array<unknown>;
     readonly links?: {
         [key: string]: string;
@@ -5389,9 +5806,16 @@ export type StorageProfileListingDocument = {
  * or can even participate in a terraform run e.g. as a part of metadata for policy decision.
  *
  * Tags are unique within the account. Deleted tags will be removed from associated resources.
+ *
+ * The extra fields below are not available in response by default. Ask for them explicitly in the query parameter `fields[tags]`:
+ * * in-use
  */
 export type Tag = {
     attributes: {
+        /**
+         * Whether the tag is used by any resource.
+         */
+        readonly 'in-use'?: boolean | null;
         /**
          * The name of the tag. It must be unique within the account.
          */
@@ -6350,6 +6774,198 @@ export type VariableDocument = {
  */
 export type VariableListingDocument = {
     data?: Array<Variable>;
+    readonly included?: Array<unknown>;
+    readonly links?: {
+        [key: string]: string;
+    };
+};
+
+/**
+ * A named container of variables.
+ * Variable sets can be granted access to environments and applied to workspaces.
+ */
+export type VariableSet = {
+    attributes: {
+        /**
+         * Optional description of the variable set.
+         */
+        description?: string | null;
+        /**
+         * If true, the variable set is available in all current and future environments of the account without explicitly linking it to each environment.
+         */
+        'is-shared'?: boolean;
+        /**
+         * The name of the variable set. Unique within an account.
+         */
+        name: string;
+        /**
+         * The UTC timestamp of the last update to this variable set.
+         */
+        readonly 'updated-at'?: string;
+        /**
+         * The email of the user who last updated this variable set.
+         */
+        readonly 'updated-by-email'?: string | null;
+    };
+    readonly id?: string;
+    readonly links?: {
+        readonly self?: string;
+    };
+    relationships?: {
+        /**
+         * The account this variable set belongs to.
+         */
+        readonly account?: {
+            data: {
+                id: string;
+                type: 'accounts';
+            } | null;
+        };
+        /**
+         * The list of environments this integration is directly linked to.
+         */
+        environments?: {
+            data: Array<{
+                id: string;
+                type: 'environments';
+            }> | null;
+        };
+        /**
+         * The teams this variable set belongs to.
+         */
+        owners?: {
+            data: Array<{
+                id: string;
+                type: 'teams';
+            }> | null;
+        };
+    };
+    type: 'var-sets';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type VariableSetDocument = {
+    data?: VariableSet;
+    readonly included?: Array<unknown>;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type VariableSetListingDocument = {
+    data?: Array<VariableSet>;
+    readonly included?: Array<unknown>;
+    readonly links?: {
+        [key: string]: string;
+    };
+};
+
+/**
+ * A Variable describes the configuration and value of a variable in a variable set.
+ * There are "terraform" and "shell" variables.
+ *
+ * * Terraform variables define values to be passed into the corresponding Terraform input variable
+ * that is defined in the Configuration Version to be used in a run. Scalr Terraform variables
+ * are added to the `terraform.tfvars.json` file in the working directory of the workspace
+ * prior to any run. The values passed in can be HCL structures if the `hcl` attribute is `true`.
+ * * Shell variables define environment variables that are added to the runtime environment
+ * of a workspace using `export VAR=value`. These variables can pass authentication parameters
+ * to providers or any data required for local processing, such as via `local-exec` provisioners.
+ */
+export type VariableSetVariable = {
+    attributes: {
+        /**
+         * * `terraform` - values to be passed to terraform input variables of the same name.
+         * * `shell` - environment variables. They will be injected via `export` during a terraform run.
+         */
+        category: 'terraform' | 'shell';
+        /**
+         * Variable description.
+         */
+        description?: string | null;
+        /**
+         * Indicates whether the variable can be overridden on a lower scope
+         * down the Scalr organizational model.
+         */
+        final?: boolean;
+        /**
+         * Indicates whether the value of the variable is a string of HCL code.
+         * Not applicable to `shell` category variables.
+         */
+        hcl?: boolean;
+        /**
+         * Variable name. Must correspond to the name of a Terraform input variable
+         * in the configuration if category is terraform.
+         */
+        key: string;
+        /**
+         * Indicates whether the value is sensitive. When set to `true`,
+         * then the variable value is not visible after being written.
+         */
+        sensitive?: boolean;
+        /**
+         * The UTC timestamp of the last update to this variable.
+         */
+        readonly 'updated-at'?: string;
+        /**
+         * The email of the user who last updated this variable.
+         */
+        readonly 'updated-by-email'?: string | null;
+        /**
+         * Variable value. Not visible if `sensitive: true` is enabled
+         */
+        value?: string | null;
+    };
+    readonly id?: string;
+    readonly links?: {
+        readonly self?: string;
+    };
+    relationships: {
+        /**
+         * The account this variable belongs to.
+         */
+        readonly account?: {
+            data: {
+                id: string;
+                type: 'accounts';
+            } | null;
+        };
+        /**
+         * The variable set this variable belongs to.
+         */
+        'var-set': {
+            data: {
+                id: string;
+                type: 'var-sets';
+            };
+        };
+    };
+    type: 'var-set-variables';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type VariableSetVariableDocument = {
+    data?: VariableSetVariable;
+    readonly included?: Array<unknown>;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type VariableSetVariableListingDocument = {
+    data?: Array<VariableSetVariable>;
     readonly included?: Array<unknown>;
     readonly links?: {
         [key: string]: string;
@@ -7361,6 +7977,26 @@ export type WorkspaceSshKeyLinkRequest = {
 export type WorkspaceSchedule = {
     'apply-schedule'?: string | null;
     'destroy-schedule'?: string | null;
+};
+
+/**
+ * Describes JSON:API generic Resource Identifier object.
+ * see https://jsonapi.org/format/#document-resource-identifier-objects
+ */
+export type WorkspaceVariableSetRelationship = {
+    id: string;
+    type: 'var-sets';
+};
+
+/**
+ * Document Listing.
+ */
+export type WorkspaceVariableSetRelationshipFieldsetsListingDocument = {
+    data?: Array<WorkspaceVariableSetRelationship>;
+    readonly included?: Array<unknown>;
+    readonly links?: {
+        [key: string]: string;
+    };
 };
 
 /**
@@ -8418,6 +9054,14 @@ export type ApplyWritable = {
          */
         'resource-destructions'?: number | null;
         /**
+         * The number of resources forgotten.
+         */
+        'resource-forgets'?: number | null;
+        /**
+         * The number of resources imported.
+         */
+        'resource-imports'?: number | null;
+        /**
          * The Apply's current status.
          *
          * Transient states:
@@ -8911,6 +9555,54 @@ export type DatadogIntegrationListingDocumentWritable = {
     data?: Array<DatadogIntegrationWritable>;
 };
 
+export type DockerIntegrationWritable = {
+    attributes: {
+        /**
+         * Whether registry credentials should be exported into the run pipeline for OpenTofu OCI module access.
+         */
+        'export-credentials'?: boolean;
+        /**
+         * Name of the Docker integration.
+         */
+        name: string;
+        /**
+         * Docker registry password or personal access token used for authentication.
+         */
+        password?: string | null;
+        /**
+         * Docker registry URL. Use the registry endpoint used by the runtime. Its normalized host[:port] is used as the auth server address.
+         */
+        'registry-url': string;
+        /**
+         * Integration status after the latest connection test.
+         */
+        status?: 'active' | 'disabled' | 'failed' | 'pending';
+        /**
+         * Docker registry username used for authentication.
+         */
+        username: string | null;
+    };
+    type: 'docker-integrations';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type DockerIntegrationDocumentWritable = {
+    data?: DockerIntegrationWritable;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type DockerIntegrationListingDocumentWritable = {
+    data?: Array<DockerIntegrationWritable>;
+};
+
 export type DriftDetectionScheduleWritable = {
     attributes: {
         /**
@@ -8958,6 +9650,14 @@ export type DriftDetectionScheduleDocumentWritable = {
 
 export type DriftReportWritable = {
     attributes: {
+        /**
+         * Whether the drift-detection for the workspace is paused.
+         */
+        'is-paused'?: boolean;
+        /**
+         * Reason for pausing the drift-detection for the workspace.
+         */
+        'pause-reason'?: string | null;
         /**
          * The reason for the drift report action.
          */
@@ -9149,6 +9849,48 @@ export type EventDefinitionListingDocumentWritable = {
  */
 export type FederatedEnvironmentRelationshipFieldsetsListingDocumentWritable = {
     data?: Array<FederatedEnvironmentRelationship>;
+};
+
+/**
+ * The GPG key resource.
+ */
+export type GpgKeyWritable = {
+    attributes: {
+        /**
+         * The full ASCII-armored public GPG key.
+         */
+        'ascii-armor'?: string | null;
+        /**
+         * The description of the GPG key.
+         */
+        description?: string | null;
+        /**
+         * The name of the GPG key.
+         */
+        name: string;
+    };
+    links?: {
+        [key: string]: string;
+    };
+    type: 'gpg-keys';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type GpgKeyDocumentWritable = {
+    data?: GpgKeyWritable;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type GpgKeyListingDocumentWritable = {
+    data?: Array<GpgKeyWritable>;
 };
 
 /**
@@ -9430,7 +10172,11 @@ export type InfracostIntegrationListingDocumentWritable = {
  * A terraform module in the [Private Module Registry](/docs/private-module-registry).
  */
 export type ModuleWritable = {
-    attributes: {
+    attributes?: {
+        /**
+         * Docker/OCI image repository path for OCI-backed modules.
+         */
+        'docker-image'?: string | null;
         /**
          * The module name.
          */
@@ -9442,7 +10188,11 @@ export type ModuleWritable = {
          * `google`), in other cases the convention is to name it `system`
          */
         provider?: string;
-        'vcs-repo': {
+        /**
+         * The upstream source type for the module.
+         */
+        'source-type'?: 'vcs' | 'docker';
+        'vcs-repo'?: {
             /**
              * A reference to the module's VCS repository.
              *
@@ -9462,9 +10212,18 @@ export type ModuleWritable = {
              * is  `my-module/`.
              */
             'tag-prefix'?: string;
-        };
+        } | null;
     };
-    relationships: {
+    relationships?: {
+        /**
+         * Docker registry connection used by OCI-backed modules.
+         */
+        'docker-integration'?: {
+            data: {
+                id: string;
+                type: 'docker-integrations';
+            } | null;
+        };
         /**
          * The relationship `environment` is deprecated. Use `namespace` instead.
          *
@@ -9488,11 +10247,11 @@ export type ModuleWritable = {
         /**
          * The module's VCS provider.
          */
-        'vcs-provider': {
+        'vcs-provider'?: {
             data: {
                 id: string;
                 type: 'vcs-providers';
-            };
+            } | null;
         };
     };
     type: 'modules';
@@ -9572,6 +10331,39 @@ export type ModuleNamespaceDocumentWritable = {
  */
 export type ModuleNamespaceListingDocumentWritable = {
     data?: Array<ModuleNamespaceWritable>;
+};
+
+/**
+ * The provider configuration link attaches the provider configuration to an module test configuration.
+ */
+export type ModuleTestProviderConfigurationLinkWritable = {
+    relationships: {
+        'provider-configuration': {
+            data: {
+                id: string;
+                type: 'provider-configurations';
+            };
+        };
+    };
+    type: 'module-test-provider-configuration-links';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ModuleTestProviderConfigurationLinkDocumentWritable = {
+    data?: ModuleTestProviderConfigurationLinkWritable;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ModuleTestProviderConfigurationLinkListingDocumentWritable = {
+    data?: Array<ModuleTestProviderConfigurationLinkWritable>;
 };
 
 /**
@@ -10114,6 +10906,23 @@ export type PolicyGroupListingDocumentWritable = {
 };
 
 /**
+ * The Terraform Registry Provider resource.
+ */
+export type ProviderWritable = {
+    attributes: {
+        /**
+         * The description of the provider.
+         */
+        description?: string | null;
+        /**
+         * The name of the provider.
+         */
+        name: string;
+    };
+    type: 'providers';
+};
+
+/**
  * The configuration of provider. Provider configuration is managed on the account scope and can be linked to environments or workspaces.
  */
 export type ProviderConfigurationWritable = {
@@ -10134,6 +10943,10 @@ export type ProviderConfigurationWritable = {
          * The value of the aud claim for the identity token.
          */
         'aws-audience'?: string | null;
+        /**
+         * The credential source for the initial assume-role call. Applicable when the trusted entity type is `aws_service`. Available options: `Ec2InstanceMetadata`, `EcsContainer`. Defaults to `Ec2InstanceMetadata`.
+         */
+        'aws-credentials-source'?: 'Ec2InstanceMetadata' | 'EcsContainer';
         /**
          * The type of AWS credential, available options: `access_keys`, `role_delegation`, `oidc`.
          */
@@ -10212,6 +11025,10 @@ export type ProviderConfigurationWritable = {
          * The canonical name of the workload identity provider.
          */
         'google-workload-provider-name'?: string | null;
+        /**
+         * Indicates whether the provider configuration can be used in module tests.
+         */
+        'is-allowed-in-module-test'?: boolean;
         /**
          * Determines if a provider configuration is custom. Note: custom provider configurations do not support built-in features like exporting as shell variables or on-save validation. Provider configuration will be validated during the run only.
          */
@@ -10387,6 +11204,104 @@ export type ProviderConfigurationParameterListingDocumentWritable = {
  */
 export type ProviderConfigurationWorkspaceUsageFieldsetsListingDocumentWritable = {
     data?: Array<ProviderConfigurationWorkspaceUsage>;
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ProviderDocumentWritable = {
+    data?: ProviderWritable;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ProviderListingDocumentWritable = {
+    data?: Array<ProviderWritable>;
+};
+
+/**
+ * A ProviderReadme resource represents the README file of a provider version.
+ */
+export type ProviderReadmeWritable = {
+    attributes?: {
+        /**
+         * The content of the README file.
+         */
+        content?: string;
+        /**
+         * The time when the README record was created.
+         */
+        'created-at'?: string;
+    };
+    links?: {
+        [key: string]: string;
+    };
+    type: 'provider-readme';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ProviderReadmeDocumentWritable = {
+    data?: ProviderReadmeWritable;
+};
+
+/**
+ * The Terraform Registry Provider Version resource.
+ */
+export type ProviderVersionWritable = {
+    attributes: {
+        /**
+         * Semantic version.
+         */
+        version: string;
+    };
+    relationships: {
+        /**
+         * The GPG key used to verify the signature of the provider version.
+         */
+        'gpg-key': {
+            data: {
+                id: string;
+                type: 'gpg-keys';
+            };
+        };
+        /**
+         * The provider that the provider version belongs to.
+         */
+        provider: {
+            data: {
+                id: string;
+                type: 'providers';
+            };
+        };
+    };
+    type: 'provider-versions';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ProviderVersionDocumentWritable = {
+    data?: ProviderVersionWritable;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type ProviderVersionListingDocumentWritable = {
+    data?: Array<ProviderVersionWritable>;
 };
 
 /**
@@ -11432,6 +12347,9 @@ export type StorageProfileListingDocumentWritable = {
  * or can even participate in a terraform run e.g. as a part of metadata for policy decision.
  *
  * Tags are unique within the account. Deleted tags will be removed from associated resources.
+ *
+ * The extra fields below are not available in response by default. Ask for them explicitly in the query parameter `fields[tags]`:
+ * * in-use
  */
 export type TagWritable = {
     attributes: {
@@ -12183,6 +13101,146 @@ export type VariableListingDocumentWritable = {
 };
 
 /**
+ * A named container of variables.
+ * Variable sets can be granted access to environments and applied to workspaces.
+ */
+export type VariableSetWritable = {
+    attributes: {
+        /**
+         * Optional description of the variable set.
+         */
+        description?: string | null;
+        /**
+         * If true, the variable set is available in all current and future environments of the account without explicitly linking it to each environment.
+         */
+        'is-shared'?: boolean;
+        /**
+         * The name of the variable set. Unique within an account.
+         */
+        name: string;
+    };
+    relationships?: {
+        /**
+         * The list of environments this integration is directly linked to.
+         */
+        environments?: {
+            data: Array<{
+                id: string;
+                type: 'environments';
+            }> | null;
+        };
+        /**
+         * The teams this variable set belongs to.
+         */
+        owners?: {
+            data: Array<{
+                id: string;
+                type: 'teams';
+            }> | null;
+        };
+    };
+    type: 'var-sets';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type VariableSetDocumentWritable = {
+    data?: VariableSetWritable;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type VariableSetListingDocumentWritable = {
+    data?: Array<VariableSetWritable>;
+};
+
+/**
+ * A Variable describes the configuration and value of a variable in a variable set.
+ * There are "terraform" and "shell" variables.
+ *
+ * * Terraform variables define values to be passed into the corresponding Terraform input variable
+ * that is defined in the Configuration Version to be used in a run. Scalr Terraform variables
+ * are added to the `terraform.tfvars.json` file in the working directory of the workspace
+ * prior to any run. The values passed in can be HCL structures if the `hcl` attribute is `true`.
+ * * Shell variables define environment variables that are added to the runtime environment
+ * of a workspace using `export VAR=value`. These variables can pass authentication parameters
+ * to providers or any data required for local processing, such as via `local-exec` provisioners.
+ */
+export type VariableSetVariableWritable = {
+    attributes: {
+        /**
+         * * `terraform` - values to be passed to terraform input variables of the same name.
+         * * `shell` - environment variables. They will be injected via `export` during a terraform run.
+         */
+        category: 'terraform' | 'shell';
+        /**
+         * Variable description.
+         */
+        description?: string | null;
+        /**
+         * Indicates whether the variable can be overridden on a lower scope
+         * down the Scalr organizational model.
+         */
+        final?: boolean;
+        /**
+         * Indicates whether the value of the variable is a string of HCL code.
+         * Not applicable to `shell` category variables.
+         */
+        hcl?: boolean;
+        /**
+         * Variable name. Must correspond to the name of a Terraform input variable
+         * in the configuration if category is terraform.
+         */
+        key: string;
+        /**
+         * Indicates whether the value is sensitive. When set to `true`,
+         * then the variable value is not visible after being written.
+         */
+        sensitive?: boolean;
+        /**
+         * Variable value. Not visible if `sensitive: true` is enabled
+         */
+        value?: string | null;
+    };
+    relationships: {
+        /**
+         * The variable set this variable belongs to.
+         */
+        'var-set': {
+            data: {
+                id: string;
+                type: 'var-sets';
+            };
+        };
+    };
+    type: 'var-set-variables';
+};
+
+/**
+ * JSON:API Document.
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type VariableSetVariableDocumentWritable = {
+    data?: VariableSetVariableWritable;
+};
+
+/**
+ * JSON:API Document Listing
+ *
+ * see: https://jsonapi.org/format/#document-structure
+ */
+export type VariableSetVariableListingDocumentWritable = {
+    data?: Array<VariableSetVariableWritable>;
+};
+
+/**
  * The VCS Provider resource represents a connection between a Scalr
  * account and a VCS, such as GitHub, Gitlab, Bitbucket, and Azure DevOps.
  */
@@ -12885,6 +13943,13 @@ export type WorkspaceReadmeWritable = {
  */
 export type WorkspaceReadmeDocumentWritable = {
     data?: WorkspaceReadmeWritable;
+};
+
+/**
+ * Document Listing.
+ */
+export type WorkspaceVariableSetRelationshipFieldsetsListingDocumentWritable = {
+    data?: Array<WorkspaceVariableSetRelationship>;
 };
 
 export type GetAccessPoliciesData = {
@@ -13886,6 +14951,10 @@ export type GetAgentPoolsData = {
     body?: never;
     path?: never;
     query?: {
+        /**
+         * Query string, search by ID or name.
+         */
+        query?: string;
         /**
          * The id of the agent pool.
          */
@@ -15890,6 +16959,228 @@ export type ListEventDefinitionsResponses = {
 
 export type ListEventDefinitionsResponse = ListEventDefinitionsResponses[keyof ListEventDefinitionsResponses];
 
+export type ListGpgKeysData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * The search string. Supports searching by GPG key name and id.
+         */
+        query?: string;
+        /**
+         * Page number
+         */
+        'page[number]'?: string;
+        /**
+         * Page size
+         */
+        'page[size]'?: string;
+        /**
+         * The comma-separated list of attributes.
+         */
+        sort?: Array<'created-at' | 'name'>;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for GPGKey resource.
+             */
+            'gpg-keys'?: string;
+        };
+    };
+    url: '/gpg-keys';
+};
+
+export type ListGpgKeysErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type ListGpgKeysResponses = {
+    /**
+     * Success.
+     */
+    200: GpgKeyListingDocument;
+};
+
+export type ListGpgKeysResponse = ListGpgKeysResponses[keyof ListGpgKeysResponses];
+
+export type CreateGpgKeyData = {
+    body?: GpgKeyDocumentWritable;
+    path?: never;
+    query?: never;
+    url: '/gpg-keys';
+};
+
+export type CreateGpgKeyErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Relationship resource not found, or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Malformed request body (missing attributes, wrong types, etc.).
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type CreateGpgKeyResponses = {
+    /**
+     * Created.
+     */
+    201: GpgKeyDocument;
+};
+
+export type CreateGpgKeyResponse = CreateGpgKeyResponses[keyof CreateGpgKeyResponses];
+
+export type DeleteGpgKeyData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the GPG key.
+         */
+        gpg_key: string;
+    };
+    query?: never;
+    url: '/gpg-keys/{gpg_key}';
+};
+
+export type DeleteGpgKeyErrors = {
+    /**
+     * GPG key not found or user unauthorized.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type DeleteGpgKeyResponses = {
+    /**
+     * Deleted.
+     */
+    204: void;
+};
+
+export type DeleteGpgKeyResponse = DeleteGpgKeyResponses[keyof DeleteGpgKeyResponses];
+
+export type GetGpgKeyData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the GPG key.
+         */
+        gpg_key: string;
+    };
+    query?: {
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for GPGKey resource.
+             */
+            'gpg-keys'?: string;
+        };
+    };
+    url: '/gpg-keys/{gpg_key}';
+};
+
+export type GetGpgKeyErrors = {
+    /**
+     * GPG key not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type GetGpgKeyResponses = {
+    /**
+     * Success.
+     */
+    200: GpgKeyDocument;
+};
+
+export type GetGpgKeyResponse = GetGpgKeyResponses[keyof GetGpgKeyResponses];
+
+export type UpdateGpgKeyData = {
+    body?: GpgKeyDocumentWritable;
+    path: {
+        /**
+         * The ID of the GPG key to update.
+         */
+        gpg_key: string;
+    };
+    query?: never;
+    url: '/gpg-keys/{gpg_key}';
+};
+
+export type UpdateGpgKeyErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * GPG key not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Malformed request body (missing attributes, wrong types, etc.).
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type UpdateGpgKeyResponses = {
+    /**
+     * Updated.
+     */
+    200: GpgKeyDocument;
+};
+
+export type UpdateGpgKeyResponse = UpdateGpgKeyResponses[keyof UpdateGpgKeyResponses];
+
 export type ListHookEnvironmentLinksData = {
     body?: never;
     path?: never;
@@ -16438,7 +17729,11 @@ export type OauthSigninData = {
          */
         provider: 'github' | 'google';
     };
-    query?: never;
+    query?: {
+        post_auth_action?: 'msteams-auth' | 'aws-marketplace' | 'google-marketplace' | 'mcp';
+        post_auth_state?: string;
+        post_auth_token?: string;
+    };
     url: '/iam/signin/{provider}';
 };
 
@@ -17127,6 +18422,164 @@ export type UpdateDatadogIntegrationsResponses = {
 
 export type UpdateDatadogIntegrationsResponse =
     UpdateDatadogIntegrationsResponses[keyof UpdateDatadogIntegrationsResponses];
+
+export type ListDockerIntegrationsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Page number
+         */
+        'page[number]'?: string;
+        /**
+         * Page size
+         */
+        'page[size]'?: string;
+        /**
+         * The comma-separated list of attributes.
+         */
+        sort?: Array<'name'>;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for DockerIntegration resource.
+             */
+            'docker-integrations'?: string;
+        };
+    };
+    url: '/integrations/docker';
+};
+
+export type ListDockerIntegrationsErrors = {
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type ListDockerIntegrationsResponses = {
+    200: DockerIntegrationListingDocument;
+};
+
+export type ListDockerIntegrationsResponse = ListDockerIntegrationsResponses[keyof ListDockerIntegrationsResponses];
+
+export type CreateDockerIntegrationData = {
+    body?: DockerIntegrationDocumentWritable;
+    path?: never;
+    query?: never;
+    url: '/integrations/docker';
+};
+
+export type CreateDockerIntegrationErrors = {
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type CreateDockerIntegrationResponses = {
+    201: DockerIntegrationDocument;
+};
+
+export type CreateDockerIntegrationResponse = CreateDockerIntegrationResponses[keyof CreateDockerIntegrationResponses];
+
+export type DeleteDockerIntegrationData = {
+    body?: never;
+    path: {
+        docker_integration: string;
+    };
+    query?: never;
+    url: '/integrations/docker/{docker_integration}';
+};
+
+export type DeleteDockerIntegrationErrors = {
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type DeleteDockerIntegrationResponses = {
+    204: void;
+};
+
+export type DeleteDockerIntegrationResponse = DeleteDockerIntegrationResponses[keyof DeleteDockerIntegrationResponses];
+
+export type GetDockerIntegrationData = {
+    body?: never;
+    path: {
+        docker_integration: string;
+    };
+    query?: {
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for DockerIntegration resource.
+             */
+            'docker-integrations'?: string;
+        };
+    };
+    url: '/integrations/docker/{docker_integration}';
+};
+
+export type GetDockerIntegrationErrors = {
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type GetDockerIntegrationResponses = {
+    200: DockerIntegrationDocument;
+};
+
+export type GetDockerIntegrationResponse = GetDockerIntegrationResponses[keyof GetDockerIntegrationResponses];
+
+export type UpdateDockerIntegrationData = {
+    body?: DockerIntegrationDocumentWritable;
+    path: {
+        docker_integration: string;
+    };
+    query?: never;
+    url: '/integrations/docker/{docker_integration}';
+};
+
+export type UpdateDockerIntegrationErrors = {
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type UpdateDockerIntegrationResponses = {
+    200: DockerIntegrationDocument;
+};
+
+export type UpdateDockerIntegrationResponse = UpdateDockerIntegrationResponses[keyof UpdateDockerIntegrationResponses];
 
 export type ListInfracostIntegrationsData = {
     body?: never;
@@ -18654,6 +20107,129 @@ export type UpdateModuleNamespaceResponses = {
 
 export type UpdateModuleNamespaceResponse = UpdateModuleNamespaceResponses[keyof UpdateModuleNamespaceResponses];
 
+export type DeleteModuleTestProviderConfigurationLinkData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the Module Test Provider Configuration Link to delete.
+         *
+         */
+        module_test_provider_configuration_link: string;
+    };
+    query?: never;
+    url: '/module-test-provider-configuration-links/{module_test_provider_configuration_link}';
+};
+
+export type DeleteModuleTestProviderConfigurationLinkErrors = {
+    /**
+     * Module Test Provider Configuration Link not found or user unauthorized.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type DeleteModuleTestProviderConfigurationLinkResponses = {
+    /**
+     * Deleted.
+     */
+    204: void;
+};
+
+export type DeleteModuleTestProviderConfigurationLinkResponse =
+    DeleteModuleTestProviderConfigurationLinkResponses[keyof DeleteModuleTestProviderConfigurationLinkResponses];
+
+export type GetModuleTestProviderConfigurationLinkData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the Module Test Provider Configuration Link.
+         *
+         */
+        module_test_provider_configuration_link: string;
+    };
+    query?: {
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'provider-configuration'>;
+    };
+    url: '/module-test-provider-configuration-links/{module_test_provider_configuration_link}';
+};
+
+export type GetModuleTestProviderConfigurationLinkErrors = {
+    /**
+     * Module Test Provider Configuration Link not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type GetModuleTestProviderConfigurationLinkResponses = {
+    /**
+     * Success.
+     */
+    200: ModuleTestProviderConfigurationLinkDocument;
+};
+
+export type GetModuleTestProviderConfigurationLinkResponse =
+    GetModuleTestProviderConfigurationLinkResponses[keyof GetModuleTestProviderConfigurationLinkResponses];
+
+export type UpdateModuleTestProviderConfigurationLinkData = {
+    body?: ModuleTestProviderConfigurationLinkDocumentWritable;
+    path: {
+        /**
+         * The ID of the Module Test Provider Configuration Link to update.
+         *
+         */
+        module_test_provider_configuration_link: string;
+    };
+    query?: never;
+    url: '/module-test-provider-configuration-links/{module_test_provider_configuration_link}';
+};
+
+export type UpdateModuleTestProviderConfigurationLinkErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Malformed request body (missing attributes, wrong types, etc.).
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type UpdateModuleTestProviderConfigurationLinkResponses = {
+    /**
+     * Updated.
+     */
+    200: ModuleTestProviderConfigurationLinkDocument;
+};
+
+export type UpdateModuleTestProviderConfigurationLinkResponse =
+    UpdateModuleTestProviderConfigurationLinkResponses[keyof UpdateModuleTestProviderConfigurationLinkResponses];
+
 export type ListModuleVersionsData = {
     body?: never;
     path?: never;
@@ -18842,6 +20418,10 @@ export type ListModulesData = {
          */
         'filter[status]'?: string;
         /**
+         * Filter modules by source type
+         */
+        'filter[source-type]'?: string;
+        /**
          * Filter modules by environment
          */
         'filter[environment]'?: string;
@@ -18877,16 +20457,26 @@ export type ListModulesData = {
          * The comma-separated list of relationship paths.
          */
         include?: Array<
-            'created-by' | 'environment' | 'latest-module-version' | 'module-versions' | 'namespace' | 'vcs-provider'
+            | 'created-by'
+            | 'docker-integration'
+            | 'environment'
+            | 'latest-module-version'
+            | 'module-versions'
+            | 'namespace'
+            | 'vcs-provider'
         >;
         /**
          * The comma-separated list of attributes.
          */
-        sort?: Array<'created-at' | 'environment' | 'name'>;
+        sort?: Array<'created-at' | 'environment' | 'name' | 'source-type'>;
         /**
          * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
          */
         fields?: {
+            /**
+             * The comma-separated list of fields to return in response for DockerIntegration resource.
+             */
+            'docker-integrations'?: string;
             /**
              * The comma-separated list of fields to return in response for Environment resource.
              */
@@ -19037,7 +20627,13 @@ export type GetModuleData = {
          * The comma-separated list of relationship paths.
          */
         include?: Array<
-            'created-by' | 'environment' | 'latest-module-version' | 'module-versions' | 'namespace' | 'vcs-provider'
+            | 'created-by'
+            | 'docker-integration'
+            | 'environment'
+            | 'latest-module-version'
+            | 'module-versions'
+            | 'namespace'
+            | 'vcs-provider'
         >;
     };
     url: '/modules/{module}';
@@ -19115,6 +20711,37 @@ export type ResyncModuleResponses = {
 };
 
 export type ResyncModuleResponse = ResyncModuleResponses[keyof ResyncModuleResponses];
+
+export type GetModuleChangelogData = {
+    body?: never;
+    path: {
+        module: string;
+    };
+    query?: never;
+    url: '/modules/{module}/changelog';
+};
+
+export type GetModuleChangelogErrors = {
+    /**
+     * Module not found, unauthorized, or module has no changelog.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type GetModuleChangelogResponses = {
+    /**
+     * Changelog content (text/markdown).
+     */
+    200: unknown;
+};
 
 export type GetPermissionsData = {
     body?: never;
@@ -19549,6 +21176,10 @@ export type GetPolicyGroupCheckResultsData = {
          * The policy name filter. Example: `filter[policy]=workspace_name`
          */
         'filter[policy]'?: string;
+        /**
+         * The date range filter. Example: `filter[date]=between:2022-01-01T00:00:00Z,2022-02-01T00:00:00Z`
+         */
+        'filter[date]'?: string;
         /**
          * The result of the policy check filter. Example: `filter[result]=hard-failed`
          */
@@ -20454,6 +22085,14 @@ export type ListProviderConfigurationsData = {
          */
         'filter[tag]'?: string;
         /**
+         * Filter provider configurations allowed for use in module tests.
+         */
+        'filter[is-allowed-in-module-test]'?: string;
+        /**
+         * Filter provider configurations used in module tests.
+         */
+        'filter[is-used-in-module-test]'?: string;
+        /**
          * Page number
          */
         'page[number]'?: string;
@@ -20577,7 +22216,7 @@ export type DeleteProviderConfigurationErrors = {
      */
     404: unknown;
     /**
-     * Some of environments cant be detached.
+     * Some of environments cant be detached, or the provider configuration is linked to module tests.
      * The environment cant be detached if some of the environment workspaces use this provider configuration.
      */
     422: unknown;
@@ -21004,6 +22643,454 @@ export type GetProviderConfigurationWorkspaceUsageResponses = {
 
 export type GetProviderConfigurationWorkspaceUsageResponse =
     GetProviderConfigurationWorkspaceUsageResponses[keyof GetProviderConfigurationWorkspaceUsageResponses];
+
+export type ListProviderVersionsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Filter provider versions by provider.
+         */
+        'filter[provider]'?: string;
+        /**
+         * Filter provider versions by GPG key.
+         */
+        'filter[gpg-key]'?: string;
+        /**
+         * The search string. Supports searching by semantic version.
+         */
+        query?: string;
+        /**
+         * Page number
+         */
+        'page[number]'?: string;
+        /**
+         * Page size
+         */
+        'page[size]'?: string;
+        /**
+         * The comma-separated list of attributes.
+         */
+        sort?: Array<'created-by-email' | 'released-at' | 'version'>;
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'provider' | 'readme'>;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for ProviderReadme resource.
+             */
+            'provider-readme'?: string;
+            /**
+             * The comma-separated list of fields to return in response for ProviderVersion resource.
+             */
+            'provider-versions'?: string;
+            /**
+             * The comma-separated list of fields to return in response for Provider resource.
+             */
+            providers?: string;
+        };
+    };
+    url: '/provider-versions';
+};
+
+export type ListProviderVersionsErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type ListProviderVersionsResponses = {
+    /**
+     * Success.
+     */
+    200: ProviderVersionListingDocument;
+};
+
+export type ListProviderVersionsResponse = ListProviderVersionsResponses[keyof ListProviderVersionsResponses];
+
+export type CreateProviderVersionData = {
+    body?: ProviderVersionDocumentWritable;
+    path?: never;
+    query?: never;
+    url: '/provider-versions';
+};
+
+export type CreateProviderVersionErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Relationship resource not found, or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Malformed request body (missing attributes, wrong types, etc.).
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type CreateProviderVersionResponses = {
+    /**
+     * Created.
+     */
+    201: ProviderVersionDocument;
+};
+
+export type CreateProviderVersionResponse = CreateProviderVersionResponses[keyof CreateProviderVersionResponses];
+
+export type DeleteProviderVersionData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the provider version.
+         */
+        provider_version: string;
+    };
+    query?: never;
+    url: '/provider-versions/{provider_version}';
+};
+
+export type DeleteProviderVersionErrors = {
+    /**
+     * Provider version not found or user unauthorized.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type DeleteProviderVersionResponses = {
+    /**
+     * Deleted.
+     */
+    204: void;
+};
+
+export type DeleteProviderVersionResponse = DeleteProviderVersionResponses[keyof DeleteProviderVersionResponses];
+
+export type GetProviderVersionData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the provider version.
+         */
+        provider_version: string;
+    };
+    query?: {
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'provider' | 'readme'>;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for ProviderReadme resource.
+             */
+            'provider-readme'?: string;
+            /**
+             * The comma-separated list of fields to return in response for ProviderVersion resource.
+             */
+            'provider-versions'?: string;
+            /**
+             * The comma-separated list of fields to return in response for Provider resource.
+             */
+            providers?: string;
+        };
+    };
+    url: '/provider-versions/{provider_version}';
+};
+
+export type GetProviderVersionErrors = {
+    /**
+     * Provider version not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type GetProviderVersionResponses = {
+    /**
+     * Success.
+     */
+    200: ProviderVersionDocument;
+};
+
+export type GetProviderVersionResponse = GetProviderVersionResponses[keyof GetProviderVersionResponses];
+
+export type ListProvidersData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * The search string. Supports searching by provider name and ID.
+         */
+        query?: string;
+        /**
+         * Page number
+         */
+        'page[number]'?: string;
+        /**
+         * Page size
+         */
+        'page[size]'?: string;
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'latest-provider-version' | 'provider-version'>;
+        /**
+         * The comma-separated list of attributes.
+         */
+        sort?: Array<'name'>;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for ProviderVersion resource.
+             */
+            'provider-versions'?: string;
+            /**
+             * The comma-separated list of fields to return in response for Provider resource.
+             */
+            providers?: string;
+        };
+    };
+    url: '/providers';
+};
+
+export type ListProvidersErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type ListProvidersResponses = {
+    /**
+     * Success.
+     */
+    200: ProviderListingDocument;
+};
+
+export type ListProvidersResponse = ListProvidersResponses[keyof ListProvidersResponses];
+
+export type CreateProviderData = {
+    body?: ProviderDocumentWritable;
+    path?: never;
+    query?: never;
+    url: '/providers';
+};
+
+export type CreateProviderErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Relationship resource not found, or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Malformed request body (missing attributes, wrong types, etc.).
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type CreateProviderResponses = {
+    /**
+     * Created.
+     */
+    201: ProviderDocument;
+};
+
+export type CreateProviderResponse = CreateProviderResponses[keyof CreateProviderResponses];
+
+export type DeleteProviderData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the provider.
+         */
+        provider: string;
+    };
+    query?: never;
+    url: '/providers/{provider}';
+};
+
+export type DeleteProviderErrors = {
+    /**
+     * Provider not found or user unauthorized.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type DeleteProviderResponses = {
+    /**
+     * Deleted.
+     */
+    204: void;
+};
+
+export type DeleteProviderResponse = DeleteProviderResponses[keyof DeleteProviderResponses];
+
+export type GetProviderData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the provider.
+         */
+        provider: string;
+    };
+    query?: {
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'latest-provider-version' | 'provider-version'>;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for ProviderVersion resource.
+             */
+            'provider-versions'?: string;
+            /**
+             * The comma-separated list of fields to return in response for Provider resource.
+             */
+            providers?: string;
+        };
+    };
+    url: '/providers/{provider}';
+};
+
+export type GetProviderErrors = {
+    /**
+     * Provider not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type GetProviderResponses = {
+    /**
+     * Success.
+     */
+    200: ProviderDocument;
+};
+
+export type GetProviderResponse = GetProviderResponses[keyof GetProviderResponses];
+
+export type UpdateProviderData = {
+    body?: ProviderDocumentWritable;
+    path: {
+        /**
+         * The ID of the provider to update.
+         */
+        provider: string;
+    };
+    query?: never;
+    url: '/providers/{provider}';
+};
+
+export type UpdateProviderErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Provider not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Malformed request body (missing attributes, wrong types, etc.).
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type UpdateProviderResponses = {
+    /**
+     * Updated.
+     */
+    200: ProviderDocument;
+};
+
+export type UpdateProviderResponse = UpdateProviderResponses[keyof UpdateProviderResponses];
 
 export type ListAccessTokenUsageData = {
     body?: never;
@@ -24965,6 +27052,15 @@ export type ListTagsData = {
          * Query string
          */
         query?: string;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for Tag resource.
+             */
+            tags?: string;
+        };
     };
     url: '/tags';
 };
@@ -25407,6 +27503,107 @@ export type UpdateTeamResponses = {
 
 export type UpdateTeamResponse = UpdateTeamResponses[keyof UpdateTeamResponses];
 
+export type ListModuleTestProviderConfigurationLinksData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the Module Test Configuration.
+         *
+         */
+        test_configuration: string;
+    };
+    query?: {
+        /**
+         * Page number
+         */
+        'page[number]'?: string;
+        /**
+         * Page size
+         */
+        'page[size]'?: string;
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'provider-configuration'>;
+    };
+    url: '/test-configurations/{test_configuration}/provider-configuration-links';
+};
+
+export type ListModuleTestProviderConfigurationLinksErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Module Test Configuration not found.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type ListModuleTestProviderConfigurationLinksResponses = {
+    /**
+     * Success.
+     */
+    200: ModuleTestProviderConfigurationLinkListingDocument;
+};
+
+export type ListModuleTestProviderConfigurationLinksResponse =
+    ListModuleTestProviderConfigurationLinksResponses[keyof ListModuleTestProviderConfigurationLinksResponses];
+
+export type CreateModuleTestProviderConfigurationLinkData = {
+    body?: ModuleTestProviderConfigurationLinkDocumentWritable;
+    path: {
+        /**
+         * The ID of the Module Test Configuration.
+         *
+         */
+        test_configuration: string;
+    };
+    query?: never;
+    url: '/test-configurations/{test_configuration}/provider-configuration-links';
+};
+
+export type CreateModuleTestProviderConfigurationLinkErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Module Test Configuration not found.
+     */
+    404: unknown;
+    /**
+     * Malformed request body (missing attributes, wrong types, etc.).
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type CreateModuleTestProviderConfigurationLinkResponses = {
+    /**
+     * Created.
+     */
+    201: ModuleTestProviderConfigurationLinkDocument;
+};
+
+export type CreateModuleTestProviderConfigurationLinkResponse =
+    CreateModuleTestProviderConfigurationLinkResponses[keyof CreateModuleTestProviderConfigurationLinkResponses];
+
 export type ListUsageStatisticsData = {
     body?: never;
     path?: never;
@@ -25705,6 +27902,566 @@ export type UpdateUserResponses = {
 
 export type UpdateUserResponse = UpdateUserResponses[keyof UpdateUserResponses];
 
+export type ListVarSetVariablesData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Filter by variable key.
+         */
+        'filter[key]'?: string;
+        /**
+         * Filter by variable category.
+         */
+        'filter[category]'?: string;
+        /**
+         * Filter by variable ID(s).
+         */
+        'filter[var-set-variable]'?: string;
+        /**
+         * Filter by variable set ID(s).
+         */
+        'filter[var-set]'?: string;
+        /**
+         * Page number.
+         */
+        'page[number]'?: string;
+        /**
+         * Page size.
+         */
+        'page[size]'?: string;
+        /**
+         * The comma-separated list of attributes.
+         */
+        sort?: Array<'key' | 'updated-at'>;
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'var-set'>;
+    };
+    url: '/var-set-variables';
+};
+
+export type ListVarSetVariablesErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type ListVarSetVariablesResponses = {
+    /**
+     * Success.
+     */
+    200: VariableSetVariableListingDocument;
+};
+
+export type ListVarSetVariablesResponse = ListVarSetVariablesResponses[keyof ListVarSetVariablesResponses];
+
+export type CreateVarSetVariableData = {
+    body?: VariableSetVariableDocumentWritable;
+    path?: never;
+    query?: {
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'var-set'>;
+    };
+    url: '/var-set-variables';
+};
+
+export type CreateVarSetVariableErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Relationship resource not found, or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Malformed request body or validation error.
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type CreateVarSetVariableResponses = {
+    /**
+     * Created.
+     */
+    201: VariableSetVariableDocument;
+};
+
+export type CreateVarSetVariableResponse = CreateVarSetVariableResponses[keyof CreateVarSetVariableResponses];
+
+export type DeleteVarSetVariableData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the variable.
+         */
+        vs_var: string;
+    };
+    query?: never;
+    url: '/var-set-variables/{vs_var}';
+};
+
+export type DeleteVarSetVariableErrors = {
+    /**
+     * Variable not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type DeleteVarSetVariableResponses = {
+    /**
+     * Deleted.
+     */
+    204: void;
+};
+
+export type DeleteVarSetVariableResponse = DeleteVarSetVariableResponses[keyof DeleteVarSetVariableResponses];
+
+export type GetVarSetVariableData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the variable.
+         */
+        vs_var: string;
+    };
+    query?: {
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'var-set'>;
+    };
+    url: '/var-set-variables/{vs_var}';
+};
+
+export type GetVarSetVariableErrors = {
+    /**
+     * User unauthorized to perform this action.
+     */
+    403: unknown;
+    /**
+     * Variable not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type GetVarSetVariableResponses = {
+    /**
+     * Success.
+     */
+    200: VariableSetVariableDocument;
+};
+
+export type GetVarSetVariableResponse = GetVarSetVariableResponses[keyof GetVarSetVariableResponses];
+
+export type UpdateVarSetVariableData = {
+    body?: VariableSetVariableDocumentWritable;
+    path: {
+        /**
+         * The ID of the variable.
+         */
+        vs_var: string;
+    };
+    query?: {
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'var-set'>;
+    };
+    url: '/var-set-variables/{vs_var}';
+};
+
+export type UpdateVarSetVariableErrors = {
+    /**
+     * User unauthorized to perform this action.
+     */
+    403: unknown;
+    /**
+     * Variable not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Malformed request body or validation error.
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type UpdateVarSetVariableResponses = {
+    /**
+     * Success.
+     */
+    200: VariableSetVariableDocument;
+};
+
+export type UpdateVarSetVariableResponse = UpdateVarSetVariableResponses[keyof UpdateVarSetVariableResponses];
+
+export type ListVarSetsData = {
+    body?: never;
+    path?: never;
+    query?: {
+        /**
+         * Filter by variable set name.
+         */
+        'filter[name]'?: string;
+        /**
+         * Filter by environment — returns sets accessible to that environment.
+         */
+        'filter[environment]'?: string;
+        /**
+         * Filter by variable set ID(s).
+         */
+        'filter[var-set]'?: string;
+        /**
+         * Page number.
+         */
+        'page[number]'?: string;
+        /**
+         * Page size.
+         */
+        'page[size]'?: string;
+        /**
+         * The comma-separated list of attributes.
+         */
+        sort?: Array<'name' | 'updated-at'>;
+        /**
+         * Query string
+         */
+        query?: string;
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'account' | 'environments' | 'owners'>;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for Account resource.
+             */
+            accounts?: string;
+            /**
+             * The comma-separated list of fields to return in response for Environment resource.
+             */
+            environments?: string;
+            /**
+             * The comma-separated list of fields to return in response for Team resource.
+             */
+            teams?: string;
+            /**
+             * The comma-separated list of fields to return in response for VariableSet resource.
+             */
+            'var-sets'?: string;
+        };
+    };
+    url: '/var-sets';
+};
+
+export type ListVarSetsErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type ListVarSetsResponses = {
+    /**
+     * Success.
+     */
+    200: VariableSetListingDocument;
+};
+
+export type ListVarSetsResponse = ListVarSetsResponses[keyof ListVarSetsResponses];
+
+export type CreateVarSetData = {
+    body?: VariableSetDocumentWritable;
+    path?: never;
+    query?: {
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'account' | 'environments' | 'owners'>;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for Account resource.
+             */
+            accounts?: string;
+            /**
+             * The comma-separated list of fields to return in response for Environment resource.
+             */
+            environments?: string;
+            /**
+             * The comma-separated list of fields to return in response for Team resource.
+             */
+            teams?: string;
+            /**
+             * The comma-separated list of fields to return in response for VariableSet resource.
+             */
+            'var-sets'?: string;
+        };
+    };
+    url: '/var-sets';
+};
+
+export type CreateVarSetErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Relationship resource not found, or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Malformed request body or validation error.
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type CreateVarSetResponses = {
+    /**
+     * Created.
+     */
+    201: VariableSetDocument;
+};
+
+export type CreateVarSetResponse = CreateVarSetResponses[keyof CreateVarSetResponses];
+
+export type DeleteVarSetData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the variable set to delete.
+         */
+        var_set: string;
+    };
+    query?: never;
+    url: '/var-sets/{var_set}';
+};
+
+export type DeleteVarSetErrors = {
+    /**
+     * Variable set not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type DeleteVarSetResponses = {
+    /**
+     * Deleted.
+     */
+    204: void;
+};
+
+export type DeleteVarSetResponse = DeleteVarSetResponses[keyof DeleteVarSetResponses];
+
+export type GetVarSetData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the variable set.
+         */
+        var_set: string;
+    };
+    query?: {
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'account' | 'environments' | 'owners'>;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for Account resource.
+             */
+            accounts?: string;
+            /**
+             * The comma-separated list of fields to return in response for Environment resource.
+             */
+            environments?: string;
+            /**
+             * The comma-separated list of fields to return in response for Team resource.
+             */
+            teams?: string;
+            /**
+             * The comma-separated list of fields to return in response for VariableSet resource.
+             */
+            'var-sets'?: string;
+        };
+    };
+    url: '/var-sets/{var_set}';
+};
+
+export type GetVarSetErrors = {
+    /**
+     * User unauthorized to perform this action.
+     */
+    403: unknown;
+    /**
+     * Variable set not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type GetVarSetResponses = {
+    /**
+     * Success.
+     */
+    200: VariableSetDocument;
+};
+
+export type GetVarSetResponse = GetVarSetResponses[keyof GetVarSetResponses];
+
+export type UpdateVarSetData = {
+    body?: VariableSetDocumentWritable;
+    path: {
+        /**
+         * The ID of the variable set to update.
+         */
+        var_set: string;
+    };
+    query?: {
+        /**
+         * The comma-separated list of relationship paths.
+         */
+        include?: Array<'account' | 'environments' | 'owners'>;
+        /**
+         * The value of the fields[resource-type] parameter is a comma-separated list that refers to the name of the fields to be returned for the resource. An empty value indicates that no fields should be returned.
+         */
+        fields?: {
+            /**
+             * The comma-separated list of fields to return in response for Account resource.
+             */
+            accounts?: string;
+            /**
+             * The comma-separated list of fields to return in response for Environment resource.
+             */
+            environments?: string;
+            /**
+             * The comma-separated list of fields to return in response for Team resource.
+             */
+            teams?: string;
+            /**
+             * The comma-separated list of fields to return in response for VariableSet resource.
+             */
+            'var-sets'?: string;
+        };
+    };
+    url: '/var-sets/{var_set}';
+};
+
+export type UpdateVarSetErrors = {
+    /**
+     * User unauthorized to perform action.
+     */
+    403: unknown;
+    /**
+     * Variable set not found or user unauthorized to perform action.
+     */
+    404: unknown;
+    /**
+     * Malformed request body or validation error.
+     */
+    422: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type UpdateVarSetResponses = {
+    /**
+     * Updated.
+     */
+    200: VariableSetDocument;
+};
+
+export type UpdateVarSetResponse = UpdateVarSetResponses[keyof UpdateVarSetResponses];
+
 export type GetVariablesData = {
     body?: never;
     path?: never;
@@ -25744,7 +28501,7 @@ export type GetVariablesData = {
         /**
          * The comma-separated list of attributes.
          */
-        sort?: Array<'key' | 'updated-at'>;
+        sort?: Array<'category' | 'key' | 'updated-at'>;
     };
     url: '/vars';
 };
@@ -27686,6 +30443,183 @@ export type AddWorkspaceTagsResponses = {
 };
 
 export type AddWorkspaceTagsResponse = AddWorkspaceTagsResponses[keyof AddWorkspaceTagsResponses];
+
+export type DeleteWorkspaceVariableSetsData = {
+    body?: WorkspaceVariableSetRelationshipFieldsetsListingDocumentWritable;
+    path: {
+        /**
+         * The ID of the workspace.
+         *
+         */
+        workspace: string;
+    };
+    query?: never;
+    url: '/workspaces/{workspace}/relationships/var-sets';
+};
+
+export type DeleteWorkspaceVariableSetsErrors = {
+    /**
+     * User unauthorized to perform this action.
+     */
+    403: unknown;
+    /**
+     * Workspace or variable set not found.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type DeleteWorkspaceVariableSetsResponses = {
+    /**
+     * Success.
+     */
+    204: void;
+};
+
+export type DeleteWorkspaceVariableSetsResponse =
+    DeleteWorkspaceVariableSetsResponses[keyof DeleteWorkspaceVariableSetsResponses];
+
+export type ListWorkspaceVariableSetsData = {
+    body?: never;
+    path: {
+        /**
+         * The ID of the workspace.
+         *
+         */
+        workspace: string;
+    };
+    query?: {
+        /**
+         * Page number
+         */
+        'page[number]'?: string;
+        /**
+         * Page size
+         */
+        'page[size]'?: string;
+    };
+    url: '/workspaces/{workspace}/relationships/var-sets';
+};
+
+export type ListWorkspaceVariableSetsErrors = {
+    /**
+     * User unauthorized to perform this action.
+     */
+    403: unknown;
+    /**
+     * Workspace not found.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type ListWorkspaceVariableSetsResponses = {
+    /**
+     * Request was successful.
+     */
+    200: WorkspaceVariableSetRelationshipFieldsetsListingDocument;
+};
+
+export type ListWorkspaceVariableSetsResponse =
+    ListWorkspaceVariableSetsResponses[keyof ListWorkspaceVariableSetsResponses];
+
+export type ReplaceWorkspaceVariableSetsData = {
+    body?: WorkspaceVariableSetRelationshipFieldsetsListingDocumentWritable;
+    path: {
+        /**
+         * The ID of the workspace.
+         *
+         */
+        workspace: string;
+    };
+    query?: never;
+    url: '/workspaces/{workspace}/relationships/var-sets';
+};
+
+export type ReplaceWorkspaceVariableSetsErrors = {
+    /**
+     * User unauthorized to perform this action.
+     */
+    403: unknown;
+    /**
+     * Workspace or variable set not found.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type ReplaceWorkspaceVariableSetsResponses = {
+    /**
+     * Success.
+     */
+    204: void;
+};
+
+export type ReplaceWorkspaceVariableSetsResponse =
+    ReplaceWorkspaceVariableSetsResponses[keyof ReplaceWorkspaceVariableSetsResponses];
+
+export type AddWorkspaceVariableSetsData = {
+    body?: WorkspaceVariableSetRelationshipFieldsetsListingDocumentWritable;
+    path: {
+        /**
+         * The ID of the workspace.
+         *
+         */
+        workspace: string;
+    };
+    query?: never;
+    url: '/workspaces/{workspace}/relationships/var-sets';
+};
+
+export type AddWorkspaceVariableSetsErrors = {
+    /**
+     * User unauthorized to perform this action.
+     */
+    403: unknown;
+    /**
+     * Workspace or variable set not found.
+     */
+    404: unknown;
+    /**
+     * Client error.
+     */
+    '4XX': unknown;
+    /**
+     * Server error.
+     */
+    '5XX': unknown;
+};
+
+export type AddWorkspaceVariableSetsResponses = {
+    /**
+     * Success.
+     */
+    204: void;
+};
+
+export type AddWorkspaceVariableSetsResponse =
+    AddWorkspaceVariableSetsResponses[keyof AddWorkspaceVariableSetsResponses];
 
 export type DeleteWorkspaceSshKeyLinkData = {
     body?: never;
