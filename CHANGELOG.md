@@ -6,6 +6,18 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
+## [0.1.1]
+
+### Improvements
+
+-   Replaced the axios HTTP client with the native Fetch API for all Scalr API calls, removing a runtime dependency and eliminating recurring axios security advisories.
+-   Updated development dependencies to their latest versions, including TypeScript 6, webpack 5.107, and `@hey-api/openapi-ts` 0.98.
+
+### Fixed
+
+-   Resolved security advisories in `fast-uri`, `qs`, and `diff` transitive dependencies.
+-   Restored 401 unauthorized handling so an expired or invalid API token clears the signed-in state.
+
 ## [0.1.0]
 
 ### Features
@@ -84,7 +96,8 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ---
 
-[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/Scalr/scalr-vscode/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/Scalr/scalr-vscode/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/Scalr/scalr-vscode/compare/v0.0.8...v0.1.0
 [0.0.8]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.8
 [0.0.6]: https://github.com/Scalr/scalr-vscode/releases/tag/v0.0.6
