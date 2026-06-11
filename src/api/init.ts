@@ -4,8 +4,8 @@ import { showErrorMessage } from './error';
 import * as vscode from 'vscode';
 
 export const initClient = (accountName: string, token: string) => {
-    client.interceptors.error.use((error) => {
-        showErrorMessage(error);
+    client.interceptors.error.use((error, response) => {
+        showErrorMessage(error, undefined, response);
         return error;
     });
 

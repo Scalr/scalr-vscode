@@ -27,6 +27,9 @@ import type {
     AddWorkspaceToFavoritesData,
     AddWorkspaceToFavoritesErrors,
     AddWorkspaceToFavoritesResponses,
+    AddWorkspaceVariableSetsData,
+    AddWorkspaceVariableSetsErrors,
+    AddWorkspaceVariableSetsResponses,
     AssumeServiceAccountData,
     AssumeServiceAccountErrors,
     AssumeServiceAccountResponses,
@@ -63,12 +66,18 @@ import type {
     CreateDatadogIntegrationData,
     CreateDatadogIntegrationErrors,
     CreateDatadogIntegrationResponses,
+    CreateDockerIntegrationData,
+    CreateDockerIntegrationErrors,
+    CreateDockerIntegrationResponses,
     CreateDriftDetectionScheduleData,
     CreateDriftDetectionScheduleErrors,
     CreateDriftDetectionScheduleResponses,
     CreateEnvironmentData,
     CreateEnvironmentErrors,
     CreateEnvironmentResponses,
+    CreateGpgKeyData,
+    CreateGpgKeyErrors,
+    CreateGpgKeyResponses,
     CreateHookData,
     CreateHookEnvironmentLinkData,
     CreateHookEnvironmentLinkErrors,
@@ -84,6 +93,9 @@ import type {
     CreateModuleNamespaceErrors,
     CreateModuleNamespaceResponses,
     CreateModuleResponses,
+    CreateModuleTestProviderConfigurationLinkData,
+    CreateModuleTestProviderConfigurationLinkErrors,
+    CreateModuleTestProviderConfigurationLinkResponses,
     CreatePolicyGroupData,
     CreatePolicyGroupEnvironmentsData,
     CreatePolicyGroupEnvironmentsErrors,
@@ -99,6 +111,12 @@ import type {
     CreateProviderConfigurationParameterErrors,
     CreateProviderConfigurationParameterResponses,
     CreateProviderConfigurationResponses,
+    CreateProviderData,
+    CreateProviderErrors,
+    CreateProviderResponses,
+    CreateProviderVersionData,
+    CreateProviderVersionErrors,
+    CreateProviderVersionResponses,
     CreateRoleData,
     CreateRoleErrors,
     CreateRoleResponses,
@@ -144,6 +162,12 @@ import type {
     CreateVariableData,
     CreateVariableErrors,
     CreateVariableResponses,
+    CreateVarSetData,
+    CreateVarSetErrors,
+    CreateVarSetResponses,
+    CreateVarSetVariableData,
+    CreateVarSetVariableErrors,
+    CreateVarSetVariableResponses,
     CreateVcsProviderData,
     CreateVcsProviderErrors,
     CreateVcsProviderResponses,
@@ -186,6 +210,9 @@ import type {
     DeleteDatadogIntegrationData,
     DeleteDatadogIntegrationErrors,
     DeleteDatadogIntegrationResponses,
+    DeleteDockerIntegrationData,
+    DeleteDockerIntegrationErrors,
+    DeleteDockerIntegrationResponses,
     DeleteDriftDetectionScheduleData,
     DeleteDriftDetectionScheduleErrors,
     DeleteDriftDetectionScheduleResponses,
@@ -198,6 +225,9 @@ import type {
     DeleteFederatedEnvironmentData,
     DeleteFederatedEnvironmentErrors,
     DeleteFederatedEnvironmentResponses,
+    DeleteGpgKeyData,
+    DeleteGpgKeyErrors,
+    DeleteGpgKeyResponses,
     DeleteHookData,
     DeleteHookEnvironmentLinkData,
     DeleteHookEnvironmentLinkErrors,
@@ -213,6 +243,9 @@ import type {
     DeleteModuleNamespaceErrors,
     DeleteModuleNamespaceResponses,
     DeleteModuleResponses,
+    DeleteModuleTestProviderConfigurationLinkData,
+    DeleteModuleTestProviderConfigurationLinkErrors,
+    DeleteModuleTestProviderConfigurationLinkResponses,
     DeletePolicyGroupData,
     DeletePolicyGroupEnvironmentsData,
     DeletePolicyGroupEnvironmentsErrors,
@@ -231,6 +264,12 @@ import type {
     DeleteProviderConfigurationWorkspaceLinkData,
     DeleteProviderConfigurationWorkspaceLinkErrors,
     DeleteProviderConfigurationWorkspaceLinkResponses,
+    DeleteProviderData,
+    DeleteProviderErrors,
+    DeleteProviderResponses,
+    DeleteProviderVersionData,
+    DeleteProviderVersionErrors,
+    DeleteProviderVersionResponses,
     DeleteRemoteStateConsumersData,
     DeleteRemoteStateConsumersErrors,
     DeleteRemoteStateConsumersResponses,
@@ -276,6 +315,12 @@ import type {
     DeleteVariableData,
     DeleteVariableErrors,
     DeleteVariableResponses,
+    DeleteVarSetData,
+    DeleteVarSetErrors,
+    DeleteVarSetResponses,
+    DeleteVarSetVariableData,
+    DeleteVarSetVariableErrors,
+    DeleteVarSetVariableResponses,
     DeleteVcsProviderData,
     DeleteVcsProviderErrors,
     DeleteVcsProviderResponses,
@@ -294,6 +339,9 @@ import type {
     DeleteWorkspaceTagsData,
     DeleteWorkspaceTagsErrors,
     DeleteWorkspaceTagsResponses,
+    DeleteWorkspaceVariableSetsData,
+    DeleteWorkspaceVariableSetsErrors,
+    DeleteWorkspaceVariableSetsResponses,
     DiscardRunData,
     DiscardRunErrors,
     DiscardRunResponses,
@@ -374,12 +422,18 @@ import type {
     GetDatadogIntegrationData,
     GetDatadogIntegrationErrors,
     GetDatadogIntegrationResponses,
+    GetDockerIntegrationData,
+    GetDockerIntegrationErrors,
+    GetDockerIntegrationResponses,
     GetDriftDetectionScheduleData,
     GetDriftDetectionScheduleErrors,
     GetDriftDetectionScheduleResponses,
     GetEnvironmentData,
     GetEnvironmentErrors,
     GetEnvironmentResponses,
+    GetGpgKeyData,
+    GetGpgKeyErrors,
+    GetGpgKeyResponses,
     GetHookData,
     GetHookEnvironmentLinkData,
     GetHookEnvironmentLinkErrors,
@@ -395,12 +449,18 @@ import type {
     GetMetricsData,
     GetMetricsErrors,
     GetMetricsResponses,
+    GetModuleChangelogData,
+    GetModuleChangelogErrors,
+    GetModuleChangelogResponses,
     GetModuleData,
     GetModuleErrors,
     GetModuleNamespaceData,
     GetModuleNamespaceErrors,
     GetModuleNamespaceResponses,
     GetModuleResponses,
+    GetModuleTestProviderConfigurationLinkData,
+    GetModuleTestProviderConfigurationLinkErrors,
+    GetModuleTestProviderConfigurationLinkResponses,
     GetModuleUsageData,
     GetModuleUsageErrors,
     GetModuleUsageResponses,
@@ -448,9 +508,15 @@ import type {
     GetProviderConfigurationWorkspaceUsageData,
     GetProviderConfigurationWorkspaceUsageErrors,
     GetProviderConfigurationWorkspaceUsageResponses,
+    GetProviderData,
+    GetProviderErrors,
+    GetProviderResponses,
     GetProviderUsageData,
     GetProviderUsageErrors,
     GetProviderUsageResponses,
+    GetProviderVersionData,
+    GetProviderVersionErrors,
+    GetProviderVersionResponses,
     GetResourceUsageData,
     GetResourceUsageErrors,
     GetResourceUsageResponses,
@@ -535,6 +601,12 @@ import type {
     GetVariablesData,
     GetVariablesErrors,
     GetVariablesResponses,
+    GetVarSetData,
+    GetVarSetErrors,
+    GetVarSetResponses,
+    GetVarSetVariableData,
+    GetVarSetVariableErrors,
+    GetVarSetVariableResponses,
     GetVcsProviderData,
     GetVcsProviderErrors,
     GetVcsProviderResponses,
@@ -586,6 +658,9 @@ import type {
     ListDatadogIntegrationsData,
     ListDatadogIntegrationsErrors,
     ListDatadogIntegrationsResponses,
+    ListDockerIntegrationsData,
+    ListDockerIntegrationsErrors,
+    ListDockerIntegrationsResponses,
     ListEnvironmentsData,
     ListEnvironmentsErrors,
     ListEnvironmentsResponses,
@@ -598,6 +673,9 @@ import type {
     ListFederatedEnvironmentsData,
     ListFederatedEnvironmentsErrors,
     ListFederatedEnvironmentsResponses,
+    ListGpgKeysData,
+    ListGpgKeysErrors,
+    ListGpgKeysResponses,
     ListHookEnvironmentLinksData,
     ListHookEnvironmentLinksErrors,
     ListHookEnvironmentLinksResponses,
@@ -613,6 +691,9 @@ import type {
     ListModulesData,
     ListModulesErrors,
     ListModulesResponses,
+    ListModuleTestProviderConfigurationLinksData,
+    ListModuleTestProviderConfigurationLinksErrors,
+    ListModuleTestProviderConfigurationLinksResponses,
     ListModuleUsageNamespacesData,
     ListModuleUsageNamespacesErrors,
     ListModuleUsageNamespacesResponses,
@@ -637,6 +718,12 @@ import type {
     ListProviderConfigurationTagsData,
     ListProviderConfigurationTagsErrors,
     ListProviderConfigurationTagsResponses,
+    ListProvidersData,
+    ListProvidersErrors,
+    ListProvidersResponses,
+    ListProviderVersionsData,
+    ListProviderVersionsErrors,
+    ListProviderVersionsResponses,
     ListPullRequestPolicyCheckResultsData,
     ListPullRequestPolicyCheckResultsErrors,
     ListPullRequestPolicyCheckResultsResponses,
@@ -718,6 +805,12 @@ import type {
     ListUsageStatisticsData,
     ListUsageStatisticsErrors,
     ListUsageStatisticsResponses,
+    ListVarSetsData,
+    ListVarSetsErrors,
+    ListVarSetsResponses,
+    ListVarSetVariablesData,
+    ListVarSetVariablesErrors,
+    ListVarSetVariablesResponses,
     ListVcsProvidersData,
     ListVcsProvidersErrors,
     ListVcsProvidersResponses,
@@ -733,6 +826,9 @@ import type {
     ListWorkspaceTagsData,
     ListWorkspaceTagsErrors,
     ListWorkspaceTagsResponses,
+    ListWorkspaceVariableSetsData,
+    ListWorkspaceVariableSetsErrors,
+    ListWorkspaceVariableSetsResponses,
     LockEnvironmentData,
     LockEnvironmentErrors,
     LockEnvironmentResponses,
@@ -778,6 +874,9 @@ import type {
     ReplaceWorkspaceTagsData,
     ReplaceWorkspaceTagsErrors,
     ReplaceWorkspaceTagsResponses,
+    ReplaceWorkspaceVariableSetsData,
+    ReplaceWorkspaceVariableSetsErrors,
+    ReplaceWorkspaceVariableSetsResponses,
     ResyncCheckovIntegrationData,
     ResyncCheckovIntegrationErrors,
     ResyncCheckovIntegrationResponses,
@@ -829,12 +928,18 @@ import type {
     UpdateDatadogIntegrationsData,
     UpdateDatadogIntegrationsErrors,
     UpdateDatadogIntegrationsResponses,
+    UpdateDockerIntegrationData,
+    UpdateDockerIntegrationErrors,
+    UpdateDockerIntegrationResponses,
     UpdateDriftDetectionScheduleData,
     UpdateDriftDetectionScheduleErrors,
     UpdateDriftDetectionScheduleResponses,
     UpdateEnvironmentData,
     UpdateEnvironmentErrors,
     UpdateEnvironmentResponses,
+    UpdateGpgKeyData,
+    UpdateGpgKeyErrors,
+    UpdateGpgKeyResponses,
     UpdateHookData,
     UpdateHookEnvironmentLinkData,
     UpdateHookEnvironmentLinkErrors,
@@ -847,6 +952,9 @@ import type {
     UpdateModuleNamespaceData,
     UpdateModuleNamespaceErrors,
     UpdateModuleNamespaceResponses,
+    UpdateModuleTestProviderConfigurationLinkData,
+    UpdateModuleTestProviderConfigurationLinkErrors,
+    UpdateModuleTestProviderConfigurationLinkResponses,
     UpdatePolicyGroupData,
     UpdatePolicyGroupEnvironmentsData,
     UpdatePolicyGroupEnvironmentsErrors,
@@ -862,6 +970,9 @@ import type {
     UpdateProviderConfigurationParameterErrors,
     UpdateProviderConfigurationParameterResponses,
     UpdateProviderConfigurationResponses,
+    UpdateProviderData,
+    UpdateProviderErrors,
+    UpdateProviderResponses,
     UpdateRoleData,
     UpdateRoleErrors,
     UpdateRoleResponses,
@@ -898,6 +1009,12 @@ import type {
     UpdateVariableData,
     UpdateVariableErrors,
     UpdateVariableResponses,
+    UpdateVarSetData,
+    UpdateVarSetErrors,
+    UpdateVarSetResponses,
+    UpdateVarSetVariableData,
+    UpdateVarSetVariableErrors,
+    UpdateVarSetVariableResponses,
     UpdateVcsProviderData,
     UpdateVcsProviderErrors,
     UpdateVcsProviderResponses,
@@ -1193,8 +1310,8 @@ export const inviteUserToAccount = <ThrowOnError extends boolean = false>(
 /**
  * Remove a User from the Account
  *
- * The endpoint removes all user access policies and team bindings
- * associated with the account.
+ * Removes a user from the account. This revokes all access policies
+ * and team memberships associated with the account for that user.
  *
  */
 export const removeUserFromAccount = <ThrowOnError extends boolean = false>(
@@ -2002,6 +2119,76 @@ export const listEventDefinitions = <ThrowOnError extends boolean = false>(
     });
 
 /**
+ * List GPG keys
+ *
+ * This endpoint returns a list of GPG keys.
+ *
+ */
+export const listGpgKeys = <ThrowOnError extends boolean = false>(options?: Options<ListGpgKeysData, ThrowOnError>) =>
+    (options?.client ?? client).get<ListGpgKeysResponses, ListGpgKeysErrors, ThrowOnError>({
+        querySerializer: { parameters: { sort: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/gpg-keys',
+        ...options,
+    });
+
+/**
+ * Create a GPG Key
+ *
+ * Create a new GPG key.
+ */
+export const createGpgKey = <ThrowOnError extends boolean = false>(options?: Options<CreateGpgKeyData, ThrowOnError>) =>
+    (options?.client ?? client).post<CreateGpgKeyResponses, CreateGpgKeyErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/gpg-keys',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options?.headers,
+        },
+    });
+
+/**
+ * Delete a GPG key
+ *
+ * The endpoint deletes a GPG key by ID.
+ */
+export const deleteGpgKey = <ThrowOnError extends boolean = false>(options: Options<DeleteGpgKeyData, ThrowOnError>) =>
+    (options.client ?? client).delete<DeleteGpgKeyResponses, DeleteGpgKeyErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/gpg-keys/{gpg_key}',
+        ...options,
+    });
+
+/**
+ * Get a GPG Key
+ *
+ * Show details of a specific GPG key.
+ */
+export const getGpgKey = <ThrowOnError extends boolean = false>(options: Options<GetGpgKeyData, ThrowOnError>) =>
+    (options.client ?? client).get<GetGpgKeyResponses, GetGpgKeyErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/gpg-keys/{gpg_key}',
+        ...options,
+    });
+
+/**
+ * Update a GPG Key
+ *
+ * This endpoint updates a GPG key.
+ */
+export const updateGpgKey = <ThrowOnError extends boolean = false>(options: Options<UpdateGpgKeyData, ThrowOnError>) =>
+    (options.client ?? client).patch<UpdateGpgKeyResponses, UpdateGpgKeyErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/gpg-keys/{gpg_key}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers,
+        },
+    });
+
+/**
  * List Hook Environment Links
  *
  * List all hook-environment links.
@@ -2474,6 +2661,85 @@ export const updateDatadogIntegrations = <ThrowOnError extends boolean = false>(
             },
         }
     );
+
+/**
+ * List Docker integrations
+ *
+ * List Docker integrations.
+ */
+export const listDockerIntegrations = <ThrowOnError extends boolean = false>(
+    options?: Options<ListDockerIntegrationsData, ThrowOnError>
+) =>
+    (options?.client ?? client).get<ListDockerIntegrationsResponses, ListDockerIntegrationsErrors, ThrowOnError>({
+        querySerializer: { parameters: { sort: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/integrations/docker',
+        ...options,
+    });
+
+/**
+ * Create a Docker integration
+ *
+ * Create a Docker integration.
+ */
+export const createDockerIntegration = <ThrowOnError extends boolean = false>(
+    options?: Options<CreateDockerIntegrationData, ThrowOnError>
+) =>
+    (options?.client ?? client).post<CreateDockerIntegrationResponses, CreateDockerIntegrationErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/integrations/docker',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options?.headers,
+        },
+    });
+
+/**
+ * Delete a Docker integration
+ *
+ * Delete a Docker integration.
+ */
+export const deleteDockerIntegration = <ThrowOnError extends boolean = false>(
+    options: Options<DeleteDockerIntegrationData, ThrowOnError>
+) =>
+    (options.client ?? client).delete<DeleteDockerIntegrationResponses, DeleteDockerIntegrationErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/integrations/docker/{docker_integration}',
+        ...options,
+    });
+
+/**
+ * Get a Docker integration
+ *
+ * Get a Docker integration.
+ */
+export const getDockerIntegration = <ThrowOnError extends boolean = false>(
+    options: Options<GetDockerIntegrationData, ThrowOnError>
+) =>
+    (options.client ?? client).get<GetDockerIntegrationResponses, GetDockerIntegrationErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/integrations/docker/{docker_integration}',
+        ...options,
+    });
+
+/**
+ * Update a Docker integration
+ *
+ * Update a Docker integration.
+ */
+export const updateDockerIntegration = <ThrowOnError extends boolean = false>(
+    options: Options<UpdateDockerIntegrationData, ThrowOnError>
+) =>
+    (options.client ?? client).patch<UpdateDockerIntegrationResponses, UpdateDockerIntegrationErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/integrations/docker/{docker_integration}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers,
+        },
+    });
 
 /**
  * List Infracost integrations
@@ -3025,6 +3291,68 @@ export const updateModuleNamespace = <ThrowOnError extends boolean = false>(
     });
 
 /**
+ * Delete a Module Test Provider Configuration Link
+ *
+ * The endpoint deletes a Module Test Provider Configuration Link by ID.
+ *
+ */
+export const deleteModuleTestProviderConfigurationLink = <ThrowOnError extends boolean = false>(
+    options: Options<DeleteModuleTestProviderConfigurationLinkData, ThrowOnError>
+) =>
+    (options.client ?? client).delete<
+        DeleteModuleTestProviderConfigurationLinkResponses,
+        DeleteModuleTestProviderConfigurationLinkErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/module-test-provider-configuration-links/{module_test_provider_configuration_link}',
+        ...options,
+    });
+
+/**
+ * Get a Module Test Provider Configuration Link
+ *
+ * Show details of a specific Module Test Provider Configuration Link.
+ *
+ */
+export const getModuleTestProviderConfigurationLink = <ThrowOnError extends boolean = false>(
+    options: Options<GetModuleTestProviderConfigurationLinkData, ThrowOnError>
+) =>
+    (options.client ?? client).get<
+        GetModuleTestProviderConfigurationLinkResponses,
+        GetModuleTestProviderConfigurationLinkErrors,
+        ThrowOnError
+    >({
+        querySerializer: { parameters: { include: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/module-test-provider-configuration-links/{module_test_provider_configuration_link}',
+        ...options,
+    });
+
+/**
+ * Update a Module Test Provider Configuration Link
+ *
+ * This endpoint allows updates to attributes of an existing Module Test Provider Configuration Link.
+ *
+ */
+export const updateModuleTestProviderConfigurationLink = <ThrowOnError extends boolean = false>(
+    options: Options<UpdateModuleTestProviderConfigurationLinkData, ThrowOnError>
+) =>
+    (options.client ?? client).patch<
+        UpdateModuleTestProviderConfigurationLinkResponses,
+        UpdateModuleTestProviderConfigurationLinkErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/module-test-provider-configuration-links/{module_test_provider_configuration_link}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers,
+        },
+    });
+
+/**
  * List Module Versions
  *
  * This endpoint lists versions of a particular module.
@@ -3174,6 +3502,20 @@ export const resyncModule = <ThrowOnError extends boolean = false>(options: Opti
             'Content-Type': 'application/json',
             ...options.headers,
         },
+    });
+
+/**
+ * Module Changelog
+ *
+ * Returns the changelog content for the module.
+ */
+export const getModuleChangelog = <ThrowOnError extends boolean = false>(
+    options: Options<GetModuleChangelogData, ThrowOnError>
+) =>
+    (options.client ?? client).get<GetModuleChangelogResponses, GetModuleChangelogErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/modules/{module}/changelog',
+        ...options,
     });
 
 /**
@@ -3890,6 +4232,152 @@ export const getProviderConfigurationWorkspaceUsage = <ThrowOnError extends bool
         security: [{ scheme: 'bearer', type: 'http' }],
         url: '/provider-configurations/{provider_configuration}/workspaces-usage',
         ...options,
+    });
+
+/**
+ * List registry provider versions
+ *
+ * This endpoint returns a list of registry provider versions.
+ *
+ */
+export const listProviderVersions = <ThrowOnError extends boolean = false>(
+    options?: Options<ListProviderVersionsData, ThrowOnError>
+) =>
+    (options?.client ?? client).get<ListProviderVersionsResponses, ListProviderVersionsErrors, ThrowOnError>({
+        querySerializer: {
+            parameters: { sort: { array: { explode: false } }, include: { array: { explode: false } } },
+        },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/provider-versions',
+        ...options,
+    });
+
+/**
+ * Create a registry provider version
+ *
+ * Create a new registry provider version.
+ */
+export const createProviderVersion = <ThrowOnError extends boolean = false>(
+    options?: Options<CreateProviderVersionData, ThrowOnError>
+) =>
+    (options?.client ?? client).post<CreateProviderVersionResponses, CreateProviderVersionErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/provider-versions',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options?.headers,
+        },
+    });
+
+/**
+ * Delete a provider version
+ *
+ * The endpoint deletes a registry provider version by ID.
+ */
+export const deleteProviderVersion = <ThrowOnError extends boolean = false>(
+    options: Options<DeleteProviderVersionData, ThrowOnError>
+) =>
+    (options.client ?? client).delete<DeleteProviderVersionResponses, DeleteProviderVersionErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/provider-versions/{provider_version}',
+        ...options,
+    });
+
+/**
+ * Get a provider version
+ *
+ * Show details of a specific registry provider version.
+ */
+export const getProviderVersion = <ThrowOnError extends boolean = false>(
+    options: Options<GetProviderVersionData, ThrowOnError>
+) =>
+    (options.client ?? client).get<GetProviderVersionResponses, GetProviderVersionErrors, ThrowOnError>({
+        querySerializer: { parameters: { include: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/provider-versions/{provider_version}',
+        ...options,
+    });
+
+/**
+ * List registry providers
+ *
+ * This endpoint returns a list of registry providers.
+ *
+ */
+export const listProviders = <ThrowOnError extends boolean = false>(
+    options?: Options<ListProvidersData, ThrowOnError>
+) =>
+    (options?.client ?? client).get<ListProvidersResponses, ListProvidersErrors, ThrowOnError>({
+        querySerializer: {
+            parameters: { include: { array: { explode: false } }, sort: { array: { explode: false } } },
+        },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/providers',
+        ...options,
+    });
+
+/**
+ * Create a registry provider
+ *
+ * Create a new registry provider.
+ */
+export const createProvider = <ThrowOnError extends boolean = false>(
+    options?: Options<CreateProviderData, ThrowOnError>
+) =>
+    (options?.client ?? client).post<CreateProviderResponses, CreateProviderErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/providers',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options?.headers,
+        },
+    });
+
+/**
+ * Delete a registry provider
+ *
+ * The endpoint deletes a registry provider by ID.
+ */
+export const deleteProvider = <ThrowOnError extends boolean = false>(
+    options: Options<DeleteProviderData, ThrowOnError>
+) =>
+    (options.client ?? client).delete<DeleteProviderResponses, DeleteProviderErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/providers/{provider}',
+        ...options,
+    });
+
+/**
+ * Get a registry provider
+ *
+ * Show details of a specific registry provider.
+ */
+export const getProvider = <ThrowOnError extends boolean = false>(options: Options<GetProviderData, ThrowOnError>) =>
+    (options.client ?? client).get<GetProviderResponses, GetProviderErrors, ThrowOnError>({
+        querySerializer: { parameters: { include: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/providers/{provider}',
+        ...options,
+    });
+
+/**
+ * Update a registry provider
+ *
+ * This endpoint updates a registry provider.
+ */
+export const updateProvider = <ThrowOnError extends boolean = false>(
+    options: Options<UpdateProviderData, ThrowOnError>
+) =>
+    (options.client ?? client).patch<UpdateProviderResponses, UpdateProviderErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/providers/{provider}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers,
+        },
     });
 
 /**
@@ -5272,6 +5760,9 @@ export const getTeam = <ThrowOnError extends boolean = false>(options: Options<G
  *
  * Update a team's attributes or users.
  * The endpoint can be used to add or remove users from a team.
+ * If the account uses an external identity provider without SCIM provisioning,
+ * team membership cannot be managed via this endpoint - the ``users`` relationship
+ * will be ignored. Use SCIM or manage team membership directly in the identity provider.
  *
  */
 export const updateTeam = <ThrowOnError extends boolean = false>(options: Options<UpdateTeamData, ThrowOnError>) =>
@@ -5279,6 +5770,49 @@ export const updateTeam = <ThrowOnError extends boolean = false>(options: Option
         querySerializer: { parameters: { include: { array: { explode: false } } } },
         security: [{ scheme: 'bearer', type: 'http' }],
         url: '/teams/{team}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers,
+        },
+    });
+
+/**
+ * List Module Test Provider Configuration Links
+ *
+ * This endpoint returns a list of Provider Configuration links to Module Test Configurations.
+ *
+ */
+export const listModuleTestProviderConfigurationLinks = <ThrowOnError extends boolean = false>(
+    options: Options<ListModuleTestProviderConfigurationLinksData, ThrowOnError>
+) =>
+    (options.client ?? client).get<
+        ListModuleTestProviderConfigurationLinksResponses,
+        ListModuleTestProviderConfigurationLinksErrors,
+        ThrowOnError
+    >({
+        querySerializer: { parameters: { include: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/test-configurations/{test_configuration}/provider-configuration-links',
+        ...options,
+    });
+
+/**
+ * Attach a Provider Configuration to the Module Test Configuration
+ *
+ * Attach a Provider Configuration to the Module Test Configuration.
+ *
+ */
+export const createModuleTestProviderConfigurationLink = <ThrowOnError extends boolean = false>(
+    options: Options<CreateModuleTestProviderConfigurationLinkData, ThrowOnError>
+) =>
+    (options.client ?? client).post<
+        CreateModuleTestProviderConfigurationLinkResponses,
+        CreateModuleTestProviderConfigurationLinkErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/test-configurations/{test_configuration}/provider-configuration-links',
         ...options,
         headers: {
             'Content-Type': 'application/vnd.api+json',
@@ -5374,6 +5908,167 @@ export const updateUser = <ThrowOnError extends boolean = false>(options: Option
         querySerializer: { parameters: { include: { array: { explode: false } } } },
         security: [{ scheme: 'bearer', type: 'http' }],
         url: '/users/{user}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers,
+        },
+    });
+
+/**
+ * List variable set variables
+ *
+ * Returns a list of variable set variables.
+ *
+ */
+export const listVarSetVariables = <ThrowOnError extends boolean = false>(
+    options?: Options<ListVarSetVariablesData, ThrowOnError>
+) =>
+    (options?.client ?? client).get<ListVarSetVariablesResponses, ListVarSetVariablesErrors, ThrowOnError>({
+        querySerializer: {
+            parameters: { sort: { array: { explode: false } }, include: { array: { explode: false } } },
+        },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/var-set-variables',
+        ...options,
+    });
+
+/**
+ * Create a variable set variable
+ *
+ * Creates a new variable set variable.
+ *
+ */
+export const createVarSetVariable = <ThrowOnError extends boolean = false>(
+    options?: Options<CreateVarSetVariableData, ThrowOnError>
+) =>
+    (options?.client ?? client).post<CreateVarSetVariableResponses, CreateVarSetVariableErrors, ThrowOnError>({
+        querySerializer: { parameters: { include: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/var-set-variables',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options?.headers,
+        },
+    });
+
+/**
+ * Delete a variable set variable
+ *
+ * Deletes a variable set variable.
+ */
+export const deleteVarSetVariable = <ThrowOnError extends boolean = false>(
+    options: Options<DeleteVarSetVariableData, ThrowOnError>
+) =>
+    (options.client ?? client).delete<DeleteVarSetVariableResponses, DeleteVarSetVariableErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/var-set-variables/{vs_var}',
+        ...options,
+    });
+
+/**
+ * Get a variable set variable
+ */
+export const getVarSetVariable = <ThrowOnError extends boolean = false>(
+    options: Options<GetVarSetVariableData, ThrowOnError>
+) =>
+    (options.client ?? client).get<GetVarSetVariableResponses, GetVarSetVariableErrors, ThrowOnError>({
+        querySerializer: { parameters: { include: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/var-set-variables/{vs_var}',
+        ...options,
+    });
+
+/**
+ * Update a variable set variable
+ *
+ * Updates attributes of an existing variable set variable.
+ *
+ */
+export const updateVarSetVariable = <ThrowOnError extends boolean = false>(
+    options: Options<UpdateVarSetVariableData, ThrowOnError>
+) =>
+    (options.client ?? client).patch<UpdateVarSetVariableResponses, UpdateVarSetVariableErrors, ThrowOnError>({
+        querySerializer: { parameters: { include: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/var-set-variables/{vs_var}',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers,
+        },
+    });
+
+/**
+ * List variable sets
+ *
+ * Returns a list of variable sets.
+ *
+ */
+export const listVarSets = <ThrowOnError extends boolean = false>(options?: Options<ListVarSetsData, ThrowOnError>) =>
+    (options?.client ?? client).get<ListVarSetsResponses, ListVarSetsErrors, ThrowOnError>({
+        querySerializer: {
+            parameters: { sort: { array: { explode: false } }, include: { array: { explode: false } } },
+        },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/var-sets',
+        ...options,
+    });
+
+/**
+ * Create a variable set
+ *
+ * Creates a new variable set.
+ *
+ */
+export const createVarSet = <ThrowOnError extends boolean = false>(options?: Options<CreateVarSetData, ThrowOnError>) =>
+    (options?.client ?? client).post<CreateVarSetResponses, CreateVarSetErrors, ThrowOnError>({
+        querySerializer: { parameters: { include: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/var-sets',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options?.headers,
+        },
+    });
+
+/**
+ * Delete a variable set
+ *
+ * Deletes a variable set and all its contained variables, environment links, and workspace applications.
+ */
+export const deleteVarSet = <ThrowOnError extends boolean = false>(options: Options<DeleteVarSetData, ThrowOnError>) =>
+    (options.client ?? client).delete<DeleteVarSetResponses, DeleteVarSetErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/var-sets/{var_set}',
+        ...options,
+    });
+
+/**
+ * Get a variable set
+ *
+ * Returns details of a specific variable set.
+ */
+export const getVarSet = <ThrowOnError extends boolean = false>(options: Options<GetVarSetData, ThrowOnError>) =>
+    (options.client ?? client).get<GetVarSetResponses, GetVarSetErrors, ThrowOnError>({
+        querySerializer: { parameters: { include: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/var-sets/{var_set}',
+        ...options,
+    });
+
+/**
+ * Update a variable set
+ *
+ * Updates attributes of an existing variable set.
+ */
+export const updateVarSet = <ThrowOnError extends boolean = false>(options: Options<UpdateVarSetData, ThrowOnError>) =>
+    (options.client ?? client).patch<UpdateVarSetResponses, UpdateVarSetErrors, ThrowOnError>({
+        querySerializer: { parameters: { include: { array: { explode: false } } } },
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/var-sets/{var_set}',
         ...options,
         headers: {
             'Content-Type': 'application/vnd.api+json',
@@ -6083,6 +6778,86 @@ export const addWorkspaceTags = <ThrowOnError extends boolean = false>(
     (options.client ?? client).post<AddWorkspaceTagsResponses, AddWorkspaceTagsErrors, ThrowOnError>({
         security: [{ scheme: 'bearer', type: 'http' }],
         url: '/workspaces/{workspace}/relationships/tags',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers,
+        },
+    });
+
+/**
+ * Delete assigned variable sets from the workspace
+ *
+ * This endpoint removes provided variable sets from the workspace.
+ *
+ */
+export const deleteWorkspaceVariableSets = <ThrowOnError extends boolean = false>(
+    options: Options<DeleteWorkspaceVariableSetsData, ThrowOnError>
+) =>
+    (options.client ?? client).delete<
+        DeleteWorkspaceVariableSetsResponses,
+        DeleteWorkspaceVariableSetsErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/workspaces/{workspace}/relationships/var-sets',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers,
+        },
+    });
+
+/**
+ * List workspaces variable sets
+ *
+ * This endpoint returns a list of variable sets linked to the workspace.
+ *
+ */
+export const listWorkspaceVariableSets = <ThrowOnError extends boolean = false>(
+    options: Options<ListWorkspaceVariableSetsData, ThrowOnError>
+) =>
+    (options.client ?? client).get<ListWorkspaceVariableSetsResponses, ListWorkspaceVariableSetsErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/workspaces/{workspace}/relationships/var-sets',
+        ...options,
+    });
+
+/**
+ * Replace assigned variable sets on the workspace
+ *
+ * This endpoint replaces variable sets on the workspace with the provided values.
+ *
+ */
+export const replaceWorkspaceVariableSets = <ThrowOnError extends boolean = false>(
+    options: Options<ReplaceWorkspaceVariableSetsData, ThrowOnError>
+) =>
+    (options.client ?? client).patch<
+        ReplaceWorkspaceVariableSetsResponses,
+        ReplaceWorkspaceVariableSetsErrors,
+        ThrowOnError
+    >({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/workspaces/{workspace}/relationships/var-sets',
+        ...options,
+        headers: {
+            'Content-Type': 'application/vnd.api+json',
+            ...options.headers,
+        },
+    });
+
+/**
+ * Assign variable sets to the workspace
+ *
+ * This endpoint adds provided variable sets to the workspace.
+ *
+ */
+export const addWorkspaceVariableSets = <ThrowOnError extends boolean = false>(
+    options: Options<AddWorkspaceVariableSetsData, ThrowOnError>
+) =>
+    (options.client ?? client).post<AddWorkspaceVariableSetsResponses, AddWorkspaceVariableSetsErrors, ThrowOnError>({
+        security: [{ scheme: 'bearer', type: 'http' }],
+        url: '/workspaces/{workspace}/relationships/var-sets',
         ...options,
         headers: {
             'Content-Type': 'application/vnd.api+json',
